@@ -1,0 +1,26 @@
+{
+  "name": "datitisev/flarum-ext-reactions",
+  "description": "Reactions for Flarum",
+  "type": "flarum-extension",
+  "require": {
+    "flarum/core": "^0.1.0-beta-5"
+  },
+  "extra": {
+    "flarum-extension": {
+      "title": "Reactions"
+    }
+  },
+  "authors": [
+    {
+      "name": "David Sevilla Martín",
+      "email": "dsevilla192@icloud.com",
+      "homepage": "https://github.com/datitisev",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Datitisev\\Reactions\\": "src/"
+    }
+  }
+}
