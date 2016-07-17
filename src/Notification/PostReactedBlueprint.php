@@ -14,7 +14,7 @@ use Flarum\Core\Notification\BlueprintInterface;
 use Flarum\Core\Post;
 use Flarum\Core\User;
 
-class PostLikedBlueprint implements BlueprintInterface
+class PostReactedBlueprint implements BlueprintInterface
 {
     /**
      * @var Post
