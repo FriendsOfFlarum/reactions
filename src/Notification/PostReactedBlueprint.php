@@ -27,13 +27,19 @@ class PostReactedBlueprint implements BlueprintInterface
     public $user;
 
     /**
+     * @var string
+     */
+    public $reaction;
+
+    /**
      * @param Post $post
      * @param User $user
      */
-    public function __construct(Post $post, User $user)
+    public function __construct(Post $post, User $user, string $reaction)
     {
         $this->post = $post;
         $this->user = $user;
+        $this->reaction = $reaction;
     }
 
     /**
@@ -50,6 +56,15 @@ class PostReactedBlueprint implements BlueprintInterface
     public function getSender()
     {
         return $this->user;
+    }
+
+    /**
+     * Get reaction type
+     * @return string
+     */
+    public function getReactionType()
+    {
+        return $this->reaction;
     }
 
     /**

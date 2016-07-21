@@ -59,7 +59,7 @@ class SendNotificationWhenPostIsReacted
      */
     public function whenPostWasReacted(PostWasReacted $event)
     {
-        $this->sync($event->post, $event->user, [$event->post->user]);
+        $this->sync($event->post, $event->user, $event->reaction, [$event->post->user]);
     }
 
     /**
@@ -67,7 +67,7 @@ class SendNotificationWhenPostIsReacted
      */
     public function whenPostWasUnreacted(PostWasUnreacted $event)
     {
-        $this->sync($event->post, $event->user, []);
+        $this->sync($event->post, $event->user, '', []);
     }
 
     /**
@@ -75,11 +75,11 @@ class SendNotificationWhenPostIsReacted
      * @param User $user
      * @param array $recipients
      */
-    public function sync(Post $post, User $user, array $recipients)
+    public function sync(Post $post, User $user, string $reaction, array $recipients)
     {
         if ($post->user->id != $user->id) {
             $this->notifications->sync(
-                new PostReactedBlueprint($post, $user),
+                new PostReactedBlueprint($post, $user, $reaction),
                 $recipients
             );
         }

@@ -16,6 +16,7 @@ return Migration::createTable(
     function (Blueprint $table) {
         $table->integer('post_id')->unsigned();
         $table->integer('user_id')->unsigned();
+        $table->string('reaction');
         $table->primary(['post_id', 'user_id']);
     }
 );

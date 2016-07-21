@@ -16,8 +16,6 @@ export default class PostReactedNotification extends Notification {
     const user = notification.sender();
     const auc = notification.additionalUnreadCount();
 
-    console.log(notification);
-
     // return app.translator.transChoice('flarum-likes.forum.notifications.post_likes_text', auc + 1, {
     //   user,
     //   username: auc ? punctuateSeries([
@@ -26,7 +24,7 @@ export default class PostReactedNotification extends Notification {
     //   ]) : undefined
     // });
 
-    return `${user.username()} reacted to your post`;
+    return `${username(user).children} reacted to your post`;
   }
 
   excerpt() {

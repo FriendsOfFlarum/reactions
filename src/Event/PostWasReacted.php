@@ -27,12 +27,19 @@ class PostWasReacted
     public $user;
 
     /**
+     * @var string
+     */
+    public $reaction;
+
+    /**
      * @param Post $post
      * @param User $user
+     * @param string $reaction
      */
-    public function __construct(Post $post, User $user)
+    public function __construct(Post $post, User $user, string $reaction)
     {
         $this->post = $post;
         $this->user = $user;
+        $this->reaction = $reaction;
     }
 }

@@ -38,18 +38,19 @@ class SaveReactionsToDatabase
         $post = $event->post;
         $data = $event->data;
 
-        if ($post->exists && isset($data['attributes']['isReacted'])) {
+        if ($post->exists && isset($data['attributes']['reaction'])) {
             $actor = $event->actor;
-            $reacted = (bool) $data['attributes']['isReacted'];
+            $reacted = (bool) $data['attributes']['reaction'];
+            $reaction = $data['attributes']['reaction'];
 
             $this->assertCan($actor, 'react', $post);
 
             $currentlyReacted = $post->reactions()->where('user_id', $actor->id)->exists();
 
             if ($reacted && !$currentlyReacted) {
-                $post->reactions()->attach($actor->id);
+                $post->reactions()->attach($actor->id, ['reaction' => $reaction]);
 
-                $post->raise(new PostWasReacted($post, $actor));
+                $post->raise(new PostWasReacted($post, $actor, $reaction));
             } elseif ($currentlyReacted) {
                 $post->reactions()->detach($actor->id);
 
