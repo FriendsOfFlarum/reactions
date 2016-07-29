@@ -14,9 +14,9 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 return function (Dispatcher $events) {
 
-    // add assets
     $events->subscribe(Listener\AddClientAssets::class);
     $events->subscribe(Listener\AddPostReactionsRelationship::class);
     $events->subscribe(Listener\SaveReactionsToDatabase::class);
     $events->subscribe(Listener\SendNotificationWhenPostIsReacted::class);
+
 };

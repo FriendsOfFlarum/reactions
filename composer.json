@@ -5,11 +5,6 @@
   "require": {
     "flarum/core": "^0.1.0-beta-5"
   },
-  "extra": {
-    "flarum-extension": {
-      "title": "Reactions"
-    }
-  },
   "authors": [
     {
       "name": "David Sevilla Martín",
@@ -21,6 +16,16 @@
   "autoload": {
     "psr-4": {
       "Datitisev\\Reactions\\": "src/"
+    }
+  },
+  "extra": {
+    "flarum-extension": {
+      "title": "Reactions",
+      "icon": {
+        "name": "smile-o",
+        "backgroundColor": "#FD742B",
+        "color": "#FFFFF7"
+      }
     }
   }
 }

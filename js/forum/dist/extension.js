@@ -280,15 +280,6 @@ System.register('datitisev/reactions/components/PostReactedNotification', ['flar
           value: function content() {
             var notification = this.props.notification;
             var user = notification.sender();
-            var auc = notification.additionalUnreadCount();
-
-            // return app.translator.transChoice('flarum-likes.forum.notifications.post_likes_text', auc + 1, {
-            //   user,
-            //   username: auc ? punctuateSeries([
-            //     username(user),
-            //     app.translator.transChoice('flarum-likes.forum.notifications.others_text', auc, {count: auc})
-            //   ]) : undefined
-            // });
 
             return username(user).children + ' reacted to your post';
           }
