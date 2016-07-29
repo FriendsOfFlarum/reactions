@@ -32,8 +32,8 @@ class PostWasReacted
     public $reaction;
 
     /**
-     * @param Post $post
-     * @param User $user
+     * @param Post   $post
+     * @param User   $user
      * @param string $reaction
      */
     public function __construct(Post $post, User $user, string $reaction)

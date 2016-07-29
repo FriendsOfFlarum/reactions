@@ -11,14 +11,14 @@
 
 namespace Datitisev\Reactions\Listener;
 
+use Datitisev\Reactions\Event\PostWasReacted;
+use Datitisev\Reactions\Event\PostWasUnreacted;
+use Datitisev\Reactions\Notification\PostReactedBlueprint;
 use Flarum\Api\Serializer\PostBasicSerializer;
 use Flarum\Core\Notification\NotificationSyncer;
 use Flarum\Core\Post;
 use Flarum\Core\User;
 use Flarum\Event\ConfigureNotificationTypes;
-use Datitisev\Reactions\Event\PostWasReacted;
-use Datitisev\Reactions\Event\PostWasUnreacted;
-use Datitisev\Reactions\Notification\PostReactedBlueprint;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class SendNotificationWhenPostIsReacted
@@ -71,8 +71,8 @@ class SendNotificationWhenPostIsReacted
     }
 
     /**
-     * @param Post $post
-     * @param User $user
+     * @param Post  $post
+     * @param User  $user
      * @param array $recipients
      */
     public function sync(Post $post, User $user, string $reaction, array $recipients)

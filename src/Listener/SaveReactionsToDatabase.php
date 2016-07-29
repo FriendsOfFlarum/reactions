@@ -10,11 +10,11 @@
 
 namespace Datitisev\Reactions\Listener;
 
+use Datitisev\Reactions\Event\PostWasReacted;
+use Datitisev\Reactions\Event\PostWasUnreacted;
 use Flarum\Core\Access\AssertPermissionTrait;
 use Flarum\Event\PostWasDeleted;
 use Flarum\Event\PostWillBeSaved;
-use Datitisev\Reactions\Event\PostWasReacted;
-use Datitisev\Reactions\Event\PostWasUnreacted;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class SaveReactionsToDatabase

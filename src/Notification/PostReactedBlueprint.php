@@ -59,7 +59,8 @@ class PostReactedBlueprint implements BlueprintInterface
     }
 
     /**
-     * Get reaction type
+     * Get reaction type.
+     *
      * @return string
      */
     public function getReactionType()

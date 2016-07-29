@@ -36,6 +36,7 @@ class AddPostReactionsRelationship
 
     /**
      * @param GetModelRelationship $event
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
      */
     public function getModelRelationship(GetModelRelationship $event)
@@ -47,6 +48,7 @@ class AddPostReactionsRelationship
 
     /**
      * @param GetApiRelationship $event
+     *
      * @return \Tobscure\JsonApi\Relationship|null
      */
     public function getApiAttributes(GetApiRelationship $event)

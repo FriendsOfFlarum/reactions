@@ -43,6 +43,7 @@ class AddClientAssets
             $event->addBootstrapper('datitisev/reactions/main');
         }
     }
+
     /**
      * Modifies the client view for forum.
      *
@@ -53,7 +54,7 @@ class AddClientAssets
         if ($event->isForum()) {
             $event->addAssets([
                 __DIR__.'/../../js/forum/dist/extension.js',
-                __DIR__.'/../../less/app.less'
+                __DIR__.'/../../less/app.less',
             ]);
             $event->addBootstrapper('datitisev/reactions/main');
         }

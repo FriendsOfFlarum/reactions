@@ -11,7 +11,7 @@
 use Illuminate\Database\ConnectionInterface;
 
 $permissionAttributes = [
-    'group_id' => 3, // Default group ID of members
+    'group_id'   => 3, // Default group ID of members
     'permission' => 'discussion.reactPosts',
 ];
 
@@ -26,5 +26,5 @@ return [
 
     'down' => function (ConnectionInterface $db) use ($permissionAttributes) {
         $db->table('permissions')->where($permissionAttributes)->delete();
-    }
+    },
 ];
