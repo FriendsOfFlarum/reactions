@@ -3,10 +3,11 @@
 /*
  * This file is part of datitisev/flarum-ext-reactions
  *
- * (c) David Sevilla Martín <dsevilla192@icloud.com>
+ * © David Sevilla Martín <dsevilla192@icloud.com>
  *
  * For the full copyright and license information, please view the MIT license
  */
+
 
 namespace Datitisev\Reactions;
 
