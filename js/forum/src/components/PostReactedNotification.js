@@ -1,9 +1,8 @@
 import Notification from 'flarum/components/Notification';
 import username from 'flarum/helpers/username';
-import punctuateSeries from 'flarum/helpers/punctuateSeries';
 
 export default class PostReactedNotification extends Notification {
-  icon() {
+  static icon() {
     return 'smile-o';
   }
 

@@ -4,22 +4,17 @@ import CommentPost from 'flarum/components/CommentPost';
 import PostReactAction from 'datitisev/reactions/components/PostReactAction';
 
 export default () => {
+  extend(CommentPost.prototype, 'actionItems', (items) => {
+    const post = this.props.post;
 
-    extend(CommentPost.prototype, 'actionItems', function (items) {
+    if (post.isHidden() || !post.canReact()) return;
 
-       const post = this.props.post;
+    // TODO Get actual reaction, not boolean
+    const reaction = app.session.user && post.reactions().some(user => user === app.session.user);
 
-        if (post.isHidden() || !post.canReact()) return;
-
-
-        // TODO Get actual reaction, not boolean
-        let reaction = app.session.user && post.reactions().some(user => user === app.session.user);
-
-        items.add('react', PostReactAction.component({
-          post: post,
-          reaction: reaction
-        }));
-
-    });
-
-}
+    items.add('react', PostReactAction.component({
+      post,
+      reaction,
+    }));
+  });
+};

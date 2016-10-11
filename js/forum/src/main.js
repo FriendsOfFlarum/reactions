@@ -9,7 +9,6 @@ import PostReactedNotification from 'datitisev/reactions/components/PostReactedN
 // import addLikesList from 'datitisev/reactions/addLikesList';
 
 app.initializers.add('datitisev-reactions', () => {
-
   app.notificationComponents.postReacted = PostReactedNotification;
 
   Post.prototype.canReact = Model.attribute('canReact');
@@ -17,12 +16,11 @@ app.initializers.add('datitisev-reactions', () => {
 
   addReactionAction();
 
-  extend(NotificationGrid.prototype, 'notificationTypes', function (items) {
+  extend(NotificationGrid.prototype, 'notificationTypes', (items) => {
     items.add('postReacted', {
       name: 'postReacted',
       icon: 'smile-o',
-      label: app.translator.trans('flarum-likes.forum.settings.notify_post_reacted_label')
+      label: app.translator.trans('flarum-likes.forum.settings.notify_post_reacted_label'),
     });
   });
-
 });
