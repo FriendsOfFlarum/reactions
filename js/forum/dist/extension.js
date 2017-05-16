@@ -409,7 +409,7 @@ System.register('datitisev/reactions/main', ['flarum/extend', 'flarum/app', 'fla
         extend(NotificationGrid.prototype, 'notificationTypes', function (items) {
           items.add('postReacted', {
             name: 'postReacted',
-            icon: 'smile-o',
+            icon: 'eye',
             label: app.translator.trans('flarum-likes.forum.settings.notify_post_reacted_label')
           });
         });

@@ -19,7 +19,7 @@ app.initializers.add('datitisev-reactions', () => {
   extend(NotificationGrid.prototype, 'notificationTypes', (items) => {
     items.add('postReacted', {
       name: 'postReacted',
-      icon: 'smile-o',
+      icon: 'eye',
       label: app.translator.trans('flarum-likes.forum.settings.notify_post_reacted_label'),
     });
   });
