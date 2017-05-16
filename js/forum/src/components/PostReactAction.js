@@ -4,7 +4,7 @@ import listItems from 'flarum/helpers/listItems';
 
 export default class PostReactAction extends Component {
 
-  static config(isInitialized) {
+  config(isInitialized) {
     if (isInitialized) return;
 
     $('.Reactions--ShowReactions').hover(() => {
@@ -22,7 +22,7 @@ export default class PostReactAction extends Component {
         className="Button Button--link"
         type="button"
         title="+1"
-        onClick={el => this.react(el)}
+        onclick={el => this.react(el)}
         data-reaction="+1"
       >
         <span className="Button-label">
@@ -30,7 +30,7 @@ export default class PostReactAction extends Component {
             alt=":+1:"
             className="emoji"
             draggable="false"
-            src="//cdn.jsdelivr.net/emojione/assets/png/1f44d.png"
+            src="http://cdn.jsdelivr.net/emojione/assets/png/1f44d.png"
             data-reaction="+1"
           />
         </span>
@@ -41,7 +41,7 @@ export default class PostReactAction extends Component {
         className="Button Button--link"
         type="button"
         title="-1"
-        onClick={el => this.react(el)}
+        onclick={el => this.react(el)}
         data-reaction="-1"
       >
         <span className="Button-label">
@@ -49,7 +49,7 @@ export default class PostReactAction extends Component {
             alt=":-1:"
             className="emoji"
             draggable="false"
-            src="//cdn.jsdelivr.net/emojione/assets/png/1f44e.png"
+            src="https://cdn.jsdelivr.net/emojione/assets/png/1f44e.png"
             data-reaction="-1"
           />
         </span>
@@ -60,7 +60,7 @@ export default class PostReactAction extends Component {
         className="Button Button--link"
         type="button"
         title="laugh"
-        onClick={el => this.react(el)}
+        onclick={el => this.react(el)}
         data-reaction="laugh"
       >
         <span className="Button-label">
@@ -68,7 +68,7 @@ export default class PostReactAction extends Component {
             alt=":smile:"
             className="emoji"
             draggable="false"
-            src="//cdn.jsdelivr.net/emojione/assets/png/1f604.png"
+            src="https://cdn.jsdelivr.net/emojione/assets/png/1f604.png"
             data-reaction="laugh"
           />
         </span>
@@ -79,7 +79,7 @@ export default class PostReactAction extends Component {
         className="Button Button--link"
         type="button"
         title="confused"
-        onClick={el => this.react(el)}
+        onclick={el => this.react(el)}
         data-reaction="confused"
       >
         <span className="Button-label">
@@ -87,7 +87,7 @@ export default class PostReactAction extends Component {
             alt=":confused:"
             className="emoji"
             draggable="false"
-            src="//cdn.jsdelivr.net/emojione/assets/png/1f615.png"
+            src="https://cdn.jsdelivr.net/emojione/assets/png/1f615.png"
             data-reaction="confused"
           />
         </span>
@@ -98,7 +98,7 @@ export default class PostReactAction extends Component {
         className="Button Button--link"
         type="button"
         title="heart"
-        onClick={el => this.react(el)}
+        onclick={el => this.react(el)}
         data-reaction="heart"
       >
         <span className="Button-label">
@@ -106,7 +106,7 @@ export default class PostReactAction extends Component {
             alt=":heart:"
             className="emoji"
             draggable="false"
-            src="//cdn.jsdelivr.net/emojione/assets/png/2764.png"
+            src="https://cdn.jsdelivr.net/emojione/assets/png/2764.png"
             data-reaction="heart"
           />
         </span>
@@ -117,7 +117,7 @@ export default class PostReactAction extends Component {
         className="Button Button--link"
         type="button"
         title="tada"
-        onClick={el => this.react(el)}
+        onclick={el => this.react(el)}
         data-reaction="tada"
       >
         <span className="Button-label">
@@ -125,7 +125,7 @@ export default class PostReactAction extends Component {
             alt=":tada:"
             className="emoji"
             draggable="false"
-            src="//cdn.jsdelivr.net/emojione/assets/png/1f389.png"
+            src="https://cdn.jsdelivr.net/emojione/assets/png/1f389.png"
             data-reaction="tada"
           />
         </span>
@@ -162,6 +162,7 @@ export default class PostReactAction extends Component {
             >
               <path d="M4 7V4H3v3H0v1h3v3h1V8h3V7H4z" />
             </svg>
+            x
             <svg
               aria-hidden="true"
               className="octicon octicon-smiley"
@@ -170,7 +171,7 @@ export default class PostReactAction extends Component {
               viewBox="0 0 16 16"
               width="16"
             >
-              <path
+              {/*<path
                 d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-\
                   8zm4.81 12.81a6.72 6.720 0 1-2.17 1.45c-.83.36-1.72.53-2.64.53\
                   -.92 0-1.81-.17-2.64-.53-.81-.34-1.55-.83-2.17-1.45a6.773 6.773\
@@ -183,11 +184,11 @@ export default class PostReactAction extends Component {
                   9c0-.66.53-1.19 1.2-1.19h.59c.660 1.19.53 1.19 1.19v.59c0 .67-.53 1.2-\
                   1.19 1.2h-.59C9.53 8 9 7.47 9 6.8zm4 3.2c-.72 1.88-2.913-5 3s-4.28-1.13\
                   -5-3c-.14-.39.23-1 .66-1h8.59c.41 0 .89.61.75 1z"
-              />
+              />*/}
             </svg>
           </span>
         ) : (
-          <button onClick={() => this.react()}>You reacted, but idk how you feel</button>
+          <button onclick={() => this.react()}>You reacted, but idk how you feel</button>
         )}
         {!this.isReacted ? (
           <div className="CommentPost--Reactions">

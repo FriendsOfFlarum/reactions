@@ -2,8 +2,8 @@ import Notification from 'flarum/components/Notification';
 import username from 'flarum/helpers/username';
 
 export default class PostReactedNotification extends Notification {
-  static icon() {
-    return 'smile-o';
+  icon() {
+    return 'eye';
   }
 
   href() {
@@ -12,9 +12,10 @@ export default class PostReactedNotification extends Notification {
 
   content() {
     const notification = this.props.notification;
+    const reaction = notification.content();
     const user = notification.sender();
 
-    return `${username(user).children} reacted to your post`;
+    return `${username(user).children} reacted ${reaction} to your post`;
   }
 
   excerpt() {

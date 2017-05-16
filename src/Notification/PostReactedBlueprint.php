@@ -74,6 +74,7 @@ class PostReactedBlueprint implements BlueprintInterface
      */
     public function getData()
     {
+        return $this->reaction;
     }
 
     /**

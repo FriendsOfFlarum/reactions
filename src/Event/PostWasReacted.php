@@ -40,6 +40,7 @@ class PostWasReacted
     {
         $this->post = $post;
         $this->user = $user;
+        error_log($reaction);
         $this->reaction = $reaction;
     }
 }

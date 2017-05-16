@@ -4,7 +4,7 @@ import CommentPost from 'flarum/components/CommentPost';
 import PostReactAction from 'datitisev/reactions/components/PostReactAction';
 
 export default () => {
-  extend(CommentPost.prototype, 'actionItems', (items) => {
+  extend(CommentPost.prototype, 'actionItems', function (items) {
     const post = this.props.post;
 
     if (post.isHidden() || !post.canReact()) return;
