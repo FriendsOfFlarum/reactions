@@ -2,6 +2,6 @@ var gulp = require('flarum-gulp');
 
 gulp({
     modules: {
-        'datitisev/reactions': 'src/**/*.js'
+        'reflar/reactions': 'src/**/*.js'
     }
 });

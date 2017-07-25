@@ -1,6 +1,6 @@
 'use strict';
 
-System.register('datitisev/reactions/main', ['flarum/extend', 'flarum/app', 'flarum/components/PermissionGrid'], function (_export, _context) {
+System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum/components/PermissionGrid'], function (_export, _context) {
   "use strict";
 
   var extend, app, PermissionGrid;
@@ -14,11 +14,11 @@ System.register('datitisev/reactions/main', ['flarum/extend', 'flarum/app', 'fla
     }],
     execute: function () {
 
-      app.initializers.add('datitisev-reactions', function () {
+      app.initializers.add('reflar-reactions', function () {
         extend(PermissionGrid.prototype, 'replyItems', function (items) {
           items.add('reactPosts', {
             icon: 'thumbs-o-up',
-            label: app.translator.trans('datitisev-reactions.admin.permissions.react_posts_label'),
+            label: app.translator.trans('reflar-reactions.admin.permissions.react_posts_label'),
             permission: 'discussion.reactPosts'
           });
         });

@@ -1,14 +1,17 @@
-import { extend } from 'flarum/extend';
+﻿import { extend } from 'flarum/extend';
 import app from 'flarum/app';
 import Post from 'flarum/models/Post';
 import Model from 'flarum/Model';
 import NotificationGrid from 'flarum/components/NotificationGrid';
 
-import addReactionAction from 'datitisev/reactions/addReactionAction';
-import PostReactedNotification from 'datitisev/reactions/components/PostReactedNotification';
-// import addLikesList from 'datitisev/reactions/addLikesList';
+import addReactionAction from 'reflar/reactions/addReactionAction';
+import PostReactedNotification from 'reflar/reactions/components/PostReactedNotification';
+// import addLikesList from 'reflar/reactions/addLikesList';
+import Reaction from 'reflar/reactions/models/Reaction';
 
-app.initializers.add('datitisev-reactions', () => {
+app.initializers.add('reflar-reactions', () => {
+  app.store.models.reactions = Reaction;
+
   app.notificationComponents.postReacted = PostReactedNotification;
 
   Post.prototype.canReact = Model.attribute('canReact');

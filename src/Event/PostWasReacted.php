@@ -1,15 +1,18 @@
 <?php
 
-/*
- * This file is part of datitisev/flarum-ext-reactions
+/**
+ *  This file is part of reflar/reactions
  *
- * © David Sevilla Martín <dsevilla192@icloud.com>
+ *  Copyright (c) ReFlar.
  *
- * For the full copyright and license information, please view the MIT license
+ *  http://reflar.io
+ *
+ *  For the full copyright and license information, please view the license.md
+ *  file that was distributed with this source code.
  */
 
 
-namespace Datitisev\Reactions\Event;
+namespace Reflar\Reactions\Event;
 
 use Flarum\Core\Post;
 use Flarum\Core\User;
@@ -27,16 +30,16 @@ class PostWasReacted
     public $user;
 
     /**
-     * @var string
+     * @var String
      */
     public $reaction;
 
     /**
      * @param Post   $post
      * @param User   $user
-     * @param string $reaction
+     * @param String $reaction
      */
-    public function __construct(Post $post, User $user, string $reaction)
+    public function __construct(Post $post, User $user, $reaction)
     {
         $this->post = $post;
         $this->user = $user;

@@ -1,15 +1,18 @@
 <?php
 
-/*
- * This file is part of datitisev/flarum-ext-reactions
+/**
+ *  This file is part of reflar/reactions
  *
- * © David Sevilla Martín <dsevilla192@icloud.com>
+ *  Copyright (c) ReFlar.
  *
- * For the full copyright and license information, please view the MIT license
+ *  http://reflar.io
+ *
+ *  For the full copyright and license information, please view the license.md
+ *  file that was distributed with this source code.
  */
 
 
-namespace Datitisev\Reactions\Notification;
+namespace Reflar\Reactions\Notification;
 
 use Flarum\Core\Notification\BlueprintInterface;
 use Flarum\Core\Post;
