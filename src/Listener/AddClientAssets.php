@@ -11,11 +11,10 @@
  *  file that was distributed with this source code.
  */
 
-
 namespace Reflar\Reactions\Listener;
 
 use DirectoryIterator;
-use Flarum\Event\ConfigureClientView;
+use Flarum\Event\ConfigureWebApp;
 use Flarum\Event\ConfigureLocales;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -28,17 +27,16 @@ class AddClientAssets
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(ConfigureClientView::class, [$this, 'addAdminAssets']);
-        $events->listen(ConfigureClientView::class, [$this, 'addForumAssets']);
+        $events->listen(ConfigureWebApp::class, [$this, 'configureWebApp']);
 //        $events->listen(ConfigureLocales::class, [$this, 'addLocales']);
     }
 
     /**
-     * Modifies the client view for admin.
+     * Modifies the client view for forum/admin.
      *
-     * @param ConfigureClientView $event
+     * @param ConfigureWebApp $event
      */
-    public function addAdminAssets(ConfigureClientView $event)
+    public function configureWebApp(ConfigureWebApp $event)
     {
         if ($event->isAdmin()) {
             $event->addAssets([
@@ -46,15 +44,6 @@ class AddClientAssets
             ]);
             $event->addBootstrapper('reflar/reactions/main');
         }
-    }
-
-    /**
-     * Modifies the client view for forum.
-     *
-     * @param ConfigureClientView $event
-     */
-    public function addForumAssets(ConfigureClientView $event)
-    {
         if ($event->isForum()) {
             $event->addAssets([
                 __DIR__.'/../../js/forum/dist/extension.js',

@@ -13,7 +13,7 @@
 
 namespace Reflar\Reactions\Listener;
 
-use Reflar\Reactions\Api\Serializers\ReactionSerializer;
+use Reflar\Reactions\Api\Serializer\PostReactionSerializer;
 use Reflar\Reactions\Reaction;
 use Flarum\Api\Controller;
 use Flarum\Api\Serializer\PostSerializer;
@@ -60,7 +60,7 @@ class AddPostReactionsRelationship
     public function getApiAttributes(GetApiRelationship $event)
     {
         if ($event->isRelationship(PostBasicSerializer::class, 'reactions')) {
-            return $event->serializer->hasMany($event->model, ReactionSerializer::class, 'reactions');
+            return $event->serializer->hasMany($event->model, PostReactionSerializer::class, 'reactions');
         }
     }
 

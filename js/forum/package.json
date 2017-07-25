@@ -3,5 +3,6 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "flarum-gulp": "^0.2.0"
-  }
+  },
+  "dependencies": {}
 }
