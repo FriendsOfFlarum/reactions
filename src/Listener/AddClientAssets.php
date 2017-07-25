@@ -14,6 +14,7 @@
 namespace Reflar\Reactions\Listener;
 
 use DirectoryIterator;
+use Flarum\Event\ConfigureClientView;
 use Flarum\Event\ConfigureWebApp;
 use Flarum\Event\ConfigureLocales;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -27,16 +28,16 @@ class AddClientAssets
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(ConfigureWebApp::class, [$this, 'configureWebApp']);
+        $events->listen(ConfigureClientView::class, [$this, 'configureWebApp']);
 //        $events->listen(ConfigureLocales::class, [$this, 'addLocales']);
     }
 
     /**
      * Modifies the client view for forum/admin.
      *
-     * @param ConfigureWebApp $event
+     * @param ConfigureClientView $event
      */
-    public function configureWebApp(ConfigureWebApp $event)
+    public function configureWebApp(ConfigureClientView $event)
     {
         if ($event->isAdmin()) {
             $event->addAssets([
