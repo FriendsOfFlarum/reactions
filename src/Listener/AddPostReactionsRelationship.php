@@ -1,18 +1,23 @@
 <?php
 
-/*
- * This file is part of datitisev/flarum-ext-reactions
+/**
+ *  This file is part of reflar/reactions
  *
- * © David Sevilla Martín <dsevilla192@icloud.com>
+ *  Copyright (c) ReFlar.
  *
- * For the full copyright and license information, please view the MIT license
+ *  http://reflar.io
+ *
+ *  For the full copyright and license information, please view the license.md
+ *  file that was distributed with this source code.
  */
 
+namespace Reflar\Reactions\Listener;
 
-namespace Datitisev\Reactions\Listener;
-
+use Reflar\Reactions\Api\Serializers\ReactionSerializer;
+use Reflar\Reactions\Reaction;
 use Flarum\Api\Controller;
 use Flarum\Api\Serializer\PostSerializer;
+use Flarum\Api\Serializer\PostBasicSerializer;
 use Flarum\Api\Serializer\UserBasicSerializer;
 use Flarum\Core\Post;
 use Flarum\Core\User;
@@ -38,12 +43,12 @@ class AddPostReactionsRelationship
     /**
      * @param GetModelRelationship $event
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|null
      */
     public function getModelRelationship(GetModelRelationship $event)
     {
         if ($event->isRelationship(Post::class, 'reactions')) {
-            return $event->model->belongsToMany(User::class, 'posts_reactions', 'post_id', 'user_id', 'reactions');
+            return $event->model->belongsToMany(Reaction::class, 'posts_reactions', 'post_id', 'user_id')->withPivot('reaction_id');
         }
     }
 
@@ -54,8 +59,8 @@ class AddPostReactionsRelationship
      */
     public function getApiAttributes(GetApiRelationship $event)
     {
-        if ($event->isRelationship(PostSerializer::class, 'reactions')) {
-            return $event->serializer->hasMany($event->model, UserBasicSerializer::class, 'reactions');
+        if ($event->isRelationship(PostBasicSerializer::class, 'reactions')) {
+            return $event->serializer->hasMany($event->model, ReactionSerializer::class, 'reactions');
         }
     }
 

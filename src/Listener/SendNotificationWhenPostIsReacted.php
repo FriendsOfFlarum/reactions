@@ -1,19 +1,22 @@
 <?php
 
-/*
- * This file is part of datitisev/flarum-ext-reactions
+/**
+ *  This file is part of reflar/reactions
  *
- * © David Sevilla Martín <dsevilla192@icloud.com>
+ *  Copyright (c) ReFlar.
  *
- * For the full copyright and license information, please view the MIT license
+ *  http://reflar.io
+ *
+ *  For the full copyright and license information, please view the license.md
+ *  file that was distributed with this source code.
  */
 
 
-namespace Datitisev\Reactions\Listener;
+namespace Reflar\Reactions\Listener;
 
-use Datitisev\Reactions\Event\PostWasReacted;
-use Datitisev\Reactions\Event\PostWasUnreacted;
-use Datitisev\Reactions\Notification\PostReactedBlueprint;
+use Reflar\Reactions\Event\PostWasReacted;
+use Reflar\Reactions\Event\PostWasUnreacted;
+use Reflar\Reactions\Notification\PostReactedBlueprint;
 use Flarum\Api\Serializer\PostBasicSerializer;
 use Flarum\Core\Notification\NotificationSyncer;
 use Flarum\Core\Post;
@@ -75,7 +78,7 @@ class SendNotificationWhenPostIsReacted
      * @param User  $user
      * @param array $recipients
      */
-    public function sync(Post $post, User $user, string $reaction, array $recipients)
+    public function sync(Post $post, User $user, $reaction, array $recipients)
     {
         if ($post->user->id != $user->id) {
             $this->notifications->sync(

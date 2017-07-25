@@ -1,15 +1,18 @@
 <?php
 
-/*
- * This file is part of datitisev/flarum-ext-reactions
+/**
+ *  This file is part of reflar/reactions
  *
- * © David Sevilla Martín <dsevilla192@icloud.com>
+ *  Copyright (c) ReFlar.
  *
- * For the full copyright and license information, please view the MIT license
+ *  http://reflar.io
+ *
+ *  For the full copyright and license information, please view the license.md
+ *  file that was distributed with this source code.
  */
 
 
-namespace Datitisev\Reactions\Listener;
+namespace Reflar\Reactions\Listener;
 
 use DirectoryIterator;
 use Flarum\Event\ConfigureClientView;
@@ -41,7 +44,7 @@ class AddClientAssets
             $event->addAssets([
                 __DIR__.'/../../js/admin/dist/extension.js',
             ]);
-            $event->addBootstrapper('datitisev/reactions/main');
+            $event->addBootstrapper('reflar/reactions/main');
         }
     }
 
@@ -57,7 +60,7 @@ class AddClientAssets
                 __DIR__.'/../../js/forum/dist/extension.js',
                 __DIR__.'/../../less/app.less',
             ]);
-            $event->addBootstrapper('datitisev/reactions/main');
+            $event->addBootstrapper('reflar/reactions/main');
         }
     }
 

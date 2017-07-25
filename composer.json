@@ -1,30 +1,47 @@
 {
-  "name": "datitisev/flarum-ext-reactions",
+  "name": "reflar/reactions",
   "description": "Reactions for Flarum",
+  "keywords": [
+    "misc",
+    "settings",
+    "flarum",
+    "reflar",
+    "reactions"
+  ],
   "type": "flarum-extension",
   "require": {
-    "flarum/core": "^0.1.0-beta-5"
+    "flarum/core": "^0.1.0-beta-7"
   },
   "authors": [
     {
       "name": "David Sevilla Martín",
-      "email": "dsevilla192@icloud.com",
-      "homepage": "https://github.com/datitisev",
+      "email": "david@reflar.email",
+      "homepage": "https://redevs.org",
       "role": "Developer"
+    },
+    {
+      "name": "Christian Lopez",
+      "email": "ralkage@reflar.email",
+      "homepage": "https://redevs.org"
+    },
+    {
+      "name": "Charlie K",
+      "email": "issyrocks12@reflar.email",
+      "homepage": "https://redevs.org"
     }
   ],
   "autoload": {
     "psr-4": {
-      "Datitisev\\Reactions\\": "src/"
+      "Reflar\\Reactions\\": "src/"
     }
   },
   "extra": {
     "flarum-extension": {
-      "title": "Reactions",
+      "title": "ReFlar Reactions",
       "icon": {
         "name": "smile-o",
-        "backgroundColor": "#FD742B",
-        "color": "#FFFFF7"
+        "backgroundColor": "#263238",
+        "color": "#FFF"
       }
     }
   }
