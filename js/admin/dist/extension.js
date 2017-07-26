@@ -166,4 +166,37 @@ System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum
       });
     }
   };
+});;
+'use strict';
+
+System.register('reflar/reactions/models/Reaction', ['flarum/Model', 'flarum/utils/mixin'], function (_export, _context) {
+  "use strict";
+
+  var Model, mixin, Reaction;
+  return {
+    setters: [function (_flarumModel) {
+      Model = _flarumModel.default;
+    }, function (_flarumUtilsMixin) {
+      mixin = _flarumUtilsMixin.default;
+    }],
+    execute: function () {
+      Reaction = function (_mixin) {
+        babelHelpers.inherits(Reaction, _mixin);
+
+        function Reaction() {
+          babelHelpers.classCallCheck(this, Reaction);
+          return babelHelpers.possibleConstructorReturn(this, (Reaction.__proto__ || Object.getPrototypeOf(Reaction)).apply(this, arguments));
+        }
+
+        return Reaction;
+      }(mixin(Model, {
+        identifier: Model.attribute('identifier'),
+        type: Model.attribute('type'),
+        user_id: Model.attribute('user_id'),
+        post_id: Model.attribute('post_id')
+      }));
+
+      _export('default', Reaction);
+    }
+  };
 });
