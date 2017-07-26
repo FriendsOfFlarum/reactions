@@ -29,7 +29,7 @@ System.register('reflar/reactions/addReactionAction', ['flarum/extend', 'flarum/
           items.add('react', PostReactAction.component({
             post: post,
             reaction: reaction
-          }));
+          }), 5);
         });
       });
     }

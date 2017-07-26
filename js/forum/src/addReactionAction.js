@@ -15,6 +15,6 @@ export default () => {
     items.add('react', PostReactAction.component({
       post,
       reaction,
-    }));
+    }), 5);
   });
 };

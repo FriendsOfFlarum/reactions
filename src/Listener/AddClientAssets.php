@@ -28,16 +28,16 @@ class AddClientAssets
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(ConfigureClientView::class, [$this, 'configureWebApp']);
+        $events->listen(ConfigureWebApp::class, [$this, 'configureWebApp']);
 //        $events->listen(ConfigureLocales::class, [$this, 'addLocales']);
     }
 
     /**
      * Modifies the client view for forum/admin.
      *
-     * @param ConfigureClientView $event
+     * @param ConfigureWebApp $event
      */
-    public function configureWebApp(ConfigureClientView $event)
+    public function configureWebApp(ConfigureWebApp $event)
     {
         if ($event->isAdmin()) {
             $event->addAssets([
