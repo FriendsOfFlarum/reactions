@@ -63,11 +63,17 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/Componen
                     value: function config(isInitialized) {
                         if (isInitialized) return;
 
-                        $('.Reactions--ShowReactions').hover(function () {
-                            $(this).find('.CommentPost--Reactions').addClass('Reactions--Show');
-                        }, function () {
-                            $(this).find('.CommentPost--Reactions').removeClass('Reactions--Show');
-                        });
+                        if (!!('ontouchstart' in window)) {
+                            $('.button-react').on('touchend', function () {
+                                $('.CommentPost--Reactions').toggleClass('Reactions--Show');
+                            });
+                        } else {
+                            $('.Reactions--ShowReactions').hover(function () {
+                                $(this).find('.CommentPost--Reactions').addClass('Reactions--Show');
+                            }, function () {
+                                $(this).find('.CommentPost--Reactions').removeClass('Reactions--Show');
+                            });
+                        }
                     }
                 }, {
                     key: "getReactions",
@@ -259,9 +265,9 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/Componen
                                 type: "Button",
                                 title: "React"
                             },
-                            !this.reaction ? m(
+                            m(
                                 "span",
-                                { className: "Button-label" },
+                                { className: "Button-label", style: this.reaction ? 'display: none' : 'display:' },
                                 m(
                                     "svg",
                                     { "class": "button-react", width: "20px", height: "20px", viewBox: "0 0 18 18" },
@@ -291,7 +297,7 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/Componen
                                         )
                                     )
                                 )
-                            ) : '',
+                            ),
                             Object.keys(this.reacted).map(function (identifier) {
                                 var count = _this4.reacted[identifier].length;
 

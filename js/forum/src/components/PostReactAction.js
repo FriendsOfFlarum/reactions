@@ -7,11 +7,17 @@ export default class PostReactAction extends Component {
     config(isInitialized) {
         if (isInitialized) return;
 
-        $('.Reactions--ShowReactions').hover(function () {
-            $(this).find('.CommentPost--Reactions').addClass('Reactions--Show');
-        }, function () {
-            $(this).find('.CommentPost--Reactions').removeClass('Reactions--Show');
-        });
+        if(!!('ontouchstart' in window)) {
+            $('.button-react').on('touchend', function() {
+                $('.CommentPost--Reactions').toggleClass('Reactions--Show');
+            });
+        } else {
+            $('.Reactions--ShowReactions').hover(function () {
+                $(this).find('.CommentPost--Reactions').addClass('Reactions--Show');
+            }, function () {
+                $(this).find('.CommentPost--Reactions').removeClass('Reactions--Show');
+            });
+        }
     }
 
     getReactions() {
@@ -165,8 +171,7 @@ export default class PostReactAction extends Component {
                 type="Button"
                 title="React"
             >
-                {!this.reaction ? (
-                    <span className="Button-label">
+                    <span className="Button-label" style={this.reaction ? 'display: none' : 'display:'}>
                         <svg class="button-react" width="20px" height="20px" viewBox="0 0 18 18">
                         /* Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch */
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -185,7 +190,6 @@ export default class PostReactAction extends Component {
                         </g>
                     </svg>
             </span>
-                    ) : '' }
 
                 {Object.keys(this.reacted).map(identifier => {
                     const count = this.reacted[identifier].length;

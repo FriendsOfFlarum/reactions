@@ -72,6 +72,8 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
         }, {
           key: 'view',
           value: function view() {
+            var _this2 = this;
+
             return m(
               'div',
               { className: 'SettingsPage' },
@@ -94,12 +96,33 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                       null,
                       app.translator.trans('reflar-reactions.admin.page.reactions.reactions')
                     ),
-                    m('div', { className: 'Reactions--Container' })
+                    m(
+                      'div',
+                      { className: 'Reactions--Container' },
+                      this.reactions.map(function (reaction) {
+                        return [m(
+                          'div',
+                          null,
+                          m('input', {
+                            className: 'FormControl Reactions-identifier',
+                            type: 'text',
+                            value: reaction.identifier(),
+                            placeholder: app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier'),
+                            oninput: m.withAttr('value', _this2.updateIdentifier.bind(_this2, reaction)) })
+                        )];
+                      })
+                    )
                   )
                 )
               )
             );
           }
+        }, {
+          key: 'updateIdentifier',
+          value: function updateIdentifier() {}
+        }, {
+          key: 'onsubmit',
+          value: function onsubmit() {}
         }]);
         return SettingsPage;
       }(Page);

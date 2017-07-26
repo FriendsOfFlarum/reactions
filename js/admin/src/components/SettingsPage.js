@@ -43,7 +43,7 @@ export default class SettingsPage extends Page {
                         type="text"
                         value={reaction.identifier()}
                         placeholder={app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier')}
-                        oninput={m.withAttr('value', this.updateIdentifier.bind(this, reaction)} />
+                        oninput={m.withAttr('value', this.updateIdentifier.bind(this, reaction))} />
                     </div>
                   ]
                 })}
@@ -56,5 +56,7 @@ export default class SettingsPage extends Page {
   }
 
   updateIdentifier() {}
+
+  onsubmit() {}
 
 }
