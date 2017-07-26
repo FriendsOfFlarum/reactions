@@ -47,6 +47,13 @@ export default class SettingsPage extends Page {
                     </div>
                   ]
                 })}
+                <div>
+                  <input
+                    className="FormControl Reactions-identifier"
+                    type="text"
+                    placeholder={app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier')}
+                    oninput={m.withAttr('value', this.newReaction.identifier)} />
+                </div>
               </div>
             </fieldset>
           </form>

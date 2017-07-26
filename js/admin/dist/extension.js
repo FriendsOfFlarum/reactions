@@ -67,6 +67,7 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
             this.newReaction = {
               identifier: m.prop(''),
               type: m.prop('')
+              // image: m.prop('')
             };
           }
         }, {
@@ -110,7 +111,16 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                             placeholder: app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier'),
                             oninput: m.withAttr('value', _this2.updateIdentifier.bind(_this2, reaction)) })
                         )];
-                      })
+                      }),
+                      m(
+                        'div',
+                        null,
+                        m('input', {
+                          className: 'FormControl Reactions-identifier',
+                          type: 'text',
+                          placeholder: app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier'),
+                          oninput: m.withAttr('value', this.newReaction.identifier) })
+                      )
                     )
                   )
                 )
