@@ -13,14 +13,14 @@
 
 namespace Reflar\Reactions\Listener;
 
+use Flarum\Api\Serializer\ForumSerializer;
 use Reflar\Reactions\Api\Serializer\PostReactionSerializer;
+use Reflar\Reactions\Api\Serializer\ReactionSerializer;
 use Reflar\Reactions\Reaction;
 use Flarum\Api\Controller;
 use Flarum\Api\Serializer\PostSerializer;
 use Flarum\Api\Serializer\PostBasicSerializer;
-use Flarum\Api\Serializer\UserBasicSerializer;
 use Flarum\Core\Post;
-use Flarum\Core\User;
 use Flarum\Event\ConfigureApiController;
 use Flarum\Event\GetApiRelationship;
 use Flarum\Event\GetModelRelationship;
@@ -71,6 +71,9 @@ class AddPostReactionsRelationship
     {
         if ($event->isSerializer(PostSerializer::class)) {
             $event->attributes['canReact'] = (bool) $event->actor->can('react', $event->model);
+        }
+        if ($event->isSerializer(ForumSerializer::class)) {
+            $event->attributes['reactions'] = Reaction::get();
         }
     }
 
