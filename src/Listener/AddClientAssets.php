@@ -42,6 +42,7 @@ class AddClientAssets
         if ($event->isAdmin()) {
             $event->addAssets([
                 __DIR__.'/../../js/admin/dist/extension.js',
+                __DIR__.'/../../less/admin.less',
             ]);
             $event->addBootstrapper('reflar/reactions/main');
         }
