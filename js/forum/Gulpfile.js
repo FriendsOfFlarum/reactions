@@ -3,7 +3,7 @@ var bowerDir = '../bower_components';
 
 gulp({
   files: [
-    bowerDir + '/emojione/js/emojione.js'
+    bowerDir + '/emojione/lib/js/emojione.js'
   ],
   modules: {
     'reflar/reactions': [

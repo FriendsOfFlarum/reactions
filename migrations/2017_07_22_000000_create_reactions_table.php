@@ -22,6 +22,7 @@ return [
             $table->increments('id');
             $table->string('identifier');
             $table->string('type');
+            $table->string('icon');
         });
 
         /*
