@@ -598,10 +598,10 @@ System.register("reflar/reactions/addSettingsPage", ["flarum/extend", "flarum/co
 });;
 'use strict';
 
-System.register('reflar/reactions/components/SettingsPage', ['flarum/components/Page', 'flarum/Model', 'flarum/utils/mixin', 'flarum/components/Button', 'flarum/utils/saveSettings', 'flarum/components/Dropdown'], function (_export, _context) {
+System.register('reflar/reactions/components/SettingsPage', ['flarum/components/Page', 'flarum/Model', 'flarum/utils/mixin', 'flarum/utils/saveSettings', 'flarum/components/Button', 'flarum/components/Select'], function (_export, _context) {
   "use strict";
 
-  var Page, Model, mixin, Button, saveSettings, Dropdown, Reaction, SettingsPage;
+  var Page, Model, mixin, saveSettings, Button, Select, Reaction, SettingsPage;
   return {
     setters: [function (_flarumComponentsPage) {
       Page = _flarumComponentsPage.default;
@@ -609,12 +609,12 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
       Model = _flarumModel.default;
     }, function (_flarumUtilsMixin) {
       mixin = _flarumUtilsMixin.default;
-    }, function (_flarumComponentsButton) {
-      Button = _flarumComponentsButton.default;
     }, function (_flarumUtilsSaveSettings) {
       saveSettings = _flarumUtilsSaveSettings.default;
-    }, function (_flarumComponentsDropdown) {
-      Dropdown = _flarumComponentsDropdown.default;
+    }, function (_flarumComponentsButton) {
+      Button = _flarumComponentsButton.default;
+    }, function (_flarumComponentsSelect) {
+      Select = _flarumComponentsSelect.default;
     }],
     execute: function () {
       Reaction = function (_mixin) {
@@ -652,8 +652,7 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
 
             this.newReaction = {
               identifier: m.prop(''),
-              type: m.prop(''),
-              icon: m.prop('')
+              type: m.prop('')
             };
           }
         }, {
@@ -697,20 +696,10 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                             value: reaction.identifier,
                             placeholder: app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier'),
                             oninput: m.withAttr('value', _this3.updateIdentifier.bind(_this3, reaction)) }),
-                          Dropdown.component({
-                            buttonClassName: 'Select-input FormControl',
-                            label: reaction.type,
-                            caretIcon: 'sort',
-                            children: ['emoji', 'icon'].map(function (label) {
-                              var active = label === reaction.type;
-
-                              return Button.component({
-                                active: active,
-                                children: label,
-                                icon: active && 'check',
-                                onclick: _this3.updateType.bind(_this3, reaction)
-                              });
-                            })
+                          Select.component({
+                            options: ['emoji', 'icon'],
+                            value: reaction.type,
+                            onchange: _this3.updateType.bind(_this3, reaction)
                           })
                         )];
                       }),

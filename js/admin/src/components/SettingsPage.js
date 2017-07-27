@@ -2,9 +2,9 @@
 import Page from 'flarum/components/Page';
 import Model from 'flarum/Model';
 import mixin from 'flarum/utils/mixin';
-import Button from "flarum/components/Button";
 import saveSettings from "flarum/utils/saveSettings";
-import Dropdown from "flarum/components/Dropdown";
+import Button from "flarum/components/Button";
+import Select from "flarum/components/Select";
 
 class Reaction extends mixin(Model, {
   identifier: Model.attribute('identifier'),
@@ -26,7 +26,6 @@ export default class SettingsPage extends Page {
     this.newReaction = {
       identifier: m.prop(''),
       type: m.prop(''),
-      icon: m.prop(''),
     }
 
   }
@@ -53,20 +52,10 @@ export default class SettingsPage extends Page {
                         value={reaction.identifier}
                         placeholder={app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier')}
                         oninput={m.withAttr('value', this.updateIdentifier.bind(this, reaction))} />
-                      {Dropdown.component({
-                        buttonClassName: 'Select-input FormControl',
-                        label: reaction.type,
-                        caretIcon: 'sort',
-                        children: ['emoji', 'icon'].map(label => {
-                          const active = label === reaction.type;
-
-                          return Button.component({
-                            active,
-                            children: label,
-                            icon: active && 'check',
-                            onclick: this.updateType.bind(this, reaction),
-                          })
-                        }),
+                      {Select.component({
+                        options: ['emoji', 'icon'],
+                        value: reaction.type,
+                        onchange: this.updateType.bind(this, reaction),
                       })}
                     </div>
                   ]
