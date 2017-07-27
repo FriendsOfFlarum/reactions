@@ -33,7 +33,7 @@ return [
         $db->table('reactions')->insert([
                 ['identifier' => 'thumbsup', 'type' => 'emoji'],
                 ['identifier' => 'thumbsdown', 'type' => 'emoji'],
-                ['identifier' => 'laugh', 'type' => 'emoji'],
+                ['identifier' => 'laughing', 'type' => 'emoji'],
                 ['identifier' => 'confused', 'type' => 'emoji'],
                 ['identifier' => 'heart', 'type' => 'emoji'],
                 ['identifier' => 'tada', 'type' => 'emoji']
