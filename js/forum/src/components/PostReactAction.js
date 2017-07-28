@@ -1,6 +1,7 @@
 import Component from "flarum/Component";
 import ItemList from "flarum/utils/ItemList";
 import listItems from "flarum/helpers/listItems";
+import emoji from 'reflar/reactions/util/emoji';
 
 export default class PostReactAction extends Component {
 
@@ -24,15 +25,32 @@ export default class PostReactAction extends Component {
         const items = new ItemList();
 
         app.forum.attribute('reactions').forEach(reaction => {
-          let url;
+          let buttonLabel;
 
           if (reaction.type === 'emoji') {
-            try {
-              const uc = emojione.emojioneList[`:${reaction.identifier}:`].uc_base;
-              url = `http://cdn.jsdelivr.net/emojione/assets/png/${uc}.png`;
-            } catch (err) {
-              console.error(`Unable to find URL for ${reaction.identifier}`, err);
-            }
+                const url = this.names[reaction.identifier];
+                buttonLabel = (
+                    <span className="Button-label">
+                        <img
+                            alt={reaction.identifier}
+                            className={reaction.type}
+                            draggable="false"
+                            src={url}
+                            data-reaction={reaction.identifier}
+                        />
+                    </span>
+                )
+          } else if (reaction.type === 'icon') {
+              const spanClass = `fa fa-${reaction.identifier}`;
+              buttonLabel = (
+                  <span className="Button-label">
+                    <i
+                      className={spanClass}
+                      data-reaction={reaction.identifier}
+                      aria-hidden
+                    ></i>
+                  </span>
+              )
           }
 
           items.add(reaction.identifier, (
@@ -43,15 +61,7 @@ export default class PostReactAction extends Component {
               onclick={el => this.react(el)}
               data-reaction={reaction.identifier}
             >
-              <span className="Button-label">
-                <img
-                  alt={reaction.identifier}
-                  className={reaction.type}
-                  draggable="false"
-                  src={url}
-                  data-reaction={reaction.identifier}
-                />
-              </span>
+              {buttonLabel}
             </button>
           ))
         });
@@ -67,8 +77,9 @@ export default class PostReactAction extends Component {
         this.reacted = {};
         this.names = {};
 
+
         app.forum.attribute('reactions').forEach(reaction => {
-          this.names[reaction.identifier] = emojione.emojioneList[`:${reaction.identifier}:`].uc_base;
+          this.names[reaction.identifier] = emoji(reaction.identifier).url;
           this.reacted[reaction.identifier] = [];
         });
 
@@ -108,16 +119,29 @@ export default class PostReactAction extends Component {
 
               {Object.keys(this.reacted).map(identifier => {
                 const count = this.reacted[identifier].length;
+                const reaction = app.forum.attribute('reactions').filter(e => e.identifier === identifier)[0];
+
                 if (count === 0) return;
+                const spanClass = reaction.type === 'icon' && `fa fa-${reaction.identifier} emoji button-emoji`;
+                const icon = reaction.type === 'emoji' ? (
+                  <img
+                    alt={reaction.identifier}
+                    className="emoji button-emoji"
+                    draggable="false"
+                    src={emoji(reaction.identifier).url}
+                    data-reaction={identifier}
+                  />
+                ) : (
+                  <span className="Button-label">
+                    <i
+                      className={spanClass}
+                      data-reaction={identifier}
+                      aria-hidden />
+                  </span>
+                );
                 return [
                   <span className={"Button-label " + this.realCount} onclick={el => this.react(this.reaction ? identifier : el)} data-reaction={identifier}>
-                    <img
-                      alt={identifier}
-                      className="emoji button-emoji"
-                      draggable="false"
-                      src={`https://cdn.jsdelivr.net/emojione/assets/png/${this.names[identifier]}.png`}
-                      data-reaction={identifier}
-                    />
+                    {icon}
                     {count > 1 ? count : ''}
                   </span>
                 ]
@@ -157,6 +181,9 @@ export default class PostReactAction extends Component {
              * but in order to provide instantaneous feedback to the user, we'll
              * need to add or remove the reaction from the current ones manually
              */
+
+            console.log(isReacted);
+            console.log(reaction);
 
             if (isReacted) {
               this.reacted[reaction].push(this.reaction);

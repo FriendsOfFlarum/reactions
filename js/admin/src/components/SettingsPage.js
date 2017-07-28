@@ -2,6 +2,7 @@
 import Page from 'flarum/components/Page';
 import Button from "flarum/components/Button";
 import Select from "flarum/components/Select";
+import emoji from 'reflar/reactions/util/emoji';
 
 export default class SettingsPage extends Page {
 
@@ -33,6 +34,28 @@ export default class SettingsPage extends Page {
                             <br/>
                             <div className="Reactions--Container">
                                 {this.reactions.map(reaction => {
+                                    const spanClass = reaction.type === 'icon' && `fa fa-${reaction.identifier} Reactions-demo`;
+                                    const data = emoji(reaction.identifier);
+                                    const demos = [];
+
+                                    if (reaction.type === 'icon') {
+                                        demos.push(
+                                            <i className={spanClass} aria-hidden>&nbsp;</i>
+                                        );
+                                    }
+
+                                    if (reaction.type === 'emoji' || data.uc) {
+                                        demos.push(
+                                          <img
+                                            alt={reaction.identifier}
+                                            className="Reactions-demo"
+                                            draggable="false"
+                                            style={reaction.type !== 'emoji' && 'opacity: 0.5;'}
+                                            src={emoji(reaction.identifier).url}
+                                            width="30px"/>
+                                        );
+                                    }
+
                                     return [
                                         <div>
                                             <input
@@ -52,6 +75,7 @@ export default class SettingsPage extends Page {
                                                 icon: 'times',
                                                 onclick: this.deleteReaction.bind(this, reaction)
                                             })}
+                                            {demos}
                                         </div>
                                     ]
                                 })}

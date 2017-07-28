@@ -598,10 +598,10 @@ System.register('reflar/reactions/addReactionAction', ['flarum/extend', 'flarum/
 });;
 "use strict";
 
-System.register("reflar/reactions/components/PostReactAction", ["flarum/Component", "flarum/utils/ItemList", "flarum/helpers/listItems"], function (_export, _context) {
+System.register("reflar/reactions/components/PostReactAction", ["flarum/Component", "flarum/utils/ItemList", "flarum/helpers/listItems", "reflar/reactions/util/emoji"], function (_export, _context) {
   "use strict";
 
-  var Component, ItemList, listItems, PostReactAction;
+  var Component, ItemList, listItems, emoji, PostReactAction;
   return {
     setters: [function (_flarumComponent) {
       Component = _flarumComponent.default;
@@ -609,6 +609,8 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/Componen
       ItemList = _flarumUtilsItemList.default;
     }, function (_flarumHelpersListItems) {
       listItems = _flarumHelpersListItems.default;
+    }, function (_reflarReactionsUtilEmoji) {
+      emoji = _reflarReactionsUtilEmoji.default;
     }],
     execute: function () {
       PostReactAction = function (_Component) {
@@ -644,15 +646,32 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/Componen
             var items = new ItemList();
 
             app.forum.attribute('reactions').forEach(function (reaction) {
-              var url = void 0;
+              var buttonLabel = void 0;
 
               if (reaction.type === 'emoji') {
-                try {
-                  var uc = emojione.emojioneList[":" + reaction.identifier + ":"].uc_base;
-                  url = "http://cdn.jsdelivr.net/emojione/assets/png/" + uc + ".png";
-                } catch (err) {
-                  console.error("Unable to find URL for " + reaction.identifier, err);
-                }
+                var url = _this2.names[reaction.identifier];
+                buttonLabel = m(
+                  "span",
+                  { className: "Button-label" },
+                  m("img", {
+                    alt: reaction.identifier,
+                    className: reaction.type,
+                    draggable: "false",
+                    src: url,
+                    "data-reaction": reaction.identifier
+                  })
+                );
+              } else if (reaction.type === 'icon') {
+                var spanClass = "fa fa-" + reaction.identifier;
+                buttonLabel = m(
+                  "span",
+                  { className: "Button-label" },
+                  m("i", {
+                    className: spanClass,
+                    "data-reaction": reaction.identifier,
+                    "aria-hidden": true
+                  })
+                );
               }
 
               items.add(reaction.identifier, m(
@@ -666,17 +685,7 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/Componen
                   },
                   "data-reaction": reaction.identifier
                 },
-                m(
-                  "span",
-                  { className: "Button-label" },
-                  m("img", {
-                    alt: reaction.identifier,
-                    className: reaction.type,
-                    draggable: "false",
-                    src: url,
-                    "data-reaction": reaction.identifier
-                  })
-                )
+                buttonLabel
               ));
             });
 
@@ -697,7 +706,7 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/Componen
             this.names = {};
 
             app.forum.attribute('reactions').forEach(function (reaction) {
-              _this3.names[reaction.identifier] = emojione.emojioneList[":" + reaction.identifier + ":"].uc_base;
+              _this3.names[reaction.identifier] = emoji(reaction.identifier).url;
               _this3.reacted[reaction.identifier] = [];
             });
 
@@ -755,19 +764,32 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/Componen
               ),
               Object.keys(this.reacted).map(function (identifier) {
                 var count = _this4.reacted[identifier].length;
+                var reaction = app.forum.attribute('reactions').filter(function (e) {
+                  return e.identifier === identifier;
+                })[0];
+
                 if (count === 0) return;
+                var spanClass = reaction.type === 'icon' && "fa fa-" + reaction.identifier + " emoji button-emoji";
+                var icon = reaction.type === 'emoji' ? m("img", {
+                  alt: reaction.identifier,
+                  className: "emoji button-emoji",
+                  draggable: "false",
+                  src: emoji(reaction.identifier).url,
+                  "data-reaction": identifier
+                }) : m(
+                  "span",
+                  { className: "Button-label" },
+                  m("i", {
+                    className: spanClass,
+                    "data-reaction": identifier,
+                    "aria-hidden": true })
+                );
                 return [m(
                   "span",
                   { className: "Button-label " + _this4.realCount, onclick: function onclick(el) {
                       return _this4.react(_this4.reaction ? identifier : el);
                     }, "data-reaction": identifier },
-                  m("img", {
-                    alt: identifier,
-                    className: "emoji button-emoji",
-                    draggable: "false",
-                    src: "https://cdn.jsdelivr.net/emojione/assets/png/" + _this4.names[identifier] + ".png",
-                    "data-reaction": identifier
-                  }),
+                  icon,
                   count > 1 ? count : ''
                 )];
               }),
@@ -810,6 +832,9 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/Componen
                * but in order to provide instantaneous feedback to the user, we'll
                * need to add or remove the reaction from the current ones manually
                */
+
+              console.log(isReacted);
+              console.log(reaction);
 
               if (isReacted) {
                 _this5.reacted[reaction].push(_this5.reaction);
@@ -963,6 +988,28 @@ System.register('reflar/reactions/models/Reaction', ['flarum/Model', 'flarum/uti
       }));
 
       _export('default', Reaction);
+    }
+  };
+});;
+'use strict';
+
+System.register('reflar/reactions/util/emoji', [], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [],
+    execute: function () {
+      _export('default', function (reactionOrIdentifier) {
+        var identifier = reactionOrIdentifier.identifier || reactionOrIdentifier;
+        var item = emojione.emojioneList[':' + identifier + ':'];
+        var uc = item && item.uc_base;
+        var url = uc && 'http://cdn.jsdelivr.net/emojione/assets/png/' + uc + '.png';
+
+        return {
+          identifier: identifier, uc: uc, url: url,
+          type: 'emoji'
+        };
+      });
     }
   };
 });

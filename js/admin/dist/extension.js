@@ -598,10 +598,10 @@ System.register("reflar/reactions/addSettingsPage", ["flarum/extend", "flarum/co
 });;
 "use strict";
 
-System.register("reflar/reactions/components/SettingsPage", ["flarum/components/Page", "flarum/components/Button", "flarum/components/Select"], function (_export, _context) {
+System.register("reflar/reactions/components/SettingsPage", ["flarum/components/Page", "flarum/components/Button", "flarum/components/Select", "reflar/reactions/util/emoji"], function (_export, _context) {
     "use strict";
 
-    var Page, Button, Select, SettingsPage;
+    var Page, Button, Select, emoji, SettingsPage;
     return {
         setters: [function (_flarumComponentsPage) {
             Page = _flarumComponentsPage.default;
@@ -609,6 +609,8 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
             Button = _flarumComponentsButton.default;
         }, function (_flarumComponentsSelect) {
             Select = _flarumComponentsSelect.default;
+        }, function (_reflarReactionsUtilEmoji) {
+            emoji = _reflarReactionsUtilEmoji.default;
         }],
         execute: function () {
             SettingsPage = function (_Page) {
@@ -665,6 +667,28 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
                                             "div",
                                             { className: "Reactions--Container" },
                                             this.reactions.map(function (reaction) {
+                                                var spanClass = reaction.type === 'icon' && "fa fa-" + reaction.identifier + " Reactions-demo";
+                                                var data = emoji(reaction.identifier);
+                                                var demos = [];
+
+                                                if (reaction.type === 'icon') {
+                                                    demos.push(m(
+                                                        "i",
+                                                        { className: spanClass, "aria-hidden": true },
+                                                        "\xA0"
+                                                    ));
+                                                }
+
+                                                if (reaction.type === 'emoji' || data.uc) {
+                                                    demos.push(m("img", {
+                                                        alt: reaction.identifier,
+                                                        className: "Reactions-demo",
+                                                        draggable: "false",
+                                                        style: reaction.type !== 'emoji' && 'opacity: 0.5;',
+                                                        src: emoji(reaction.identifier).url,
+                                                        width: "30px" }));
+                                                }
+
                                                 return [m(
                                                     "div",
                                                     null,
@@ -684,7 +708,8 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
                                                         className: 'Button Button--warning Reactions-button',
                                                         icon: 'times',
                                                         onclick: _this2.deleteReaction.bind(_this2, reaction)
-                                                    })
+                                                    }),
+                                                    demos
                                                 )];
                                             }),
                                             m(
@@ -864,6 +889,28 @@ System.register('reflar/reactions/models/Reaction', ['flarum/Model', 'flarum/uti
       }));
 
       _export('default', Reaction);
+    }
+  };
+});;
+'use strict';
+
+System.register('reflar/reactions/util/emoji', [], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [],
+    execute: function () {
+      _export('default', function (reactionOrIdentifier) {
+        var identifier = reactionOrIdentifier.identifier || reactionOrIdentifier;
+        var item = emojione.emojioneList[':' + identifier + ':'];
+        var uc = item && item.uc_base;
+        var url = uc && 'http://cdn.jsdelivr.net/emojione/assets/png/' + uc + '.png';
+
+        return {
+          identifier: identifier, uc: uc, url: url,
+          type: 'emoji'
+        };
+      });
     }
   };
 });
