@@ -29,7 +29,7 @@ class AddClientAssets
     public function subscribe(Dispatcher $events)
     {
         $events->listen(ConfigureWebApp::class, [$this, 'configureWebApp']);
-//        $events->listen(ConfigureLocales::class, [$this, 'addLocales']);
+        $events->listen(ConfigureLocales::class, [$this, 'addLocales']);
     }
 
     /**
