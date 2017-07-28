@@ -26,7 +26,7 @@ class ReactionValidator extends AbstractValidator
         'type' => [
             'required',
             'string',
-            'regex:/font-awesome|emoji/i'
+            'regex:/icon|emoji/i'
         ]
     ];
 }

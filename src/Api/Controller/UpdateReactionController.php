@@ -16,7 +16,7 @@ namespace Reflar\Reactions\Api\Controller;
 use Flarum\Api\Controller\AbstractResourceController;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
-use Reflar\Reactions\Command\EditPage;
+use Reflar\Reactions\Command\EditReaction;
 use Tobscure\JsonApi\Document;
 
 class UpdateReactionController extends AbstractResourceController
@@ -47,7 +47,7 @@ class UpdateReactionController extends AbstractResourceController
     {
         $id = array_get($request->getQueryParams(), 'id');
         $actor = $request->getAttribute('actor');
-        $data = array_get($request->getParsedBody(), 'data');
+        $data = $request->getParsedBody();
 
         return $this->bus->dispatch(
             new EditReaction($id, $actor, $data)

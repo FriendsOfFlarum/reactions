@@ -16,7 +16,7 @@ namespace Reflar\Reactions\Command;
 use Flarum\Core\Access\AssertPermissionTrait;
 use Flarum\Core\Exception\PermissionDeniedException;
 use Reflar\Reactions\Reaction;
-use Reflar\Reactions\Validators\ReactionValidator;
+use Reflar\Reactions\Validator\ReactionValidator;
 
 class CreateReactionHandler
 {
@@ -50,8 +50,8 @@ class CreateReactionHandler
         $this->assertAdmin($actor);
 
         $reaction = Reaction::build(
-            array_get($data, 'attributes.identifier'),
-            array_get($data, 'attributes.type')
+            array_get($data, 'identifier'),
+            array_get($data, 'type')
         );
 
         $this->validator->assertValid($reaction->getAttributes());

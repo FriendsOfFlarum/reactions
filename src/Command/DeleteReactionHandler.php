@@ -34,7 +34,7 @@ class DeleteReactionHandler
 
         $this->assertAdmin($actor);
 
-        $reaction = Reaction::where('id', $command->reactionId)->findOrFail();
+        $reaction = Reaction::where('id', $command->reactionId)->first();
 
         $reaction->delete();
 

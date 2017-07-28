@@ -11,7 +11,7 @@ export default function () {
   extend(AdminNav.prototype, 'items', items => {
     items.add('reflar-reactions', AdminLinkButton.component({
       href: app.route('reflar-reactions'),
-      icon: 'thumbs-up',
+      icon: 'heart',
       children: 'Reactions',
       description: app.translator.trans('reflar-reactions.admin.nav.desc')
     }));

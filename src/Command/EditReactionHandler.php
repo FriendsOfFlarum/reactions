@@ -16,7 +16,7 @@ namespace Reflar\Reactions\Command;
 use Flarum\Core\Access\AssertPermissionTrait;
 use Flarum\Core\Exception\PermissionDeniedException;
 use Reflar\Reactions\Reaction;
-use Reflar\Reactions\Validators\ReactionValidator;
+use Reflar\Reactions\Validator\ReactionValidator;
 
 class EditReactionHandler
 {
@@ -42,23 +42,21 @@ class EditReactionHandler
      *
      * @return Reaction
      */
-    public function handle(EditRank $command)
+    public function handle(EditReaction $command)
     {
         $actor = $command->actor;
         $data = $command->data;
 
         $this->assertAdmin($actor);
 
-        $reaction = Reaction::where('id', $command->reactionId)->findOrFail();
+        $reaction = Reaction::where('id', $command->reactionId)->first();
 
-        $attributes = array_get($data, 'attributes', []);
-
-        if (isset($attributes['identifier'])) {
-            $reaction->title = $attributes['identifier'];
+        if (isset($data['identifier'])) {
+            $reaction->identifier = $data['identifier'];
         }
 
-        if (isset($attributes['type'])) {
-            $reaction->slug = $attributes['type'];
+        if (isset($data['type'])) {
+            $reaction->type = $data['type'];
         }
 
         $this->validator->assertValid($reaction->getDirty());

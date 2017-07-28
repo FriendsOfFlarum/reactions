@@ -576,7 +576,7 @@ System.register("reflar/reactions/addSettingsPage", ["flarum/extend", "flarum/co
     extend(AdminNav.prototype, 'items', function (items) {
       items.add('reflar-reactions', AdminLinkButton.component({
         href: app.route('reflar-reactions'),
-        icon: 'thumbs-up',
+        icon: 'heart',
         children: 'Reactions',
         description: app.translator.trans('reflar-reactions.admin.nav.desc')
       }));
@@ -596,144 +596,207 @@ System.register("reflar/reactions/addSettingsPage", ["flarum/extend", "flarum/co
     execute: function () {}
   };
 });;
-'use strict';
+"use strict";
 
-System.register('reflar/reactions/components/SettingsPage', ['flarum/components/Page', 'flarum/Model', 'flarum/utils/mixin', 'flarum/utils/saveSettings', 'flarum/components/Button', 'flarum/components/Select'], function (_export, _context) {
-  "use strict";
+System.register("reflar/reactions/components/SettingsPage", ["flarum/components/Page", "flarum/components/Button", "flarum/components/Select"], function (_export, _context) {
+    "use strict";
 
-  var Page, Model, mixin, saveSettings, Button, Select, Reaction, SettingsPage;
-  return {
-    setters: [function (_flarumComponentsPage) {
-      Page = _flarumComponentsPage.default;
-    }, function (_flarumModel) {
-      Model = _flarumModel.default;
-    }, function (_flarumUtilsMixin) {
-      mixin = _flarumUtilsMixin.default;
-    }, function (_flarumUtilsSaveSettings) {
-      saveSettings = _flarumUtilsSaveSettings.default;
-    }, function (_flarumComponentsButton) {
-      Button = _flarumComponentsButton.default;
-    }, function (_flarumComponentsSelect) {
-      Select = _flarumComponentsSelect.default;
-    }],
-    execute: function () {
-      Reaction = function (_mixin) {
-        babelHelpers.inherits(Reaction, _mixin);
+    var Page, Button, Select, SettingsPage;
+    return {
+        setters: [function (_flarumComponentsPage) {
+            Page = _flarumComponentsPage.default;
+        }, function (_flarumComponentsButton) {
+            Button = _flarumComponentsButton.default;
+        }, function (_flarumComponentsSelect) {
+            Select = _flarumComponentsSelect.default;
+        }],
+        execute: function () {
+            SettingsPage = function (_Page) {
+                babelHelpers.inherits(SettingsPage, _Page);
 
-        function Reaction() {
-          babelHelpers.classCallCheck(this, Reaction);
-          return babelHelpers.possibleConstructorReturn(this, (Reaction.__proto__ || Object.getPrototypeOf(Reaction)).apply(this, arguments));
+                function SettingsPage() {
+                    babelHelpers.classCallCheck(this, SettingsPage);
+                    return babelHelpers.possibleConstructorReturn(this, (SettingsPage.__proto__ || Object.getPrototypeOf(SettingsPage)).apply(this, arguments));
+                }
+
+                babelHelpers.createClass(SettingsPage, [{
+                    key: "init",
+                    value: function init() {
+                        this.reactions = app.forum.attribute('reactions');
+
+                        this.settingsPrefix = 'reflar.reactions';
+
+                        var settings = app.data.settings;
+
+                        this.newReaction = {
+                            identifier: m.prop(''),
+                            type: m.prop('icon')
+                        };
+                    }
+                }, {
+                    key: "view",
+                    value: function view() {
+                        var _this2 = this;
+
+                        return m(
+                            "div",
+                            { className: "SettingsPage" },
+                            m(
+                                "div",
+                                { className: "container" },
+                                m(
+                                    "form",
+                                    { onsubmit: this.onsubmit.bind(this) },
+                                    m(
+                                        "fieldset",
+                                        { className: "SettingsPage-reactions" },
+                                        m(
+                                            "legend",
+                                            null,
+                                            app.translator.trans('reflar-reactions.admin.page.reactions.title')
+                                        ),
+                                        m(
+                                            "label",
+                                            null,
+                                            app.translator.trans('reflar-reactions.admin.page.reactions.reactions')
+                                        ),
+                                        m("br", null),
+                                        m(
+                                            "div",
+                                            { className: "Reactions--Container" },
+                                            this.reactions.map(function (reaction) {
+                                                return [m(
+                                                    "div",
+                                                    null,
+                                                    m("input", {
+                                                        className: "FormControl Reactions-identifier",
+                                                        type: "text",
+                                                        value: reaction.identifier,
+                                                        placeholder: app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier'),
+                                                        oninput: m.withAttr('value', _this2.updateIdentifier.bind(_this2, reaction)) }),
+                                                    Select.component({
+                                                        options: { emoji: 'emoji', icon: 'icon' },
+                                                        value: reaction.type,
+                                                        onchange: _this2.updateType.bind(_this2, reaction)
+                                                    }),
+                                                    Button.component({
+                                                        type: 'button',
+                                                        className: 'Button Button--warning Reactions-button',
+                                                        icon: 'times',
+                                                        onclick: _this2.deleteReaction.bind(_this2, reaction)
+                                                    })
+                                                )];
+                                            }),
+                                            m(
+                                                "div",
+                                                null,
+                                                m("input", {
+                                                    className: "FormControl Reactions-identifier",
+                                                    type: "text",
+                                                    placeholder: app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier'),
+                                                    oninput: m.withAttr('value', this.newReaction.identifier) }),
+                                                Select.component({
+                                                    options: { emoji: 'emoji', icon: 'icon' },
+                                                    value: this.newReaction.type(),
+                                                    oninput: m.withAttr('value', this.newReaction.type)
+                                                }),
+                                                Button.component({
+                                                    type: 'button',
+                                                    className: 'Button Button--warning Reactions-button',
+                                                    icon: 'plus',
+                                                    onclick: this.addReaction.bind(this)
+                                                })
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        );
+                    }
+                }, {
+                    key: "addReaction",
+                    value: function addReaction(reaction) {
+                        var _this3 = this;
+
+                        app.request({
+                            method: 'POST',
+                            url: app.forum.attribute('apiUrl') + '/reactions',
+                            data: {
+                                identifier: this.newReaction.identifier(),
+                                type: this.newReaction.type()
+                            }
+                        }).then(function (response) {
+                            _this3.reactions.push({
+                                identifier: response.data.attributes.identifier,
+                                type: response.data.attributes.type,
+                                id: response.data.id
+                            });
+
+                            _this3.newReaction.identifier('');
+                            _this3.newReaction.type('icon');
+                            m.redraw();
+                        });
+                    }
+                }, {
+                    key: "updateIdentifier",
+                    value: function updateIdentifier(reactionToUpdate, value) {
+                        app.request({
+                            method: 'PATCH',
+                            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id,
+                            data: {
+                                identifier: value
+                            }
+                        });
+                        this.reactions.some(function (reaction, i) {
+                            if (reaction.id === reactionToUpdate.id) {
+                                reaction.identifier = value;
+                                return true;
+                            }
+                        });
+                    }
+                }, {
+                    key: "updateType",
+                    value: function updateType(reactionToUpdate, value) {
+                        app.request({
+                            method: 'PATCH',
+                            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id,
+                            data: {
+                                type: value
+                            }
+                        });
+                        this.reactions.some(function (reaction, i) {
+                            if (reaction.id === reactionToUpdate.id) {
+                                reaction.type = value;
+                                return true;
+                            }
+                        });
+                    }
+                }, {
+                    key: "deleteReaction",
+                    value: function deleteReaction(reactionToDelete) {
+                        var _this4 = this;
+
+                        app.request({
+                            method: 'DELETE',
+                            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToDelete.id
+                        });
+                        this.reactions.some(function (reaction, i) {
+                            if (reaction.id === reactionToDelete.id) {
+                                _this4.reactions.splice(i, 1);
+                                return true;
+                            }
+                        });
+                    }
+                }, {
+                    key: "onsubmit",
+                    value: function onsubmit(reaction) {}
+                }]);
+                return SettingsPage;
+            }(Page);
+
+            _export("default", SettingsPage);
         }
-
-        return Reaction;
-      }(mixin(Model, {
-        identifier: Model.attribute('identifier'),
-        type: Model.attribute('type'),
-        icon: Model.attribute('icon')
-      }));
-
-      SettingsPage = function (_Page) {
-        babelHelpers.inherits(SettingsPage, _Page);
-
-        function SettingsPage() {
-          babelHelpers.classCallCheck(this, SettingsPage);
-          return babelHelpers.possibleConstructorReturn(this, (SettingsPage.__proto__ || Object.getPrototypeOf(SettingsPage)).apply(this, arguments));
-        }
-
-        babelHelpers.createClass(SettingsPage, [{
-          key: 'init',
-          value: function init() {
-
-            this.reactions = app.forum.attribute('reactions');
-
-            this.settingsPrefix = 'reflar.reactions';
-
-            var settings = app.data.settings;
-
-            this.newReaction = {
-              identifier: m.prop(''),
-              type: m.prop('')
-            };
-          }
-        }, {
-          key: 'view',
-          value: function view() {
-            var _this3 = this;
-
-            return m(
-              'div',
-              { className: 'SettingsPage' },
-              m(
-                'div',
-                { className: 'container' },
-                m(
-                  'form',
-                  { onsubmit: this.onsubmit.bind(this) },
-                  m(
-                    'fieldset',
-                    { className: 'SettingsPage-reactions' },
-                    m(
-                      'legend',
-                      null,
-                      app.translator.trans('reflar-reactions.admin.page.reactions.title')
-                    ),
-                    m(
-                      'label',
-                      null,
-                      app.translator.trans('reflar-reactions.admin.page.reactions.reactions')
-                    ),
-                    m('br', null),
-                    m(
-                      'div',
-                      { className: 'Reactions--Container' },
-                      this.reactions.map(function (reaction) {
-                        return [m(
-                          'div',
-                          null,
-                          m('input', {
-                            className: 'FormControl Reactions-identifier',
-                            type: 'text',
-                            value: reaction.identifier,
-                            placeholder: app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier'),
-                            oninput: m.withAttr('value', _this3.updateIdentifier.bind(_this3, reaction)) }),
-                          Select.component({
-                            options: ['emoji', 'icon'],
-                            value: reaction.type,
-                            onchange: _this3.updateType.bind(_this3, reaction)
-                          })
-                        )];
-                      }),
-                      m(
-                        'div',
-                        null,
-                        m('input', {
-                          className: 'FormControl Reactions-identifier',
-                          type: 'text',
-                          placeholder: app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier'),
-                          oninput: m.withAttr('value', this.newReaction.identifier) })
-                      )
-                    )
-                  )
-                )
-              )
-            );
-          }
-        }, {
-          key: 'updateIdentifier',
-          value: function updateIdentifier(reaction, value) {}
-        }, {
-          key: 'updateType',
-          value: function updateType(reaction, value) {}
-        }, {
-          key: 'onsubmit',
-          value: function onsubmit(reaction) {}
-        }]);
-        return SettingsPage;
-      }(Page);
-
-      _export('default', SettingsPage);
-    }
-  };
+    };
 });;
 'use strict';
 
