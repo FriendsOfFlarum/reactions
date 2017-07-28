@@ -776,17 +776,13 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/Componen
                   draggable: "false",
                   src: emoji(reaction.identifier).url,
                   "data-reaction": identifier
-                }) : m(
-                  "span",
-                  { className: "Button-label" },
-                  m("i", {
-                    className: spanClass,
-                    "data-reaction": identifier,
-                    "aria-hidden": true })
-                );
+                }) : m("i", {
+                  className: spanClass,
+                  "data-reaction": identifier,
+                  "aria-hidden": true });
                 return [m(
                   "span",
-                  { className: "Button-label " + _this4.realCount, onclick: function onclick(el) {
+                  { className: "Button-label", onclick: function onclick(el) {
                       return _this4.react(_this4.reaction ? identifier : el);
                     }, "data-reaction": identifier },
                   icon,

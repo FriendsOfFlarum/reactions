@@ -132,15 +132,13 @@ export default class PostReactAction extends Component {
                     data-reaction={identifier}
                   />
                 ) : (
-                  <span className="Button-label">
                     <i
-                      className={spanClass}
-                      data-reaction={identifier}
-                      aria-hidden />
-                  </span>
+                        className={spanClass}
+                        data-reaction={identifier}
+                        aria-hidden />
                 );
                 return [
-                  <span className={"Button-label " + this.realCount} onclick={el => this.react(this.reaction ? identifier : el)} data-reaction={identifier}>
+                  <span className="Button-label" onclick={el => this.react(this.reaction ? identifier : el)} data-reaction={identifier}>
                     {icon}
                     {count > 1 ? count : ''}
                   </span>
