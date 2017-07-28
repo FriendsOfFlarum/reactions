@@ -881,7 +881,7 @@ System.register('reflar/reactions/components/PostReactedNotification', ['flarum/
         babelHelpers.createClass(PostReactedNotification, [{
           key: 'icon',
           value: function icon() {
-            return 'eye';
+            return 'heart';
           }
         }, {
           key: 'href',
@@ -892,10 +892,10 @@ System.register('reflar/reactions/components/PostReactedNotification', ['flarum/
           key: 'content',
           value: function content() {
             var notification = this.props.notification;
-            var reaction = notification.content();
+            var identifier = notification.content();
             var user = notification.sender();
 
-            return username(user).children + ' reacted ' + reaction + ' to your post';
+            return username(user).children + ' reacted ' + identifier + ' to your post';
           }
         }, {
           key: 'excerpt',

@@ -3,7 +3,7 @@ import username from 'flarum/helpers/username';
 
 export default class PostReactedNotification extends Notification {
   icon() {
-    return 'eye';
+    return 'heart';
   }
 
   href() {
@@ -12,10 +12,10 @@ export default class PostReactedNotification extends Notification {
 
   content() {
     const notification = this.props.notification;
-    const reaction = notification.content();
+    const identifier = notification.content();
     const user = notification.sender();
 
-    return `${username(user).children} reacted ${reaction} to your post`;
+    return `${username(user).children} reacted ${identifier} to your post`;
   }
 
   excerpt() {
