@@ -44,14 +44,14 @@ export default class SettingsPage extends Page {
                                         );
                                     }
 
-                                    if (reaction.type === 'emoji' || data.uc) {
+                                    if ((reaction.type === 'emoji' && data.uc) || data.uc) {
                                         demos.push(
                                           <img
                                             alt={reaction.identifier}
                                             className="Reactions-demo"
                                             draggable="false"
                                             style={reaction.type !== 'emoji' && 'opacity: 0.5;'}
-                                            src={emoji(reaction.identifier).url}
+                                            src={data.url}
                                             width="30px"/>
                                         );
                                     }

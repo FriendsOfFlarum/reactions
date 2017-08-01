@@ -679,13 +679,13 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
                                                     ));
                                                 }
 
-                                                if (reaction.type === 'emoji' || data.uc) {
+                                                if (reaction.type === 'emoji' && data.uc || data.uc) {
                                                     demos.push(m("img", {
                                                         alt: reaction.identifier,
                                                         className: "Reactions-demo",
                                                         draggable: "false",
                                                         style: reaction.type !== 'emoji' && 'opacity: 0.5;',
-                                                        src: emoji(reaction.identifier).url,
+                                                        src: data.url,
                                                         width: "30px" }));
                                                 }
 
@@ -904,7 +904,7 @@ System.register('reflar/reactions/util/emoji', [], function (_export, _context) 
         var identifier = reactionOrIdentifier.identifier || reactionOrIdentifier;
         var item = emojione.emojioneList[':' + identifier + ':'];
         var uc = item && item.uc_base;
-        var url = uc && 'http://cdn.jsdelivr.net/emojione/assets/png/' + uc + '.png';
+        var url = uc && 'https://cdn.jsdelivr.net/emojione/assets/png/' + uc + '.png';
 
         return {
           identifier: identifier, uc: uc, url: url,

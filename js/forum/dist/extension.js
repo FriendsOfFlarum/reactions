@@ -999,7 +999,7 @@ System.register('reflar/reactions/util/emoji', [], function (_export, _context) 
         var identifier = reactionOrIdentifier.identifier || reactionOrIdentifier;
         var item = emojione.emojioneList[':' + identifier + ':'];
         var uc = item && item.uc_base;
-        var url = uc && 'http://cdn.jsdelivr.net/emojione/assets/png/' + uc + '.png';
+        var url = uc && 'https://cdn.jsdelivr.net/emojione/assets/png/' + uc + '.png';
 
         return {
           identifier: identifier, uc: uc, url: url,
