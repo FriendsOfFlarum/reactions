@@ -1,3 +1,4 @@
+import Alert from 'flarum/components/Alert';
 import Component from "flarum/Component";
 import ItemList from "flarum/utils/ItemList";
 import listItems from "flarum/helpers/listItems";
@@ -180,13 +181,17 @@ export default class PostReactAction extends Component {
              * need to add or remove the reaction from the current ones manually
              */
 
-            console.log(isReacted);
-            console.log(reaction);
-
-            if (isReacted) {
-              this.reacted[reaction].push(this.reaction);
+            if (!app.forum.attribute('ReactionConverts').includes(reaction)) {
+                if (isReacted) {
+                    this.reacted[reaction].push(this.reaction);
+                } else {
+                    this.reacted[identifier] = this.reacted[identifier].filter(r => r.user_id() != app.session.user.id());
+                }
             } else {
-              this.reacted[identifier] = this.reacted[identifier].filter(r => r.user_id() != app.session.user.id());
+                app.alerts.show(this.successAlert = new Alert({
+                    type: 'warning',
+                    children: app.translator.trans('reflar-reactions.forum.warning', {reaction})
+                }));
             }
 
             m.redraw();

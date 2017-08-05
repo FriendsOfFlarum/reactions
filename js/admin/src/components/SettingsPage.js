@@ -1,12 +1,22 @@
-// import Alert from 'flarum/components/Alert';
-import Page from 'flarum/components/Page';
+import Alert from 'flarum/components/Alert';
 import Button from "flarum/components/Button";
-import Select from "flarum/components/Select";
 import emoji from 'reflar/reactions/util/emoji';
+import Page from 'flarum/components/Page';
+import Select from "flarum/components/Select";
+import saveSettings from "flarum/utils/saveSettings";
 
 export default class SettingsPage extends Page {
 
     init() {
+
+        this.fields = [
+            'convertToUpvote',
+            'convertToDownvote',
+            'convertToLike'
+        ];
+
+        this.values = {};
+
         this.reactions = app.forum.attribute('reactions');
 
         this.settingsPrefix = 'reflar.reactions';
@@ -16,8 +26,11 @@ export default class SettingsPage extends Page {
         this.newReaction = {
             identifier: m.prop(''),
             type: m.prop('icon'),
-        }
+        };
 
+        this.fields.forEach(key =>
+            this.values[key] = m.prop(settings[this.addPrefix(key)])
+        );
     }
 
     /**
@@ -113,12 +126,66 @@ export default class SettingsPage extends Page {
                                 </div>
                             </div>
                         </fieldset>
+                        <fieldset className="SettingsPage-reactions">
+                            <div className="Reaction-settings">
+                                <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.legend')}</legend>
+                                <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.legend')}</legend>
+                                <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteLabel')}</label>
+                                <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')}</div>
+                                <input
+                                    className="FormControl reactions-settings-input"
+                                    value={this.values.convertToUpvote() || ''}
+                                    placeholder="thumbsup"
+                                    oninput={m.withAttr('value', this.values.convertToUpvote)}
+                                />
+                                <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteLabel')}</label>
+                                <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')}</div>
+                                <input
+                                    className="FormControl reactions-settings-input"
+                                    value={this.values.convertToDownvote() || ''}
+                                    placeholder="thumbsdown"
+                                    oninput={m.withAttr('value', this.values.convertToDownvote)}
+                                />
+                                <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.legend')}</legend>
+                                <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Label')}</label>
+                                <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Helptext')}</div>
+                                <input
+                                    className="FormControl reactions-settings-input"
+                                    value={this.values.convertToLike() || ''}
+                                    placeholder="thumbsup"
+                                    oninput={m.withAttr('value', this.values.convertToLike)}
+                                />
+                            </div>
+                            {this.values.convertToUpvote() && this.values.convertToLike() ? (
+                                <h3 className="Reactions-warning">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.warning')}</h3>
+                            ) : '' }
+                            {Button.component({
+                                type: 'submit',
+                                className: 'Button Button--primary',
+                                children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings'),
+                                loading: this.loading,
+                                disabled: !this.changed()
+                            })}
+                        </fieldset>
                     </form>
                 </div>
             </div>
         )
     }
 
+
+    /**
+     * @returns boolean
+     */
+    changed() {
+        var fieldsCheck = this.fields.some(key => this.values[key]() !== app.data.settings[this.addPrefix(key)]);
+        return fieldsCheck;
+    }
+
+    /**
+     *
+     * @param reaction
+     */
     addReaction(reaction) {
         app.request({
             method: 'POST',
@@ -187,6 +254,46 @@ export default class SettingsPage extends Page {
         })
     }
 
-    onsubmit(reaction) {
+    onsubmit(e) {
+        // prevent the usual form submit behaviour
+        e.preventDefault();
+
+        // if the page is already saving, do nothing
+        if (this.loading) return;
+
+        // prevents multiple savings
+        this.loading = true;
+
+        // remove previous success popup
+        app.alerts.dismiss(this.successAlert);
+
+        const settings = {};
+
+        // gets all the values from the form
+        this.fields.forEach(key => settings[this.addPrefix(key)] = this.values[key]());
+
+        // actually saves everything in the database
+        saveSettings(settings)
+            .then(() => {
+                // on success, show popup
+                app.alerts.show(this.successAlert = new Alert({
+                    type: 'success',
+                    children: app.translator.trans('core.admin.basics.saved_message')
+                }));
+            })
+            .catch(() => {
+            })
+            .then(() => {
+                // return to the initial state and redraw the page
+                this.loading = false;
+                m.redraw();
+            });
+    }
+
+    /**
+     * @returns string
+     */
+    addPrefix(key) {
+        return this.settingsPrefix + '.' + key;
     }
 }

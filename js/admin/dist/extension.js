@@ -596,21 +596,25 @@ System.register("reflar/reactions/addSettingsPage", ["flarum/extend", "flarum/co
     execute: function () {}
   };
 });;
-"use strict";
+'use strict';
 
-System.register("reflar/reactions/components/SettingsPage", ["flarum/components/Page", "flarum/components/Button", "flarum/components/Select", "reflar/reactions/util/emoji"], function (_export, _context) {
+System.register('reflar/reactions/components/SettingsPage', ['flarum/components/Alert', 'flarum/components/Button', 'reflar/reactions/util/emoji', 'flarum/components/Page', 'flarum/components/Select', 'flarum/utils/saveSettings'], function (_export, _context) {
     "use strict";
 
-    var Page, Button, Select, emoji, SettingsPage;
+    var Alert, Button, emoji, Page, Select, saveSettings, SettingsPage;
     return {
-        setters: [function (_flarumComponentsPage) {
-            Page = _flarumComponentsPage.default;
+        setters: [function (_flarumComponentsAlert) {
+            Alert = _flarumComponentsAlert.default;
         }, function (_flarumComponentsButton) {
             Button = _flarumComponentsButton.default;
-        }, function (_flarumComponentsSelect) {
-            Select = _flarumComponentsSelect.default;
         }, function (_reflarReactionsUtilEmoji) {
             emoji = _reflarReactionsUtilEmoji.default;
+        }, function (_flarumComponentsPage) {
+            Page = _flarumComponentsPage.default;
+        }, function (_flarumComponentsSelect) {
+            Select = _flarumComponentsSelect.default;
+        }, function (_flarumUtilsSaveSettings) {
+            saveSettings = _flarumUtilsSaveSettings.default;
         }],
         execute: function () {
             SettingsPage = function (_Page) {
@@ -622,8 +626,14 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
                 }
 
                 babelHelpers.createClass(SettingsPage, [{
-                    key: "init",
+                    key: 'init',
                     value: function init() {
+                        var _this2 = this;
+
+                        this.fields = ['convertToUpvote', 'convertToDownvote', 'convertToLike'];
+
+                        this.values = {};
+
                         this.reactions = app.forum.attribute('reactions');
 
                         this.settingsPrefix = 'reflar.reactions';
@@ -634,90 +644,94 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
                             identifier: m.prop(''),
                             type: m.prop('icon')
                         };
+
+                        this.fields.forEach(function (key) {
+                            return _this2.values[key] = m.prop(settings[_this2.addPrefix(key)]);
+                        });
                     }
                 }, {
-                    key: "view",
+                    key: 'view',
                     value: function view() {
-                        var _this2 = this;
+                        var _this3 = this;
 
                         return m(
-                            "div",
-                            { className: "SettingsPage" },
+                            'div',
+                            { className: 'SettingsPage' },
                             m(
-                                "div",
-                                { className: "container" },
+                                'div',
+                                { className: 'container' },
                                 m(
-                                    "form",
+                                    'form',
                                     { onsubmit: this.onsubmit.bind(this) },
                                     m(
-                                        "fieldset",
-                                        { className: "SettingsPage-reactions" },
+                                        'fieldset',
+                                        { className: 'SettingsPage-reactions' },
                                         m(
-                                            "legend",
+                                            'legend',
                                             null,
                                             app.translator.trans('reflar-reactions.admin.page.reactions.title')
                                         ),
                                         m(
-                                            "label",
+                                            'label',
                                             null,
                                             app.translator.trans('reflar-reactions.admin.page.reactions.reactions')
                                         ),
-                                        m("br", null),
+                                        m('br', null),
                                         m(
-                                            "div",
-                                            { className: "Reactions--Container" },
+                                            'div',
+                                            { className: 'Reactions--Container' },
                                             this.reactions.map(function (reaction) {
-                                                var spanClass = reaction.type === 'icon' && "fa fa-" + reaction.identifier + " Reactions-demo";
+                                                var spanClass = reaction.type === 'icon' && 'fa fa-' + reaction.identifier + ' Reactions-demo';
                                                 var data = emoji(reaction.identifier);
                                                 var demos = [];
 
                                                 if (reaction.type === 'icon') {
                                                     demos.push(m(
-                                                        "i",
-                                                        { className: spanClass, "aria-hidden": true },
-                                                        "\xA0"
+                                                        'i',
+                                                        { className: spanClass, 'aria-hidden': true },
+                                                        '\xA0'
                                                     ));
                                                 }
 
                                                 if (reaction.type === 'emoji' && data.uc || data.uc) {
-                                                    demos.push(m("img", {
+                                                    demos.push(m('img', {
                                                         alt: reaction.identifier,
-                                                        className: "Reactions-demo",
-                                                        draggable: "false",
+                                                        className: 'Reactions-demo',
+                                                        draggable: 'false',
                                                         style: reaction.type !== 'emoji' && 'opacity: 0.5;',
                                                         src: data.url,
-                                                        width: "30px" }));
+                                                        width: '30px' }));
                                                 }
 
                                                 return [m(
-                                                    "div",
+                                                    'div',
                                                     null,
-                                                    m("input", {
-                                                        className: "FormControl Reactions-identifier",
-                                                        type: "text",
+                                                    m('input', {
+                                                        className: 'FormControl Reactions-identifier',
+                                                        type: 'text',
                                                         value: reaction.identifier,
                                                         placeholder: app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier'),
-                                                        oninput: m.withAttr('value', _this2.updateIdentifier.bind(_this2, reaction)) }),
+                                                        oninput: m.withAttr('value', _this3.updateIdentifier.bind(_this3, reaction)) }),
                                                     Select.component({
                                                         options: { emoji: 'emoji', icon: 'icon' },
                                                         value: reaction.type,
-                                                        onchange: _this2.updateType.bind(_this2, reaction)
+                                                        onchange: _this3.updateType.bind(_this3, reaction)
                                                     }),
                                                     Button.component({
                                                         type: 'button',
                                                         className: 'Button Button--warning Reactions-button',
                                                         icon: 'times',
-                                                        onclick: _this2.deleteReaction.bind(_this2, reaction)
+                                                        onclick: _this3.deleteReaction.bind(_this3, reaction)
                                                     }),
                                                     demos
                                                 )];
                                             }),
                                             m(
-                                                "div",
+                                                'div',
                                                 null,
-                                                m("input", {
-                                                    className: "FormControl Reactions-identifier",
-                                                    type: "text",
+                                                m('input', {
+                                                    className: 'FormControl Reactions-identifier',
+                                                    type: 'text',
                                                     placeholder: app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier'),
                                                     oninput: m.withAttr('value', this.newReaction.identifier) }),
                                                 Select.component({
@@ -732,29 +746,122 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
                                                     onclick: this.addReaction.bind(this)
                                                 }),
                                                 this.newReaction.type() === 'icon' ? m(
-                                                    "i",
-                                                    { className: this.newReaction.type() === 'icon' && "fa fa-" + this.newReaction.identifier() + " Reactions-demo",
-                                                        "aria-hidden": true },
-                                                    "\xA0"
+                                                    'i',
+                                                    { className: this.newReaction.type() === 'icon' && 'fa fa-' + this.newReaction.identifier() + ' Reactions-demo',
+                                                        'aria-hidden': true },
+                                                    '\xA0'
                                                 ) : '',
-                                                this.newReaction.type() === 'emoji' && emoji(this.newReaction.identifier()).uc || emoji(this.newReaction.identifier()).uc ? m("img", {
+                                                this.newReaction.type() === 'emoji' && emoji(this.newReaction.identifier()).uc || emoji(this.newReaction.identifier()).uc ? m('img', {
                                                     alt: this.newReaction.identifier(),
-                                                    className: "Reactions-demo",
-                                                    draggable: "false",
+                                                    className: 'Reactions-demo',
+                                                    draggable: 'false',
                                                     style: this.newReaction.type() !== 'emoji' && 'opacity: 0.5;',
                                                     src: emoji(this.newReaction.identifier()).url,
-                                                    width: "30px" }) : ''
+                                                    width: '30px' }) : ''
                                             )
                                         )
+                                    ),
+                                    m(
+                                        'fieldset',
+                                        { className: 'SettingsPage-reactions' },
+                                        m(
+                                            'div',
+                                            { className: 'Reaction-settings' },
+                                            m(
+                                                'legend',
+                                                null,
+                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.legend')
+                                            ),
+                                            m(
+                                                'legend',
+                                                null,
+                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.legend')
+                                            ),
+                                            m(
+                                                'label',
+                                                null,
+                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteLabel')
+                                            ),
+                                            m(
+                                                'div',
+                                                { className: 'helpText' },
+                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')
+                                            ),
+                                            m('input', {
+                                                className: 'FormControl reactions-settings-input',
+                                                value: this.values.convertToUpvote() || '',
+                                                placeholder: 'thumbsup',
+                                                oninput: m.withAttr('value', this.values.convertToUpvote)
+                                            }),
+                                            m(
+                                                'label',
+                                                null,
+                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteLabel')
+                                            ),
+                                            m(
+                                                'div',
+                                                { className: 'helpText' },
+                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')
+                                            ),
+                                            m('input', {
+                                                className: 'FormControl reactions-settings-input',
+                                                value: this.values.convertToDownvote() || '',
+                                                placeholder: 'thumbsdown',
+                                                oninput: m.withAttr('value', this.values.convertToDownvote)
+                                            }),
+                                            m(
+                                                'legend',
+                                                null,
+                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.legend')
+                                            ),
+                                            m(
+                                                'label',
+                                                null,
+                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Label')
+                                            ),
+                                            m(
+                                                'div',
+                                                { className: 'helpText' },
+                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Helptext')
+                                            ),
+                                            m('input', {
+                                                className: 'FormControl reactions-settings-input',
+                                                value: this.values.convertToLike() || '',
+                                                placeholder: 'thumbsup',
+                                                oninput: m.withAttr('value', this.values.convertToLike)
+                                            })
+                                        ),
+                                        this.values.convertToUpvote() && this.values.convertToLike() ? m(
+                                            'h3',
+                                            { className: 'Reactions-warning' },
+                                            app.translator.trans('reflar-reactions.admin.page.settings.integrations.warning')
+                                        ) : '',
+                                        Button.component({
+                                            type: 'submit',
+                                            className: 'Button Button--primary',
+                                            children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings'),
+                                            loading: this.loading,
+                                            disabled: !this.changed()
+                                        })
                                     )
                                 )
                             )
                         );
                     }
                 }, {
-                    key: "addReaction",
+                    key: 'changed',
+                    value: function changed() {
+                        var _this4 = this;
+
+                        var fieldsCheck = this.fields.some(function (key) {
+                            return _this4.values[key]() !== app.data.settings[_this4.addPrefix(key)];
+                        });
+                        return fieldsCheck;
+                    }
+                }, {
+                    key: 'addReaction',
                     value: function addReaction(reaction) {
-                        var _this3 = this;
+                        var _this5 = this;
 
                         app.request({
                             method: 'POST',
@@ -764,19 +871,19 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
                                 type: this.newReaction.type()
                             }
                         }).then(function (response) {
-                            _this3.reactions.push({
+                            _this5.reactions.push({
                                 identifier: response.data.attributes.identifier,
                                 type: response.data.attributes.type,
                                 id: response.data.id
                             });
 
-                            _this3.newReaction.identifier('');
-                            _this3.newReaction.type('icon');
+                            _this5.newReaction.identifier('');
+                            _this5.newReaction.type('icon');
                             m.redraw();
                         });
                     }
                 }, {
-                    key: "updateIdentifier",
+                    key: 'updateIdentifier',
                     value: function updateIdentifier(reactionToUpdate, value) {
                         app.request({
                             method: 'PATCH',
@@ -793,7 +900,7 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
                         });
                     }
                 }, {
-                    key: "updateType",
+                    key: 'updateType',
                     value: function updateType(reactionToUpdate, value) {
                         app.request({
                             method: 'PATCH',
@@ -810,9 +917,9 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
                         });
                     }
                 }, {
-                    key: "deleteReaction",
+                    key: 'deleteReaction',
                     value: function deleteReaction(reactionToDelete) {
-                        var _this4 = this;
+                        var _this6 = this;
 
                         app.request({
                             method: 'DELETE',
@@ -820,19 +927,58 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
                         });
                         this.reactions.some(function (reaction, i) {
                             if (reaction.id === reactionToDelete.id) {
-                                _this4.reactions.splice(i, 1);
+                                _this6.reactions.splice(i, 1);
                                 return true;
                             }
                         });
                     }
                 }, {
-                    key: "onsubmit",
-                    value: function onsubmit(reaction) {}
+                    key: 'onsubmit',
+                    value: function onsubmit(e) {
+                        var _this7 = this;
+
+                        // prevent the usual form submit behaviour
+                        e.preventDefault();
+
+                        // if the page is already saving, do nothing
+                        if (this.loading) return;
+
+                        // prevents multiple savings
+                        this.loading = true;
+
+                        // remove previous success popup
+                        app.alerts.dismiss(this.successAlert);
+
+                        var settings = {};
+
+                        // gets all the values from the form
+                        this.fields.forEach(function (key) {
+                            return settings[_this7.addPrefix(key)] = _this7.values[key]();
+                        });
+
+                        // actually saves everything in the database
+                        saveSettings(settings).then(function () {
+                            // on success, show popup
+                            app.alerts.show(_this7.successAlert = new Alert({
+                                type: 'success',
+                                children: app.translator.trans('core.admin.basics.saved_message')
+                            }));
+                        }).catch(function () {}).then(function () {
+                            // return to the initial state and redraw the page
+                            _this7.loading = false;
+                            m.redraw();
+                        });
+                    }
+                }, {
+                    key: 'addPrefix',
+                    value: function addPrefix(key) {
+                        return this.settingsPrefix + '.' + key;
+                    }
                 }]);
                 return SettingsPage;
             }(Page);
 
-            _export("default", SettingsPage);
+            _export('default', SettingsPage);
         }
     };
 });;

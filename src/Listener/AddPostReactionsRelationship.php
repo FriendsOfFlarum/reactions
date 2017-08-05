@@ -25,10 +25,21 @@ use Flarum\Event\ConfigureApiController;
 use Flarum\Event\GetApiRelationship;
 use Flarum\Event\GetModelRelationship;
 use Flarum\Event\PrepareApiAttributes;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class AddPostReactionsRelationship
 {
+    /**
+     * @var SettingsRepositoryInterface
+     */
+    protected $settings;
+
+    public function __construct(SettingsRepositoryInterface $settings)
+    {
+        $this->settings = $settings;
+    }
+
     /**
      * @param Dispatcher $events
      */
@@ -74,6 +85,11 @@ class AddPostReactionsRelationship
         }
         if ($event->isSerializer(ForumSerializer::class)) {
             $event->attributes['reactions'] = Reaction::get();
+            $event->attributes['ReactionConverts'] = [
+                $this->settings->get('reflar.reactions.convertToUpvote'),
+                $this->settings->get('reflar.reactions.convertToDownvote'),
+                $this->settings->get('reflar.reactions.convertToLike')
+            ];
         }
     }
 
