@@ -46,13 +46,13 @@ export default class SettingsPage extends Page {
 
                                     if ((reaction.type === 'emoji' && data.uc) || data.uc) {
                                         demos.push(
-                                          <img
-                                            alt={reaction.identifier}
-                                            className="Reactions-demo"
-                                            draggable="false"
-                                            style={reaction.type !== 'emoji' && 'opacity: 0.5;'}
-                                            src={data.url}
-                                            width="30px"/>
+                                            <img
+                                                alt={reaction.identifier}
+                                                className="Reactions-demo"
+                                                draggable="false"
+                                                style={reaction.type !== 'emoji' && 'opacity: 0.5;'}
+                                                src={data.url}
+                                                width="30px"/>
                                         );
                                     }
 
@@ -88,7 +88,7 @@ export default class SettingsPage extends Page {
                                     {Select.component({
                                         options: {emoji: 'emoji', icon: 'icon'},
                                         value: this.newReaction.type(),
-                                        oninput: m.withAttr('value', this.newReaction.type),
+                                        onchange: this.newReaction.type,
                                     })}
                                     {Button.component({
                                         type: 'button',
@@ -96,6 +96,20 @@ export default class SettingsPage extends Page {
                                         icon: 'plus',
                                         onclick: this.addReaction.bind(this)
                                     })}
+                                    {(this.newReaction.type() === 'icon') ? (
+                                        <i className={this.newReaction.type() === 'icon' && `fa fa-${this.newReaction.identifier()} Reactions-demo`}
+                                           aria-hidden>&nbsp;</i>
+                                    ) : ''}
+
+                                    {((this.newReaction.type() === 'emoji' && emoji(this.newReaction.identifier()).uc) || emoji(this.newReaction.identifier()).uc) ? (
+                                        <img
+                                            alt={this.newReaction.identifier()}
+                                            className="Reactions-demo"
+                                            draggable="false"
+                                            style={this.newReaction.type() !== 'emoji' && 'opacity: 0.5;'}
+                                            src={emoji(this.newReaction.identifier()).url}
+                                            width="30px"/>
+                                    ) : ''}
                                 </div>
                             </div>
                         </fieldset>

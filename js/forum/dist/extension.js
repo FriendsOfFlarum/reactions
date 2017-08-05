@@ -662,7 +662,7 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/Componen
                   })
                 );
               } else if (reaction.type === 'icon') {
-                var spanClass = "fa fa-" + reaction.identifier;
+                var spanClass = "fa fa-" + reaction.identifier + " reaction-icon";
                 buttonLabel = m(
                   "span",
                   { className: "Button-label" },

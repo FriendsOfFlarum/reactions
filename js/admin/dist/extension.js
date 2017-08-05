@@ -723,14 +723,27 @@ System.register("reflar/reactions/components/SettingsPage", ["flarum/components/
                                                 Select.component({
                                                     options: { emoji: 'emoji', icon: 'icon' },
                                                     value: this.newReaction.type(),
-                                                    oninput: m.withAttr('value', this.newReaction.type)
+                                                    onchange: this.newReaction.type
                                                 }),
                                                 Button.component({
                                                     type: 'button',
                                                     className: 'Button Button--warning Reactions-button',
                                                     icon: 'plus',
                                                     onclick: this.addReaction.bind(this)
-                                                })
+                                                }),
+                                                this.newReaction.type() === 'icon' ? m(
+                                                    "i",
+                                                    { className: this.newReaction.type() === 'icon' && "fa fa-" + this.newReaction.identifier() + " Reactions-demo",
+                                                        "aria-hidden": true },
+                                                    "\xA0"
+                                                ) : '',
+                                                this.newReaction.type() === 'emoji' && emoji(this.newReaction.identifier()).uc || emoji(this.newReaction.identifier()).uc ? m("img", {
+                                                    alt: this.newReaction.identifier(),
+                                                    className: "Reactions-demo",
+                                                    draggable: "false",
+                                                    style: this.newReaction.type() !== 'emoji' && 'opacity: 0.5;',
+                                                    src: emoji(this.newReaction.identifier()).url,
+                                                    width: "30px" }) : ''
                                             )
                                         )
                                     )

@@ -41,7 +41,7 @@ export default class PostReactAction extends Component {
                     </span>
                 )
           } else if (reaction.type === 'icon') {
-              const spanClass = `fa fa-${reaction.identifier}`;
+              const spanClass = `fa fa-${reaction.identifier} reaction-icon`;
               buttonLabel = (
                   <span className="Button-label">
                     <i
