@@ -7,7 +7,7 @@ export default () => {
   extend(CommentPost.prototype, 'actionItems', function (items) {
     const post = this.props.post;
 
-    if (post.isHidden() || !post.canReact()) return;
+    if (post.isHidden()) return;
 
     // TODO Get actual reaction, not boolean
     const reaction = app.session.user && post.reactions().some(user => user === app.session.user);

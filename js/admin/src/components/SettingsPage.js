@@ -162,7 +162,7 @@ export default class SettingsPage extends Page {
                             {Button.component({
                                 type: 'submit',
                                 className: 'Button Button--primary',
-                                children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings'),
+                                children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings', {strong: <strong/>}),
                                 loading: this.loading,
                                 disabled: !this.changed()
                             })}

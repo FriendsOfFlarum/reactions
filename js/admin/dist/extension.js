@@ -839,7 +839,7 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                                         Button.component({
                                             type: 'submit',
                                             className: 'Button Button--primary',
-                                            children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings'),
+                                            children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings', { strong: m('strong', null) }),
                                             loading: this.loading,
                                             disabled: !this.changed()
                                         })

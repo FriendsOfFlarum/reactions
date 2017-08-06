@@ -2,6 +2,7 @@ import Alert from 'flarum/components/Alert';
 import Component from "flarum/Component";
 import ItemList from "flarum/utils/ItemList";
 import listItems from "flarum/helpers/listItems";
+import LogInModal from 'flarum/components/LogInModal';
 import emoji from 'reflar/reactions/util/emoji';
 
 export default class PostReactAction extends Component {
@@ -123,7 +124,7 @@ export default class PostReactAction extends Component {
                 const reaction = app.forum.attribute('reactions').filter(e => e.identifier === identifier)[0];
 
                 if (count === 0) return;
-                const spanClass = reaction.type === 'icon' && `fa fa-${reaction.identifier} emoji button-emoji`;
+                const spanClass = reaction.type === 'icon' && `fa fa-${reaction.identifier} emoji button-emoji reaction-icon`;
                 const icon = reaction.type === 'emoji' ? (
                   <img
                     alt={reaction.identifier}
@@ -158,6 +159,19 @@ export default class PostReactAction extends Component {
     }
 
     react(el) {
+
+        if (!app.session.user) {
+            app.modal.show(new LogInModal());
+            return;
+        }
+
+        if (!this.post.canReact()) {
+            app.alerts.show(this.successAlert = new Alert({
+                type: 'error',
+                children: app.translator.trans('core.lib.error.permission_denied_message')
+            }));
+        }
+
         let isReacted = true;
 
         if (typeof el === 'string') {

@@ -580,7 +580,7 @@ System.register('reflar/reactions/addReactionAction', ['flarum/extend', 'flarum/
         extend(CommentPost.prototype, 'actionItems', function (items) {
           var post = this.props.post;
 
-          if (post.isHidden() || !post.canReact()) return;
+          if (post.isHidden()) return;
 
           // TODO Get actual reaction, not boolean
           var reaction = app.session.user && post.reactions().some(function (user) {
@@ -598,10 +598,10 @@ System.register('reflar/reactions/addReactionAction', ['flarum/extend', 'flarum/
 });;
 "use strict";
 
-System.register("reflar/reactions/components/PostReactAction", ["flarum/components/Alert", "flarum/Component", "flarum/utils/ItemList", "flarum/helpers/listItems", "reflar/reactions/util/emoji"], function (_export, _context) {
+System.register("reflar/reactions/components/PostReactAction", ["flarum/components/Alert", "flarum/Component", "flarum/utils/ItemList", "flarum/helpers/listItems", "flarum/components/LogInModal", "reflar/reactions/util/emoji"], function (_export, _context) {
     "use strict";
 
-    var Alert, Component, ItemList, listItems, emoji, PostReactAction;
+    var Alert, Component, ItemList, listItems, LogInModal, emoji, PostReactAction;
     return {
         setters: [function (_flarumComponentsAlert) {
             Alert = _flarumComponentsAlert.default;
@@ -611,6 +611,8 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/componen
             ItemList = _flarumUtilsItemList.default;
         }, function (_flarumHelpersListItems) {
             listItems = _flarumHelpersListItems.default;
+        }, function (_flarumComponentsLogInModal) {
+            LogInModal = _flarumComponentsLogInModal.default;
         }, function (_reflarReactionsUtilEmoji) {
             emoji = _reflarReactionsUtilEmoji.default;
         }],
@@ -771,7 +773,7 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/componen
                                 })[0];
 
                                 if (count === 0) return;
-                                var spanClass = reaction.type === 'icon' && "fa fa-" + reaction.identifier + " emoji button-emoji";
+                                var spanClass = reaction.type === 'icon' && "fa fa-" + reaction.identifier + " emoji button-emoji reaction-icon";
                                 var icon = reaction.type === 'emoji' ? m("img", {
                                     alt: reaction.identifier,
                                     className: "emoji button-emoji",
@@ -806,6 +808,18 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/componen
                     key: "react",
                     value: function react(el) {
                         var _this5 = this;
+
+                        if (!app.session.user) {
+                            app.modal.show(new LogInModal());
+                            return;
+                        }
+
+                        if (!this.post.canReact()) {
+                            app.alerts.show(this.successAlert = new Alert({
+                                type: 'error',
+                                children: app.translator.trans('core.lib.error.permission_denied_message')
+                            }));
+                        }
 
                         var isReacted = true;
 
@@ -842,7 +856,7 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/componen
                             } else {
                                 app.alerts.show(_this5.successAlert = new Alert({
                                     type: 'warning',
-                                    children: app.translator.trans('reflar-reactions.forum.warning')
+                                    children: app.translator.trans('reflar-reactions.forum.warning', { reaction: reaction })
                                 }));
                             }
 
