@@ -17,7 +17,7 @@ reflar-reactions:
         save_settings: Save Settings
         integrations:
           legend: Integrations
-          warning: Reactions <strong>cannot</strong> be converted to likes <strong>upvotes</strong>
+          warning: The same reaction <strong>cannot</strong> be converted to a like <strong>and</strong> an upvote
           gamification:
             legend: Gamification
             upvoteLabel: Convert reactions to upvotes
@@ -29,3 +29,4 @@ reflar-reactions:
             legend: Likes
             Label: Convert reactions to likes
             Helptext: Input the identifier of the reaction you would like to automatically convert into an likes
+            
