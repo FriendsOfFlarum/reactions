@@ -15,7 +15,10 @@ export default class PostReactedNotification extends Notification {
     const identifier = notification.content();
     const user = notification.sender();
 
-    return `${username(user).children} reacted ${identifier} to your post`;
+    return app.translator.trans('reflar-reactions.forum.notification', {
+      username: user.username(),
+      reaction: identifier,
+    });
   }
 
   excerpt() {

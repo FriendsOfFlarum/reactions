@@ -1,6 +1,7 @@
 reflar-reactions:
   forum:
     warning: 'Your reaction was converted to a(n) {reaction}'
+    notification: '{username} reacted with {reaction} to your post'
 
   admin:
     nav:
@@ -29,4 +30,3 @@ reflar-reactions:
             legend: Likes
             Label: Convert reactions to likes
             Helptext: Input the identifier of the reaction you would like to automatically convert into an likes
-            
