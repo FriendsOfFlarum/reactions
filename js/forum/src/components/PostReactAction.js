@@ -195,17 +195,17 @@ export default class PostReactAction extends Component {
              * need to add or remove the reaction from the current ones manually
              */
 
-            if (!app.forum.attribute('ReactionConverts').includes(reaction)) {
+            if ((app.forum.data.relationships.ranks !== undefined && (app.forum.attribute('ReactionConverts')[0] === reaction || app.forum.attribute('ReactionConverts')[1] === reaction))  || (this.post.data.relationships.likes !== undefined && app.forum.attribute('ReactionConverts')[2] === reaction)) {
+                app.alerts.show(this.successAlert = new Alert({
+                    type: 'warning',
+                    children: app.translator.trans('reflar-reactions.forum.warning', {reaction})
+                }));
+            } else {
                 if (isReacted) {
                     this.reacted[reaction].push(this.reaction);
                 } else {
                     this.reacted[identifier] = this.reacted[identifier].filter(r => r.user_id() != app.session.user.id());
                 }
-            } else {
-                app.alerts.show(this.successAlert = new Alert({
-                    type: 'warning',
-                    children: app.translator.trans('reflar-reactions.forum.warning', {reaction})
-                }));
             }
 
             m.redraw();

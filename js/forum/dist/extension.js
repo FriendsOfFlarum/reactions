@@ -845,7 +845,12 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/componen
                              * need to add or remove the reaction from the current ones manually
                              */
 
-                            if (!app.forum.attribute('ReactionConverts').includes(reaction)) {
+                            if (app.forum.data.relationships.ranks !== undefined && (app.forum.attribute('ReactionConverts')[0] === reaction || app.forum.attribute('ReactionConverts')[1] === reaction) || _this5.post.data.relationships.likes !== undefined && app.forum.attribute('ReactionConverts')[2] === reaction) {
+                                app.alerts.show(_this5.successAlert = new Alert({
+                                    type: 'warning',
+                                    children: app.translator.trans('reflar-reactions.forum.warning', { reaction: reaction })
+                                }));
+                            } else {
                                 if (isReacted) {
                                     _this5.reacted[reaction].push(_this5.reaction);
                                 } else {
@@ -853,11 +858,6 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/componen
                                         return r.user_id() != app.session.user.id();
                                     });
                                 }
-                            } else {
-                                app.alerts.show(_this5.successAlert = new Alert({
-                                    type: 'warning',
-                                    children: app.translator.trans('reflar-reactions.forum.warning', { reaction: reaction })
-                                }));
                             }
 
                             m.redraw();
