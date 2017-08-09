@@ -676,6 +676,11 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                                             null,
                                             app.translator.trans('reflar-reactions.admin.page.reactions.reactions')
                                         ),
+                                        m(
+                                            'div',
+                                            { style: 'margin-bottom: -10px', className: 'helpText' },
+                                            app.translator.trans('reflar-reactions.admin.page.reactions.Helptext')
+                                        ),
                                         m('br', null),
                                         m(
                                             'div',
@@ -726,6 +731,7 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                                                     demos
                                                 )];
                                             }),
+                                            m('br', null),
                                             m(
                                                 'div',
                                                 null,
@@ -767,69 +773,77 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                                         m(
                                             'div',
                                             { className: 'Reaction-settings' },
-                                            m(
+                                            this.isEnabled('reflar-gamification') || this.isEnabled('flarum-likes') ? m(
                                                 'legend',
                                                 null,
                                                 app.translator.trans('reflar-reactions.admin.page.settings.integrations.legend')
-                                            ),
-                                            m(
-                                                'legend',
-                                                null,
-                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.legend')
-                                            ),
-                                            m(
-                                                'label',
-                                                null,
-                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteLabel')
-                                            ),
-                                            m(
+                                            ) : '',
+                                            this.isEnabled('reflar-gamification') ? m(
                                                 'div',
-                                                { className: 'helpText' },
-                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')
-                                            ),
-                                            m('input', {
-                                                className: 'FormControl reactions-settings-input',
-                                                value: this.values.convertToUpvote() || '',
-                                                placeholder: 'thumbsup',
-                                                oninput: m.withAttr('value', this.values.convertToUpvote)
-                                            }),
-                                            m(
-                                                'label',
                                                 null,
-                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteLabel')
-                                            ),
-                                            m(
+                                                m(
+                                                    'legend',
+                                                    null,
+                                                    app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.legend')
+                                                ),
+                                                m(
+                                                    'label',
+                                                    null,
+                                                    app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteLabel')
+                                                ),
+                                                m(
+                                                    'div',
+                                                    { className: 'helpText' },
+                                                    app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')
+                                                ),
+                                                m('input', {
+                                                    className: 'FormControl reactions-settings-input',
+                                                    value: this.values.convertToUpvote() || '',
+                                                    placeholder: 'thumbsup',
+                                                    oninput: m.withAttr('value', this.values.convertToUpvote)
+                                                }),
+                                                m(
+                                                    'label',
+                                                    null,
+                                                    app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteLabel')
+                                                ),
+                                                m(
+                                                    'div',
+                                                    { className: 'helpText' },
+                                                    app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')
+                                                ),
+                                                m('input', {
+                                                    className: 'FormControl reactions-settings-input',
+                                                    value: this.values.convertToDownvote() || '',
+                                                    placeholder: 'thumbsdown',
+                                                    oninput: m.withAttr('value', this.values.convertToDownvote)
+                                                })
+                                            ) : '',
+                                            this.isEnabled('flarum-likes') ? m(
                                                 'div',
-                                                { className: 'helpText' },
-                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')
-                                            ),
-                                            m('input', {
-                                                className: 'FormControl reactions-settings-input',
-                                                value: this.values.convertToDownvote() || '',
-                                                placeholder: 'thumbsdown',
-                                                oninput: m.withAttr('value', this.values.convertToDownvote)
-                                            }),
-                                            m(
-                                                'legend',
                                                 null,
-                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.legend')
-                                            ),
-                                            m(
-                                                'label',
-                                                null,
-                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Label')
-                                            ),
-                                            m(
-                                                'div',
-                                                { className: 'helpText' },
-                                                app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Helptext')
-                                            ),
-                                            m('input', {
-                                                className: 'FormControl reactions-settings-input',
-                                                value: this.values.convertToLike() || '',
-                                                placeholder: 'thumbsup',
-                                                oninput: m.withAttr('value', this.values.convertToLike)
-                                            })
+                                                m(
+                                                    'legend',
+                                                    null,
+                                                    app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.legend')
+                                                ),
+                                                m(
+                                                    'label',
+                                                    null,
+                                                    app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Label')
+                                                ),
+                                                m(
+                                                    'div',
+                                                    { className: 'helpText' },
+                                                    app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Helptext')
+                                                ),
+                                                m('input', {
+                                                    className: 'FormControl reactions-settings-input',
+                                                    value: this.values.convertToLike() || '',
+                                                    placeholder: 'thumbsup',
+                                                    oninput: m.withAttr('value', this.values.convertToLike)
+                                                })
+                                            ) : ''
                                         ),
                                         this.values.convertToUpvote() && this.values.convertToLike() ? m(
                                             'h3',
@@ -968,6 +982,13 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                             _this7.loading = false;
                             m.redraw();
                         });
+                    }
+                }, {
+                    key: 'isEnabled',
+                    value: function isEnabled(name) {
+                        var enabled = JSON.parse(app.data.settings.extensions_enabled);
+
+                        return enabled.indexOf(name) !== -1;
                     }
                 }, {
                     key: 'addPrefix',

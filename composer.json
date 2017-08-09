@@ -15,14 +15,15 @@
   "authors": [
     {
       "name": "David Sevilla Martín",
-      "email": "david@reflar.email",
+      "email": "dsevilla192@icloud.com",
       "homepage": "https://redevs.org",
       "role": "Developer"
     },
     {
       "name": "Charlie K",
       "email": "issyrocks12@reflar.email",
-      "homepage": "https://redevs.org"
+      "homepage": "https://redevs.org",
+      "role": "Developer"
     }
   ],
   "autoload": {

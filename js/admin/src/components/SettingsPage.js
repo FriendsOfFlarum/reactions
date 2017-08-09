@@ -44,6 +44,7 @@ export default class SettingsPage extends Page {
                         <fieldset className="SettingsPage-reactions">
                             <legend>{app.translator.trans('reflar-reactions.admin.page.reactions.title')}</legend>
                             <label>{app.translator.trans('reflar-reactions.admin.page.reactions.reactions')}</label>
+                            <div style="margin-bottom: -10px" className="helpText">{app.translator.trans('reflar-reactions.admin.page.reactions.Helptext')}</div>
                             <br/>
                             <div className="Reactions--Container">
                                 {this.reactions.map(reaction => {
@@ -92,6 +93,7 @@ export default class SettingsPage extends Page {
                                         </div>
                                     ]
                                 })}
+                                <br/>
                                 <div>
                                     <input
                                         className="FormControl Reactions-identifier"
@@ -128,33 +130,43 @@ export default class SettingsPage extends Page {
                         </fieldset>
                         <fieldset className="SettingsPage-reactions">
                             <div className="Reaction-settings">
-                                <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.legend')}</legend>
-                                <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.legend')}</legend>
-                                <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteLabel')}</label>
-                                <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')}</div>
-                                <input
-                                    className="FormControl reactions-settings-input"
-                                    value={this.values.convertToUpvote() || ''}
-                                    placeholder="thumbsup"
-                                    oninput={m.withAttr('value', this.values.convertToUpvote)}
-                                />
-                                <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteLabel')}</label>
-                                <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')}</div>
-                                <input
-                                    className="FormControl reactions-settings-input"
-                                    value={this.values.convertToDownvote() || ''}
-                                    placeholder="thumbsdown"
-                                    oninput={m.withAttr('value', this.values.convertToDownvote)}
-                                />
-                                <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.legend')}</legend>
-                                <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Label')}</label>
-                                <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Helptext')}</div>
-                                <input
-                                    className="FormControl reactions-settings-input"
-                                    value={this.values.convertToLike() || ''}
-                                    placeholder="thumbsup"
-                                    oninput={m.withAttr('value', this.values.convertToLike)}
-                                />
+                                {this.isEnabled('reflar-gamification') || this.isEnabled('flarum-likes') ? (
+                                    <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.legend')}</legend>
+                                ) : ''}
+                                {this.isEnabled('reflar-gamification') ? (
+                                        <div>
+                                            <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.legend')}</legend>
+                                            <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteLabel')}</label>
+                                            <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')}</div>
+                                            <input
+                                                className="FormControl reactions-settings-input"
+                                                value={this.values.convertToUpvote() || ''}
+                                                placeholder="thumbsup"
+                                                oninput={m.withAttr('value', this.values.convertToUpvote)}
+                                            />
+                                            <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteLabel')}</label>
+                                            <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')}</div>
+                                            <input
+                                                className="FormControl reactions-settings-input"
+                                                value={this.values.convertToDownvote() || ''}
+                                                placeholder="thumbsdown"
+                                                oninput={m.withAttr('value', this.values.convertToDownvote)}
+                                            />
+                                        </div>
+                                    ) : ''}
+                                {this.isEnabled('flarum-likes') ? (
+                                    <div>
+                                        <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.legend')}</legend>
+                                        <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Label')}</label>
+                                        <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Helptext')}</div>
+                                        <input
+                                            className="FormControl reactions-settings-input"
+                                            value={this.values.convertToLike() || ''}
+                                            placeholder="thumbsup"
+                                            oninput={m.withAttr('value', this.values.convertToLike)}
+                                        />
+                                    </div>
+                                ) : ''}
                             </div>
                             {this.values.convertToUpvote() && this.values.convertToLike() ? (
                                 <h3 className="Reactions-warning">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.warning')}</h3>
@@ -288,6 +300,12 @@ export default class SettingsPage extends Page {
                 this.loading = false;
                 m.redraw();
             });
+    }
+
+    isEnabled(name) {
+        const enabled = JSON.parse(app.data.settings.extensions_enabled);
+
+        return enabled.indexOf(name) !== -1;
     }
 
     /**

@@ -1,6 +1,6 @@
 reflar-reactions:
   forum:
-    warning: 'Tu reacción fue convertida'
+    warning: Tu reacción fue convertida
     notification: '{username} reaccionó con {reaction} a tu post'
 
   admin:
@@ -11,6 +11,7 @@ reflar-reactions:
       reactions:
         title: Reacciones Personalizadas
          reactions: Reacciones Actuales
+         Helptext: Escribe el nombre (identificador) del emoji de FontAwesome y selecciona qué tipo te gustaría.
          help:
            identifier: Identificador
 
