@@ -9,6 +9,7 @@
     "reactions"
   ],
   "type": "flarum-extension",
+  "license": "MIT",
   "require": {
     "flarum/core": "^0.1.0-beta-7"
   },
