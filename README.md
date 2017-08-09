@@ -20,7 +20,7 @@ composer require reflar/reactions
 
 Then login and enable the extension.
 
-You can optionally convert a specific reactions into likes, upvotes, and downvotes.
+You can optionally convert specific reactions into likes, upvotes, and downvotes.
 
 ### Developer Guide
 
