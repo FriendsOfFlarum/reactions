@@ -1,7 +1,7 @@
 reflar-reactions:
   forum:
     warning: Tu reacción fue convertida
-    notification: '{username} reaccionó con {reaction} a tu post'
+    notification: '{username} reaccionó con {reaction} a tu publicación'
 
   admin:
     nav:
@@ -9,25 +9,25 @@ reflar-reactions:
 
     page:
       reactions:
-        title: Reacciones Personalizadas
-         reactions: Reacciones Actuales
+        title: Reacciones personalizadas
+         reactions: Reacciones actuales
          Helptext: Escribe el nombre (identificador) del emoji de FontAwesome y selecciona qué tipo te gustaría.
          help:
            identifier: Identificador
 
       settings:
-        save_settings: Guardar Ajustes
+        save_settings: Guardar ajustes
         integrations:
           legend: Integraciones
-          warning: La misma reacción <strong>no</strong> puede ser convertida a un like <strong>y</strong> a un voto positivo
+          warning: La misma reacción <strong>no</strong> puede ser convertida a un like <strong>y además</strong> a un voto positivo
           gamification:
-             legend: Gamification
-            upvoteLabel: Convertir reacciones a votos positivos.
-            upvoteHelptext: Entre el identificador de la reacción que tú quieres que se converta automaticamente en un voto positivo
-            downvoteLabel: Convertir reacciones a votos negativos.
-            downvoteHelptext: Entre el identificador de la reacción que tú quieres que se converta automaticamente en un voto negativo
+             legend: Gamificación
+            upvoteLabel: Convertir reacciones a votos positivos
+            upvoteHelptext: Escribe el identificador de la reacción que desees convertir a un voto positivo
+            downvoteLabel: Convertir reacciones a votos negativos
+            downvoteHelptext:  Escribe el identificador de la reacción que desees convertir a un voto negativo
 
           likes:
-            legend: Gustos
+            legend: Likes
             Label: Convertir reacciones a likes
-            Helptext: Entre el identificador de la reacción que tú quieres que se converta automaticamente en un like
+            Helptext: Escribe el identificador de la reacción que desees convertir en un like
