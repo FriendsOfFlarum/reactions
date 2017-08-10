@@ -582,7 +582,6 @@ System.register('reflar/reactions/addReactionAction', ['flarum/extend', 'flarum/
 
           if (post.isHidden()) return;
 
-          // TODO Get actual reaction, not boolean
           var reaction = app.session.user && post.reactions().some(function (user) {
             return user === app.session.user;
           });
@@ -635,10 +634,8 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/componen
                                 $('.CommentPost--Reactions').toggleClass('Reactions--Show');
                             });
                         } else {
-                            $('.Reactions--ShowReactions').hover(function () {
-                                $(this).find('.CommentPost--Reactions').addClass('Reactions--Show');
-                            }, function () {
-                                $(this).find('.CommentPost--Reactions').removeClass('Reactions--Show');
+                            $('.Reactions--ShowReactions').unbind().click(function () {
+                                $(this).find('.CommentPost--Reactions').toggleClass('Reactions--Show');
                             });
                         }
                     }
