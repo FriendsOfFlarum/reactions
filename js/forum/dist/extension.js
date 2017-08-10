@@ -634,8 +634,12 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/componen
                                 $('.CommentPost--Reactions').toggleClass('Reactions--Show');
                             });
                         } else {
-                            $('.Reactions--ShowReactions').unbind().click(function () {
-                                $(this).find('.CommentPost--Reactions').toggleClass('Reactions--Show');
+                            $('.Reactions--ShowReactions').unbind().hover(function () {
+                                console.log('hi');
+                                $(this).find('.CommentPost--Reactions').addClass('Reactions--Show');
+                                m.redraw();
+                            }, function () {
+                                $(this).find('.CommentPost--Reactions').removeClass('Reactions--Show');
                             });
                         }
                     }

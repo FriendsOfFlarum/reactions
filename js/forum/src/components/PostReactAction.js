@@ -15,8 +15,12 @@ export default class PostReactAction extends Component {
                 $('.CommentPost--Reactions').toggleClass('Reactions--Show');
             });
         } else {
-            $('.Reactions--ShowReactions').unbind().click(function () {
-                $(this).find('.CommentPost--Reactions').toggleClass('Reactions--Show');
+            $('.Reactions--ShowReactions').unbind().hover(function () {
+                console.log('hi');
+                $(this).find('.CommentPost--Reactions').addClass('Reactions--Show');
+                m.redraw();
+            }, function () {
+                $(this).find('.CommentPost--Reactions').removeClass('Reactions--Show');
             });
         }
     }
@@ -25,9 +29,9 @@ export default class PostReactAction extends Component {
         const items = new ItemList();
 
         app.forum.attribute('reactions').forEach(reaction => {
-            let buttonLabel;
+          let buttonLabel;
 
-            if (reaction.type === 'emoji') {
+          if (reaction.type === 'emoji') {
                 const url = this.names[reaction.identifier];
                 buttonLabel = (
                     <span className="Button-label">
@@ -40,30 +44,30 @@ export default class PostReactAction extends Component {
                         />
                     </span>
                 )
-            } else if (reaction.type === 'icon') {
-                const spanClass = `fa fa-${reaction.identifier} reaction-icon`;
-                buttonLabel = (
-                    <span className="Button-label">
+          } else if (reaction.type === 'icon') {
+              const spanClass = `fa fa-${reaction.identifier} reaction-icon`;
+              buttonLabel = (
+                  <span className="Button-label">
                     <i
-                        className={spanClass}
-                        data-reaction={reaction.identifier}
-                        aria-hidden
+                      className={spanClass}
+                      data-reaction={reaction.identifier}
+                      aria-hidden
                     ></i>
                   </span>
-                )
-            }
+              )
+          }
 
-            items.add(reaction.identifier, (
-                <button
-                    className="Button Button--link"
-                    type="button"
-                    title={reaction.identifier}
-                    onclick={el => this.react(el)}
-                    data-reaction={reaction.identifier}
-                >
-                    {buttonLabel}
-                </button>
-            ))
+          items.add(reaction.identifier, (
+            <button
+              className="Button Button--link"
+              type="button"
+              title={reaction.identifier}
+              onclick={el => this.react(el)}
+              data-reaction={reaction.identifier}
+            >
+              {buttonLabel}
+            </button>
+          ))
         });
 
         return items;
@@ -79,28 +83,28 @@ export default class PostReactAction extends Component {
 
 
         app.forum.attribute('reactions').forEach(reaction => {
-            this.names[reaction.identifier] = emoji(reaction.identifier).url;
-            this.reacted[reaction.identifier] = [];
+          this.names[reaction.identifier] = emoji(reaction.identifier).url;
+          this.reacted[reaction.identifier] = [];
         });
 
         const reactions = this.post.reactions();
 
         Object.keys(this.names).forEach(reaction => {
-            this.reacted[reaction] = reactions.filter(e => e.identifier() === reaction);
+          this.reacted[reaction] = reactions.filter(e => e.identifier() === reaction);
         });
     }
 
     view() {
         return (
             <button
-                className="Button Button--link Reactions--ShowReactions"
-                type="Button"
-                title="React">
+              className="Button Button--link Reactions--ShowReactions"
+              type="Button"
+              title="React">
 
               <span className="Button-label" style={this.reaction ? 'display: none' : 'display:'}>
                 <svg class="button-react" width="20px" height="20px" viewBox="0 0 18 18">
                   /* Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch */
-                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <g id="ic_reactions_grey_16px">
                       <g id="Group-2">
                         <g id="0:0:0:0">
@@ -117,41 +121,41 @@ export default class PostReactAction extends Component {
                 </svg>
               </span>
 
-                {Object.keys(this.reacted).map(identifier => {
-                    const count = this.reacted[identifier].length;
-                    const reaction = app.forum.attribute('reactions').filter(e => e.identifier === identifier)[0];
+              {Object.keys(this.reacted).map(identifier => {
+                const count = this.reacted[identifier].length;
+                const reaction = app.forum.attribute('reactions').filter(e => e.identifier === identifier)[0];
 
-                    if (count === 0) return;
-                    const spanClass = reaction.type === 'icon' && `fa fa-${reaction.identifier} emoji button-emoji reaction-icon`;
-                    const icon = reaction.type === 'emoji' ? (
-                        <img
-                            alt={reaction.identifier}
-                            className="emoji button-emoji"
-                            draggable="false"
-                            src={emoji(reaction.identifier).url}
-                            data-reaction={identifier}
-                        />
-                    ) : (
-                        <i
-                            className={spanClass}
-                            data-reaction={identifier}
-                            aria-hidden />
-                    );
-                    return [
-                        <span className="Button-label" onclick={el => this.react(this.reaction ? identifier : el)} data-reaction={identifier}>
+                if (count === 0) return;
+                const spanClass = reaction.type === 'icon' && `fa fa-${reaction.identifier} emoji button-emoji reaction-icon`;
+                const icon = reaction.type === 'emoji' ? (
+                  <img
+                    alt={reaction.identifier}
+                    className="emoji button-emoji"
+                    draggable="false"
+                    src={emoji(reaction.identifier).url}
+                    data-reaction={identifier}
+                  />
+                ) : (
+                    <i
+                        className={spanClass}
+                        data-reaction={identifier}
+                        aria-hidden />
+                );
+                return [
+                  <span className="Button-label" onclick={el => this.react(this.reaction ? identifier : el)} data-reaction={identifier}>
                     {icon}
-                            {count > 1 ? count : ''}
+                    {count > 1 ? count : ''}
                   </span>
-                    ]
-                })}
+                ]
+              })}
 
-                {!this.reaction ? (
-                    <div className="CommentPost--Reactions">
-                        <ul className="Reactions--Ul">
-                            {listItems(this.getReactions().toArray())}
-                        </ul>
-                    </div>
-                ) : null}
+              {!this.reaction ? (
+                <div className="CommentPost--Reactions">
+                  <ul className="Reactions--Ul">
+                    {listItems(this.getReactions().toArray())}
+                  </ul>
+                </div>
+              ) : null}
             </button>
         );
     }
@@ -183,31 +187,31 @@ export default class PostReactAction extends Component {
         }
 
         this.post.save({reaction})
-            .then(() => {
-                const identifier = this.reaction && this.reaction.identifier();
-                this.reaction = this.post.reactions().filter(r => r.user_id() == app.session.user.data.id)[0];
+          .then(() => {
+            const identifier = this.reaction && this.reaction.identifier();
+            this.reaction = this.post.reactions().filter(r => r.user_id() == app.session.user.data.id)[0];
 
-                /**
-                 * We've saved the fact that we have or haven't reacted to the post,
-                 * but in order to provide instantaneous feedback to the user, we'll
-                 * need to add or remove the reaction from the current ones manually
-                 */
+            /**
+             * We've saved the fact that we have or haven't reacted to the post,
+             * but in order to provide instantaneous feedback to the user, we'll
+             * need to add or remove the reaction from the current ones manually
+             */
 
-                if ((app.forum.data.relationships.ranks !== undefined && (app.forum.attribute('ReactionConverts')[0] === reaction || app.forum.attribute('ReactionConverts')[1] === reaction))  || (this.post.data.relationships.likes !== undefined && app.forum.attribute('ReactionConverts')[2] === reaction)) {
-                    app.alerts.show(this.successAlert = new Alert({
-                        type: 'warning',
-                        children: app.translator.trans('reflar-reactions.forum.warning', {reaction})
-                    }));
+            if ((app.forum.data.relationships.ranks !== undefined && (app.forum.attribute('ReactionConverts')[0] === reaction || app.forum.attribute('ReactionConverts')[1] === reaction))  || (this.post.data.relationships.likes !== undefined && app.forum.attribute('ReactionConverts')[2] === reaction)) {
+                app.alerts.show(this.successAlert = new Alert({
+                    type: 'warning',
+                    children: app.translator.trans('reflar-reactions.forum.warning', {reaction})
+                }));
+            } else {
+                if (isReacted) {
+                    this.reacted[reaction].push(this.reaction);
                 } else {
-                    if (isReacted) {
-                        this.reacted[reaction].push(this.reaction);
-                    } else {
-                        this.reacted[identifier] = this.reacted[identifier].filter(r => r.user_id() != app.session.user.id());
-                    }
+                    this.reacted[identifier] = this.reacted[identifier].filter(r => r.user_id() != app.session.user.id());
                 }
+            }
 
-                m.redraw();
-            })
-            .catch(err => $('body').append(err));
+            m.redraw();
+          })
+          .catch(err => $('body').append(err));
     }
 }
