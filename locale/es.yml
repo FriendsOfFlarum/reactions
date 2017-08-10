@@ -4,6 +4,9 @@ reflar-reactions:
     notification: '{username} reaccionó con {reaction} a tu publicación'
 
   admin:
+    permissions:
+        react_posts_label: Reaccionar a publicaciones
+
     nav:
       desc: Añade reacciones personalizadas y cambia la configuración.
 
