@@ -630,16 +630,10 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/componen
                         if (isInitialized) return;
 
                         if (!!('ontouchstart' in window)) {
-                            $('.button-react').on('touchend', function () {
-                                $('.CommentPost--Reactions').toggleClass('Reactions--Show');
-                            });
-                        } else {
-                            $('.Reactions--ShowReactions').unbind().hover(function () {
+                            console.log('hi1');
+                            $('.Reactions').on('touchend', function () {
                                 console.log('hi');
-                                $(this).find('.CommentPost--Reactions').addClass('Reactions--Show');
-                                m.redraw();
-                            }, function () {
-                                $(this).find('.CommentPost--Reactions').removeClass('Reactions--Show');
+                                $('.CommentPost--Reactions').toggleClass('mobile-show');
                             });
                         }
                     }
@@ -729,6 +723,51 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/componen
                         var _this4 = this;
 
                         return m(
+                            "div",
+                            { className: "Reactions" },
+                            this.reactButton(),
+                            Object.keys(this.reacted).map(function (identifier) {
+                                var count = _this4.reacted[identifier].length;
+                                var reaction = app.forum.attribute('reactions').filter(function (e) {
+                                    return e.identifier === identifier;
+                                })[0];
+
+                                if (count === 0) return;
+                                var spanClass = reaction.type === 'icon' && "fa fa-" + reaction.identifier + " emoji button-emoji reaction-icon";
+                                var icon = reaction.type === 'emoji' ? m("img", {
+                                    alt: reaction.identifier,
+                                    className: "emoji button-emoji",
+                                    draggable: "false",
+                                    src: emoji(reaction.identifier).url,
+                                    "data-reaction": identifier
+                                }) : m("i", {
+                                    className: spanClass,
+                                    "data-reaction": identifier,
+                                    "aria-hidden": true });
+                                return [m(
+                                    "span",
+                                    { className: "Button-label", onclick: function onclick(el) {
+                                            return _this4.react(_this4.reaction ? identifier : el);
+                                        }, "data-reaction": identifier },
+                                    icon,
+                                    count > 1 ? count : ''
+                                )];
+                            }),
+                            !this.reaction ? m(
+                                "div",
+                                { className: "CommentPost--Reactions" },
+                                m(
+                                    "ul",
+                                    { className: "Reactions--Ul" },
+                                    listItems(this.getReactions().toArray())
+                                )
+                            ) : null
+                        );
+                    }
+                }, {
+                    key: "reactButton",
+                    value: function reactButton() {
+                        return m(
                             "button",
                             {
                                 className: "Button Button--link Reactions--ShowReactions",
@@ -766,43 +805,7 @@ System.register("reflar/reactions/components/PostReactAction", ["flarum/componen
                                         )
                                     )
                                 )
-                            ),
-                            Object.keys(this.reacted).map(function (identifier) {
-                                var count = _this4.reacted[identifier].length;
-                                var reaction = app.forum.attribute('reactions').filter(function (e) {
-                                    return e.identifier === identifier;
-                                })[0];
-
-                                if (count === 0) return;
-                                var spanClass = reaction.type === 'icon' && "fa fa-" + reaction.identifier + " emoji button-emoji reaction-icon";
-                                var icon = reaction.type === 'emoji' ? m("img", {
-                                    alt: reaction.identifier,
-                                    className: "emoji button-emoji",
-                                    draggable: "false",
-                                    src: emoji(reaction.identifier).url,
-                                    "data-reaction": identifier
-                                }) : m("i", {
-                                    className: spanClass,
-                                    "data-reaction": identifier,
-                                    "aria-hidden": true });
-                                return [m(
-                                    "span",
-                                    { className: "Button-label", onclick: function onclick(el) {
-                                            return _this4.react(_this4.reaction ? identifier : el);
-                                        }, "data-reaction": identifier },
-                                    icon,
-                                    count > 1 ? count : ''
-                                )];
-                            }),
-                            !this.reaction ? m(
-                                "div",
-                                { className: "CommentPost--Reactions" },
-                                m(
-                                    "ul",
-                                    { className: "Reactions--Ul" },
-                                    listItems(this.getReactions().toArray())
-                                )
-                            ) : null
+                            )
                         );
                     }
                 }, {

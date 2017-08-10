@@ -1,34 +1,47 @@
-.CommentPost--Reactions {
+.item-react {
+  vertical-align: -0.71em !important;
+}
 
+.Reactions--ShowReactions {
+  padding: 0px;
+  margin-bottom: -2px;
+  margin-right: 8px;
+}
+
+.CommentPost--Reactions {
   background-color: @body-bg;
   color: @text-color;
-  text-align: center;
   border-radius: 6px;
   padding: 7.5px 2px;
-  margin-left: 50%;
-  left: -75%;
   bottom: 100%;
+  visibility: hidden;
   opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms;
+  left: -20%;
+
+  @media(min-width: 400px) {
+    width: 270px;
+  }
+
+  @media(max-width: 399px) {
+    width: 90%;
+    margin: auto;
+  }
+
+  max-width: 270px;
+  margin-left: 53px;
   height: auto !important;
   overflow: hidden;
-  transition: opacity 0.3s ease-in;
-  transition: opacity 0.5s ease-out;
-
 
   /* Position the tooltip */
   position: absolute;
   z-index: 1;
 
-  &.Reactions--Show {
-    opacity: 1;
-    height: auto !important;
-  }
-
   border-radius: 4px;
   -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 2;
 
   ul {
     padding: 0;
@@ -36,6 +49,8 @@
 
     li {
       display: inline-block;
+      margin-top: 3px;
+      margin-bottom: 3px;
 
       button {
         padding: 1px 7.5px
@@ -44,9 +59,14 @@
   }
 }
 
+.Reactions:hover .CommentPost--Reactions {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms;
+}
+
 .button-emoji {
   margin: auto !important;
-  vertical-align: inherit !important;
 }
 
 .Button-label {
@@ -54,5 +74,12 @@
 }
 
 .reaction-icon {
-  font-size: 17.5px;
+  font-size: 18px;
+  margin-left: 2px;
+}
+
+.mobile-show {
+  opacity: 1;
+  visibility: visible;
+  transition: visibility 0s linear 0s, opacity 300ms;
 }

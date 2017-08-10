@@ -7,23 +7,19 @@ import emoji from 'reflar/reactions/util/emoji';
 
 export default class PostReactAction extends Component {
 
+
     config(isInitialized) {
         if (isInitialized) return;
 
         if(!!('ontouchstart' in window)) {
-            $('.button-react').on('touchend', function() {
-                $('.CommentPost--Reactions').toggleClass('Reactions--Show');
-            });
-        } else {
-            $('.Reactions--ShowReactions').unbind().hover(function () {
+            console.log('hi1');
+            $('.Reactions').on('touchend', function() {
                 console.log('hi');
-                $(this).find('.CommentPost--Reactions').addClass('Reactions--Show');
-                m.redraw();
-            }, function () {
-                $(this).find('.CommentPost--Reactions').removeClass('Reactions--Show');
+                $('.CommentPost--Reactions').toggleClass('mobile-show');
             });
         }
     }
+
 
     getReactions() {
         const items = new ItemList();
@@ -96,11 +92,51 @@ export default class PostReactAction extends Component {
 
     view() {
         return (
-            <button
-              className="Button Button--link Reactions--ShowReactions"
-              type="Button"
-              title="React">
+          <div className="Reactions">
+          {this.reactButton()}
+          {Object.keys(this.reacted).map(identifier => {
+              const count = this.reacted[identifier].length;
+              const reaction = app.forum.attribute('reactions').filter(e => e.identifier === identifier)[0];
 
+              if (count === 0) return;
+              const spanClass = reaction.type === 'icon' && `fa fa-${reaction.identifier} emoji button-emoji reaction-icon`;
+              const icon = reaction.type === 'emoji' ? (
+                <img
+                  alt={reaction.identifier}
+                  className="emoji button-emoji"
+                  draggable="false"
+                  src={emoji(reaction.identifier).url}
+                  data-reaction={identifier}
+                />
+              ) : (
+                  <i
+                      className={spanClass}
+                      data-reaction={identifier}
+                      aria-hidden />
+              );
+              return [
+                <span className="Button-label" onclick={el => this.react(this.reaction ? identifier : el)} data-reaction={identifier}>
+                  {icon}
+                  {count > 1 ? count : ''}
+                </span>
+              ]
+            })}
+            {!this.reaction ? (
+              <div className="CommentPost--Reactions">
+                <ul className="Reactions--Ul">
+                  {listItems(this.getReactions().toArray())}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+      );
+    }
+
+    reactButton() {
+      return <button
+        className="Button Button--link Reactions--ShowReactions"
+        type="Button"
+        title="React">
               <span className="Button-label" style={this.reaction ? 'display: none' : 'display:'}>
                 <svg class="button-react" width="20px" height="20px" viewBox="0 0 18 18">
                   /* Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch */
@@ -120,44 +156,7 @@ export default class PostReactAction extends Component {
                   </g>
                 </svg>
               </span>
-
-              {Object.keys(this.reacted).map(identifier => {
-                const count = this.reacted[identifier].length;
-                const reaction = app.forum.attribute('reactions').filter(e => e.identifier === identifier)[0];
-
-                if (count === 0) return;
-                const spanClass = reaction.type === 'icon' && `fa fa-${reaction.identifier} emoji button-emoji reaction-icon`;
-                const icon = reaction.type === 'emoji' ? (
-                  <img
-                    alt={reaction.identifier}
-                    className="emoji button-emoji"
-                    draggable="false"
-                    src={emoji(reaction.identifier).url}
-                    data-reaction={identifier}
-                  />
-                ) : (
-                    <i
-                        className={spanClass}
-                        data-reaction={identifier}
-                        aria-hidden />
-                );
-                return [
-                  <span className="Button-label" onclick={el => this.react(this.reaction ? identifier : el)} data-reaction={identifier}>
-                    {icon}
-                    {count > 1 ? count : ''}
-                  </span>
-                ]
-              })}
-
-              {!this.reaction ? (
-                <div className="CommentPost--Reactions">
-                  <ul className="Reactions--Ul">
-                    {listItems(this.getReactions().toArray())}
-                  </ul>
-                </div>
-              ) : null}
-            </button>
-        );
+      </button>
     }
 
     react(el) {
