@@ -38,7 +38,7 @@ export default class PostReactAction extends Component {
               alt={reaction.identifier}
               className={reaction.type}
               draggable='false'
-              src={url}s
+              src={url}
               data-reaction={reaction.identifier}
                         />
           </span>
@@ -94,7 +94,7 @@ export default class PostReactAction extends Component {
 
   view () {
     return (
-      <div className='Reactions' id='Reactions'>
+      <div className='Reactions'>
         {this.reactButton()}
         {Object.keys(this.reacted).map(identifier => {
           const count = this.reacted[identifier].length

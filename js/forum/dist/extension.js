@@ -642,7 +642,6 @@ System.register('reflar/reactions/components/PostReactAction', ['flarum/componen
                     className: reaction.type,
                     draggable: 'false',
                     src: url,
-                    s: true,
                     'data-reaction': reaction.identifier
                   })
                 )
@@ -710,7 +709,7 @@ System.register('reflar/reactions/components/PostReactAction', ['flarum/componen
 
             return m(
               'div',
-              { className: 'Reactions', id: 'Reactions' },
+              { className: 'Reactions' },
               this.reactButton(),
               Object.keys(this.reacted).map(function (identifier) {
                 var count = _this4.reacted[identifier].length
