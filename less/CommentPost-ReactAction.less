@@ -4,8 +4,15 @@
 
 .Reactions--ShowReactions {
   padding: 0px;
-  margin-bottom: -2px;
   margin-right: 8px;
+  margin-top: 9px;
+  float: right;
+}
+
+#Reactions {
+  @media(mix-width: 767px) {
+    width: 200px;
+  }
 }
 
 .CommentPost--Reactions {
@@ -17,19 +24,7 @@
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s linear 300ms, opacity 300ms;
-  left: -20%;
-
-  @media(min-width: 400px) {
-    width: 270px;
-  }
-
-  @media(max-width: 399px) {
-    width: 90%;
-    margin: auto;
-  }
-
   max-width: 270px;
-  margin-left: 53px;
   height: auto !important;
   overflow: hidden;
 
@@ -69,13 +64,18 @@
   margin: auto !important;
 }
 
+.Button-emoji-parent {
+  float: right;
+  margin-top: 8px;
+}
+
 .Button-label {
   margin-left: 7px !important;
 }
 
 .reaction-icon {
   font-size: 18px;
-  margin-left: 2px;
+  margin: 1px 0px 0px 2px !important;
 }
 
 .mobile-show {

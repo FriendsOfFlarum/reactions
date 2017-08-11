@@ -9,9 +9,17 @@ export default class PostReactAction extends Component {
   config (isInitialized) {
     if (isInitialized) return
 
+    var didTap = false
+
     if ('ontouchstart' in window) {
-      $('.Reactions').on('touchend', function () {
-        $('.CommentPost--Reactions').toggleClass('mobile-show')
+      $('.Reactions').unbind().on('touchend', function () {
+        $(this).find('.CommentPost--Reactions').toggleClass('mobile-show')
+      })
+      $(document).click(function (e) {
+        var target = e.target
+        if (!$(target).is('.Reactions') && !$(target).parents().is('.Reactions')) {
+          $('.CommentPost--Reactions').removeClass('mobile-show')
+        }
       })
     }
   }
@@ -30,7 +38,7 @@ export default class PostReactAction extends Component {
               alt={reaction.identifier}
               className={reaction.type}
               draggable='false'
-              src={url}
+              src={url}s
               data-reaction={reaction.identifier}
                         />
           </span>
@@ -86,7 +94,7 @@ export default class PostReactAction extends Component {
 
   view () {
     return (
-      <div className='Reactions'>
+      <div className='Reactions' id='Reactions'>
         {this.reactButton()}
         {Object.keys(this.reacted).map(identifier => {
           const count = this.reacted[identifier].length
@@ -109,14 +117,14 @@ export default class PostReactAction extends Component {
                   aria-hidden />
               )
           return [
-            <span className='Button-label' onclick={el => this.react(this.reaction ? identifier : el)} data-reaction={identifier}>
+            <span className='Button-label Button-emoji-parent' onclick={el => this.react(this.reaction ? identifier : el)} data-reaction={identifier}>
               {icon}
               {count > 1 ? count : ''}
             </span>
           ]
         })}
         {!this.reaction ? (
-          <div className='CommentPost--Reactions'>
+          <div className='CommentPost--Reactions' style={this.post.number() === 1 ? '' : 'left: -28%;'}>
             <ul className='Reactions--Ul'>
               {listItems(this.getReactions().toArray())}
             </ul>
