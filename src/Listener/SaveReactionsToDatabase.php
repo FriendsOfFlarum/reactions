@@ -13,9 +13,9 @@
 
 namespace Reflar\Reactions\Listener;
 
-use Flarum\Core\Access\AssertPermissionTrait;
-use Flarum\Event\PostWasDeleted;
-use Flarum\Event\PostWillBeSaved;
+use Flarum\User\AssertPermissionTrait;
+use Flarum\Post\Event\Deleted;
+use Flarum\Post\Event\Saving;
 use Flarum\Likes\Event\PostWasLiked;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -44,14 +44,14 @@ class SaveReactionsToDatabase
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(PostWillBeSaved::class, [$this, 'whenPostWillBeSaved']);
-        $events->listen(PostWasDeleted::class, [$this, 'whenPostWasDeleted']);
+        $events->listen(Saving::class, [$this, 'whenSaving']);
+        $events->listen(Deleted::class, [$this, 'whenDeleted']);
     }
 
     /**
-     * @param PostWillBeSaved $event
+     * @param Saving $event
      */
-    public function whenPostWillBeSaved(PostWillBeSaved $event)
+    public function whenSaving(Saving $event)
     {
         $post = $event->post;
         $data = $event->data;
@@ -100,9 +100,9 @@ class SaveReactionsToDatabase
     }
 
     /**
-     * @param PostWasDeleted $event
+     * @param Deleted $event
      */
-    public function whenPostWasDeleted(PostWasDeleted $event)
+    public function whenDeleted(Deleted $event)
     {
         $event->post->reactions()->detach();
     }

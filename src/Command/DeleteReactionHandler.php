@@ -13,8 +13,8 @@
 
 namespace Reflar\Reactions\Command;
 
-use Flarum\Core\Access\AssertPermissionTrait;
-use Flarum\Core\Exception\PermissionDeniedException;
+use Flarum\User\AssertPermissionTrait;
+use Flarum\User\Exception\PermissionDeniedException;
 use Reflar\Reactions\Reaction;
 
 class DeleteReactionHandler

@@ -13,7 +13,7 @@
 
 namespace Reflar\Reactions\Command;
 
-use Flarum\Core\User;
+use Flarum\User\User;
 
 class CreateReaction
 {

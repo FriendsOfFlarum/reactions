@@ -19,12 +19,12 @@ use Reflar\Reactions\Api\Serializer\ReactionSerializer;
 use Reflar\Reactions\Reaction;
 use Flarum\Api\Controller;
 use Flarum\Api\Serializer\PostSerializer;
-use Flarum\Api\Serializer\PostBasicSerializer;
-use Flarum\Core\Post;
-use Flarum\Event\ConfigureApiController;
+use Flarum\Api\Serializer\BasicPostSerializer;
+use Flarum\Post\Post;
+use Flarum\Api\Event\WillGetData;
 use Flarum\Event\GetApiRelationship;
 use Flarum\Event\GetModelRelationship;
-use Flarum\Event\PrepareApiAttributes;
+use Flarum\Api\Event\Serializing;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -47,8 +47,8 @@ class AddPostReactionsRelationship
     {
         $events->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);
         $events->listen(GetApiRelationship::class, [$this, 'getApiAttributes']);
-        $events->listen(PrepareApiAttributes::class, [$this, 'prepareApiAttributes']);
-        $events->listen(ConfigureApiController::class, [$this, 'includeReactions']);
+        $events->listen(Serializing::class, [$this, 'prepareApiAttributes']);
+        $events->listen(WillGetData::class, [$this, 'includeReactions']);
     }
 
     /**
@@ -76,9 +76,9 @@ class AddPostReactionsRelationship
     }
 
     /**
-     * @param PrepareApiAttributes $event
+     * @param Serializing $event
      */
-    public function prepareApiAttributes(PrepareApiAttributes $event)
+    public function prepareApiAttributes(Serializing $event)
     {
         if ($event->isSerializer(PostSerializer::class)) {
             $event->attributes['canReact'] = (bool) $event->actor->can('react', $event->model);
@@ -94,9 +94,9 @@ class AddPostReactionsRelationship
     }
 
     /**
-     * @param ConfigureApiController $event
+     * @param WillGetData $event
      */
-    public function includeReactions(ConfigureApiController $event)
+    public function includeReactions(WillGetData $event)
     {
         if ($event->isController(Controller\ShowDiscussionController::class)) {
             $event->addInclude('posts.reactions');

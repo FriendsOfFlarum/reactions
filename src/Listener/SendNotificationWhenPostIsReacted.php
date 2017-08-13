@@ -17,10 +17,9 @@ namespace Reflar\Reactions\Listener;
 use Reflar\Reactions\Event\PostWasReacted;
 use Reflar\Reactions\Event\PostWasUnreacted;
 use Reflar\Reactions\Notification\PostReactedBlueprint;
-use Flarum\Api\Serializer\PostBasicSerializer;
-use Flarum\Core\Notification\NotificationSyncer;
-use Flarum\Core\Post;
-use Flarum\Core\User;
+use Flarum\Notification\NotificationSyncer;
+use Flarum\Post\Post;
+use Flarum\User\User;
 use Flarum\Event\ConfigureNotificationTypes;
 use Illuminate\Contracts\Events\Dispatcher;
 
