@@ -24,7 +24,7 @@ reflar-reactions:
           legend: Integraciones
           warning: La misma reacción <strong>no</strong> puede ser convertida a un like <strong>y además</strong> a un voto positivo
           gamification:
-             legend: Gamificación
+            legend: Gamificación
             upvoteLabel: Convertir reacciones a votos positivos
             upvoteHelptext: Escribe el identificador de la reacción que desees convertir a un voto positivo
             downvoteLabel: Convertir reacciones a votos negativos
