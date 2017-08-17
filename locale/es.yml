@@ -13,10 +13,10 @@ reflar-reactions:
     page:
       reactions:
         title: Reacciones personalizadas
-         reactions: Reacciones actuales
-         Helptext: Escribe el nombre (identificador) del emoji de FontAwesome y selecciona qué tipo te gustaría.
-         help:
-           identifier: Identificador
+        reactions: Reacciones actuales
+        Helptext: Escribe el nombre (identificador) del emoji de FontAwesome y selecciona qué tipo te gustaría.
+        help:
+          identifier: Identificador
 
       settings:
         save_settings: Guardar ajustes
