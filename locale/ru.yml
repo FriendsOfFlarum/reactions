@@ -1,0 +1,36 @@
+reflar-reactions:
+  forum:
+    warning: Ваша реакция была конвертирована в лайк
+    notification: '{username} добавил реакцию {reaction} к вашему посту'
+
+  admin:
+    permissions:
+        react_posts_label: Добавлять реакции к постам
+  
+    nav:
+      desc: Добавляйте свои реакции и изменяйте настройки.
+
+    page:
+      reactions:
+        title: Мои реакции
+        reactions: Текущие реакции
+        Helptext: Введите название (индентификатор) эмодзи или иконки из Font Awesome и выберите тип который вы используете.
+        help:
+          identifier: Идентификатор
+
+      settings:
+        save_settings: Сохранить настройки
+        integrations:
+          legend: Интеграции
+          warning: Одинаковые реакции <strong>не могут быть</strong> конвертированы в лайк
+          gamification:
+            legend: Gamification
+            upvoteLabel: Конвертировать реакции в лайки.
+            upvoteHelptext: Input the identifier of the reaction you would like to automatically convert into an upvote
+            downvoteLabel: Convert reactions to downvotes
+            downvoteHelptext: Input the identifier of the reaction you would like to automatically convert into an downvote
+
+          likes:
+            legend: Лайки
+            Label: Конвертирование реакций в лайки
+            Helptext: Введите идентификатор реакции которую вы хотите преобразовывать в лайки
