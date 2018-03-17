@@ -979,7 +979,7 @@ System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum
           items.add('postReacted', {
             name: 'postReacted',
             icon: 'eye',
-            label: app.translator.trans('flarum-likes.forum.settings.notify_post_reacted_label')
+            label: app.translator.trans('reflar-reactions.forum.settings.notify_post_reacted_label')
           });
         });
       });

@@ -1,4 +1,4 @@
-﻿import { extend } from 'flarum/extend';
+import { extend } from 'flarum/extend';
 import app from 'flarum/app';
 import Post from 'flarum/models/Post';
 import Model from 'flarum/Model';
@@ -23,7 +23,7 @@ app.initializers.add('reflar-reactions', () => {
     items.add('postReacted', {
       name: 'postReacted',
       icon: 'eye',
-      label: app.translator.trans('flarum-likes.forum.settings.notify_post_reacted_label'),
+      label: app.translator.trans('reflar-reactions.forum.settings.notify_post_reacted_label')
     });
   });
 });
