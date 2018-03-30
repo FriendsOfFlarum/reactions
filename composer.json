@@ -40,6 +40,9 @@
         "backgroundColor": "#263238",
         "color": "#FFF"
       }
+    },
+    "flagrow": {
+      "discuss": "https://discuss.flarum.org/d/6542-reactions-by-reflar"
     }
   }
 }
