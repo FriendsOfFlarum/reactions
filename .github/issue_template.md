@@ -30,16 +30,17 @@ Before we can address your issues and concerns with the behavior of our work, we
 
 - Version of Flarum (x.y.z):
 - Version of extension (x.y.z):
+- PHP version (x.y.z):
 - [OPTIONAL] Website URL where the bug is visible (https://example.com):
 - The webserver you are running (Apache, Nginx, etc):
-- PHP version (x.y.z):
 - Hosted environment (Shared, VPS, etc):
-- Hosting provider (https://some-amazing-provider.com):
+- Affected Browsers:
+- Affected Operating Systems:
 
 ## Flarum Info
 
 ```
-Output of "php flarum info", run this in terminal in your Flarum directory.
+Output of "php flarum info", run this command in whatever terminal you use inside your Flarum ROOT directory.
 ```
 
 ## Log Files
