@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -21,12 +21,12 @@ class ReactionValidator extends AbstractValidator
         'identifier' => [
             'required',
             'string',
-            'unique:reactions'
+            'unique:reactions',
         ],
         'type' => [
             'required',
             'string',
-            'regex:/icon|emoji/i'
-        ]
+            'regex:/icon|emoji/i',
+        ],
     ];
 }

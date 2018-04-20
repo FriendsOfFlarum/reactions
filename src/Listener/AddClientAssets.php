@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -14,9 +14,8 @@
 namespace Reflar\Reactions\Listener;
 
 use DirectoryIterator;
-use Flarum\Event\ConfigureClientView;
-use Flarum\Event\ConfigureWebApp;
 use Flarum\Event\ConfigureLocales;
+use Flarum\Event\ConfigureWebApp;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class AddClientAssets

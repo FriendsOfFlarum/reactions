@@ -7,7 +7,7 @@ use Flarum\Database\AbstractModel;
 class PostReaction extends AbstractModel
 {
     /**
-     * { @inheritdoc }
+     * {@inheritdoc}
      */
     protected $table = 'posts_reactions';
 }

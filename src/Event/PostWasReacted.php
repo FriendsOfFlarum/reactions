@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -10,7 +10,6 @@
  *  For the full copyright and license information, please view the license.md
  *  file that was distributed with this source code.
  */
-
 
 namespace Reflar\Reactions\Event;
 
@@ -30,14 +29,14 @@ class PostWasReacted
     public $user;
 
     /**
-     * @var String
+     * @var string
      */
     public $reaction;
 
     /**
      * @param Post   $post
      * @param User   $user
-     * @param String $reaction
+     * @param string $reaction
      */
     public function __construct(Post $post, User $user, $reaction)
     {
