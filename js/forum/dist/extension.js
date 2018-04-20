@@ -650,45 +650,45 @@ System.register('reflar/reactions/components/PostReactAction', ['flarum/componen
 
             var items = new ItemList();
 
-            app.forum.attribute('reactions').forEach(function (reaction) {
+            app.forum.reactions().forEach(function (reaction) {
               var buttonLabel = void 0;
 
-              if (reaction.type === 'emoji') {
-                var url = _this2.names[reaction.identifier];
+              if (reaction.type() === 'emoji') {
+                var url = _this2.names[reaction.identifier()];
                 buttonLabel = m(
                   'span',
                   { className: 'Button-label' },
                   m('img', {
-                    alt: reaction.identifier,
-                    className: reaction.type,
+                    alt: reaction.identifier(),
+                    className: reaction.type(),
                     draggable: 'false',
                     src: url,
-                    'data-reaction': reaction.identifier
+                    'data-reaction': reaction.identifier()
                   })
                 );
-              } else if (reaction.type === 'icon') {
-                var spanClass = 'fa fa-' + reaction.identifier + ' reaction-icon';
+              } else if (reaction.type() === 'icon') {
+                var spanClass = 'fa fa-' + reaction.identifier() + ' reaction-icon';
                 buttonLabel = m(
                   'span',
                   { className: 'Button-label' },
                   m('i', {
                     className: spanClass,
-                    'data-reaction': reaction.identifier,
+                    'data-reaction': reaction.identifier(),
                     'aria-hidden': true
                   })
                 );
               }
 
-              items.add(reaction.identifier, m(
+              items.add(reaction.identifier(), m(
                 'button',
                 {
                   className: 'Button Button--link',
                   type: 'button',
-                  title: reaction.identifier,
+                  title: reaction.identifier(),
                   onclick: function onclick(el) {
                     return _this2.react(el);
                   },
-                  'data-reaction': reaction.identifier
+                  'data-reaction': reaction.identifier()
                 },
                 buttonLabel
               ));
@@ -708,11 +708,12 @@ System.register('reflar/reactions/components/PostReactAction', ['flarum/componen
             })[0];
 
             this.reacted = {};
+
             this.names = {};
 
-            app.forum.attribute('reactions').forEach(function (reaction) {
-              _this3.names[reaction.identifier] = emoji(reaction.identifier).url;
-              _this3.reacted[reaction.identifier] = [];
+            app.forum.reactions().forEach(function (reaction) {
+              _this3.names[reaction.identifier()] = emoji(reaction.identifier()).url;
+              _this3.reacted[reaction.identifier()] = [];
             });
 
             var reactions = this.post.reactions();
@@ -734,17 +735,17 @@ System.register('reflar/reactions/components/PostReactAction', ['flarum/componen
               this.reactButton(),
               Object.keys(this.reacted).map(function (identifier) {
                 var count = _this4.reacted[identifier].length;
-                var reaction = app.forum.attribute('reactions').filter(function (e) {
-                  return e.identifier === identifier;
+                var reaction = app.forum.reactions().filter(function (e) {
+                  return e.identifier() === identifier;
                 })[0];
 
                 if (count === 0) return;
-                var spanClass = reaction.type === 'icon' && 'fa fa-' + reaction.identifier + ' emoji button-emoji reaction-icon';
-                var icon = reaction.type === 'emoji' ? m('img', {
-                  alt: reaction.identifier,
+                var spanClass = reaction.type() === 'icon' && 'fa fa-' + reaction.identifier() + ' emoji button-emoji reaction-icon';
+                var icon = reaction.type() === 'emoji' ? m('img', {
+                  alt: reaction.identifier(),
                   className: 'emoji button-emoji',
                   draggable: 'false',
-                  src: emoji(reaction.identifier).url,
+                  src: emoji(reaction.identifier()).url,
                   'data-reaction': identifier
                 }) : m('i', {
                   className: spanClass,
@@ -941,15 +942,17 @@ System.register('reflar/reactions/components/PostReactedNotification', ['flarum/
 });;
 'use strict';
 
-System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum/models/Post', 'flarum/Model', 'flarum/components/NotificationGrid', 'reflar/reactions/addReactionAction', 'reflar/reactions/components/PostReactedNotification', 'reflar/reactions/models/Reaction'], function (_export, _context) {
+System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum/models/Forum', 'flarum/models/Post', 'flarum/Model', 'flarum/components/NotificationGrid', 'reflar/reactions/addReactionAction', 'reflar/reactions/components/PostReactedNotification', 'reflar/reactions/models/Reaction'], function (_export, _context) {
   "use strict";
 
-  var extend, app, Post, Model, NotificationGrid, addReactionAction, PostReactedNotification, Reaction;
+  var extend, app, Forum, Post, Model, NotificationGrid, addReactionAction, PostReactedNotification, Reaction;
   return {
     setters: [function (_flarumExtend) {
       extend = _flarumExtend.extend;
     }, function (_flarumApp) {
       app = _flarumApp.default;
+    }, function (_flarumModelsForum) {
+      Forum = _flarumModelsForum.default;
     }, function (_flarumModelsPost) {
       Post = _flarumModelsPost.default;
     }, function (_flarumModel) {
@@ -973,6 +976,8 @@ System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum
         Post.prototype.canReact = Model.attribute('canReact');
         Post.prototype.reactions = Model.hasMany('reactions');
 
+        Forum.prototype.reactions = Model.hasMany('reactions');
+
         addReactionAction();
 
         extend(NotificationGrid.prototype, 'notificationTypes', function (items) {
@@ -983,7 +988,6 @@ System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum
           });
         });
       });
-      // import addLikesList from 'reflar/reactions/addLikesList';
     }
   };
 });;

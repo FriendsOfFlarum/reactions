@@ -10,6 +10,7 @@ export default class SettingsPage extends Page {
     init() {
 
         this.fields = [
+            'convertedReactions',
             'convertToUpvote',
             'convertToDownvote',
             'convertToLike'
@@ -17,7 +18,7 @@ export default class SettingsPage extends Page {
 
         this.values = {};
 
-        this.reactions = app.forum.attribute('reactions');
+        this.reactions = app.forum.reactions();
 
         this.settingsPrefix = 'reflar.reactions';
 
@@ -40,6 +41,33 @@ export default class SettingsPage extends Page {
         return (
             <div className="SettingsPage">
                 <div className="container">
+                    <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.convert.help')}</div>
+                    <div>
+                        {(this.values.convertedReactions() === undefined ? (
+                                Button.component({
+                                    type: 'button',
+                                    className: 'Button Button--warning',
+                                    children: app.translator.trans('reflar-reactions.admin.page.convert.button'),
+                                    onclick: () => {
+                                        app.request({
+                                            url: app.forum.attribute('apiUrl') + '/reflar/convertreactions',
+                                            method: 'POST'
+                                        }).then(this.values.convertedReactions('converting'));
+                                    }
+                                })
+                            ) : (this.values.convertedReactions() === 'converting' ? (
+                                <label>
+                                    {app.translator.trans('reflar-reactions.admin.page.convert.converting')}
+                                </label>
+                            ) : (
+                                <label>
+                                    {app.translator.trans('reflar-reactions.admin.page.convert.converted', {number: this.values.convertedReactions()})}
+                                </label>
+                            ))
+                        )}
+                    </div>
+
+
                     <form onsubmit={this.onsubmit.bind(this)}>
                         <fieldset className="SettingsPage-reactions">
                             <legend>{app.translator.trans('reflar-reactions.admin.page.reactions.title')}</legend>
@@ -48,11 +76,11 @@ export default class SettingsPage extends Page {
                             <br/>
                             <div className="Reactions--Container">
                                 {this.reactions.map(reaction => {
-                                    const spanClass = reaction.type === 'icon' && `fa fa-${reaction.identifier} Reactions-demo`;
-                                    const data = emoji(reaction.identifier);
+                                    const spanClass = reaction.type() === 'icon' && `fa fa-${reaction.identifier()} Reactions-demo`;
+                                    const data = emoji(reaction.identifier());
                                     const demos = [];
 
-                                    if (reaction.type === 'icon') {
+                                    if (reaction.type() === 'icon') {
                                         demos.push(
                                             <i className={spanClass} aria-hidden>&nbsp;</i>
                                         );
@@ -61,10 +89,10 @@ export default class SettingsPage extends Page {
                                     if ((reaction.type === 'emoji' && data.uc) || data.uc) {
                                         demos.push(
                                             <img
-                                                alt={reaction.identifier}
+                                                alt={reaction.identifier()}
                                                 className="Reactions-demo"
                                                 draggable="false"
-                                                style={reaction.type !== 'emoji' && 'opacity: 0.5;'}
+                                                style={reaction.type() !== 'emoji' && 'opacity: 0.5;'}
                                                 src={data.url}
                                                 width="30px"/>
                                         );
@@ -75,12 +103,12 @@ export default class SettingsPage extends Page {
                                             <input
                                                 className="FormControl Reactions-identifier"
                                                 type="text"
-                                                value={reaction.identifier}
+                                                value={reaction.identifier()}
                                                 placeholder={app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier')}
                                                 oninput={m.withAttr('value', this.updateIdentifier.bind(this, reaction))}/>
                                             {Select.component({
                                                 options: {emoji: 'emoji', icon: 'icon'},
-                                                value: reaction.type,
+                                                value: reaction.type(),
                                                 onchange: this.updateType.bind(this, reaction),
                                             })}
                                             {Button.component({
@@ -134,26 +162,26 @@ export default class SettingsPage extends Page {
                                     <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.legend')}</legend>
                                 ) : ''}
                                 {this.isEnabled('reflar-gamification') ? (
-                                        <div>
-                                            <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.legend')}</legend>
-                                            <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteLabel')}</label>
-                                            <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')}</div>
-                                            <input
-                                                className="FormControl reactions-settings-input"
-                                                value={this.values.convertToUpvote() || ''}
-                                                placeholder="thumbsup"
-                                                oninput={m.withAttr('value', this.values.convertToUpvote)}
-                                            />
-                                            <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteLabel')}</label>
-                                            <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')}</div>
-                                            <input
-                                                className="FormControl reactions-settings-input"
-                                                value={this.values.convertToDownvote() || ''}
-                                                placeholder="thumbsdown"
-                                                oninput={m.withAttr('value', this.values.convertToDownvote)}
-                                            />
-                                        </div>
-                                    ) : ''}
+                                    <div>
+                                        <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.legend')}</legend>
+                                        <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteLabel')}</label>
+                                        <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')}</div>
+                                        <input
+                                            className="FormControl reactions-settings-input"
+                                            value={this.values.convertToUpvote() || ''}
+                                            placeholder="thumbsup"
+                                            oninput={m.withAttr('value', this.values.convertToUpvote)}
+                                        />
+                                        <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteLabel')}</label>
+                                        <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')}</div>
+                                        <input
+                                            className="FormControl reactions-settings-input"
+                                            value={this.values.convertToDownvote() || ''}
+                                            placeholder="thumbsdown"
+                                            oninput={m.withAttr('value', this.values.convertToDownvote)}
+                                        />
+                                    </div>
+                                ) : ''}
                                 {this.isEnabled('flarum-likes') ? (
                                     <div>
                                         <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.legend')}</legend>
@@ -170,11 +198,13 @@ export default class SettingsPage extends Page {
                             </div>
                             {this.values.convertToUpvote() && this.values.convertToLike() ? (
                                 <h3 className="Reactions-warning">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.warning')}</h3>
-                            ) : '' }
+                            ) : ''}
                             {Button.component({
                                 type: 'submit',
                                 className: 'Button Button--primary',
-                                children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings', {strong: <strong/>}),
+                                children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings', {
+                                    strong: <strong/>
+                                }),
                                 loading: this.loading,
                                 disabled: !this.changed()
                             })}
@@ -209,9 +239,9 @@ export default class SettingsPage extends Page {
         }).then(
             response => {
                 this.reactions.push({
-                    identifier: response.data.attributes.identifier,
-                    type: response.data.attributes.type,
-                    id: response.data.id
+                    identifier: m.prop(response.data.attributes.identifier),
+                    type:  m.prop(response.data.attributes.type),
+                    id:  m.prop(response.data.id)
                 });
 
                 this.newReaction.identifier('');
@@ -224,14 +254,14 @@ export default class SettingsPage extends Page {
     updateIdentifier(reactionToUpdate, value) {
         app.request({
             method: 'PATCH',
-            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id,
+            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id(),
             data: {
                 identifier: value
             }
         });
         this.reactions.some((reaction, i) => {
-            if (reaction.id === reactionToUpdate.id) {
-                reaction.identifier = value;
+            if (reaction.id() === reactionToUpdate.id()) {
+                reaction.identifier = m.prop(value);
                 return true;
             }
         })
@@ -240,14 +270,14 @@ export default class SettingsPage extends Page {
     updateType(reactionToUpdate, value) {
         app.request({
             method: 'PATCH',
-            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id,
+            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id(),
             data: {
                 type: value
             }
         });
         this.reactions.some((reaction, i) => {
-            if (reaction.id === reactionToUpdate.id) {
-                reaction.type = value;
+            if (reaction.id() === reactionToUpdate.id()) {
+                reaction.type = m.prop(value);
                 return true;
             }
         })
@@ -256,10 +286,10 @@ export default class SettingsPage extends Page {
     deleteReaction(reactionToDelete) {
         app.request({
             method: 'DELETE',
-            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToDelete.id
+            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToDelete.id()
         });
         this.reactions.some((reaction, i) => {
-            if (reaction.id === reactionToDelete.id) {
+            if (reaction.id() === reactionToDelete.id()) {
                 this.reactions.splice(i, 1);
                 return true;
             }

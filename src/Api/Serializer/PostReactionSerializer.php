@@ -28,7 +28,7 @@ class PostReactionSerializer extends AbstractSerializer
     protected function getDefaultAttributes($reaction)
     {
         return [
-            'identifier' => $reaction->pivot->reaction_id,
+            'identifier' => $reaction->identifier,
             'type'       => $reaction->type,
             'user_id'    => (int) $reaction->pivot->user_id,
             'post_id'    => (int) $reaction->pivot->post_id

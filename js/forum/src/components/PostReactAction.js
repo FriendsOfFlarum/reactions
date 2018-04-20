@@ -27,42 +27,42 @@ export default class PostReactAction extends Component {
   getReactions () {
     const items = new ItemList()
 
-    app.forum.attribute('reactions').forEach(reaction => {
+    app.forum.reactions().forEach(reaction => {
       let buttonLabel
 
-      if (reaction.type === 'emoji') {
-        const url = this.names[reaction.identifier]
+      if (reaction.type() === 'emoji') {
+        const url = this.names[reaction.identifier()]
         buttonLabel = (
           <span className='Button-label'>
             <img
-              alt={reaction.identifier}
-              className={reaction.type}
+              alt={reaction.identifier()}
+              className={reaction.type()}
               draggable='false'
               src={url}
-              data-reaction={reaction.identifier}
+              data-reaction={reaction.identifier()}
                         />
           </span>
                 )
-      } else if (reaction.type === 'icon') {
-        const spanClass = `fa fa-${reaction.identifier} reaction-icon`
+      } else if (reaction.type() === 'icon') {
+        const spanClass = `fa fa-${reaction.identifier()} reaction-icon`
         buttonLabel = (
           <span className='Button-label'>
             <i
               className={spanClass}
-              data-reaction={reaction.identifier}
+              data-reaction={reaction.identifier()}
               aria-hidden
                      />
           </span>
               )
       }
 
-      items.add(reaction.identifier, (
+      items.add(reaction.identifier(), (
         <button
           className='Button Button--link'
           type='button'
-          title={reaction.identifier}
+          title={reaction.identifier()}
           onclick={el => this.react(el)}
-          data-reaction={reaction.identifier}
+          data-reaction={reaction.identifier()}
             >
           {buttonLabel}
         </button>
@@ -75,14 +75,16 @@ export default class PostReactAction extends Component {
   init () {
     this.post = this.props.post
 
+
     this.reaction = app.session.user && this.post.reactions().filter(reaction => reaction.user_id() == app.session.user.data.id)[0]
 
     this.reacted = {}
+
     this.names = {}
 
-    app.forum.attribute('reactions').forEach(reaction => {
-      this.names[reaction.identifier] = emoji(reaction.identifier).url
-      this.reacted[reaction.identifier] = []
+    app.forum.reactions().forEach(reaction => {
+      this.names[reaction.identifier()] = emoji(reaction.identifier()).url
+      this.reacted[reaction.identifier()] = []
     })
 
     const reactions = this.post.reactions()
@@ -98,16 +100,16 @@ export default class PostReactAction extends Component {
         {this.reactButton()}
         {Object.keys(this.reacted).map(identifier => {
           const count = this.reacted[identifier].length
-          const reaction = app.forum.attribute('reactions').filter(e => e.identifier === identifier)[0]
+          const reaction = app.forum.reactions().filter(e => e.identifier() === identifier)[0]
 
           if (count === 0) return
-          const spanClass = reaction.type === 'icon' && `fa fa-${reaction.identifier} emoji button-emoji reaction-icon`
-          const icon = reaction.type === 'emoji' ? (
+          const spanClass = reaction.type() === 'icon' && `fa fa-${reaction.identifier()} emoji button-emoji reaction-icon`
+          const icon = reaction.type() === 'emoji' ? (
             <img
-              alt={reaction.identifier}
+              alt={reaction.identifier()}
               className='emoji button-emoji'
               draggable='false'
-              src={emoji(reaction.identifier).url}
+              src={emoji(reaction.identifier()).url}
               data-reaction={identifier}
                 />
               ) : (

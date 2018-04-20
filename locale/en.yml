@@ -20,6 +20,12 @@ reflar-reactions:
         help:
           identifier: Identifier
 
+      convert:
+        help: If you just updated your extension, your reactions will have to be converted. If you just installed this extension, you can saftely ignore this message.
+        button: Convert old reactions
+        converting: Your reactions are now converting. Refresh your site after a few minutes to see the process finished. (Conversion time might take a while depending on your total number of reactions)
+        converted: "Successfully converted all {number} likes"
+
       settings:
         save_settings: Save Settings
         integrations:

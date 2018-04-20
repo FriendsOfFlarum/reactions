@@ -630,11 +630,11 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                     value: function init() {
                         var _this2 = this;
 
-                        this.fields = ['convertToUpvote', 'convertToDownvote', 'convertToLike'];
+                        this.fields = ['convertedReactions', 'convertToUpvote', 'convertToDownvote', 'convertToLike'];
 
                         this.values = {};
 
-                        this.reactions = app.forum.attribute('reactions');
+                        this.reactions = app.forum.reactions();
 
                         this.settingsPrefix = 'reflar.reactions';
 
@@ -661,6 +661,34 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                                 'div',
                                 { className: 'container' },
                                 m(
+                                    'div',
+                                    { className: 'helpText' },
+                                    app.translator.trans('reflar-reactions.admin.page.convert.help')
+                                ),
+                                m(
+                                    'div',
+                                    null,
+                                    this.values.convertedReactions() === undefined ? Button.component({
+                                        type: 'button',
+                                        className: 'Button Button--warning',
+                                        children: app.translator.trans('reflar-reactions.admin.page.convert.button'),
+                                        onclick: function onclick() {
+                                            app.request({
+                                                url: app.forum.attribute('apiUrl') + '/reflar/convertreactions',
+                                                method: 'POST'
+                                            }).then(_this3.values.convertedReactions('converting'));
+                                        }
+                                    }) : this.values.convertedReactions() === 'converting' ? m(
+                                        'label',
+                                        null,
+                                        app.translator.trans('reflar-reactions.admin.page.convert.converting')
+                                    ) : m(
+                                        'label',
+                                        null,
+                                        app.translator.trans('reflar-reactions.admin.page.convert.converted', { number: this.values.convertedReactions() })
+                                    )
+                                ),
+                                m(
                                     'form',
                                     { onsubmit: this.onsubmit.bind(this) },
                                     m(
@@ -686,11 +714,11 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                                             'div',
                                             { className: 'Reactions--Container' },
                                             this.reactions.map(function (reaction) {
-                                                var spanClass = reaction.type === 'icon' && 'fa fa-' + reaction.identifier + ' Reactions-demo';
-                                                var data = emoji(reaction.identifier);
+                                                var spanClass = reaction.type() === 'icon' && 'fa fa-' + reaction.identifier() + ' Reactions-demo';
+                                                var data = emoji(reaction.identifier());
                                                 var demos = [];
 
-                                                if (reaction.type === 'icon') {
+                                                if (reaction.type() === 'icon') {
                                                     demos.push(m(
                                                         'i',
                                                         { className: spanClass, 'aria-hidden': true },
@@ -700,10 +728,10 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
 
                                                 if (reaction.type === 'emoji' && data.uc || data.uc) {
                                                     demos.push(m('img', {
-                                                        alt: reaction.identifier,
+                                                        alt: reaction.identifier(),
                                                         className: 'Reactions-demo',
                                                         draggable: 'false',
-                                                        style: reaction.type !== 'emoji' && 'opacity: 0.5;',
+                                                        style: reaction.type() !== 'emoji' && 'opacity: 0.5;',
                                                         src: data.url,
                                                         width: '30px' }));
                                                 }
@@ -714,12 +742,12 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                                                     m('input', {
                                                         className: 'FormControl Reactions-identifier',
                                                         type: 'text',
-                                                        value: reaction.identifier,
+                                                        value: reaction.identifier(),
                                                         placeholder: app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier'),
                                                         oninput: m.withAttr('value', _this3.updateIdentifier.bind(_this3, reaction)) }),
                                                     Select.component({
                                                         options: { emoji: 'emoji', icon: 'icon' },
-                                                        value: reaction.type,
+                                                        value: reaction.type(),
                                                         onchange: _this3.updateType.bind(_this3, reaction)
                                                     }),
                                                     Button.component({
@@ -853,7 +881,9 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                                         Button.component({
                                             type: 'submit',
                                             className: 'Button Button--primary',
-                                            children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings', { strong: m('strong', null) }),
+                                            children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings', {
+                                                strong: m('strong', null)
+                                            }),
                                             loading: this.loading,
                                             disabled: !this.changed()
                                         })
@@ -886,9 +916,9 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                             }
                         }).then(function (response) {
                             _this5.reactions.push({
-                                identifier: response.data.attributes.identifier,
-                                type: response.data.attributes.type,
-                                id: response.data.id
+                                identifier: m.prop(response.data.attributes.identifier),
+                                type: m.prop(response.data.attributes.type),
+                                id: m.prop(response.data.id)
                             });
 
                             _this5.newReaction.identifier('');
@@ -901,14 +931,14 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                     value: function updateIdentifier(reactionToUpdate, value) {
                         app.request({
                             method: 'PATCH',
-                            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id,
+                            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id(),
                             data: {
                                 identifier: value
                             }
                         });
                         this.reactions.some(function (reaction, i) {
-                            if (reaction.id === reactionToUpdate.id) {
-                                reaction.identifier = value;
+                            if (reaction.id() === reactionToUpdate.id()) {
+                                reaction.identifier = m.prop(value);
                                 return true;
                             }
                         });
@@ -918,14 +948,14 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                     value: function updateType(reactionToUpdate, value) {
                         app.request({
                             method: 'PATCH',
-                            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id,
+                            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id(),
                             data: {
                                 type: value
                             }
                         });
                         this.reactions.some(function (reaction, i) {
-                            if (reaction.id === reactionToUpdate.id) {
-                                reaction.type = value;
+                            if (reaction.id() === reactionToUpdate.id()) {
+                                reaction.type = m.prop(value);
                                 return true;
                             }
                         });
@@ -937,10 +967,10 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
 
                         app.request({
                             method: 'DELETE',
-                            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToDelete.id
+                            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToDelete.id()
                         });
                         this.reactions.some(function (reaction, i) {
-                            if (reaction.id === reactionToDelete.id) {
+                            if (reaction.id() === reactionToDelete.id()) {
                                 _this6.reactions.splice(i, 1);
                                 return true;
                             }
@@ -1005,15 +1035,19 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
 });;
 'use strict';
 
-System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum/components/PermissionGrid', 'reflar/reactions/addSettingsPage', 'reflar/reactions/models/Reaction'], function (_export, _context) {
+System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum/models/Forum', 'flarum/Model', 'flarum/components/PermissionGrid', 'reflar/reactions/addSettingsPage', 'reflar/reactions/models/Reaction'], function (_export, _context) {
   "use strict";
 
-  var extend, app, PermissionGrid, addSettingsPage, Reaction;
+  var extend, app, Forum, Model, PermissionGrid, addSettingsPage, Reaction;
   return {
     setters: [function (_flarumExtend) {
       extend = _flarumExtend.extend;
     }, function (_flarumApp) {
       app = _flarumApp.default;
+    }, function (_flarumModelsForum) {
+      Forum = _flarumModelsForum.default;
+    }, function (_flarumModel) {
+      Model = _flarumModel.default;
     }, function (_flarumComponentsPermissionGrid) {
       PermissionGrid = _flarumComponentsPermissionGrid.default;
     }, function (_reflarReactionsAddSettingsPage) {
@@ -1025,6 +1059,8 @@ System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum
 
       app.initializers.add('reflar-reactions', function () {
         app.store.models.reactions = Reaction;
+
+        Forum.prototype.reactions = Model.hasMany('reactions');
 
         extend(PermissionGrid.prototype, 'replyItems', function (items) {
           items.add('reactPosts', {

@@ -29,6 +29,7 @@ class AddReactionsApi
         $event->get('/reactions', 'reactions.index', Controller\ListReactionsController::class);
 
         $event->post('/reactions', 'reactions.create', Controller\CreateReactionController::class);
+        $event->post('/reflar/convertreactions', 'reactions.convert', Controller\ConvertOldReactions::class);
 
         $event->patch('/reactions/{id}', 'reactions.update', Controller\UpdateReactionController::class);
         $event->delete('/reactions/{id}', 'reactions.delete', Controller\DeleteReactionController::class);
