@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -13,21 +13,21 @@
 
 namespace Reflar\Reactions\Listener;
 
-use Flarum\Api\Serializer\ForumSerializer;
-use Reflar\Reactions\Api\Serializer\PostReactionSerializer;
-use Reflar\Reactions\Api\Serializer\ReactionSerializer;
-use Reflar\Reactions\Reaction;
 use Flarum\Api\Controller;
-use Flarum\Api\Serializer\PostSerializer;
+use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\PostBasicSerializer;
+use Flarum\Api\Serializer\PostSerializer;
 use Flarum\Core\Post;
 use Flarum\Event\ConfigureApiController;
 use Flarum\Event\GetApiRelationship;
-use Flarum\Event\PrepareApiData;
 use Flarum\Event\GetModelRelationship;
 use Flarum\Event\PrepareApiAttributes;
+use Flarum\Event\PrepareApiData;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
+use Reflar\Reactions\Api\Serializer\PostReactionSerializer;
+use Reflar\Reactions\Api\Serializer\ReactionSerializer;
+use Reflar\Reactions\Reaction;
 
 class AddPostReactionsRelationship
 {
@@ -102,7 +102,7 @@ class AddPostReactionsRelationship
             $event->attributes['ReactionConverts'] = [
                 $this->settings->get('reflar.reactions.convertToUpvote'),
                 $this->settings->get('reflar.reactions.convertToDownvote'),
-                $this->settings->get('reflar.reactions.convertToLike')
+                $this->settings->get('reflar.reactions.convertToLike'),
             ];
         }
     }

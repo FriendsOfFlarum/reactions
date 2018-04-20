@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Reflar\Reactions\Api\Controller;
 
 use Flarum\Core\Access\AssertPermissionTrait;

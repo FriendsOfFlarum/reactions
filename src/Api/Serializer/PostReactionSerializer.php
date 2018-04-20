@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -31,7 +31,7 @@ class PostReactionSerializer extends AbstractSerializer
             'identifier' => $reaction->identifier,
             'type'       => $reaction->type,
             'user_id'    => (int) $reaction->pivot->user_id,
-            'post_id'    => (int) $reaction->pivot->post_id
+            'post_id'    => (int) $reaction->pivot->post_id,
         ];
     }
 }
