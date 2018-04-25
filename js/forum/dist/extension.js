@@ -562,467 +562,463 @@ if(typeof module === "object") module.exports = this.emojione;;
 'use strict';
 
 System.register('reflar/reactions/addReactionAction', ['flarum/extend', 'flarum/app', 'flarum/components/CommentPost', 'reflar/reactions/components/PostReactAction'], function (_export, _context) {
-  "use strict";
+    "use strict";
 
-  var extend, app, CommentPost, PostReactAction;
-  return {
-    setters: [function (_flarumExtend) {
-      extend = _flarumExtend.extend;
-    }, function (_flarumApp) {
-      app = _flarumApp.default;
-    }, function (_flarumComponentsCommentPost) {
-      CommentPost = _flarumComponentsCommentPost.default;
-    }, function (_reflarReactionsComponentsPostReactAction) {
-      PostReactAction = _reflarReactionsComponentsPostReactAction.default;
-    }],
-    execute: function () {
-      _export('default', function () {
-        extend(CommentPost.prototype, 'actionItems', function (items) {
-          var post = this.props.post;
+    var extend, app, CommentPost, PostReactAction;
+    return {
+        setters: [function (_flarumExtend) {
+            extend = _flarumExtend.extend;
+        }, function (_flarumApp) {
+            app = _flarumApp.default;
+        }, function (_flarumComponentsCommentPost) {
+            CommentPost = _flarumComponentsCommentPost.default;
+        }, function (_reflarReactionsComponentsPostReactAction) {
+            PostReactAction = _reflarReactionsComponentsPostReactAction.default;
+        }],
+        execute: function () {
+            _export('default', function () {
+                extend(CommentPost.prototype, 'actionItems', function (items) {
+                    var post = this.props.post;
 
-          if (post.isHidden()) return;
+                    if (post.isHidden()) return;
 
-          var reaction = app.session.user && post.reactions().some(function (user) {
-            return user === app.session.user;
-          });
+                    var reaction = app.session.user && post.reactions().some(function (user) {
+                        return user === app.session.user;
+                    });
 
-          items.add('react', PostReactAction.component({
-            post: post,
-            reaction: reaction
-          }), 5);
-        });
-      });
-    }
-  };
+                    items.add('react', PostReactAction.component({
+                        post: post,
+                        reaction: reaction
+                    }), 5);
+                });
+            });
+        }
+    };
 });;
 'use strict';
 
 System.register('reflar/reactions/components/PostReactAction', ['flarum/components/Alert', 'flarum/Component', 'flarum/utils/ItemList', 'flarum/helpers/listItems', 'flarum/components/LogInModal', 'reflar/reactions/util/emoji'], function (_export, _context) {
-  "use strict";
+    "use strict";
 
-  var Alert, Component, ItemList, listItems, LogInModal, emoji, PostReactAction;
-  return {
-    setters: [function (_flarumComponentsAlert) {
-      Alert = _flarumComponentsAlert.default;
-    }, function (_flarumComponent) {
-      Component = _flarumComponent.default;
-    }, function (_flarumUtilsItemList) {
-      ItemList = _flarumUtilsItemList.default;
-    }, function (_flarumHelpersListItems) {
-      listItems = _flarumHelpersListItems.default;
-    }, function (_flarumComponentsLogInModal) {
-      LogInModal = _flarumComponentsLogInModal.default;
-    }, function (_reflarReactionsUtilEmoji) {
-      emoji = _reflarReactionsUtilEmoji.default;
-    }],
-    execute: function () {
-      PostReactAction = function (_Component) {
-        babelHelpers.inherits(PostReactAction, _Component);
+    var Alert, Component, ItemList, listItems, LogInModal, emoji, PostReactAction;
+    return {
+        setters: [function (_flarumComponentsAlert) {
+            Alert = _flarumComponentsAlert.default;
+        }, function (_flarumComponent) {
+            Component = _flarumComponent.default;
+        }, function (_flarumUtilsItemList) {
+            ItemList = _flarumUtilsItemList.default;
+        }, function (_flarumHelpersListItems) {
+            listItems = _flarumHelpersListItems.default;
+        }, function (_flarumComponentsLogInModal) {
+            LogInModal = _flarumComponentsLogInModal.default;
+        }, function (_reflarReactionsUtilEmoji) {
+            emoji = _reflarReactionsUtilEmoji.default;
+        }],
+        execute: function () {
+            PostReactAction = function (_Component) {
+                babelHelpers.inherits(PostReactAction, _Component);
 
-        function PostReactAction() {
-          babelHelpers.classCallCheck(this, PostReactAction);
-          return babelHelpers.possibleConstructorReturn(this, (PostReactAction.__proto__ || Object.getPrototypeOf(PostReactAction)).apply(this, arguments));
+                function PostReactAction() {
+                    babelHelpers.classCallCheck(this, PostReactAction);
+                    return babelHelpers.possibleConstructorReturn(this, (PostReactAction.__proto__ || Object.getPrototypeOf(PostReactAction)).apply(this, arguments));
+                }
+
+                babelHelpers.createClass(PostReactAction, [{
+                    key: 'config',
+                    value: function config(isInitialized) {
+                        if (isInitialized) return;
+
+                        if ('ontouchstart' in window) {
+                            $('.Reactions').unbind().on('touchend', function () {
+                                $(this).find('.CommentPost--Reactions').toggleClass('mobile-show');
+                            });
+                            $(document).click(function (e) {
+                                var target = e.target;
+                                if (!$(target).is('.Reactions') && !$(target).parents().is('.Reactions')) {
+                                    $('.CommentPost--Reactions').removeClass('mobile-show');
+                                }
+                            });
+                        }
+                    }
+                }, {
+                    key: 'getReactions',
+                    value: function getReactions() {
+                        var _this2 = this;
+
+                        var items = new ItemList();
+
+                        app.forum.reactions().forEach(function (reaction) {
+                            var buttonLabel = void 0;
+
+                            if (reaction.type() === 'emoji') {
+                                var url = _this2.names[reaction.identifier()];
+                                buttonLabel = m(
+                                    'span',
+                                    { className: 'Button-label' },
+                                    m('img', {
+                                        alt: reaction.identifier(),
+                                        className: reaction.type(),
+                                        draggable: 'false',
+                                        src: url,
+                                        'data-reaction': reaction.identifier()
+                                    })
+                                );
+                            } else if (reaction.type() === 'icon') {
+                                var spanClass = 'fa fa-' + reaction.identifier() + ' reaction-icon';
+                                buttonLabel = m(
+                                    'span',
+                                    { className: 'Button-label' },
+                                    m('i', {
+                                        className: spanClass,
+                                        'data-reaction': reaction.identifier(),
+                                        'aria-hidden': true
+                                    })
+                                );
+                            }
+
+                            items.add(reaction.identifier(), m(
+                                'button',
+                                {
+                                    className: 'Button Button--link',
+                                    type: 'button',
+                                    title: reaction.identifier(),
+                                    onclick: function onclick(el) {
+                                        return _this2.react(el);
+                                    },
+                                    'data-reaction': reaction.identifier()
+                                },
+                                buttonLabel
+                            ));
+                        });
+
+                        return items;
+                    }
+                }, {
+                    key: 'init',
+                    value: function init() {
+                        var _this3 = this;
+
+                        this.post = this.props.post;
+
+                        this.reaction = app.session.user && this.post.reactions().filter(function (reaction) {
+                            return reaction.user_id() == app.session.user.data.id;
+                        })[0];
+
+                        this.reacted = {};
+
+                        this.names = {};
+
+                        app.forum.reactions().forEach(function (reaction) {
+                            _this3.names[reaction.identifier()] = emoji(reaction.identifier()).url;
+                            _this3.reacted[reaction.identifier()] = [];
+                        });
+
+                        var reactions = this.post.reactions();
+
+                        Object.keys(this.names).forEach(function (reaction) {
+                            _this3.reacted[reaction] = reactions.filter(function (e) {
+                                return e.identifier() === reaction;
+                            });
+                        });
+                    }
+                }, {
+                    key: 'view',
+                    value: function view() {
+                        var _this4 = this;
+
+                        return m(
+                            'div',
+                            { className: 'Reactions' },
+                            this.reactButton(),
+                            Object.keys(this.reacted).map(function (identifier) {
+                                var count = _this4.reacted[identifier].length;
+                                var reaction = app.forum.reactions().filter(function (e) {
+                                    return e.identifier() === identifier;
+                                })[0];
+
+                                if (count === 0) return;
+                                var spanClass = reaction.type() === 'icon' && 'fa fa-' + reaction.identifier() + ' emoji button-emoji reaction-icon';
+                                var icon = reaction.type() === 'emoji' ? m('img', {
+                                    alt: reaction.identifier(),
+                                    className: 'emoji button-emoji',
+                                    draggable: 'false',
+                                    src: emoji(reaction.identifier()).url,
+                                    'data-reaction': identifier
+                                }) : m('i', {
+                                    className: spanClass,
+                                    'data-reaction': identifier,
+                                    'aria-hidden': true });
+                                return [m(
+                                    'span',
+                                    { className: 'Button-label Button-emoji-parent', onclick: function onclick(el) {
+                                            return _this4.react(_this4.reaction ? identifier : el);
+                                        }, 'data-reaction': identifier },
+                                    icon,
+                                    count > 1 ? count : ''
+                                )];
+                            }),
+                            !this.reaction ? m(
+                                'div',
+                                { className: 'CommentPost--Reactions', style: this.post.number() === 1 ? '' : 'left: -28%;' },
+                                m(
+                                    'ul',
+                                    { className: 'Reactions--Ul' },
+                                    listItems(this.getReactions().toArray())
+                                )
+                            ) : null
+                        );
+                    }
+                }, {
+                    key: 'reactButton',
+                    value: function reactButton() {
+                        return m(
+                            'button',
+                            {
+                                className: 'Button Button--link Reactions--ShowReactions',
+                                type: 'Button',
+                                title: 'React' },
+                            m(
+                                'span',
+                                { className: 'Button-label', style: this.reaction ? 'display: none' : 'display:' },
+                                m(
+                                    'svg',
+                                    { 'class': 'button-react', width: '20px', height: '20px', viewBox: '0 0 18 18' },
+                                    '/* Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch */',
+                                    m(
+                                        'g',
+                                        { id: 'Page-1', stroke: 'none', 'stroke-width': '1', fill: 'none', 'fill-rule': 'evenodd' },
+                                        m(
+                                            'g',
+                                            { id: 'ic_reactions_grey_16px' },
+                                            m(
+                                                'g',
+                                                { id: 'Group-2' },
+                                                m(
+                                                    'g',
+                                                    { id: '0:0:0:0' },
+                                                    m('rect', { id: 'Rectangle-5', x: '0', y: '0', width: '18', height: '18' }),
+                                                    m('g', { id: 'emoticon' }),
+                                                    m('path', { d: 'M14.6332705,7.33333333 C14.6554304,7.55389388 14.6666667,7.77636769 14.6666667,8 C14.6666667,11.6818983 11.6818983,14.6666667 8,14.6666667 C6.23189007,14.6666667 4.53619732,13.9642877 3.28595479,12.7140452 C2.03571227,11.4638027 1.33333333,9.76810993 1.33333333,8 C1.33333333,4.33333333 4.31333333,1.33333333 8,1.33333333 L8,1.33333333 C8.22363231,1.33333333 8.44610612,1.3445696 8.66666667,1.36672949 L8.66666667,2.70847693 C8.44668912,2.68076722 8.22407146,2.66666667 8,2.66666667 C5.05448133,2.66666667 2.66666667,5.05448133 2.66666667,8 C2.66666667,10.9455187 5.05448133,13.3333333 8,13.3333333 C10.9455187,13.3333333 13.3333333,10.9455187 13.3333333,8 C13.3333333,7.77592854 13.3192328,7.55331088 13.2915231,7.33333333 L14.6332705,7.33333333 Z M8,11.6666667 C9.55333333,11.6666667 10.8666667,10.6933333 11.4066667,9.33333333 L4.59333333,9.33333333 C5.12666667,10.6933333 6.44666667,11.6666667 8,11.6666667 Z M10.3333333,7.33333333 C10.8856181,7.33333333 11.3333333,6.88561808 11.3333333,6.33333333 C11.3333333,5.78104858 10.8856181,5.33333333 10.3333333,5.33333333 C9.78104858,5.33333333 9.33333333,5.78104858 9.33333333,6.33333333 C9.33333333,6.88561808 9.78104858,7.33333333 10.3333333,7.33333333 L10.3333333,7.33333333 Z M5.66666667,7.33333333 C6.21895142,7.33333333 6.66666667,6.88561808 6.66666667,6.33333333 C6.66666667,5.78104858 6.21895142,5.33333333 5.66666667,5.33333333 C5.11438192,5.33333333 4.66666667,5.78104858 4.66666667,6.33333333 C4.66666667,6.88561808 5.11438192,7.33333333 5.66666667,7.33333333 Z', id: 'Combined-Shape', fill: '#667c99' })
+                                                ),
+                                                m(
+                                                    'g',
+                                                    { id: 'Group-15', transform: 'translate(10.666667, 0.000000)', fill: '#667c99' },
+                                                    m('polygon', { id: 'Path', points: '3.33333333 2 3.33333333 0 2 0 2 2 0 2 0 3.33333333 2 3.33333333 2 5.33333333 3.33333333 5.33333333 3.33333333 3.33333333 5.33333333 3.33333333 5.33333333 2' })
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        );
+                    }
+                }, {
+                    key: 'react',
+                    value: function react(el) {
+                        var _this5 = this;
+
+                        if (!app.session.user) {
+                            app.modal.show(new LogInModal());
+                            return;
+                        }
+
+                        if (!this.post.canReact()) {
+                            app.alerts.show(this.successAlert = new Alert({
+                                type: 'error',
+                                children: app.translator.trans('core.lib.error.permission_denied_message')
+                            }));
+                        }
+
+                        var isReacted = true;
+
+                        if (typeof el === 'string') {
+                            isReacted = false;
+                        }
+
+                        var reaction = el && el.target && el.target.attributes['data-reaction'] ? el.target.attributes['data-reaction'].value : '';
+
+                        if (reaction === '') {
+                            reaction = el;
+                        }
+
+                        this.post.save({ reaction: reaction }).then(function () {
+                            var identifier = _this5.reaction && _this5.reaction.identifier();
+                            _this5.reaction = _this5.post.reactions().filter(function (r) {
+                                return r.user_id() == app.session.user.data.id;
+                            })[0];
+
+                            /**
+                             * We've saved the fact that we have or haven't reacted to the post,
+                             * but in order to provide instantaneous feedback to the user, we'll
+                             * need to add or remove the reaction from the current ones manually
+                             */
+
+                            if (app.forum.data.relationships.ranks !== undefined && (app.forum.attribute('ReactionConverts')[0] === reaction || app.forum.attribute('ReactionConverts')[1] === reaction) || _this5.post.data.relationships.likes !== undefined && app.forum.attribute('ReactionConverts')[2] === reaction) {
+                                app.alerts.show(_this5.successAlert = new Alert({
+                                    type: 'warning',
+                                    children: app.translator.trans('reflar-reactions.forum.warning', { reaction: reaction })
+                                }));
+                            } else {
+                                if (isReacted) {
+                                    _this5.reacted[reaction].push(_this5.reaction);
+                                } else {
+                                    _this5.reacted[identifier] = _this5.reacted[identifier].filter(function (r) {
+                                        return r.user_id() != app.session.user.id();
+                                    });
+                                }
+                            }
+
+                            m.redraw();
+                        }).catch(function (err) {
+                            return $('body').append(err);
+                        });
+                    }
+                }]);
+                return PostReactAction;
+            }(Component);
+
+            _export('default', PostReactAction);
         }
-
-        babelHelpers.createClass(PostReactAction, [{
-          key: 'config',
-          value: function config(isInitialized) {
-            if (isInitialized) return;
-
-            var didTap = false;
-
-            if ('ontouchstart' in window) {
-              $('.Reactions').unbind().on('touchend', function () {
-                $(this).find('.CommentPost--Reactions').toggleClass('mobile-show');
-              });
-              $(document).click(function (e) {
-                var target = e.target;
-                if (!$(target).is('.Reactions') && !$(target).parents().is('.Reactions')) {
-                  $('.CommentPost--Reactions').removeClass('mobile-show');
-                }
-              });
-            }
-          }
-        }, {
-          key: 'getReactions',
-          value: function getReactions() {
-            var _this2 = this;
-
-            var items = new ItemList();
-
-            app.forum.reactions().forEach(function (reaction) {
-              var buttonLabel = void 0;
-
-              if (reaction.type() === 'emoji') {
-                var url = _this2.names[reaction.identifier()];
-                buttonLabel = m(
-                  'span',
-                  { className: 'Button-label' },
-                  m('img', {
-                    alt: reaction.identifier(),
-                    className: reaction.type(),
-                    draggable: 'false',
-                    src: url,
-                    'data-reaction': reaction.identifier()
-                  })
-                );
-              } else if (reaction.type() === 'icon') {
-                var spanClass = 'fa fa-' + reaction.identifier() + ' reaction-icon';
-                buttonLabel = m(
-                  'span',
-                  { className: 'Button-label' },
-                  m('i', {
-                    className: spanClass,
-                    'data-reaction': reaction.identifier(),
-                    'aria-hidden': true
-                  })
-                );
-              }
-
-              items.add(reaction.identifier(), m(
-                'button',
-                {
-                  className: 'Button Button--link',
-                  type: 'button',
-                  title: reaction.identifier(),
-                  onclick: function onclick(el) {
-                    return _this2.react(el);
-                  },
-                  'data-reaction': reaction.identifier()
-                },
-                buttonLabel
-              ));
-            });
-
-            return items;
-          }
-        }, {
-          key: 'init',
-          value: function init() {
-            var _this3 = this;
-
-            this.post = this.props.post;
-
-            this.reaction = app.session.user && this.post.reactions().filter(function (reaction) {
-              return reaction.user_id() == app.session.user.data.id;
-            })[0];
-
-            this.reacted = {};
-
-            this.names = {};
-
-            app.forum.reactions().forEach(function (reaction) {
-              _this3.names[reaction.identifier()] = emoji(reaction.identifier()).url;
-              _this3.reacted[reaction.identifier()] = [];
-            });
-
-            var reactions = this.post.reactions();
-
-            Object.keys(this.names).forEach(function (reaction) {
-              _this3.reacted[reaction] = reactions.filter(function (e) {
-                return e.identifier() === reaction;
-              });
-            });
-          }
-        }, {
-          key: 'view',
-          value: function view() {
-            var _this4 = this;
-
-            return m(
-              'div',
-              { className: 'Reactions' },
-              this.reactButton(),
-              Object.keys(this.reacted).map(function (identifier) {
-                var count = _this4.reacted[identifier].length;
-                var reaction = app.forum.reactions().filter(function (e) {
-                  return e.identifier() === identifier;
-                })[0];
-
-                if (count === 0) return;
-                var spanClass = reaction.type() === 'icon' && 'fa fa-' + reaction.identifier() + ' emoji button-emoji reaction-icon';
-                var icon = reaction.type() === 'emoji' ? m('img', {
-                  alt: reaction.identifier(),
-                  className: 'emoji button-emoji',
-                  draggable: 'false',
-                  src: emoji(reaction.identifier()).url,
-                  'data-reaction': identifier
-                }) : m('i', {
-                  className: spanClass,
-                  'data-reaction': identifier,
-                  'aria-hidden': true });
-                return [m(
-                  'span',
-                  { className: 'Button-label Button-emoji-parent', onclick: function onclick(el) {
-                      return _this4.react(_this4.reaction ? identifier : el);
-                    }, 'data-reaction': identifier },
-                  icon,
-                  count > 1 ? count : ''
-                )];
-              }),
-              !this.reaction ? m(
-                'div',
-                { className: 'CommentPost--Reactions', style: this.post.number() === 1 ? '' : 'left: -28%;' },
-                m(
-                  'ul',
-                  { className: 'Reactions--Ul' },
-                  listItems(this.getReactions().toArray())
-                )
-              ) : null
-            );
-          }
-        }, {
-          key: 'reactButton',
-          value: function reactButton() {
-            return m(
-              'button',
-              {
-                className: 'Button Button--link Reactions--ShowReactions',
-                type: 'Button',
-                title: 'React' },
-              m(
-                'span',
-                { className: 'Button-label', style: this.reaction ? 'display: none' : 'display:' },
-                m(
-                  'svg',
-                  { 'class': 'button-react', width: '20px', height: '20px', viewBox: '0 0 18 18' },
-                  '/* Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch */',
-                  m(
-                    'g',
-                    { id: 'Page-1', stroke: 'none', 'stroke-width': '1', fill: 'none', 'fill-rule': 'evenodd' },
-                    m(
-                      'g',
-                      { id: 'ic_reactions_grey_16px' },
-                      m(
-                        'g',
-                        { id: 'Group-2' },
-                        m(
-                          'g',
-                          { id: '0:0:0:0' },
-                          m('rect', { id: 'Rectangle-5', x: '0', y: '0', width: '18', height: '18' }),
-                          m('g', { id: 'emoticon' }),
-                          m('path', { d: 'M14.6332705,7.33333333 C14.6554304,7.55389388 14.6666667,7.77636769 14.6666667,8 C14.6666667,11.6818983 11.6818983,14.6666667 8,14.6666667 C6.23189007,14.6666667 4.53619732,13.9642877 3.28595479,12.7140452 C2.03571227,11.4638027 1.33333333,9.76810993 1.33333333,8 C1.33333333,4.33333333 4.31333333,1.33333333 8,1.33333333 L8,1.33333333 C8.22363231,1.33333333 8.44610612,1.3445696 8.66666667,1.36672949 L8.66666667,2.70847693 C8.44668912,2.68076722 8.22407146,2.66666667 8,2.66666667 C5.05448133,2.66666667 2.66666667,5.05448133 2.66666667,8 C2.66666667,10.9455187 5.05448133,13.3333333 8,13.3333333 C10.9455187,13.3333333 13.3333333,10.9455187 13.3333333,8 C13.3333333,7.77592854 13.3192328,7.55331088 13.2915231,7.33333333 L14.6332705,7.33333333 Z M8,11.6666667 C9.55333333,11.6666667 10.8666667,10.6933333 11.4066667,9.33333333 L4.59333333,9.33333333 C5.12666667,10.6933333 6.44666667,11.6666667 8,11.6666667 Z M10.3333333,7.33333333 C10.8856181,7.33333333 11.3333333,6.88561808 11.3333333,6.33333333 C11.3333333,5.78104858 10.8856181,5.33333333 10.3333333,5.33333333 C9.78104858,5.33333333 9.33333333,5.78104858 9.33333333,6.33333333 C9.33333333,6.88561808 9.78104858,7.33333333 10.3333333,7.33333333 L10.3333333,7.33333333 Z M5.66666667,7.33333333 C6.21895142,7.33333333 6.66666667,6.88561808 6.66666667,6.33333333 C6.66666667,5.78104858 6.21895142,5.33333333 5.66666667,5.33333333 C5.11438192,5.33333333 4.66666667,5.78104858 4.66666667,6.33333333 C4.66666667,6.88561808 5.11438192,7.33333333 5.66666667,7.33333333 Z', id: 'Combined-Shape', fill: '#667c99' })
-                        ),
-                        m(
-                          'g',
-                          { id: 'Group-15', transform: 'translate(10.666667, 0.000000)', fill: '#667c99' },
-                          m('polygon', { id: 'Path', points: '3.33333333 2 3.33333333 0 2 0 2 2 0 2 0 3.33333333 2 3.33333333 2 5.33333333 3.33333333 5.33333333 3.33333333 3.33333333 5.33333333 3.33333333 5.33333333 2' })
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-            );
-          }
-        }, {
-          key: 'react',
-          value: function react(el) {
-            var _this5 = this;
-
-            if (!app.session.user) {
-              app.modal.show(new LogInModal());
-              return;
-            }
-
-            if (!this.post.canReact()) {
-              app.alerts.show(this.successAlert = new Alert({
-                type: 'error',
-                children: app.translator.trans('core.lib.error.permission_denied_message')
-              }));
-            }
-
-            var isReacted = true;
-
-            if (typeof el === 'string') {
-              isReacted = false;
-            }
-
-            var reaction = el && el.target && el.target.attributes['data-reaction'] ? el.target.attributes['data-reaction'].value : '';
-
-            if (reaction === '') {
-              reaction = el;
-            }
-
-            this.post.save({ reaction: reaction }).then(function () {
-              var identifier = _this5.reaction && _this5.reaction.identifier();
-              _this5.reaction = _this5.post.reactions().filter(function (r) {
-                return r.user_id() == app.session.user.data.id;
-              })[0];
-
-              /**
-               * We've saved the fact that we have or haven't reacted to the post,
-               * but in order to provide instantaneous feedback to the user, we'll
-               * need to add or remove the reaction from the current ones manually
-               */
-
-              if (app.forum.data.relationships.ranks !== undefined && (app.forum.attribute('ReactionConverts')[0] === reaction || app.forum.attribute('ReactionConverts')[1] === reaction) || _this5.post.data.relationships.likes !== undefined && app.forum.attribute('ReactionConverts')[2] === reaction) {
-                app.alerts.show(_this5.successAlert = new Alert({
-                  type: 'warning',
-                  children: app.translator.trans('reflar-reactions.forum.warning', { reaction: reaction })
-                }));
-              } else {
-                if (isReacted) {
-                  _this5.reacted[reaction].push(_this5.reaction);
-                } else {
-                  _this5.reacted[identifier] = _this5.reacted[identifier].filter(function (r) {
-                    return r.user_id() != app.session.user.id();
-                  });
-                }
-              }
-
-              m.redraw();
-            }).catch(function (err) {
-              return $('body').append(err);
-            });
-          }
-        }]);
-        return PostReactAction;
-      }(Component);
-
-      _export('default', PostReactAction);
-    }
-  };
+    };
 });;
 'use strict';
 
-System.register('reflar/reactions/components/PostReactedNotification', ['flarum/components/Notification', 'flarum/helpers/username'], function (_export, _context) {
-  "use strict";
+System.register('reflar/reactions/components/PostReactedNotification', ['flarum/components/Notification'], function (_export, _context) {
+    "use strict";
 
-  var Notification, username, PostReactedNotification;
-  return {
-    setters: [function (_flarumComponentsNotification) {
-      Notification = _flarumComponentsNotification.default;
-    }, function (_flarumHelpersUsername) {
-      username = _flarumHelpersUsername.default;
-    }],
-    execute: function () {
-      PostReactedNotification = function (_Notification) {
-        babelHelpers.inherits(PostReactedNotification, _Notification);
+    var Notification, PostReactedNotification;
+    return {
+        setters: [function (_flarumComponentsNotification) {
+            Notification = _flarumComponentsNotification.default;
+        }],
+        execute: function () {
+            PostReactedNotification = function (_Notification) {
+                babelHelpers.inherits(PostReactedNotification, _Notification);
 
-        function PostReactedNotification() {
-          babelHelpers.classCallCheck(this, PostReactedNotification);
-          return babelHelpers.possibleConstructorReturn(this, (PostReactedNotification.__proto__ || Object.getPrototypeOf(PostReactedNotification)).apply(this, arguments));
+                function PostReactedNotification() {
+                    babelHelpers.classCallCheck(this, PostReactedNotification);
+                    return babelHelpers.possibleConstructorReturn(this, (PostReactedNotification.__proto__ || Object.getPrototypeOf(PostReactedNotification)).apply(this, arguments));
+                }
+
+                babelHelpers.createClass(PostReactedNotification, [{
+                    key: 'icon',
+                    value: function icon() {
+                        return 'heart';
+                    }
+                }, {
+                    key: 'href',
+                    value: function href() {
+                        return app.route.post(this.props.notification.subject());
+                    }
+                }, {
+                    key: 'content',
+                    value: function content() {
+                        var notification = this.props.notification;
+                        var identifier = notification.content();
+                        var user = notification.sender();
+
+                        return app.translator.trans('reflar-reactions.forum.notification', {
+                            username: user.username(),
+                            reaction: identifier
+                        });
+                    }
+                }, {
+                    key: 'excerpt',
+                    value: function excerpt() {
+                        return this.props.notification.subject().contentPlain();
+                    }
+                }]);
+                return PostReactedNotification;
+            }(Notification);
+
+            _export('default', PostReactedNotification);
         }
-
-        babelHelpers.createClass(PostReactedNotification, [{
-          key: 'icon',
-          value: function icon() {
-            return 'heart';
-          }
-        }, {
-          key: 'href',
-          value: function href() {
-            return app.route.post(this.props.notification.subject());
-          }
-        }, {
-          key: 'content',
-          value: function content() {
-            var notification = this.props.notification;
-            var identifier = notification.content();
-            var user = notification.sender();
-
-            return app.translator.trans('reflar-reactions.forum.notification', {
-              username: user.username(),
-              reaction: identifier
-            });
-          }
-        }, {
-          key: 'excerpt',
-          value: function excerpt() {
-            return this.props.notification.subject().contentPlain();
-          }
-        }]);
-        return PostReactedNotification;
-      }(Notification);
-
-      _export('default', PostReactedNotification);
-    }
-  };
+    };
 });;
 'use strict';
 
 System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum/models/Forum', 'flarum/models/Post', 'flarum/Model', 'flarum/components/NotificationGrid', 'reflar/reactions/addReactionAction', 'reflar/reactions/components/PostReactedNotification', 'reflar/reactions/models/Reaction'], function (_export, _context) {
-  "use strict";
+    "use strict";
 
-  var extend, app, Forum, Post, Model, NotificationGrid, addReactionAction, PostReactedNotification, Reaction;
-  return {
-    setters: [function (_flarumExtend) {
-      extend = _flarumExtend.extend;
-    }, function (_flarumApp) {
-      app = _flarumApp.default;
-    }, function (_flarumModelsForum) {
-      Forum = _flarumModelsForum.default;
-    }, function (_flarumModelsPost) {
-      Post = _flarumModelsPost.default;
-    }, function (_flarumModel) {
-      Model = _flarumModel.default;
-    }, function (_flarumComponentsNotificationGrid) {
-      NotificationGrid = _flarumComponentsNotificationGrid.default;
-    }, function (_reflarReactionsAddReactionAction) {
-      addReactionAction = _reflarReactionsAddReactionAction.default;
-    }, function (_reflarReactionsComponentsPostReactedNotification) {
-      PostReactedNotification = _reflarReactionsComponentsPostReactedNotification.default;
-    }, function (_reflarReactionsModelsReaction) {
-      Reaction = _reflarReactionsModelsReaction.default;
-    }],
-    execute: function () {
+    var extend, app, Forum, Post, Model, NotificationGrid, addReactionAction, PostReactedNotification, Reaction;
+    return {
+        setters: [function (_flarumExtend) {
+            extend = _flarumExtend.extend;
+        }, function (_flarumApp) {
+            app = _flarumApp.default;
+        }, function (_flarumModelsForum) {
+            Forum = _flarumModelsForum.default;
+        }, function (_flarumModelsPost) {
+            Post = _flarumModelsPost.default;
+        }, function (_flarumModel) {
+            Model = _flarumModel.default;
+        }, function (_flarumComponentsNotificationGrid) {
+            NotificationGrid = _flarumComponentsNotificationGrid.default;
+        }, function (_reflarReactionsAddReactionAction) {
+            addReactionAction = _reflarReactionsAddReactionAction.default;
+        }, function (_reflarReactionsComponentsPostReactedNotification) {
+            PostReactedNotification = _reflarReactionsComponentsPostReactedNotification.default;
+        }, function (_reflarReactionsModelsReaction) {
+            Reaction = _reflarReactionsModelsReaction.default;
+        }],
+        execute: function () {
 
-      app.initializers.add('reflar-reactions', function () {
-        app.store.models.reactions = Reaction;
+            app.initializers.add('reflar-reactions', function () {
+                app.store.models.reactions = Reaction;
 
-        app.notificationComponents.postReacted = PostReactedNotification;
+                app.notificationComponents.postReacted = PostReactedNotification;
 
-        Post.prototype.canReact = Model.attribute('canReact');
-        Post.prototype.reactions = Model.hasMany('reactions');
+                Post.prototype.canReact = Model.attribute('canReact');
+                Post.prototype.reactions = Model.hasMany('reactions');
 
-        Forum.prototype.reactions = Model.hasMany('reactions');
+                Forum.prototype.reactions = Model.hasMany('reactions');
 
-        addReactionAction();
+                addReactionAction();
 
-        extend(NotificationGrid.prototype, 'notificationTypes', function (items) {
-          items.add('postReacted', {
-            name: 'postReacted',
-            icon: 'eye',
-            label: app.translator.trans('reflar-reactions.forum.settings.notify_post_reacted_label')
-          });
-        });
-      });
-    }
-  };
+                extend(NotificationGrid.prototype, 'notificationTypes', function (items) {
+                    items.add('postReacted', {
+                        name: 'postReacted',
+                        icon: 'eye',
+                        label: app.translator.trans('reflar-reactions.forum.settings.notify_post_reacted_label')
+                    });
+                });
+            });
+        }
+    };
 });;
 'use strict';
 
 System.register('reflar/reactions/models/Reaction', ['flarum/Model', 'flarum/utils/mixin'], function (_export, _context) {
-  "use strict";
+    "use strict";
 
-  var Model, mixin, Reaction;
-  return {
-    setters: [function (_flarumModel) {
-      Model = _flarumModel.default;
-    }, function (_flarumUtilsMixin) {
-      mixin = _flarumUtilsMixin.default;
-    }],
-    execute: function () {
-      Reaction = function (_mixin) {
-        babelHelpers.inherits(Reaction, _mixin);
+    var Model, mixin, Reaction;
+    return {
+        setters: [function (_flarumModel) {
+            Model = _flarumModel.default;
+        }, function (_flarumUtilsMixin) {
+            mixin = _flarumUtilsMixin.default;
+        }],
+        execute: function () {
+            Reaction = function (_mixin) {
+                babelHelpers.inherits(Reaction, _mixin);
 
-        function Reaction() {
-          babelHelpers.classCallCheck(this, Reaction);
-          return babelHelpers.possibleConstructorReturn(this, (Reaction.__proto__ || Object.getPrototypeOf(Reaction)).apply(this, arguments));
+                function Reaction() {
+                    babelHelpers.classCallCheck(this, Reaction);
+                    return babelHelpers.possibleConstructorReturn(this, (Reaction.__proto__ || Object.getPrototypeOf(Reaction)).apply(this, arguments));
+                }
+
+                return Reaction;
+            }(mixin(Model, {
+                identifier: Model.attribute('identifier'),
+                type: Model.attribute('type'),
+                user_id: Model.attribute('user_id'),
+                post_id: Model.attribute('post_id')
+            }));
+
+            _export('default', Reaction);
         }
-
-        return Reaction;
-      }(mixin(Model, {
-        identifier: Model.attribute('identifier'),
-        type: Model.attribute('type'),
-        user_id: Model.attribute('user_id'),
-        post_id: Model.attribute('post_id')
-      }));
-
-      _export('default', Reaction);
-    }
-  };
+    };
 });;
 'use strict';
 

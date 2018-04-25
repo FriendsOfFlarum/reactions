@@ -10,10 +10,11 @@
  *  For the full copyright and license information, please view the license.md
  *  file that was distributed with this source code.
  */
+
 use Illuminate\Database\ConnectionInterface;
 
 $permissionAttributes = [
-    'group_id'   => 3, // Default group ID of members
+    'group_id' => 3, // Default group ID of members
     'permission' => 'discussion.reactPosts',
 ];
 
