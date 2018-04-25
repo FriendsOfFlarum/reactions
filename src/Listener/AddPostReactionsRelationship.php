@@ -97,7 +97,7 @@ class AddPostReactionsRelationship
     public function prepareApiAttributes(PrepareApiAttributes $event)
     {
         if ($event->isSerializer(PostSerializer::class)) {
-            $event->attributes['canReact'] = (bool)$event->actor->can('react', $event->model);
+            $event->attributes['canReact'] = (bool) $event->actor->can('react', $event->model);
         }
         if ($event->isSerializer(ForumSerializer::class)) {
             $event->attributes['ReactionConverts'] = [

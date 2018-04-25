@@ -32,8 +32,8 @@ class CreateReaction
     public $data;
 
     /**
-     * @param User $actor The user performing the action.
-     * @param array $data The attributes of the new reaction.
+     * @param User  $actor The user performing the action.
+     * @param array $data  The attributes of the new reaction.
      */
     public function __construct(User $actor, array $data)
     {

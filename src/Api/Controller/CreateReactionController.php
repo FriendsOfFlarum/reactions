@@ -41,7 +41,7 @@ class CreateReactionController extends AbstractCreateController
 
     /**
      * @param ServerRequestInterface $request
-     * @param Document $document
+     * @param Document               $document
      *
      * @return mixed
      */
