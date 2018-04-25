@@ -59,9 +59,8 @@ class SaveReactionsToDatabase
         $data = $event->data;
 
         if ($post->exists && isset($data['attributes']['reaction'])) {
-
             $actor = $event->actor;
-            $reacted = (bool)$data['attributes']['reaction'];
+            $reacted = (bool) $data['attributes']['reaction'];
             $reactionType = $data['attributes']['reaction'];
 
             $this->assertCan($actor, 'react', $post);

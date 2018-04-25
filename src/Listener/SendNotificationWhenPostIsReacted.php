@@ -65,8 +65,8 @@ class SendNotificationWhenPostIsReacted
     }
 
     /**
-     * @param Post $post
-     * @param User $user
+     * @param Post  $post
+     * @param User  $user
      * @param array $recipients
      */
     public function sync(Post $post, User $user, $reaction, array $recipients)

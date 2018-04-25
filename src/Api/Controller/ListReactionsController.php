@@ -27,7 +27,7 @@ class ListReactionsController extends AbstractCollectionController
 
     /**
      * @param ServerRequestInterface $request
-     * @param Document $document
+     * @param Document               $document
      *
      * @return mixed
      */
