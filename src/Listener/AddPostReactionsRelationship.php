@@ -61,7 +61,8 @@ class AddPostReactionsRelationship
     public function getModelRelationship(GetModelRelationship $event)
     {
         if ($event->isRelationship(Post::class, 'reactions')) {
-            return $event->model->belongsToMany(Reaction::class, 'posts_reactions', 'post_id')->withPivot('reaction_id', 'user_id');
+            return $event->model->belongsToMany(Reaction::class, 'posts_reactions', 'post_id')->withPivot('reaction_id',
+                'user_id');
         }
     }
 
@@ -96,7 +97,7 @@ class AddPostReactionsRelationship
     public function prepareApiAttributes(PrepareApiAttributes $event)
     {
         if ($event->isSerializer(PostSerializer::class)) {
-            $event->attributes['canReact'] = (bool) $event->actor->can('react', $event->model);
+            $event->attributes['canReact'] = (bool)$event->actor->can('react', $event->model);
         }
         if ($event->isSerializer(ForumSerializer::class)) {
             $event->attributes['ReactionConverts'] = [

@@ -10,6 +10,7 @@
  *  For the full copyright and license information, please view the license.md
  *  file that was distributed with this source code.
  */
+
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
@@ -28,12 +29,12 @@ return [
         **/
 
         $db->table('reactions')->insert([
-                ['identifier' => 'thumbsup', 'type' => 'emoji'],
-                ['identifier' => 'thumbsdown', 'type' => 'emoji'],
-                ['identifier' => 'laughing', 'type' => 'emoji'],
-                ['identifier' => 'confused', 'type' => 'emoji'],
-                ['identifier' => 'heart', 'type' => 'emoji'],
-                ['identifier' => 'tada', 'type' => 'emoji'],
-            ]);
+            ['identifier' => 'thumbsup', 'type' => 'emoji'],
+            ['identifier' => 'thumbsdown', 'type' => 'emoji'],
+            ['identifier' => 'laughing', 'type' => 'emoji'],
+            ['identifier' => 'confused', 'type' => 'emoji'],
+            ['identifier' => 'heart', 'type' => 'emoji'],
+            ['identifier' => 'tada', 'type' => 'emoji'],
+        ]);
     },
 ];

@@ -29,9 +29,18 @@ class PostReactionSerializer extends AbstractSerializer
     {
         return [
             'identifier' => $reaction->identifier,
-            'type'       => $reaction->type,
-            'user_id'    => (int) $reaction->pivot->user_id,
-            'post_id'    => (int) $reaction->pivot->post_id,
+            'data' => $reaction->type,
+            'user_id' => (int)$reaction->pivot->user_id,
+            'post_id' => (int)$reaction->pivot->post_id,
         ];
+    }
+
+    /**
+     * @param $reaction
+     * @return string
+     */
+    public function getId($reaction)
+    {
+        return $reaction->id . '-' . $reaction->pivot->user_id . '.' . $reaction->pivot->post_id;
     }
 }

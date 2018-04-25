@@ -40,9 +40,9 @@ class DeleteReaction
     public $data;
 
     /**
-     * @param int   $reactionId The ID of the reaction to delete.
-     * @param User  $actor      The user performing the action.
-     * @param array $data       Any other reaction input associated with the action. This
+     * @param int $reactionId The ID of the reaction to delete.
+     * @param User $actor The user performing the action.
+     * @param array $data Any other reaction input associated with the action. This
      *                          is unused by default, but may be used by extensions.
      */
     public function __construct($reactionId, User $actor, array $data = [])

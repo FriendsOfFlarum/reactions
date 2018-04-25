@@ -240,8 +240,8 @@ export default class SettingsPage extends Page {
             response => {
                 this.reactions.push({
                     identifier: m.prop(response.data.attributes.identifier),
-                    type:  m.prop(response.data.attributes.type),
-                    id:  m.prop(response.data.id)
+                    type: m.prop(response.data.attributes.type),
+                    id: m.prop(response.data.id)
                 });
 
                 this.newReaction.identifier('');

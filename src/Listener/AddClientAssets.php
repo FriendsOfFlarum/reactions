@@ -40,15 +40,15 @@ class AddClientAssets
     {
         if ($event->isAdmin()) {
             $event->addAssets([
-                __DIR__.'/../../js/admin/dist/extension.js',
-                __DIR__.'/../../less/admin.less',
+                __DIR__ . '/../../js/admin/dist/extension.js',
+                __DIR__ . '/../../less/admin.less',
             ]);
             $event->addBootstrapper('reflar/reactions/main');
         }
         if ($event->isForum()) {
             $event->addAssets([
-                __DIR__.'/../../js/forum/dist/extension.js',
-                __DIR__.'/../../less/app.less',
+                __DIR__ . '/../../js/forum/dist/extension.js',
+                __DIR__ . '/../../less/app.less',
             ]);
             $event->addBootstrapper('reflar/reactions/main');
         }
@@ -61,9 +61,9 @@ class AddClientAssets
      */
     public function addLocales(ConfigureLocales $event)
     {
-        foreach (new DirectoryIterator(__DIR__.'/../../locale') as $file) {
+        foreach (new DirectoryIterator(__DIR__ . '/../../locale') as $file) {
             if ($file->isFile() && in_array($file->getExtension(), ['yml', 'yaml'])) {
-                $event->locales->addTranslations($file->getBasename('.'.$file->getExtension()), $file->getPathname());
+                $event->locales->addTranslations($file->getBasename('.' . $file->getExtension()), $file->getPathname());
             }
         }
     }

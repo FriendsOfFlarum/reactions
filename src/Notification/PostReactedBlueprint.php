@@ -48,6 +48,22 @@ class PostReactedBlueprint implements BlueprintInterface
     /**
      * {@inheritdoc}
      */
+    public static function getType()
+    {
+        return 'postReacted';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubjectModel()
+    {
+        return Post::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getSubject()
     {
         return $this->post;
@@ -77,21 +93,5 @@ class PostReactedBlueprint implements BlueprintInterface
     public function getData()
     {
         return $this->reaction;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getType()
-    {
-        return 'postReacted';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubjectModel()
-    {
-        return Post::class;
     }
 }

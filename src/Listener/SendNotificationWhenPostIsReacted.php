@@ -65,16 +65,8 @@ class SendNotificationWhenPostIsReacted
     }
 
     /**
-     * @param PostWasUnreacted $event
-     */
-    public function whenPostWasUnreacted(PostWasUnreacted $event)
-    {
-        $this->sync($event->post, $event->user, '', []);
-    }
-
-    /**
-     * @param Post  $post
-     * @param User  $user
+     * @param Post $post
+     * @param User $user
      * @param array $recipients
      */
     public function sync(Post $post, User $user, $reaction, array $recipients)
@@ -85,5 +77,13 @@ class SendNotificationWhenPostIsReacted
                 $recipients
             );
         }
+    }
+
+    /**
+     * @param PostWasUnreacted $event
+     */
+    public function whenPostWasUnreacted(PostWasUnreacted $event)
+    {
+        $this->sync($event->post, $event->user, '', []);
     }
 }

@@ -25,8 +25,8 @@ class Reaction extends AbstractModel
     /**
      * Create a reaction.
      *
-     * @param int    $post_id
-     * @param int    $user_id
+     * @param int $post_id
+     * @param int $user_id
      * @param string $reaction
      *
      * @return static

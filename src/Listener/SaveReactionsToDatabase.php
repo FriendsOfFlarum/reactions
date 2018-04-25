@@ -21,6 +21,7 @@ use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use Reflar\Reactions\Event\PostWasReacted;
 use Reflar\Reactions\Event\PostWasUnreacted;
+use Reflar\Reactions\PostReaction;
 use Reflar\Reactions\Reaction;
 
 class SaveReactionsToDatabase
@@ -58,16 +59,19 @@ class SaveReactionsToDatabase
         $data = $event->data;
 
         if ($post->exists && isset($data['attributes']['reaction'])) {
+
             $actor = $event->actor;
-            $reacted = (bool) $data['attributes']['reaction'];
+            $reacted = (bool)$data['attributes']['reaction'];
             $reactionType = $data['attributes']['reaction'];
 
             $this->assertCan($actor, 'react', $post);
 
             if (class_exists('Reflar\Gamification\Listeners\SaveVotesToDatabase') && $reactionType == $this->settings->get('reflar.reactions.convertToUpvote')) {
-                app()->make('Reflar\Gamification\Listeners\SaveVotesToDatabase')->vote($post, $isDownvoted = false, $isUpvoted = true, $actor, $post->user);
+                app()->make('Reflar\Gamification\Listeners\SaveVotesToDatabase')->vote($post, $isDownvoted = false,
+                    $isUpvoted = true, $actor, $post->user);
             } elseif (class_exists('Reflar\Gamification\Listeners\SaveVotesToDatabase') && $reactionType == $this->settings->get('reflar.reactions.convertToDownvote')) {
-                app()->make('Reflar\Gamification\Listeners\SaveVotesToDatabase')->vote($post, $isDownvoted = true, $isUpvoted = false, $actor, $post->user);
+                app()->make('Reflar\Gamification\Listeners\SaveVotesToDatabase')->vote($post, $isDownvoted = true,
+                    $isUpvoted = false, $actor, $post->user);
             } elseif (class_exists('Flarum\Likes\Listener\SaveLikesToDatabase') && $reactionType == $this->settings->get('reflar.reactions.convertToLike')) {
                 $liked = $post->likes()->where('user_id', $actor->id)->exists();
                 if ($liked) {
@@ -87,7 +91,9 @@ class SaveReactionsToDatabase
 
                     $post->raise(new PostWasReacted($post, $actor, $reaction));
                 } elseif ($currentlyReacted) {
-                    $post->reactions()->detach($post->reactions()->where('user_id', $actor->id)->first());
+                    $reactionToDelete = PostReaction::where('user_id', $actor->id)->firstOrFail();
+
+                    $reactionToDelete->delete();
 
                     $post->raise(new PostWasUnreacted($post, $actor));
                 }

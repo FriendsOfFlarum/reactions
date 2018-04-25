@@ -1,4 +1,4 @@
-import { extend } from 'flarum/extend';
+import {extend} from 'flarum/extend';
 import app from 'flarum/app';
 import Forum from 'flarum/models/Forum';
 import Post from 'flarum/models/Post';
@@ -10,22 +10,22 @@ import PostReactedNotification from 'reflar/reactions/components/PostReactedNoti
 import Reaction from 'reflar/reactions/models/Reaction';
 
 app.initializers.add('reflar-reactions', () => {
-  app.store.models.reactions = Reaction;
+    app.store.models.reactions = Reaction;
 
-  app.notificationComponents.postReacted = PostReactedNotification;
+    app.notificationComponents.postReacted = PostReactedNotification;
 
-  Post.prototype.canReact = Model.attribute('canReact');
-  Post.prototype.reactions = Model.hasMany('reactions');
+    Post.prototype.canReact = Model.attribute('canReact');
+    Post.prototype.reactions = Model.hasMany('reactions');
 
-  Forum.prototype.reactions = Model.hasMany('reactions');
+    Forum.prototype.reactions = Model.hasMany('reactions');
 
-  addReactionAction();
+    addReactionAction();
 
-  extend(NotificationGrid.prototype, 'notificationTypes', (items) => {
-    items.add('postReacted', {
-      name: 'postReacted',
-      icon: 'eye',
-      label: app.translator.trans('reflar-reactions.forum.settings.notify_post_reacted_label')
+    extend(NotificationGrid.prototype, 'notificationTypes', (items) => {
+        items.add('postReacted', {
+            name: 'postReacted',
+            icon: 'eye',
+            label: app.translator.trans('reflar-reactions.forum.settings.notify_post_reacted_label')
+        });
     });
-  });
 });
