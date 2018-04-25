@@ -10,7 +10,7 @@ import Reaction from 'reflar/reactions/models/Reaction';
 app.initializers.add('reflar-reactions', () => {
     app.store.models.reactions = Reaction;
 
-    Forum.prototype.reactions = Model.hasMany('forumReactions');
+    Forum.prototype.reactions = Model.hasMany('reactions');
 
     extend(PermissionGrid.prototype, 'replyItems', (items) => {
         items.add('reactPosts', {
