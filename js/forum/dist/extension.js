@@ -915,7 +915,7 @@ System.register('reflar/reactions/components/PostReactedNotification', ['flarum/
                     key: 'content',
                     value: function content() {
                         var notification = this.props.notification;
-                        var identifier = notification.content();
+                        var identifier = '"' + JSON.parse(notification.content()).identifier + '"';
                         var user = notification.sender();
 
                         return app.translator.trans('reflar-reactions.forum.notification', {
