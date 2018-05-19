@@ -562,39 +562,39 @@ if(typeof module === "object") module.exports = this.emojione;;
 "use strict";
 
 System.register("reflar/reactions/addSettingsPage", ["flarum/extend", "flarum/components/AdminNav", "flarum/components/AdminLinkButton", "reflar/reactions/components/SettingsPage"], function (_export, _context) {
-  "use strict";
+    "use strict";
 
-  var extend, AdminNav, AdminLinkButton, SettingsPage;
+    var extend, AdminNav, AdminLinkButton, SettingsPage;
 
-  _export("default", function () {
-    app.routes['reflar-reactions'] = { path: '/reflar/reactions', component: SettingsPage.component() };
+    _export("default", function () {
+        app.routes['reflar-reactions'] = { path: '/reflar/reactions', component: SettingsPage.component() };
 
-    app.extensionSettings['reflar-reactions'] = function () {
-      return m.route(app.route('reflar-reactions'));
-    };
+        app.extensionSettings['reflar-reactions'] = function () {
+            return m.route(app.route('reflar-reactions'));
+        };
 
-    extend(AdminNav.prototype, 'items', function (items) {
-      items.add('reflar-reactions', AdminLinkButton.component({
-        href: app.route('reflar-reactions'),
-        icon: 'heart',
-        children: 'Reactions',
-        description: app.translator.trans('reflar-reactions.admin.nav.desc')
-      }));
+        extend(AdminNav.prototype, 'items', function (items) {
+            items.add('reflar-reactions', AdminLinkButton.component({
+                href: app.route('reflar-reactions'),
+                icon: 'heart',
+                children: 'Reactions',
+                description: app.translator.trans('reflar-reactions.admin.nav.desc')
+            }));
+        });
     });
-  });
 
-  return {
-    setters: [function (_flarumExtend) {
-      extend = _flarumExtend.extend;
-    }, function (_flarumComponentsAdminNav) {
-      AdminNav = _flarumComponentsAdminNav.default;
-    }, function (_flarumComponentsAdminLinkButton) {
-      AdminLinkButton = _flarumComponentsAdminLinkButton.default;
-    }, function (_reflarReactionsComponentsSettingsPage) {
-      SettingsPage = _reflarReactionsComponentsSettingsPage.default;
-    }],
-    execute: function () {}
-  };
+    return {
+        setters: [function (_flarumExtend) {
+            extend = _flarumExtend.extend;
+        }, function (_flarumComponentsAdminNav) {
+            AdminNav = _flarumComponentsAdminNav.default;
+        }, function (_flarumComponentsAdminLinkButton) {
+            AdminLinkButton = _flarumComponentsAdminLinkButton.default;
+        }, function (_reflarReactionsComponentsSettingsPage) {
+            SettingsPage = _reflarReactionsComponentsSettingsPage.default;
+        }],
+        execute: function () {}
+    };
 });;
 'use strict';
 
@@ -656,7 +656,7 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
 
                         return m(
                             'div',
-                            { className: 'SettingsPage' },
+                            { className: 'SettingsPage--reactions' },
                             m(
                                 'div',
                                 { className: 'container' },
@@ -693,7 +693,7 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                                     { onsubmit: this.onsubmit.bind(this) },
                                     m(
                                         'fieldset',
-                                        { className: 'SettingsPage-reactions' },
+                                        null,
                                         m(
                                             'legend',
                                             null,
@@ -797,7 +797,7 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
                                     ),
                                     m(
                                         'fieldset',
-                                        { className: 'SettingsPage-reactions' },
+                                        null,
                                         m(
                                             'div',
                                             { className: 'Reaction-settings' },
@@ -1036,77 +1036,77 @@ System.register('reflar/reactions/components/SettingsPage', ['flarum/components/
 'use strict';
 
 System.register('reflar/reactions/main', ['flarum/extend', 'flarum/app', 'flarum/models/Forum', 'flarum/Model', 'flarum/components/PermissionGrid', 'reflar/reactions/addSettingsPage', 'reflar/reactions/models/Reaction'], function (_export, _context) {
-  "use strict";
+    "use strict";
 
-  var extend, app, Forum, Model, PermissionGrid, addSettingsPage, Reaction;
-  return {
-    setters: [function (_flarumExtend) {
-      extend = _flarumExtend.extend;
-    }, function (_flarumApp) {
-      app = _flarumApp.default;
-    }, function (_flarumModelsForum) {
-      Forum = _flarumModelsForum.default;
-    }, function (_flarumModel) {
-      Model = _flarumModel.default;
-    }, function (_flarumComponentsPermissionGrid) {
-      PermissionGrid = _flarumComponentsPermissionGrid.default;
-    }, function (_reflarReactionsAddSettingsPage) {
-      addSettingsPage = _reflarReactionsAddSettingsPage.default;
-    }, function (_reflarReactionsModelsReaction) {
-      Reaction = _reflarReactionsModelsReaction.default;
-    }],
-    execute: function () {
+    var extend, app, Forum, Model, PermissionGrid, addSettingsPage, Reaction;
+    return {
+        setters: [function (_flarumExtend) {
+            extend = _flarumExtend.extend;
+        }, function (_flarumApp) {
+            app = _flarumApp.default;
+        }, function (_flarumModelsForum) {
+            Forum = _flarumModelsForum.default;
+        }, function (_flarumModel) {
+            Model = _flarumModel.default;
+        }, function (_flarumComponentsPermissionGrid) {
+            PermissionGrid = _flarumComponentsPermissionGrid.default;
+        }, function (_reflarReactionsAddSettingsPage) {
+            addSettingsPage = _reflarReactionsAddSettingsPage.default;
+        }, function (_reflarReactionsModelsReaction) {
+            Reaction = _reflarReactionsModelsReaction.default;
+        }],
+        execute: function () {
 
-      app.initializers.add('reflar-reactions', function () {
-        app.store.models.reactions = Reaction;
+            app.initializers.add('reflar-reactions', function () {
+                app.store.models.reactions = Reaction;
 
-        Forum.prototype.reactions = Model.hasMany('reactions');
+                Forum.prototype.reactions = Model.hasMany('reactions');
 
-        extend(PermissionGrid.prototype, 'replyItems', function (items) {
-          items.add('reactPosts', {
-            icon: 'thumbs-o-up',
-            label: app.translator.trans('reflar-reactions.admin.permissions.react_posts_label'),
-            permission: 'discussion.reactPosts'
-          });
-        });
+                extend(PermissionGrid.prototype, 'replyItems', function (items) {
+                    items.add('reactPosts', {
+                        icon: 'thumbs-o-up',
+                        label: app.translator.trans('reflar-reactions.admin.permissions.react_posts_label'),
+                        permission: 'discussion.reactPosts'
+                    });
+                });
 
-        addSettingsPage();
-      });
-    }
-  };
+                addSettingsPage();
+            });
+        }
+    };
 });;
 'use strict';
 
 System.register('reflar/reactions/models/Reaction', ['flarum/Model', 'flarum/utils/mixin'], function (_export, _context) {
-  "use strict";
+    "use strict";
 
-  var Model, mixin, Reaction;
-  return {
-    setters: [function (_flarumModel) {
-      Model = _flarumModel.default;
-    }, function (_flarumUtilsMixin) {
-      mixin = _flarumUtilsMixin.default;
-    }],
-    execute: function () {
-      Reaction = function (_mixin) {
-        babelHelpers.inherits(Reaction, _mixin);
+    var Model, mixin, Reaction;
+    return {
+        setters: [function (_flarumModel) {
+            Model = _flarumModel.default;
+        }, function (_flarumUtilsMixin) {
+            mixin = _flarumUtilsMixin.default;
+        }],
+        execute: function () {
+            Reaction = function (_mixin) {
+                babelHelpers.inherits(Reaction, _mixin);
 
-        function Reaction() {
-          babelHelpers.classCallCheck(this, Reaction);
-          return babelHelpers.possibleConstructorReturn(this, (Reaction.__proto__ || Object.getPrototypeOf(Reaction)).apply(this, arguments));
+                function Reaction() {
+                    babelHelpers.classCallCheck(this, Reaction);
+                    return babelHelpers.possibleConstructorReturn(this, (Reaction.__proto__ || Object.getPrototypeOf(Reaction)).apply(this, arguments));
+                }
+
+                return Reaction;
+            }(mixin(Model, {
+                identifier: Model.attribute('identifier'),
+                type: Model.attribute('type'),
+                user_id: Model.attribute('user_id'),
+                post_id: Model.attribute('post_id')
+            }));
+
+            _export('default', Reaction);
         }
-
-        return Reaction;
-      }(mixin(Model, {
-        identifier: Model.attribute('identifier'),
-        type: Model.attribute('type'),
-        user_id: Model.attribute('user_id'),
-        post_id: Model.attribute('post_id')
-      }));
-
-      _export('default', Reaction);
-    }
-  };
+    };
 });;
 'use strict';
 

@@ -39,7 +39,7 @@ export default class SettingsPage extends Page {
      */
     view() {
         return (
-            <div className="SettingsPage">
+            <div className="SettingsPage--reactions">
                 <div className="container">
                     <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.convert.help')}</div>
                     <div>
@@ -69,7 +69,7 @@ export default class SettingsPage extends Page {
 
 
                     <form onsubmit={this.onsubmit.bind(this)}>
-                        <fieldset className="SettingsPage-reactions">
+                        <fieldset>
                             <legend>{app.translator.trans('reflar-reactions.admin.page.reactions.title')}</legend>
                             <label>{app.translator.trans('reflar-reactions.admin.page.reactions.reactions')}</label>
                             <div style="margin-bottom: -10px" className="helpText">{app.translator.trans('reflar-reactions.admin.page.reactions.Helptext')}</div>
@@ -156,7 +156,7 @@ export default class SettingsPage extends Page {
                                 </div>
                             </div>
                         </fieldset>
-                        <fieldset className="SettingsPage-reactions">
+                        <fieldset>
                             <div className="Reaction-settings">
                                 {this.isEnabled('reflar-gamification') || this.isEnabled('flarum-likes') ? (
                                     <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.legend')}</legend>
