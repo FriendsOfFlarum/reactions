@@ -2,11 +2,13 @@ reflar-reactions:
   forum:
     warning: Your reaction was converted
     notification: '{username} reacted with {reaction} to your post'
+    settings:
+        notify_post_reacted_label: Someone reacts to one of my posts
 
   admin:
     permissions:
         react_posts_label: React to posts
-  
+
     nav:
       desc: Add custom reactions and change settings.
 
@@ -17,6 +19,12 @@ reflar-reactions:
         Helptext: Input the name (identifier) of the emoji or font-awesome icon and select which type you would like.
         help:
           identifier: Identifier
+
+      convert:
+        help: If you just updated your extension, your reactions will have to be converted. If you just installed this extension, you can saftely ignore this message.
+        button: Convert old reactions
+        converting: Your reactions are now converting. Refresh your site after a few minutes to see the process finished. (Conversion time might take a while depending on your total number of reactions)
+        converted: "Successfully converted all {number} likes"
 
       settings:
         save_settings: Save Settings

@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -21,6 +21,7 @@ use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use Reflar\Reactions\Event\PostWasReacted;
 use Reflar\Reactions\Event\PostWasUnreacted;
+use Reflar\Reactions\PostReaction;
 use Reflar\Reactions\Reaction;
 
 class SaveReactionsToDatabase
@@ -35,7 +36,8 @@ class SaveReactionsToDatabase
     /**
      * @param SaveVotesToDatabase $gamification
      */
-    public function __construct(SettingsRepositoryInterface $settings) {
+    public function __construct(SettingsRepositoryInterface $settings)
+    {
         $this->settings = $settings;
     }
 
@@ -58,17 +60,17 @@ class SaveReactionsToDatabase
 
         if ($post->exists && isset($data['attributes']['reaction'])) {
             $actor = $event->actor;
-            $reacted = (bool)$data['attributes']['reaction'];
+            $reacted = (bool) $data['attributes']['reaction'];
             $reactionType = $data['attributes']['reaction'];
 
             $this->assertCan($actor, 'react', $post);
 
             if (class_exists('Reflar\Gamification\Listeners\SaveVotesToDatabase') && $reactionType == $this->settings->get('reflar.reactions.convertToUpvote')) {
-                app()->make('Reflar\Gamification\Listeners\SaveVotesToDatabase')->vote($post, $isDownvoted = false, $isUpvoted = true, $actor, $post->user);
-
+                app()->make('Reflar\Gamification\Listeners\SaveVotesToDatabase')->vote($post, $isDownvoted = false,
+                    $isUpvoted = true, $actor, $post->user);
             } elseif (class_exists('Reflar\Gamification\Listeners\SaveVotesToDatabase') && $reactionType == $this->settings->get('reflar.reactions.convertToDownvote')) {
-                app()->make('Reflar\Gamification\Listeners\SaveVotesToDatabase')->vote($post, $isDownvoted = true, $isUpvoted = false, $actor, $post->user);
-
+                app()->make('Reflar\Gamification\Listeners\SaveVotesToDatabase')->vote($post, $isDownvoted = true,
+                    $isUpvoted = false, $actor, $post->user);
             } elseif (class_exists('Flarum\Likes\Listener\SaveLikesToDatabase') && $reactionType == $this->settings->get('reflar.reactions.convertToLike')) {
                 $liked = $post->likes()->where('user_id', $actor->id)->exists();
                 if ($liked) {
@@ -79,19 +81,18 @@ class SaveReactionsToDatabase
                     $post->raise(new PostWasLiked($post, $actor));
                 }
             } else {
-
                 $currentlyReacted = $post->reactions()->where('user_id', $actor->id)->exists();
 
                 if ($reacted && !$currentlyReacted) {
-                    $reaction = Reaction::where('identifier', $reactionType)->first();
+                    $reaction = Reaction::where('identifier', $reactionType)->firstOrFail();
 
-                    $post->reactions()->attach($reaction, ['user_id' => $actor->id, 'reaction_id' => $reaction->identifier]);
+                    $post->reactions()->attach($reaction, ['user_id' => $actor->id, 'reaction_id' => $reaction->id]);
 
-                    $post->raise(new PostWasReacted($post, $actor, $reaction->identifier));
-
+                    $post->raise(new PostWasReacted($post, $actor, $reaction));
                 } elseif ($currentlyReacted) {
+                    $reactionToDelete = PostReaction::where('user_id', $actor->id)->firstOrFail();
 
-                    $post->reactions()->detach($post->reactions()->where('user_id', $actor->id)->first());
+                    $reactionToDelete->delete();
 
                     $post->raise(new PostWasUnreacted($post, $actor));
                 }

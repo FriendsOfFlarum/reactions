@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -29,7 +29,7 @@ class ReactionSerializer extends AbstractSerializer
     {
         return [
             'identifier' => $reaction->identifier,
-            'type'       => $reaction->type
+            'type'       => $reaction->type,
         ];
     }
 }

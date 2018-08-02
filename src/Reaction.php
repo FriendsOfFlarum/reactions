@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -18,22 +18,25 @@ use Flarum\Database\AbstractModel;
 class Reaction extends AbstractModel
 {
     /**
-     * { @inheritdoc }
+     * {@inheritdoc}
      */
     protected $table = 'reactions';
 
     /**
-     * Create a reaction
-     * @param int $post_id
-     * @param int $user_id
+     * Create a reaction.
+     *
+     * @param int    $post_id
+     * @param int    $user_id
      * @param string $reaction
+     *
      * @return static
      */
     public static function build($identifier, $type)
     {
-        $reaction = new static;
+        $reaction = new static();
         $reaction->identifier = $identifier;
         $reaction->type = $type;
+
         return $reaction;
     }
 }

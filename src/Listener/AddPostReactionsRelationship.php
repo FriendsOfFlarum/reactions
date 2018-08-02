@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -13,11 +13,8 @@
 
 namespace Reflar\Reactions\Listener;
 
-use Flarum\Api\Serializer\ForumSerializer;
-use Reflar\Reactions\Api\Serializer\PostReactionSerializer;
-use Reflar\Reactions\Api\Serializer\ReactionSerializer;
-use Reflar\Reactions\Reaction;
 use Flarum\Api\Controller;
+
 use Flarum\Api\Serializer\PostSerializer;
 use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Post\Post;
@@ -27,6 +24,9 @@ use Flarum\Event\GetModelRelationship;
 use Flarum\Api\Event\Serializing;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
+use Reflar\Reactions\Api\Serializer\PostReactionSerializer;
+use Reflar\Reactions\Api\Serializer\ReactionSerializer;
+use Reflar\Reactions\Reaction;
 
 class AddPostReactionsRelationship
 {
@@ -46,6 +46,7 @@ class AddPostReactionsRelationship
     public function subscribe(Dispatcher $events)
     {
         $events->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);
+        $events->listen(PrepareApiData::class, [$this, 'loadReactionsRelationship']);
         $events->listen(GetApiRelationship::class, [$this, 'getApiAttributes']);
         $events->listen(Serializing::class, [$this, 'prepareApiAttributes']);
         $events->listen(WillGetData::class, [$this, 'includeReactions']);
@@ -59,7 +60,8 @@ class AddPostReactionsRelationship
     public function getModelRelationship(GetModelRelationship $event)
     {
         if ($event->isRelationship(Post::class, 'reactions')) {
-            return $event->model->belongsToMany(Reaction::class, 'post_reactions', 'post_id', 'user_id')->withPivot('reaction_id');
+            return $event->model->belongsToMany(Reaction::class, 'post_reactions', 'post_id')->withPivot('reaction_id',
+                'user_id');
         }
     }
 
@@ -73,6 +75,19 @@ class AddPostReactionsRelationship
         if ($event->isRelationship(PostBasicSerializer::class, 'reactions')) {
             return $event->serializer->hasMany($event->model, PostReactionSerializer::class, 'reactions');
         }
+        if ($event->isRelationship(ForumSerializer::class, 'reactions')) {
+            return $event->serializer->hasMany($event->model, ReactionSerializer::class, 'reactions');
+        }
+    }
+
+    /**
+     * @param PrepareApiData $event
+     */
+    public function loadReactionsRelationship(PrepareApiData $event)
+    {
+        if ($event->isController(Controller\ShowForumController::class)) {
+            $event->data['reactions'] = Reaction::get();
+        }
     }
 
     /**
@@ -84,11 +99,10 @@ class AddPostReactionsRelationship
             $event->attributes['canReact'] = (bool) $event->actor->can('react', $event->model);
         }
         if ($event->isSerializer(ForumSerializer::class)) {
-            $event->attributes['reactions'] = Reaction::get();
             $event->attributes['ReactionConverts'] = [
                 $this->settings->get('reflar.reactions.convertToUpvote'),
                 $this->settings->get('reflar.reactions.convertToDownvote'),
-                $this->settings->get('reflar.reactions.convertToLike')
+                $this->settings->get('reflar.reactions.convertToLike'),
             ];
         }
     }
@@ -106,6 +120,10 @@ class AddPostReactionsRelationship
             || $event->isController(Controller\ShowPostController::class)
             || $event->isController(Controller\CreatePostController::class)
             || $event->isController(Controller\UpdatePostController::class)) {
+            $event->addInclude('reactions');
+        }
+
+        if ($event->isController(Controller\ShowForumController::class)) {
             $event->addInclude('reactions');
         }
     }

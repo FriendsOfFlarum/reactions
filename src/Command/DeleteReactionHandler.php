@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -37,8 +37,5 @@ class DeleteReactionHandler
         $reaction = Reaction::where('id', $command->reactionId)->first();
 
         $reaction->delete();
-
-        return;
     }
-
 }

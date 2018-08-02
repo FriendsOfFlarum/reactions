@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -13,13 +13,13 @@
 
 namespace Reflar\Reactions\Api\Controller;
 
-use Flarum\Api\Controller\AbstractResourceController;
+use Flarum\Api\Controller\AbstractShowController;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 use Reflar\Reactions\Command\EditReaction;
 use Tobscure\JsonApi\Document;
 
-class UpdateReactionController extends AbstractResourceController
+class UpdateReactionController extends AbstractShowController
 {
     /**
      * {@inheritdoc}
@@ -40,7 +40,8 @@ class UpdateReactionController extends AbstractResourceController
 
     /**
      * @param ServerRequestInterface $request
-     * @param Document $document
+     * @param Document               $document
+     *
      * @return mixed
      */
     protected function data(ServerRequestInterface $request, Document $document)

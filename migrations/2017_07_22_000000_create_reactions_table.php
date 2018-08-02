@@ -29,16 +29,16 @@ return [
         **/
 
         $schema->getConnection()->table('reactions')->insert([
-                ['identifier' => 'thumbsup', 'type' => 'emoji'],
-                ['identifier' => 'thumbsdown', 'type' => 'emoji'],
-                ['identifier' => 'laughing', 'type' => 'emoji'],
-                ['identifier' => 'confused', 'type' => 'emoji'],
-                ['identifier' => 'heart', 'type' => 'emoji'],
-                ['identifier' => 'tada', 'type' => 'emoji']
-            ]);
+            ['identifier' => 'thumbsup', 'type' => 'emoji'],
+            ['identifier' => 'thumbsdown', 'type' => 'emoji'],
+            ['identifier' => 'laughing', 'type' => 'emoji'],
+            ['identifier' => 'confused', 'type' => 'emoji'],
+            ['identifier' => 'heart', 'type' => 'emoji'],
+            ['identifier' => 'tada', 'type' => 'emoji']
+        ]);
     },
-	
-	'down' => function (Builder $schema) {
-		$schema->drop('reactions');
-	}
+
+    'down' => function (Builder $schema) {
+        $schema->drop('reactions');
+    }
 ];

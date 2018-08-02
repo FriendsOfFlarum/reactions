@@ -1,58 +1,74 @@
-.CommentPost--Reactions {
+.Reactions {
+    .Button-emoji-parent {
+        float: right;
+        margin-top: 8px;
 
-  background-color: @body-bg;
-  color: @text-color;
-  text-align: center;
-  border-radius: 6px;
-  padding: 7.5px 2px;
-  margin-left: 50%;
-  left: -75%;
-  bottom: 100%;
-  opacity: 0;
-  height: auto !important;
-  overflow: hidden;
-  transition: opacity 0.3s ease-in;
-  transition: opacity 0.5s ease-out;
-
-
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-
-  &.Reactions--Show {
-    opacity: 1;
-    height: auto !important;
-  }
-
-  border-radius: 4px;
-  -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-  font-size: 13px;
-  line-height: 1.5;
-
-  ul {
-    padding: 0;
-    list-style-type: none;
-
-    li {
-      display: inline-block;
-
-      button {
-        padding: 1px 7.5px
-      }
+        .button-emoji {
+            margin: auto !important;
+        }
     }
-  }
-}
 
-.button-emoji {
-  margin: auto !important;
-  vertical-align: inherit !important;
-}
+    .Button-label {
+        margin-left: 7px !important;
+    }
 
-.Button-label {
-  margin-left: 7px !important;
-}
+    .reaction-icon {
+        font-size: 18px;
+        margin: 1px 0px 0px 2px !important;
+    }
 
-.reaction-icon {
-  font-size: 17.5px;
+    .mobile-show {
+        opacity: 1;
+        visibility: visible;
+        transition: visibility 0s linear 0s, opacity 300ms;
+    }
+
+    .Reactions--ShowReactions {
+        padding: 0px;
+        margin-top: 9px;
+        float: right;
+    }
+
+    .CommentPost--Reactions {
+        background-color: @body-bg;
+        color: @text-color;
+        padding: 7.5px 2px;
+        bottom: 100%;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s linear 300ms, opacity 300ms;
+        max-width: 270px;
+        height: auto !important;
+        overflow: hidden;
+
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+        font-size: 13px;
+        line-height: 2;
+
+        ul {
+            padding: 0;
+            list-style-type: none;
+
+            li {
+                display: inline-block;
+                margin-top: 3px;
+                margin-bottom: 3px;
+
+                button {
+                    padding: 1px 7.5px
+                }
+            }
+        }
+    }
+
+    &:hover .CommentPost--Reactions {
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0s linear 0s, opacity 300ms;
+    }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -28,10 +28,20 @@ class PostReactionSerializer extends AbstractSerializer
     protected function getDefaultAttributes($reaction)
     {
         return [
-            'identifier' => $reaction->pivot->reaction_id,
+            'identifier' => $reaction->identifier,
             'type'       => $reaction->type,
             'user_id'    => (int) $reaction->pivot->user_id,
-            'post_id'    => (int) $reaction->pivot->post_id
+            'post_id'    => (int) $reaction->pivot->post_id,
         ];
+    }
+
+    /**
+     * @param $reaction
+     *
+     * @return string
+     */
+    public function getId($reaction)
+    {
+        return $reaction->id.'-'.$reaction->pivot->user_id.'.'.$reaction->pivot->post_id;
     }
 }

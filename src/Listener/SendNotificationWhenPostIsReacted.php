@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -11,17 +11,16 @@
  *  file that was distributed with this source code.
  */
 
-
 namespace Reflar\Reactions\Listener;
 
-use Reflar\Reactions\Event\PostWasReacted;
-use Reflar\Reactions\Event\PostWasUnreacted;
-use Reflar\Reactions\Notification\PostReactedBlueprint;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\Post\Post;
 use Flarum\User\User;
 use Flarum\Event\ConfigureNotificationTypes;
 use Illuminate\Contracts\Events\Dispatcher;
+use Reflar\Reactions\Event\PostWasReacted;
+use Reflar\Reactions\Event\PostWasUnreacted;
+use Reflar\Reactions\Notification\PostReactedBlueprint;
 
 class SendNotificationWhenPostIsReacted
 {
@@ -65,14 +64,6 @@ class SendNotificationWhenPostIsReacted
     }
 
     /**
-     * @param PostWasUnreacted $event
-     */
-    public function whenPostWasUnreacted(PostWasUnreacted $event)
-    {
-        $this->sync($event->post, $event->user, '', []);
-    }
-
-    /**
      * @param Post  $post
      * @param User  $user
      * @param array $recipients
@@ -85,5 +76,13 @@ class SendNotificationWhenPostIsReacted
                 $recipients
             );
         }
+    }
+
+    /**
+     * @param PostWasUnreacted $event
+     */
+    public function whenPostWasUnreacted(PostWasUnreacted $event)
+    {
+        $this->sync($event->post, $event->user, '', []);
     }
 }
