@@ -59,7 +59,7 @@ class AddPostReactionsRelationship
     public function getModelRelationship(GetModelRelationship $event)
     {
         if ($event->isRelationship(Post::class, 'reactions')) {
-            return $event->model->belongsToMany(Reaction::class, 'posts_reactions', 'post_id', 'user_id')->withPivot('reaction_id');
+            return $event->model->belongsToMany(Reaction::class, 'post_reactions', 'post_id', 'user_id')->withPivot('reaction_id');
         }
     }
 

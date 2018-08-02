@@ -1,7 +1,7 @@
 import { extend } from 'flarum/extend';
 import app from 'flarum/app';
 import CommentPost from 'flarum/components/CommentPost';
-import PostReactAction from 'reflar/reactions/components/PostReactAction';
+import PostReactAction from './components/PostReactAction';
 
 export default () => {
   extend(CommentPost.prototype, 'actionItems', function (items) {

@@ -3,7 +3,7 @@ import Component from "flarum/Component";
 import ItemList from "flarum/utils/ItemList";
 import listItems from "flarum/helpers/listItems";
 import LogInModal from 'flarum/components/LogInModal';
-import emoji from 'reflar/reactions/util/emoji';
+import emoji from '../../common/util/emoji';
 
 export default class PostReactAction extends Component {
 
@@ -16,7 +16,6 @@ export default class PostReactAction extends Component {
             });
         } else {
             $('.Reactions--ShowReactions').unbind().hover(function () {
-                console.log('hi');
                 $(this).find('.CommentPost--Reactions').addClass('Reactions--Show');
                 m.redraw();
             }, function () {

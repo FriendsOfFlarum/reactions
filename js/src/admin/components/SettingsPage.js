@@ -1,6 +1,6 @@
 import Alert from 'flarum/components/Alert';
 import Button from "flarum/components/Button";
-import emoji from 'reflar/reactions/util/emoji';
+import emoji from '../../common/util/emoji';
 import Page from 'flarum/components/Page';
 import Select from "flarum/components/Select";
 import saveSettings from "flarum/utils/saveSettings";
@@ -86,7 +86,7 @@ export default class SettingsPage extends Page {
                                             {Button.component({
                                                 type: 'button',
                                                 className: 'Button Button--warning Reactions-button',
-                                                icon: 'times',
+                                                icon: 'fa fa-times',
                                                 onclick: this.deleteReaction.bind(this, reaction)
                                             })}
                                             {demos}
@@ -108,7 +108,7 @@ export default class SettingsPage extends Page {
                                     {Button.component({
                                         type: 'button',
                                         className: 'Button Button--warning Reactions-button',
-                                        icon: 'plus',
+                                        icon: 'fa fa-plus',
                                         onclick: this.addReaction.bind(this)
                                     })}
                                     {(this.newReaction.type() === 'icon') ? (

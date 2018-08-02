@@ -2,8 +2,8 @@ import { extend } from 'flarum/extend';
 import app from 'flarum/app';
 import PermissionGrid from 'flarum/components/PermissionGrid';
 
-import addSettingsPage from 'reflar/reactions/addSettingsPage';
-import Reaction from 'reflar/reactions/models/Reaction';
+import addSettingsPage from './addSettingsPage';
+import Reaction from '../common/models/Reaction';
 
 app.initializers.add('reflar-reactions', () => {
   app.store.models.reactions = Reaction;

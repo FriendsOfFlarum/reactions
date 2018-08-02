@@ -4,10 +4,10 @@ import Post from 'flarum/models/Post';
 import Model from 'flarum/Model';
 import NotificationGrid from 'flarum/components/NotificationGrid';
 
-import addReactionAction from 'reflar/reactions/addReactionAction';
-import PostReactedNotification from 'reflar/reactions/components/PostReactedNotification';
+import addReactionAction from './addReactionAction';
+import PostReactedNotification from './components/PostReactedNotification';
 // import addLikesList from 'reflar/reactions/addLikesList';
-import Reaction from 'reflar/reactions/models/Reaction';
+import Reaction from '../common/models/Reaction';
 
 app.initializers.add('reflar-reactions', () => {
   app.store.models.reactions = Reaction;

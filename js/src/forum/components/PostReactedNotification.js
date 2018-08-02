@@ -1,5 +1,4 @@
 import Notification from 'flarum/components/Notification';
-import username from 'flarum/helpers/username';
 
 export default class PostReactedNotification extends Notification {
   icon() {

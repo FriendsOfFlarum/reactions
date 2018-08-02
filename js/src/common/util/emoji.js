@@ -1,3 +1,5 @@
+import emojione from 'emojione'
+
 export default (reactionOrIdentifier) => {
   const identifier = reactionOrIdentifier.identifier || reactionOrIdentifier;
   const item = emojione.emojioneList[`:${identifier}:`]

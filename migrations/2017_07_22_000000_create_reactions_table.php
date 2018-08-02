@@ -14,10 +14,9 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
-use Illuminate\Database\ConnectionInterface;
 
 return [
-    'up' => function (Builder $schema, ConnectionInterface $db) {
+    'up' => function (Builder $schema) {
         $schema->create('reactions',function (Blueprint $table) {
             $table->increments('id');
             $table->string('identifier');
@@ -29,7 +28,7 @@ return [
          *  Type is either emoji, or FA
         **/
 
-        $db->table('reactions')->insert([
+        $schema->getConnection()->table('reactions')->insert([
                 ['identifier' => 'thumbsup', 'type' => 'emoji'],
                 ['identifier' => 'thumbsdown', 'type' => 'emoji'],
                 ['identifier' => 'laughing', 'type' => 'emoji'],
@@ -38,4 +37,8 @@ return [
                 ['identifier' => 'tada', 'type' => 'emoji']
             ]);
     },
+	
+	'down' => function (Builder $schema) {
+		$schema->drop('reactions');
+	}
 ];
