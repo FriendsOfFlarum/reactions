@@ -15,6 +15,9 @@ const twemojiFileNames = fs.readdirSync('./node_modules/twemoji/2/svg')
 const alternative = {
     "👁️‍🗨️" : "👁‍🗨",
 };
+const shortnames = {
+    "1f697": ["car"]
+};
 
 const emojis = {};
 
@@ -27,7 +30,7 @@ for (let e of data) {
         continue;
     }
 
-    emojis[emojiCode] = e.shortcodes;
+    emojis[emojiCode] = e.shortcodes.concat(shortnames[emojiCode] || []);
 }
 
 const outputDir = path.dirname(outputPath);
