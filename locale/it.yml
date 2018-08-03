@@ -1,0 +1,44 @@
+reflar-reactions:
+  forum:
+    warning: La tua reazione è stata convertita
+    notification: '{username} ha reagito con {reaction} al tuo messaggio'
+    settings:
+        notify_post_reacted_label: Qualcuno reagisce ad uno dei miei messaggi
+
+  admin:
+    permissions:
+        react_posts_label: Reagisci ai messaggi
+
+    nav:
+      desc: Aggiungi reazioni personalizzate e modifica le impostazioni.
+
+    page:
+      reactions:
+        title: Reazioni Personalizzate
+        reactions: Reazioni Attuali
+        Helptext: Inserisci il nome (identificativo) di un'icona emoji o font-awesome e seleziona il tipo che preferisci.
+        help:
+          identifier: Identificativo
+
+      convert:
+        help: "Se hai aggiornato l'estensione, le tue reazioni dovranno essere convertite. Se hai installato l'estensione, puoi ignorare questo messaggio."
+        button: Converti le vecchie reazioni
+        converting: Le tue reazioni sono in conversione. Ricarica il tuo sito tra qualche minuto per vedere i risultati. (I tempi di conversione potrebbero durare un po' a seconda del numero totale delle tue reazioni)
+        converted: "Conversione con successo di {number} Mi Piace"
+
+      settings:
+        save_settings: Salva Impostazioni
+        integrations:
+          legend: Integrazioni
+          warning: La stessa reazione <strong>non può</strong> essere convertita in un Mi Piace <strong>ed</strong> in un voto positivo
+          gamification:
+            legend: Gamification
+            upvoteLabel: Converti le reazioni in voti positivi
+            upvoteHelptext: Inserisci l'identificativo della reazione da convertire automaticamente in un voto positivo
+            downvoteLabel: Converti le reazioni in voti negativi
+            downvoteHelptext: Inserisci l'identificativo della reazione da convertire automaticamente in un voto negativo
+
+          likes:
+            legend: Likes
+            Label: Converti le reazioni in Mi Piace
+            Helptext: Inserisci l'identificativo della reazione da convertire automaticamente in un Mi Piace
