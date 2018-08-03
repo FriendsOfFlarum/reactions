@@ -13,11 +13,11 @@
 
 namespace Reflar\Reactions\Listener;
 
-use Flarum\User\AssertPermissionTrait;
+use Flarum\Likes\Event\PostWasLiked;
 use Flarum\Post\Event\Deleted;
 use Flarum\Post\Event\Saving;
-use Flarum\Likes\Event\PostWasLiked;
 use Flarum\Settings\SettingsRepositoryInterface;
+use Flarum\User\AssertPermissionTrait;
 use Illuminate\Contracts\Events\Dispatcher;
 use Reflar\Reactions\Event\PostWasReacted;
 use Reflar\Reactions\Event\PostWasUnreacted;

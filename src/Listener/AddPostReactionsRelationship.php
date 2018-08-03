@@ -14,15 +14,15 @@
 namespace Reflar\Reactions\Listener;
 
 use Flarum\Api\Controller;
+use Flarum\Api\Event\Serializing;
+use Flarum\Api\Event\WillGetData;
 use Flarum\Api\Event\WillSerializeData;
+use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\PostSerializer;
-use Flarum\Api\Serializer\BasicPostSerializer;
-use Flarum\Post\Post;
-use Flarum\Api\Event\WillGetData;
 use Flarum\Event\GetApiRelationship;
 use Flarum\Event\GetModelRelationship;
-use Flarum\Api\Event\Serializing;
+use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use Reflar\Reactions\Api\Serializer\PostReactionSerializer;
