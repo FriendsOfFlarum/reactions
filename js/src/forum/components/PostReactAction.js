@@ -93,7 +93,7 @@ export default class PostReactAction extends Component {
 
     view() {
         return (
-            <div className='Reactions'>
+            <div style='margin-right: 7px' className='Reactions'>
                 {this.reactButton()}
                 {Object.keys(this.reacted).map(identifier => {
                     const count = this.reacted[identifier].length

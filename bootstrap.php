@@ -27,7 +27,6 @@ return [
     new Extend\Locales(__DIR__.'/locale'),
     (new Extend\Routes('api'))
         ->get('/reactions', 'reactions.index', Controller\ListReactionsController::class)
-        ->post('/reflar/convertreactions', 'reactions.convert', Controller\ConvertOldReactions::class)
         ->post('/reactions', 'reactions.create', Controller\CreateReactionController::class)
         ->patch('/reactions/{id}', 'reactions.update', Controller\UpdateReactionController::class)
         ->delete('/reactions/{id}', 'reactions.delete', Controller\DeleteReactionController::class),

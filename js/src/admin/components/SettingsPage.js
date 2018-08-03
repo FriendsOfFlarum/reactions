@@ -10,7 +10,6 @@ export default class SettingsPage extends Page {
     init() {
 
         this.fields = [
-            'convertedReactions',
             'convertToUpvote',
             'convertToDownvote',
             'convertToLike'
@@ -41,33 +40,6 @@ export default class SettingsPage extends Page {
         return (
             <div className="SettingsPage--reactions">
                 <div className="container">
-                    <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.convert.help')}</div>
-                    <div>
-                        {(this.values.convertedReactions() === undefined ? (
-                                Button.component({
-                                    type: 'button',
-                                    className: 'Button Button--warning',
-                                    children: app.translator.trans('reflar-reactions.admin.page.convert.button'),
-                                    onclick: () => {
-                                        app.request({
-                                            url: app.forum.attribute('apiUrl') + '/reflar/convertreactions',
-                                            method: 'POST'
-                                        }).then(this.values.convertedReactions('converting'));
-                                    }
-                                })
-                            ) : (this.values.convertedReactions() === 'converting' ? (
-                                <label>
-                                    {app.translator.trans('reflar-reactions.admin.page.convert.converting')}
-                                </label>
-                            ) : (
-                                <label>
-                                    {app.translator.trans('reflar-reactions.admin.page.convert.converted', {number: this.values.convertedReactions()})}
-                                </label>
-                            ))
-                        )}
-                    </div>
-
-
                     <form onsubmit={this.onsubmit.bind(this)}>
                         <fieldset>
                             <legend>{app.translator.trans('reflar-reactions.admin.page.reactions.title')}</legend>

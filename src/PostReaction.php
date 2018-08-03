@@ -9,5 +9,5 @@ class PostReaction extends AbstractModel
     /**
      * {@inheritdoc}
      */
-    protected $table = 'posts_reactions';
+    protected $table = 'post_reactions';
 }

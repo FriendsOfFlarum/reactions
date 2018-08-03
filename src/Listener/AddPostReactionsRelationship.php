@@ -14,7 +14,8 @@
 namespace Reflar\Reactions\Listener;
 
 use Flarum\Api\Controller;
-
+use Flarum\Api\Event\WillSerializeData;
+use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\PostSerializer;
 use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Post\Post;
@@ -46,7 +47,7 @@ class AddPostReactionsRelationship
     public function subscribe(Dispatcher $events)
     {
         $events->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);
-        $events->listen(PrepareApiData::class, [$this, 'loadReactionsRelationship']);
+        $events->listen(WillSerializeData::class, [$this, 'loadReactionsRelationship']);
         $events->listen(GetApiRelationship::class, [$this, 'getApiAttributes']);
         $events->listen(Serializing::class, [$this, 'prepareApiAttributes']);
         $events->listen(WillGetData::class, [$this, 'includeReactions']);
@@ -55,7 +56,7 @@ class AddPostReactionsRelationship
     /**
      * @param GetModelRelationship $event
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany|null
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
      */
     public function getModelRelationship(GetModelRelationship $event)
     {
@@ -72,7 +73,7 @@ class AddPostReactionsRelationship
      */
     public function getApiAttributes(GetApiRelationship $event)
     {
-        if ($event->isRelationship(PostBasicSerializer::class, 'reactions')) {
+        if ($event->isRelationship(BasicPostSerializer::class, 'reactions')) {
             return $event->serializer->hasMany($event->model, PostReactionSerializer::class, 'reactions');
         }
         if ($event->isRelationship(ForumSerializer::class, 'reactions')) {
@@ -81,9 +82,9 @@ class AddPostReactionsRelationship
     }
 
     /**
-     * @param PrepareApiData $event
+     * @param WillSerializeData $event
      */
-    public function loadReactionsRelationship(PrepareApiData $event)
+    public function loadReactionsRelationship(WillSerializeData $event)
     {
         if ($event->isController(Controller\ShowForumController::class)) {
             $event->data['reactions'] = Reaction::get();
