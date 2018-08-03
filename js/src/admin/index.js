@@ -1,4 +1,4 @@
-import {extend} from 'flarum/extend';
+import { extend } from 'flarum/extend';
 import app from 'flarum/app';
 import Forum from 'flarum/models/Forum';
 import Model from 'flarum/Model';
@@ -12,7 +12,7 @@ app.initializers.add('reflar-reactions', () => {
 
     Forum.prototype.reactions = Model.hasMany('reactions');
 
-    extend(PermissionGrid.prototype, 'replyItems', (items) => {
+    extend(PermissionGrid.prototype, 'replyItems', items => {
         items.add('reactPosts', {
             icon: 'thumbs-o-up',
             label: app.translator.trans('reflar-reactions.admin.permissions.react_posts_label'),

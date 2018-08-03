@@ -1,19 +1,13 @@
 import Alert from 'flarum/components/Alert';
-import Button from "flarum/components/Button";
+import Button from 'flarum/components/Button';
 import emoji from '../../common/util/emoji';
 import Page from 'flarum/components/Page';
-import Select from "flarum/components/Select";
-import saveSettings from "flarum/utils/saveSettings";
+import Select from 'flarum/components/Select';
+import saveSettings from 'flarum/utils/saveSettings';
 
 export default class SettingsPage extends Page {
-
     init() {
-
-        this.fields = [
-            'convertToUpvote',
-            'convertToDownvote',
-            'convertToLike'
-        ];
+        this.fields = ['convertToUpvote', 'convertToDownvote', 'convertToLike'];
 
         this.values = {};
 
@@ -28,9 +22,7 @@ export default class SettingsPage extends Page {
             type: m.prop('icon'),
         };
 
-        this.fields.forEach(key =>
-            this.values[key] = m.prop(settings[this.addPrefix(key)])
-        );
+        this.fields.forEach(key => (this.values[key] = m.prop(settings[this.addPrefix(key)])));
     }
 
     /**
@@ -44,8 +36,10 @@ export default class SettingsPage extends Page {
                         <fieldset>
                             <legend>{app.translator.trans('reflar-reactions.admin.page.reactions.title')}</legend>
                             <label>{app.translator.trans('reflar-reactions.admin.page.reactions.reactions')}</label>
-                            <div style="margin-bottom: -10px" className="helpText">{app.translator.trans('reflar-reactions.admin.page.reactions.Helptext')}</div>
-                            <br/>
+                            <div style="margin-bottom: -10px" className="helpText">
+                                {app.translator.trans('reflar-reactions.admin.page.reactions.Helptext')}
+                            </div>
+                            <br />
                             <div className="Reactions--Container">
                                 {this.reactions.map(reaction => {
                                     const spanClass = reaction.type() === 'icon' && `fa fa-${reaction.identifier()} Reactions-demo`;
@@ -54,7 +48,9 @@ export default class SettingsPage extends Page {
 
                                     if (reaction.type() === 'icon') {
                                         demos.push(
-                                            <i className={spanClass} aria-hidden>&nbsp;</i>
+                                            <i className={spanClass} aria-hidden>
+                                                &nbsp;
+                                            </i>
                                         );
                                     }
 
@@ -66,7 +62,8 @@ export default class SettingsPage extends Page {
                                                 draggable="false"
                                                 style={reaction.type() !== 'emoji' && 'opacity: 0.5;'}
                                                 src={data.url}
-                                                width="30px"/>
+                                                width="30px"
+                                            />
                                         );
                                     }
 
@@ -77,9 +74,10 @@ export default class SettingsPage extends Page {
                                                 type="text"
                                                 value={reaction.identifier()}
                                                 placeholder={app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier')}
-                                                oninput={m.withAttr('value', this.updateIdentifier.bind(this, reaction))}/>
+                                                oninput={m.withAttr('value', this.updateIdentifier.bind(this, reaction))}
+                                            />
                                             {Select.component({
-                                                options: {emoji: 'emoji', icon: 'icon'},
+                                                options: { emoji: 'emoji', icon: 'icon' },
                                                 value: reaction.type(),
                                                 onchange: this.updateType.bind(this, reaction),
                                             })}
@@ -87,21 +85,22 @@ export default class SettingsPage extends Page {
                                                 type: 'button',
                                                 className: 'Button Button--warning Reactions-button',
                                                 icon: 'fa fa-times',
-                                                onclick: this.deleteReaction.bind(this, reaction)
+                                                onclick: this.deleteReaction.bind(this, reaction),
                                             })}
                                             {demos}
-                                        </div>
-                                    ]
+                                        </div>,
+                                    ];
                                 })}
-                                <br/>
+                                <br />
                                 <div>
                                     <input
                                         className="FormControl Reactions-identifier"
                                         type="text"
                                         placeholder={app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier')}
-                                        oninput={m.withAttr('value', this.newReaction.identifier)}/>
+                                        oninput={m.withAttr('value', this.newReaction.identifier)}
+                                    />
                                     {Select.component({
-                                        options: {emoji: 'emoji', icon: 'icon'},
+                                        options: { emoji: 'emoji', icon: 'icon' },
                                         value: this.newReaction.type(),
                                         onchange: this.newReaction.type,
                                     })}
@@ -109,22 +108,32 @@ export default class SettingsPage extends Page {
                                         type: 'button',
                                         className: 'Button Button--warning Reactions-button',
                                         icon: 'fa fa-plus',
-                                        onclick: this.addReaction.bind(this)
+                                        onclick: this.addReaction.bind(this),
                                     })}
-                                    {(this.newReaction.type() === 'icon') ? (
-                                        <i className={this.newReaction.type() === 'icon' && `fa fa-${this.newReaction.identifier()} Reactions-demo`}
-                                           aria-hidden>&nbsp;</i>
-                                    ) : ''}
+                                    {this.newReaction.type() === 'icon' ? (
+                                        <i
+                                            className={this.newReaction.type() === 'icon' && `fa fa-${this.newReaction.identifier()} Reactions-demo`}
+                                            aria-hidden
+                                        >
+                                            &nbsp;
+                                        </i>
+                                    ) : (
+                                        ''
+                                    )}
 
-                                    {((this.newReaction.type() === 'emoji' && emoji(this.newReaction.identifier()).uc) || emoji(this.newReaction.identifier()).uc) ? (
+                                    {(this.newReaction.type() === 'emoji' && emoji(this.newReaction.identifier())) ||
+                                    emoji(this.newReaction.identifier()).uc ? (
                                         <img
                                             alt={this.newReaction.identifier()}
                                             className="Reactions-demo"
                                             draggable="false"
                                             style={this.newReaction.type() !== 'emoji' && 'opacity: 0.5;'}
                                             src={emoji(this.newReaction.identifier()).url}
-                                            width="30px"/>
-                                    ) : ''}
+                                            width="30px"
+                                        />
+                                    ) : (
+                                        ''
+                                    )}
                                 </div>
                             </div>
                         </fieldset>
@@ -132,20 +141,32 @@ export default class SettingsPage extends Page {
                             <div className="Reaction-settings">
                                 {this.isEnabled('reflar-gamification') || this.isEnabled('flarum-likes') ? (
                                     <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.legend')}</legend>
-                                ) : ''}
+                                ) : (
+                                    ''
+                                )}
                                 {this.isEnabled('reflar-gamification') ? (
                                     <div>
-                                        <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.legend')}</legend>
-                                        <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteLabel')}</label>
-                                        <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')}</div>
+                                        <legend>
+                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.legend')}
+                                        </legend>
+                                        <label>
+                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteLabel')}
+                                        </label>
+                                        <div className="helpText">
+                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')}
+                                        </div>
                                         <input
                                             className="FormControl reactions-settings-input"
                                             value={this.values.convertToUpvote() || ''}
                                             placeholder="thumbsup"
                                             oninput={m.withAttr('value', this.values.convertToUpvote)}
                                         />
-                                        <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteLabel')}</label>
-                                        <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')}</div>
+                                        <label>
+                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteLabel')}
+                                        </label>
+                                        <div className="helpText">
+                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')}
+                                        </div>
                                         <input
                                             className="FormControl reactions-settings-input"
                                             value={this.values.convertToDownvote() || ''}
@@ -153,12 +174,16 @@ export default class SettingsPage extends Page {
                                             oninput={m.withAttr('value', this.values.convertToDownvote)}
                                         />
                                     </div>
-                                ) : ''}
+                                ) : (
+                                    ''
+                                )}
                                 {this.isEnabled('flarum-likes') ? (
                                     <div>
                                         <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.legend')}</legend>
                                         <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Label')}</label>
-                                        <div className="helpText">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Helptext')}</div>
+                                        <div className="helpText">
+                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Helptext')}
+                                        </div>
                                         <input
                                             className="FormControl reactions-settings-input"
                                             value={this.values.convertToLike() || ''}
@@ -166,27 +191,32 @@ export default class SettingsPage extends Page {
                                             oninput={m.withAttr('value', this.values.convertToLike)}
                                         />
                                     </div>
-                                ) : ''}
+                                ) : (
+                                    ''
+                                )}
                             </div>
                             {this.values.convertToUpvote() && this.values.convertToLike() ? (
-                                <h3 className="Reactions-warning">{app.translator.trans('reflar-reactions.admin.page.settings.integrations.warning')}</h3>
-                            ) : ''}
+                                <h3 className="Reactions-warning">
+                                    {app.translator.trans('reflar-reactions.admin.page.settings.integrations.warning')}
+                                </h3>
+                            ) : (
+                                ''
+                            )}
                             {Button.component({
                                 type: 'submit',
                                 className: 'Button Button--primary',
                                 children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings', {
-                                    strong: <strong/>
+                                    strong: <strong />,
                                 }),
                                 loading: this.loading,
-                                disabled: !this.changed()
+                                disabled: !this.changed(),
                             })}
                         </fieldset>
                     </form>
                 </div>
             </div>
-        )
+        );
     }
-
 
     /**
      * @returns boolean
@@ -206,21 +236,19 @@ export default class SettingsPage extends Page {
             url: app.forum.attribute('apiUrl') + '/reactions',
             data: {
                 identifier: this.newReaction.identifier(),
-                type: this.newReaction.type()
-            }
-        }).then(
-            response => {
-                this.reactions.push({
-                    identifier: m.prop(response.data.attributes.identifier),
-                    type: m.prop(response.data.attributes.type),
-                    id: m.prop(response.data.id)
-                });
+                type: this.newReaction.type(),
+            },
+        }).then(response => {
+            this.reactions.push({
+                identifier: m.prop(response.data.attributes.identifier),
+                type: m.prop(response.data.attributes.type),
+                id: m.prop(response.data.id),
+            });
 
-                this.newReaction.identifier('');
-                this.newReaction.type('icon');
-                m.redraw();
-            }
-        );
+            this.newReaction.identifier('');
+            this.newReaction.type('icon');
+            m.redraw();
+        });
     }
 
     updateIdentifier(reactionToUpdate, value) {
@@ -228,15 +256,15 @@ export default class SettingsPage extends Page {
             method: 'PATCH',
             url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id(),
             data: {
-                identifier: value
-            }
+                identifier: value,
+            },
         });
         this.reactions.some((reaction, i) => {
             if (reaction.id() === reactionToUpdate.id()) {
                 reaction.identifier = m.prop(value);
                 return true;
             }
-        })
+        });
     }
 
     updateType(reactionToUpdate, value) {
@@ -244,28 +272,28 @@ export default class SettingsPage extends Page {
             method: 'PATCH',
             url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id(),
             data: {
-                type: value
-            }
+                type: value,
+            },
         });
         this.reactions.some((reaction, i) => {
             if (reaction.id() === reactionToUpdate.id()) {
                 reaction.type = m.prop(value);
                 return true;
             }
-        })
+        });
     }
 
     deleteReaction(reactionToDelete) {
         app.request({
             method: 'DELETE',
-            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToDelete.id()
+            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToDelete.id(),
         });
         this.reactions.some((reaction, i) => {
             if (reaction.id() === reactionToDelete.id()) {
                 this.reactions.splice(i, 1);
                 return true;
             }
-        })
+        });
     }
 
     onsubmit(e) {
@@ -284,19 +312,20 @@ export default class SettingsPage extends Page {
         const settings = {};
 
         // gets all the values from the form
-        this.fields.forEach(key => settings[this.addPrefix(key)] = this.values[key]());
+        this.fields.forEach(key => (settings[this.addPrefix(key)] = this.values[key]()));
 
         // actually saves everything in the database
         saveSettings(settings)
             .then(() => {
                 // on success, show popup
-                app.alerts.show(this.successAlert = new Alert({
-                    type: 'success',
-                    children: app.translator.trans('core.admin.basics.saved_message')
-                }));
+                app.alerts.show(
+                    (this.successAlert = new Alert({
+                        type: 'success',
+                        children: app.translator.trans('core.admin.basics.saved_message'),
+                    }))
+                );
             })
-            .catch(() => {
-            })
+            .catch(() => {})
             .then(() => {
                 // return to the initial state and redraw the page
                 this.loading = false;

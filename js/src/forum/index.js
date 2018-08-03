@@ -1,4 +1,4 @@
-import {extend} from 'flarum/extend';
+import { extend } from 'flarum/extend';
 import app from 'flarum/app';
 import Forum from 'flarum/models/Forum';
 import Post from 'flarum/models/Post';
@@ -20,11 +20,11 @@ app.initializers.add('reflar-reactions', () => {
 
     addReactionAction();
 
-    extend(NotificationGrid.prototype, 'notificationTypes', (items) => {
+    extend(NotificationGrid.prototype, 'notificationTypes', items => {
         items.add('postReacted', {
             name: 'postReacted',
             icon: 'eye',
-            label: app.translator.trans('reflar-reactions.forum.settings.notify_post_reacted_label')
+            label: app.translator.trans('reflar-reactions.forum.settings.notify_post_reacted_label'),
         });
     });
 });
