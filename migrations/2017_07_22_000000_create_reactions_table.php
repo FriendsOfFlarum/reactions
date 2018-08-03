@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions
+ *  This file is part of reflar/reactions.
  *
  *  Copyright (c) ReFlar.
  *
@@ -10,14 +10,12 @@
  *  For the full copyright and license information, please view the license.md
  *  file that was distributed with this source code.
  */
-
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-        $schema->create('reactions',function (Blueprint $table) {
+        $schema->create('reactions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('identifier');
             $table->string('type');
@@ -34,11 +32,11 @@ return [
             ['identifier' => 'laughing', 'type' => 'emoji'],
             ['identifier' => 'confused', 'type' => 'emoji'],
             ['identifier' => 'heart', 'type' => 'emoji'],
-            ['identifier' => 'tada', 'type' => 'emoji']
+            ['identifier' => 'tada', 'type' => 'emoji'],
         ]);
     },
 
     'down' => function (Builder $schema) {
         $schema->drop('reactions');
-    }
+    },
 ];

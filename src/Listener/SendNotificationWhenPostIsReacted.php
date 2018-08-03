@@ -13,10 +13,10 @@
 
 namespace Reflar\Reactions\Listener;
 
+use Flarum\Event\ConfigureNotificationTypes;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\Post\Post;
 use Flarum\User\User;
-use Flarum\Event\ConfigureNotificationTypes;
 use Illuminate\Contracts\Events\Dispatcher;
 use Reflar\Reactions\Event\PostWasReacted;
 use Reflar\Reactions\Event\PostWasUnreacted;
