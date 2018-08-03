@@ -74,7 +74,7 @@ export default reactionOrIdentifier => {
         ? {
               identifier,
               uc: toUnicodeEmoji(codePoint),
-              url: `https://twemoji.maxcdn.com/2/72x72/${codePoint}.png`,
+              url: `https://cdn.jsdelivr.net/emojione/assets/3.1/png/32/${codePoint}.png`,
               type: 'emoji',
           }
         : {};
