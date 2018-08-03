@@ -74,7 +74,9 @@ export default reactionOrIdentifier => {
         if (match.score) codePoint = match.emoji;
     }
 
-    codePoint = codePoint.split('-').map(s => s.padStart(4, 0)).join('-');
+    if (codePoint) {
+        codePoint = codePoint.split('-').map(s => s.padStart(4, 0)).join('-');
+    }
 
     const output = codePoint ? {
         identifier,
