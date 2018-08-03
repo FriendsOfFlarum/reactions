@@ -56,11 +56,15 @@ export class Match {
         this.emoji = emojiName;
     }
 }
+const emojiCache = new Map();
 
 export default reactionOrIdentifier => {
     if (!reactionOrIdentifier) return {};
+
     const identifier = reactionOrIdentifier.identifier || reactionOrIdentifier;
     let codePoint;
+
+    if (emojiCache.has(identifier)) return emojiCache.get(identifier);
 
     if (shortnames.includes(identifier)) {
         const emoji = getEmoji(identifier);
@@ -70,12 +74,16 @@ export default reactionOrIdentifier => {
         if (match.score) codePoint = match.emoji;
     }
 
-    return codePoint
-        ? {
-              identifier,
-              uc: toUnicodeEmoji(codePoint),
-              url: `https://cdn.jsdelivr.net/emojione/assets/3.1/png/32/${codePoint}.png`,
-              type: 'emoji',
-          }
-        : {};
+    codePoint = codePoint.split('-').map(s => s.padStart(4, 0)).join('-');
+
+    const output = codePoint ? {
+        identifier,
+        uc: toUnicodeEmoji(codePoint),
+        url: `https://cdn.jsdelivr.net/emojione/assets/3.1/png/32/${codePoint}.png`,
+        type: 'emoji',
+    } : {};
+
+    emojiCache.set(reactionOrIdentifier, output);
+
+    return output || {};
 };
