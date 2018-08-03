@@ -1,12 +1,16 @@
 <?php
 
-/*
- * This file is part of Flarum.
+/**
  *
- * (c) Toby Zerner <toby.zerner@gmail.com>
+ *  This file is part of reflar/reactions
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  Copyright (c) ReFlar.
+ *
+ *  http://reflar.io
+ *
+ *  For the full copyright and license information, please view the license.md
+ *  file that was distributed with this source code.
+ *
  */
 
 use Illuminate\Database\Schema\Blueprint;

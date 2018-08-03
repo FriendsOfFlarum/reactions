@@ -2,7 +2,7 @@
 
 /**
  *
- *  This file is part of reflar/gamification
+ *  This file is part of reflar/reactions
  *
  *  Copyright (c) ReFlar.
  *
