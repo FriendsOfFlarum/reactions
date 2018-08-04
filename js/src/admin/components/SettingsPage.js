@@ -19,7 +19,7 @@ export default class SettingsPage extends Page {
 
         this.newReaction = {
             identifier: m.prop(''),
-            type: m.prop('icon'),
+            type: m.prop('emoji'),
         };
 
         this.fields.forEach(key => (this.values[key] = m.prop(settings[this.addPrefix(key)])));
