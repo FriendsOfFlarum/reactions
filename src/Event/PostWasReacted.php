@@ -34,12 +34,13 @@ class PostWasReacted
     public $reaction;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $changed;
 
     /**
      * PostWasReacted constructor.
+     *
      * @param Post $post
      * @param User $user
      * @param $reaction

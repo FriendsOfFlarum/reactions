@@ -52,6 +52,7 @@ class SaveReactionsToDatabase
 
     /**
      * @param Saving $event
+     *
      * @throws \Flarum\User\Exception\PermissionDeniedException
      */
     public function whenSaving(Saving $event)
