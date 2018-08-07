@@ -13,6 +13,7 @@
 
 namespace Reflar\Reactions\Listener;
 
+use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Event\ConfigureNotificationTypes;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\Post\Post;
@@ -52,7 +53,7 @@ class SendNotificationWhenPostIsReacted
      */
     public function registerNotificationType(ConfigureNotificationTypes $event)
     {
-        $event->add(PostReactedBlueprint::class, PostBasicSerializer::class, ['alert']);
+        $event->add(PostReactedBlueprint::class, BasicPostSerializer::class, ['alert']);
     }
 
     /**
