@@ -33,6 +33,7 @@ return [
         $schema->table('post_reactions', function (Blueprint $table) {
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('reaction_id')->nullable()->change();
         });
     },
 

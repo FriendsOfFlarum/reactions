@@ -34,14 +34,22 @@ class PostWasReacted
     public $reaction;
 
     /**
-     * @param Post   $post
-     * @param User   $user
-     * @param string $reaction
+     * @var boolean
      */
-    public function __construct(Post $post, User $user, $reaction)
+    public $changed;
+
+    /**
+     * PostWasReacted constructor.
+     * @param Post $post
+     * @param User $user
+     * @param $reaction
+     * @param bool $changed
+     */
+    public function __construct(Post $post, User $user, $reaction, $changed = false)
     {
         $this->post = $post;
         $this->user = $user;
         $this->reaction = $reaction;
+        $this->changed = $changed;
     }
 }

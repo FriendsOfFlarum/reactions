@@ -52,6 +52,7 @@ class SaveReactionsToDatabase
 
     /**
      * @param Saving $event
+     * @throws \Flarum\User\Exception\PermissionDeniedException
      */
     public function whenSaving(Saving $event)
     {
@@ -60,7 +61,6 @@ class SaveReactionsToDatabase
 
         if ($post->exists && isset($data['attributes']['reaction'])) {
             $actor = $event->actor;
-            $reacted = (bool) $data['attributes']['reaction'];
             $reactionType = $data['attributes']['reaction'];
 
             $this->assertCan($actor, 'react', $post);
@@ -81,20 +81,23 @@ class SaveReactionsToDatabase
                     $post->raise(new PostWasLiked($post, $actor));
                 }
             } else {
-                $currentlyReacted = $post->reactions()->where('user_id', $actor->id)->exists();
+                $oldReaction = PostReaction::where([['user_id', $actor->id], ['post_id', $post->id]])->first();
+                $reaction = Reaction::where('identifier', $reactionType)->firstOrFail();
 
-                if ($reacted && !$currentlyReacted) {
-                    $reaction = Reaction::where('identifier', $reactionType)->firstOrFail();
+                if ($oldReaction) {
+                    if ($oldReaction->reaction_id === null) {
+                        $oldReaction->reaction_id = $reaction->id;
+                        $oldReaction->save();
+                        $post->raise(new PostWasReacted($post, $actor, $reaction, true));
+                    } else {
+                        $oldReaction->reaction_id = null;
+                        $oldReaction->save();
 
+                        $post->raise(new PostWasUnreacted($post, $actor));
+                    }
+                } else {
                     $post->reactions()->attach($reaction, ['user_id' => $actor->id, 'reaction_id' => $reaction->id]);
-
                     $post->raise(new PostWasReacted($post, $actor, $reaction));
-                } elseif ($currentlyReacted) {
-                    $reactionToDelete = PostReaction::where('user_id', $actor->id)->firstOrFail();
-
-                    $reactionToDelete->delete();
-
-                    $post->raise(new PostWasUnreacted($post, $actor));
                 }
             }
         }
