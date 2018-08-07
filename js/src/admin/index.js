@@ -14,7 +14,7 @@ app.initializers.add('reflar-reactions', () => {
 
     extend(PermissionGrid.prototype, 'replyItems', items => {
         items.add('reactPosts', {
-            icon: 'thumbs-o-up',
+            icon: 'far fa-thumbs-up',
             label: app.translator.trans('reflar-reactions.admin.permissions.react_posts_label'),
             permission: 'discussion.reactPosts',
         });
