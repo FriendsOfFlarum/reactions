@@ -121,8 +121,7 @@ export default class SettingsPage extends Page {
                                         ''
                                     )}
 
-                                    {(this.newReaction.type() === 'emoji' && emoji(this.newReaction.identifier())) ||
-                                    emoji(this.newReaction.identifier()).uc ? (
+                                    {emoji(this.newReaction.identifier()).uc ? (
                                         <img
                                             alt={this.newReaction.identifier()}
                                             className="Reactions-demo"
