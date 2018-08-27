@@ -75,15 +75,20 @@ export default reactionOrIdentifier => {
     }
 
     if (codePoint) {
-        codePoint = codePoint.split('-').map(s => s.padStart(4, 0)).join('-');
+        codePoint = codePoint
+            .split('-')
+            .map(s => s.padStart(4, 0))
+            .join('-');
     }
 
-    const output = codePoint ? {
-        identifier,
-        uc: toUnicodeEmoji(codePoint),
-        url: `https://cdn.jsdelivr.net/emojione/assets/3.1/png/32/${codePoint}.png`,
-        type: 'emoji',
-    } : {};
+    const output = codePoint
+        ? {
+              identifier,
+              uc: toUnicodeEmoji(codePoint),
+              url: `https://cdn.jsdelivr.net/emojione/assets/3.1/png/32/${codePoint}.png`,
+              type: 'emoji',
+          }
+        : {};
 
     emojiCache.set(reactionOrIdentifier, output);
 
