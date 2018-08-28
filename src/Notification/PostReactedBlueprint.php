@@ -72,7 +72,7 @@ class PostReactedBlueprint implements BlueprintInterface
     /**
      * {@inheritdoc}
      */
-    public function getFromUser()
+    public function getSender()
     {
         return $this->user;
     }

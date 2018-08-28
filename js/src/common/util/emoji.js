@@ -1,4 +1,4 @@
-import emojis from '../generated/emojis.json';
+import emojis from 'simple-emoji-map';
 
 const flatten = (arr, depth = 1) => arr.reduce((a, v) => a.concat(depth > 1 && Array.isArray(v) ? flatten(v, depth - 1) : v), []);
 const shortnames = flatten(Object.values(emojis));
@@ -26,9 +26,7 @@ export class Match {
         let r = emojis[input],
             finalScore = -1,
             emojiName = null;
-
-        this.input = input;
-
+        
         if (r) {
             finalScore = 1;
             emojiName = input;
