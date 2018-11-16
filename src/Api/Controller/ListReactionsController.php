@@ -13,12 +13,12 @@
 
 namespace Reflar\Reactions\Api\Controller;
 
-use Flarum\Api\Controller\AbstractCollectionController;
+use Flarum\Api\Controller\AbstractListController;
 use Psr\Http\Message\ServerRequestInterface;
 use Reflar\Reactions\Reaction;
 use Tobscure\JsonApi\Document;
 
-class ListReactionsController extends AbstractCollectionController
+class ListReactionsController extends AbstractListController
 {
     /**
      * {@inheritdoc}

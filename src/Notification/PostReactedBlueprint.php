@@ -13,9 +13,9 @@
 
 namespace Reflar\Reactions\Notification;
 
-use Flarum\Core\Notification\BlueprintInterface;
-use Flarum\Core\Post;
-use Flarum\Core\User;
+use Flarum\Notification\Blueprint\BlueprintInterface;
+use Flarum\Post\Post;
+use Flarum\User\User;
 
 class PostReactedBlueprint implements BlueprintInterface
 {
@@ -72,7 +72,7 @@ class PostReactedBlueprint implements BlueprintInterface
     /**
      * {@inheritdoc}
      */
-    public function getSender()
+    public function getFromUser()
     {
         return $this->user;
     }

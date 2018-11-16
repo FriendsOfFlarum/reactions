@@ -13,7 +13,7 @@
 
 namespace Reflar\Reactions\Validator;
 
-use Flarum\Core\Validator\AbstractValidator;
+use Flarum\Foundation\AbstractValidator;
 
 class ReactionValidator extends AbstractValidator
 {

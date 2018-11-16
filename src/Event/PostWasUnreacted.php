@@ -13,8 +13,8 @@
 
 namespace Reflar\Reactions\Event;
 
-use Flarum\Core\Post;
-use Flarum\Core\User;
+use Flarum\Post\Post;
+use Flarum\User\User;
 
 class PostWasUnreacted
 {

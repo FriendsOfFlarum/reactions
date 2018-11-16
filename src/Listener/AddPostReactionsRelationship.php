@@ -14,15 +14,15 @@
 namespace Reflar\Reactions\Listener;
 
 use Flarum\Api\Controller;
+use Flarum\Api\Event\Serializing;
+use Flarum\Api\Event\WillGetData;
+use Flarum\Api\Event\WillSerializeData;
+use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
-use Flarum\Api\Serializer\PostBasicSerializer;
 use Flarum\Api\Serializer\PostSerializer;
-use Flarum\Core\Post;
-use Flarum\Event\ConfigureApiController;
 use Flarum\Event\GetApiRelationship;
 use Flarum\Event\GetModelRelationship;
-use Flarum\Event\PrepareApiAttributes;
-use Flarum\Event\PrepareApiData;
+use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use Reflar\Reactions\Api\Serializer\PostReactionSerializer;
@@ -47,21 +47,21 @@ class AddPostReactionsRelationship
     public function subscribe(Dispatcher $events)
     {
         $events->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);
-        $events->listen(PrepareApiData::class, [$this, 'loadReactionsRelationship']);
+        $events->listen(WillSerializeData::class, [$this, 'loadReactionsRelationship']);
         $events->listen(GetApiRelationship::class, [$this, 'getApiAttributes']);
-        $events->listen(PrepareApiAttributes::class, [$this, 'prepareApiAttributes']);
-        $events->listen(ConfigureApiController::class, [$this, 'includeReactions']);
+        $events->listen(Serializing::class, [$this, 'prepareApiAttributes']);
+        $events->listen(WillGetData::class, [$this, 'includeReactions']);
     }
 
     /**
      * @param GetModelRelationship $event
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany|null
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
      */
     public function getModelRelationship(GetModelRelationship $event)
     {
         if ($event->isRelationship(Post::class, 'reactions')) {
-            return $event->model->belongsToMany(Reaction::class, 'posts_reactions', 'post_id')->withPivot('reaction_id',
+            return $event->model->belongsToMany(Reaction::class, 'post_reactions', 'post_id')->withPivot('reaction_id',
                 'user_id');
         }
     }
@@ -73,7 +73,7 @@ class AddPostReactionsRelationship
      */
     public function getApiAttributes(GetApiRelationship $event)
     {
-        if ($event->isRelationship(PostBasicSerializer::class, 'reactions')) {
+        if ($event->isRelationship(BasicPostSerializer::class, 'reactions')) {
             return $event->serializer->hasMany($event->model, PostReactionSerializer::class, 'reactions');
         }
         if ($event->isRelationship(ForumSerializer::class, 'reactions')) {
@@ -82,9 +82,9 @@ class AddPostReactionsRelationship
     }
 
     /**
-     * @param PrepareApiData $event
+     * @param WillSerializeData $event
      */
-    public function loadReactionsRelationship(PrepareApiData $event)
+    public function loadReactionsRelationship(WillSerializeData $event)
     {
         if ($event->isController(Controller\ShowForumController::class)) {
             $event->data['reactions'] = Reaction::get();
@@ -92,9 +92,9 @@ class AddPostReactionsRelationship
     }
 
     /**
-     * @param PrepareApiAttributes $event
+     * @param Serializing $event
      */
-    public function prepareApiAttributes(PrepareApiAttributes $event)
+    public function prepareApiAttributes(Serializing $event)
     {
         if ($event->isSerializer(PostSerializer::class)) {
             $event->attributes['canReact'] = (bool) $event->actor->can('react', $event->model);
@@ -109,9 +109,9 @@ class AddPostReactionsRelationship
     }
 
     /**
-     * @param ConfigureApiController $event
+     * @param WillGetData $event
      */
-    public function includeReactions(ConfigureApiController $event)
+    public function includeReactions(WillGetData $event)
     {
         if ($event->isController(Controller\ShowDiscussionController::class)) {
             $event->addInclude('posts.reactions');

@@ -1,5 +1,4 @@
 <?php
-
 /**
  *  This file is part of reflar/reactions.
  *
@@ -11,8 +10,5 @@
  *  file that was distributed with this source code.
  */
 use Flarum\Database\Migration;
-use Flarum\Group\Group;
 
-return Migration::addPermissions([
-    'discussion.reactPosts' => Group::MEMBER_ID,
-]);
+return Migration::renameTable('posts_reactions', 'post_reactions');

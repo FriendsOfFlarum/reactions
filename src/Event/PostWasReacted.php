@@ -13,8 +13,8 @@
 
 namespace Reflar\Reactions\Event;
 
-use Flarum\Core\Post;
-use Flarum\Core\User;
+use Flarum\Post\Post;
+use Flarum\User\User;
 
 class PostWasReacted
 {
@@ -34,14 +34,23 @@ class PostWasReacted
     public $reaction;
 
     /**
-     * @param Post   $post
-     * @param User   $user
-     * @param string $reaction
+     * @var bool
      */
-    public function __construct(Post $post, User $user, $reaction)
+    public $changed;
+
+    /**
+     * PostWasReacted constructor.
+     *
+     * @param Post $post
+     * @param User $user
+     * @param $reaction
+     * @param bool $changed
+     */
+    public function __construct(Post $post, User $user, $reaction, $changed = false)
     {
         $this->post = $post;
         $this->user = $user;
         $this->reaction = $reaction;
+        $this->changed = $changed;
     }
 }

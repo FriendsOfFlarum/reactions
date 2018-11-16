@@ -10,12 +10,11 @@
  *  For the full copyright and license information, please view the license.md
  *  file that was distributed with this source code.
  */
-use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 return [
-    'up' => function (Builder $schema, ConnectionInterface $db) {
+    'up' => function (Builder $schema) {
         $schema->create('reactions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('identifier');
@@ -27,7 +26,7 @@ return [
          *  Type is either emoji, or FA
         **/
 
-        $db->table('reactions')->insert([
+        $schema->getConnection()->table('reactions')->insert([
             ['identifier' => 'thumbsup', 'type' => 'emoji'],
             ['identifier' => 'thumbsdown', 'type' => 'emoji'],
             ['identifier' => 'laughing', 'type' => 'emoji'],
@@ -35,5 +34,9 @@ return [
             ['identifier' => 'heart', 'type' => 'emoji'],
             ['identifier' => 'tada', 'type' => 'emoji'],
         ]);
+    },
+
+    'down' => function (Builder $schema) {
+        $schema->drop('reactions');
     },
 ];
