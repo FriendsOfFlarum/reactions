@@ -1,6 +1,6 @@
 # Reactions by ReFlar
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://gitlab.com/ReDevelopers/ReFlar/reactions/blob/master/LICENSE) [![Latest Stable Version](https://img.shields.io/packagist/v/reflar/reactions.svg)](https://gitlab.com/ReDevelopers/ReFlar/reactions) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ReFlar/reactions/blob/master/LICENSE) [![Latest Stable Version](https://img.shields.io/packagist/v/reflar/reactions.svg)](https://github.com/ReFlar/reactions) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 A [Flarum](http://flarum.org) extension that adds reactions to your Flarum Community!
 
@@ -28,9 +28,9 @@ You have 2 events to listen for `PostWasReacted` as well as `PostWasUnreacted` w
 
 ### Issues
 
-- [Open an issue on Gitlab](https://gitlab.com/ReDevelopers/ReFlar/reactions/issues)
+- [Open an issue on GitHub](https://github.com/ReFlar/reactions/issues)
 
 ### Links
 
-- [GitLab](https://gitlab.com/ReDevelopers/ReFlar/reactions)
+- [GitHub](https://github.com/ReFlar/reactions)
 - [Packagist](https://packagist.org/packages/ReFlar/reactions)
