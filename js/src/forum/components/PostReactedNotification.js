@@ -1,8 +1,11 @@
 import Notification from 'flarum/components/Notification';
+import icon from 'flarum/helpers/icon';
+
+import emoji from '../../common/util/emoji';
 
 export default class PostReactedNotification extends Notification {
     icon() {
-        return 'heart';
+        return 'fas fa-heart';
     }
 
     href() {
@@ -11,12 +14,14 @@ export default class PostReactedNotification extends Notification {
 
     content() {
         const notification = this.props.notification;
-        const identifier = '"' + JSON.parse(notification.content()).identifier + '"';
+        const { identifier, type } = JSON.parse(notification.content());
         const user = notification.fromUser();
 
+        const reaction = type === 'emoji' ? <img src={emoji(identifier).url} height="14px" /> : icon(identifier);
+
         return app.translator.trans('fof-reactions.forum.notification', {
-            username: user.username(),
-            reaction: identifier,
+            user,
+            reaction,
         });
     }
 

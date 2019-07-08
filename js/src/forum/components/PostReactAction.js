@@ -108,7 +108,7 @@ export default class PostReactAction extends Component {
                     const reaction = app.forum.reactions().filter(e => e.identifier() === identifier)[0];
 
                     if (count === 0) return;
-                    const spanClass = reaction.type() === 'icon' && `fa fa-${reaction.identifier()} emoji button-emoji reaction-icon`;
+                    const spanClass = reaction.type() === 'icon' && `${reaction.identifier()} emoji button-emoji reaction-icon`;
                     const icon =
                         reaction.type() === 'emoji' ? (
                             <img

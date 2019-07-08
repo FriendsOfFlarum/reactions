@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --mode production",
-    "watch": "webpack --mode development --watch",
+    "dev": "webpack --mode development --watch",
     "lint": "prettier --single-quote --trailing-comma es5 --print-width 150 --tab-width 4 --write 'src/**/*'",
     "generate-emoji-map": "node ./scripts/generate-emoji-map.js"
   },

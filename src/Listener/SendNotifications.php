@@ -39,6 +39,14 @@ class SendNotifications
     }
 
     /**
+     * @param PostWasUnreacted $event
+     */
+    public function whenPostWasUnreacted(PostWasUnreacted $event)
+    {
+        $this->sync($event->post, $event->user, '', []);
+    }
+
+    /**
      * @param Post  $post
      * @param User  $user
      * @param array $recipients
@@ -51,13 +59,5 @@ class SendNotifications
                 $recipients
             );
         }
-    }
-
-    /**
-     * @param PostWasUnreacted $event
-     */
-    public function whenPostWasUnreacted(PostWasUnreacted $event)
-    {
-        $this->sync($event->post, $event->user, '', []);
     }
 }
