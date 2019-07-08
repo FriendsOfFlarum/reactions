@@ -14,7 +14,7 @@ export default class PostReactedNotification extends Notification {
         const identifier = '"' + JSON.parse(notification.content()).identifier + '"';
         const user = notification.fromUser();
 
-        return app.translator.trans('reflar-reactions.forum.notification', {
+        return app.translator.trans('fof-reactions.forum.notification', {
             username: user.username(),
             reaction: identifier,
         });

@@ -8,7 +8,7 @@ import addReactionAction from './addReactionAction';
 import PostReactedNotification from './components/PostReactedNotification';
 import Reaction from '../common/models/Reaction';
 
-app.initializers.add('reflar-reactions', () => {
+app.initializers.add('@fof/reactions', () => {
     app.store.models.reactions = Reaction;
 
     app.notificationComponents.postReacted = PostReactedNotification;
@@ -24,7 +24,7 @@ app.initializers.add('reflar-reactions', () => {
         items.add('postReacted', {
             name: 'postReacted',
             icon: 'eye',
-            label: app.translator.trans('reflar-reactions.forum.settings.notify_post_reacted_label'),
+            label: app.translator.trans('fof-reactions.forum.settings.notify_post_reacted_label'),
         });
     });
 });

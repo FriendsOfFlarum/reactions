@@ -1,10 +1,8 @@
-# Reactions by ReFlar
+# Reactions by FriendsOfFlarum
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ReFlar/reactions/blob/master/LICENSE) [![Latest Stable Version](https://img.shields.io/packagist/v/reflar/reactions.svg)](https://github.com/ReFlar/reactions) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/fof/reactions.svg)](https://packagist.org/packages/fof/reactions) [![OpenCollective](https://img.shields.io/badge/opencollective-fof-blue.svg)](https://opencollective.com/fof/donate) [![Patreon](https://img.shields.io/badge/patreon-datitisev-f96854.svg?logo=patreon)](https://patreon.com/datitisev)
 
-A [Flarum](http://flarum.org) extension that adds reactions to your Flarum Community!
-
-### Usage
+A [Flarum](http://flarum.org) extension. A Flarum extension that adds reactions to your Flarum Community!
 
 - Just click the react button when hovering over a post, and choose the reaction!
 - Custom reactions can be easily added via the admin page
@@ -12,25 +10,25 @@ A [Flarum](http://flarum.org) extension that adds reactions to your Flarum Commu
 
 ### Installation
 
-Install it with composer:
+Use [Bazaar](https://discuss.flarum.org/d/5151-flagrow-bazaar-the-extension-marketplace) or install manually with composer:
 
-```bash
-composer require reflar/reactions
+```sh
+composer require fof/reactions
 ```
 
-Then login and enable the extension.
 
-You can optionally convert specific reactions into likes, upvotes, and downvotes.
+### Updating
 
-### Developer Guide
-
-You have 2 events to listen for `PostWasReacted` as well as `PostWasUnreacted` which both contain the post and reactor. `PostWasReacted` also includes the reaction identifier.
-
-### Issues
-
-- [Open an issue on GitHub](https://github.com/ReFlar/reactions/issues)
+```sh
+composer update fof/reactions
+```
 
 ### Links
 
-- [GitHub](https://github.com/ReFlar/reactions)
-- [Packagist](https://packagist.org/packages/ReFlar/reactions)
+[<img src="https://opencollective.com/fof/donate/button@2x.png?color=blue" height="25" />](https://opencollective.com/fof/donate)
+[<img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" height="25" />](https://patreon.com/datitisev)
+
+- [Packagist](https://packagist.org/packages/fof/reactions)
+- [GitHub](https://github.com/packages/FriendsOfFlarum/reactions)
+
+An extension by [FriendsOfFlarum](https://github.com/FriendsOfFlarum).

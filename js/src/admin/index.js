@@ -7,7 +7,7 @@ import PermissionGrid from 'flarum/components/PermissionGrid';
 import addSettingsPage from './addSettingsPage';
 import Reaction from '../common/models/Reaction';
 
-app.initializers.add('reflar-reactions', () => {
+app.initializers.add('@fof/reactions', () => {
     app.store.models.reactions = Reaction;
 
     Forum.prototype.reactions = Model.hasMany('reactions');
@@ -15,7 +15,7 @@ app.initializers.add('reflar-reactions', () => {
     extend(PermissionGrid.prototype, 'replyItems', items => {
         items.add('reactPosts', {
             icon: 'far fa-thumbs-up',
-            label: app.translator.trans('reflar-reactions.admin.permissions.react_posts_label'),
+            label: app.translator.trans('fof-reactions.admin.permissions.react_posts_label'),
             permission: 'discussion.reactPosts',
         });
     });

@@ -1,17 +1,15 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions.
+ *  This file is part of fof/reactions.
  *
- *  Copyright (c) ReFlar.
- *
- *  http://reflar.io
+ *  Copyright (c) FriendsOfFlarum.
  *
  *  For the full copyright and license information, please view the license.md
  *  file that was distributed with this source code.
  */
 
-namespace Reflar\Reactions\Listener;
+namespace FoF\Reactions\Listener;
 
 use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Event\ConfigureNotificationTypes;
@@ -19,9 +17,9 @@ use Flarum\Notification\NotificationSyncer;
 use Flarum\Post\Post;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
-use Reflar\Reactions\Event\PostWasReacted;
-use Reflar\Reactions\Event\PostWasUnreacted;
-use Reflar\Reactions\Notification\PostReactedBlueprint;
+use FoF\Reactions\Event\PostWasReacted;
+use FoF\Reactions\Event\PostWasUnreacted;
+use FoF\Reactions\Notification\PostReactedBlueprint;
 
 class SendNotificationWhenPostIsReacted
 {

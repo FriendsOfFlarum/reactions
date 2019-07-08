@@ -1,22 +1,20 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions.
+ *  This file is part of fof/reactions.
  *
- *  Copyright (c) ReFlar.
- *
- *  http://reflar.io
+ *  Copyright (c) FriendsOfFlarum.
  *
  *  For the full copyright and license information, please view the license.md
  *  file that was distributed with this source code.
  */
 
-namespace Reflar\Reactions\Api\Controller;
+namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractCreateController;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
-use Reflar\Reactions\Command\CreateReaction;
+use FoF\Reactions\Command\CreateReaction;
 use Tobscure\JsonApi\Document;
 
 class CreateReactionController extends AbstractCreateController
@@ -24,7 +22,7 @@ class CreateReactionController extends AbstractCreateController
     /**
      * {@inheritdoc}
      */
-    public $serializer = 'Reflar\Reactions\Api\Serializer\ReactionSerializer';
+    public $serializer = 'FoF\Reactions\Api\Serializer\ReactionSerializer';
 
     /**
      * @var Dispatcher

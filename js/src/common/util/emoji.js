@@ -3,7 +3,7 @@ import emojis from 'simple-emoji-map';
 const flatten = (arr, depth = 1) => arr.reduce((a, v) => a.concat(depth > 1 && Array.isArray(v) ? flatten(v, depth - 1) : v), []);
 const shortnames = flatten(Object.values(emojis));
 const entries = Object.entries(emojis);
-const getEmoji = identifier => entries.find(([key, value]) => value.includes(identifier));
+const getEmoji = identifier => entries.find(([, value]) => value.includes(identifier));
 const toUnicodeEmoji = codePoint => String.fromCodePoint(...codePoint.split('-').map(e => `0x${e}`));
 
 export class Match {
@@ -26,7 +26,7 @@ export class Match {
         let r = emojis[input],
             finalScore = -1,
             emojiName = null;
-        
+
         if (r) {
             finalScore = 1;
             emojiName = input;
@@ -83,7 +83,7 @@ export default reactionOrIdentifier => {
         ? {
               identifier,
               uc: toUnicodeEmoji(codePoint),
-              url: `https://cdn.jsdelivr.net/emojione/assets/3.1/png/32/${codePoint}.png`,
+              url: `https://twemoji.maxcdn.com/2/72x72/${codePoint}.png`,
               type: 'emoji',
           }
         : {};

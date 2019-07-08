@@ -4,21 +4,21 @@ import AdminLinkButton from 'flarum/components/AdminLinkButton';
 import SettingsPage from './components/SettingsPage';
 
 export default function() {
-    app.routes['reflar-reactions'] = {
-        path: '/reflar/reactions',
+    app.routes['fof-reactions'] = {
+        path: '/fof/reactions',
         component: SettingsPage.component(),
     };
 
-    app.extensionSettings['reflar-reactions'] = () => m.route(app.route('reflar-reactions'));
+    app.extensionSettings['fof-reactions'] = () => m.route(app.route('fof-reactions'));
 
     extend(AdminNav.prototype, 'items', items => {
         items.add(
-            'reflar-reactions',
+            'fof-reactions',
             AdminLinkButton.component({
-                href: app.route('reflar-reactions'),
+                href: app.route('fof-reactions'),
                 icon: 'fa fa-heart',
                 children: 'Reactions',
-                description: app.translator.trans('reflar-reactions.admin.nav.desc'),
+                description: app.translator.trans('fof-reactions.admin.nav.desc'),
             })
         );
     });

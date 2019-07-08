@@ -13,7 +13,7 @@ export default class SettingsPage extends Page {
 
         this.reactions = app.forum.reactions();
 
-        this.settingsPrefix = 'reflar.reactions';
+        this.settingsPrefix = 'fof-reactions';
 
         const settings = app.data.settings;
 
@@ -34,10 +34,10 @@ export default class SettingsPage extends Page {
                 <div className="container">
                     <form onsubmit={this.onsubmit.bind(this)}>
                         <fieldset>
-                            <legend>{app.translator.trans('reflar-reactions.admin.page.reactions.title')}</legend>
-                            <label>{app.translator.trans('reflar-reactions.admin.page.reactions.reactions')}</label>
+                            <legend>{app.translator.trans('fof-reactions.admin.page.reactions.title')}</legend>
+                            <label>{app.translator.trans('fof-reactions.admin.page.reactions.reactions')}</label>
                             <div style="margin-bottom: -10px" className="helpText">
-                                {app.translator.trans('reflar-reactions.admin.page.reactions.Helptext')}
+                                {app.translator.trans('fof-reactions.admin.page.reactions.Helptext')}
                             </div>
                             <br />
                             <div className="Reactions--Container">
@@ -73,7 +73,7 @@ export default class SettingsPage extends Page {
                                                 className="FormControl Reactions-identifier"
                                                 type="text"
                                                 value={reaction.identifier()}
-                                                placeholder={app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier')}
+                                                placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.identifier')}
                                                 oninput={m.withAttr('value', this.updateIdentifier.bind(this, reaction))}
                                             />
                                             {Select.component({
@@ -96,7 +96,7 @@ export default class SettingsPage extends Page {
                                     <input
                                         className="FormControl Reactions-identifier"
                                         type="text"
-                                        placeholder={app.translator.trans('reflar-reactions.admin.page.reactions.help.identifier')}
+                                        placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.identifier')}
                                         oninput={m.withAttr('value', this.newReaction.identifier)}
                                     />
                                     {Select.component({
@@ -138,21 +138,19 @@ export default class SettingsPage extends Page {
                         </fieldset>
                         <fieldset>
                             <div className="Reaction-settings">
-                                {this.isEnabled('reflar-gamification') || this.isEnabled('flarum-likes') ? (
-                                    <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.legend')}</legend>
+                                {this.isEnabled('fof-gamification') || this.isEnabled('flarum-likes') ? (
+                                    <legend>{app.translator.trans('fof-reactions.admin.page.settings.integrations.legend')}</legend>
                                 ) : (
                                     ''
                                 )}
-                                {this.isEnabled('reflar-gamification') ? (
+                                {this.isEnabled('fof-gamification') ? (
                                     <div>
-                                        <legend>
-                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.legend')}
-                                        </legend>
+                                        <legend>{app.translator.trans('fof-reactions.admin.page.settings.integrations.gamification.legend')}</legend>
                                         <label>
-                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteLabel')}
+                                            {app.translator.trans('fof-reactions.admin.page.settings.integrations.gamification.upvoteLabel')}
                                         </label>
                                         <div className="helpText">
-                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')}
+                                            {app.translator.trans('fof-reactions.admin.page.settings.integrations.gamification.upvoteHelptext')}
                                         </div>
                                         <input
                                             className="FormControl reactions-settings-input"
@@ -161,10 +159,10 @@ export default class SettingsPage extends Page {
                                             oninput={m.withAttr('value', this.values.convertToUpvote)}
                                         />
                                         <label>
-                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteLabel')}
+                                            {app.translator.trans('fof-reactions.admin.page.settings.integrations.gamification.downvoteLabel')}
                                         </label>
                                         <div className="helpText">
-                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')}
+                                            {app.translator.trans('fof-reactions.admin.page.settings.integrations.gamification.downvoteHelptext')}
                                         </div>
                                         <input
                                             className="FormControl reactions-settings-input"
@@ -178,10 +176,10 @@ export default class SettingsPage extends Page {
                                 )}
                                 {this.isEnabled('flarum-likes') ? (
                                     <div>
-                                        <legend>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.legend')}</legend>
-                                        <label>{app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Label')}</label>
+                                        <legend>{app.translator.trans('fof-reactions.admin.page.settings.integrations.likes.legend')}</legend>
+                                        <label>{app.translator.trans('fof-reactions.admin.page.settings.integrations.likes.Label')}</label>
                                         <div className="helpText">
-                                            {app.translator.trans('reflar-reactions.admin.page.settings.integrations.likes.Helptext')}
+                                            {app.translator.trans('fof-reactions.admin.page.settings.integrations.likes.Helptext')}
                                         </div>
                                         <input
                                             className="FormControl reactions-settings-input"
@@ -196,7 +194,7 @@ export default class SettingsPage extends Page {
                             </div>
                             {this.values.convertToUpvote() && this.values.convertToLike() ? (
                                 <h3 className="Reactions-warning">
-                                    {app.translator.trans('reflar-reactions.admin.page.settings.integrations.warning')}
+                                    {app.translator.trans('fof-reactions.admin.page.settings.integrations.warning')}
                                 </h3>
                             ) : (
                                 ''
@@ -204,7 +202,7 @@ export default class SettingsPage extends Page {
                             {Button.component({
                                 type: 'submit',
                                 className: 'Button Button--primary',
-                                children: app.translator.trans('reflar-reactions.admin.page.settings.save_settings', {
+                                children: app.translator.trans('fof-reactions.admin.page.settings.save_settings', {
                                     strong: <strong />,
                                 }),
                                 loading: this.loading,

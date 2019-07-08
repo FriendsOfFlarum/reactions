@@ -1,22 +1,20 @@
 <?php
 
 /**
- *  This file is part of reflar/reactions.
+ *  This file is part of fof/reactions.
  *
- *  Copyright (c) ReFlar.
- *
- *  http://reflar.io
+ *  Copyright (c) FriendsOfFlarum.
  *
  *  For the full copyright and license information, please view the license.md
  *  file that was distributed with this source code.
  */
 
-namespace Reflar\Reactions\Command;
+namespace FoF\Reactions\Command;
 
 use Flarum\User\AssertPermissionTrait;
 use Flarum\User\Exception\PermissionDeniedException;
-use Reflar\Reactions\Reaction;
-use Reflar\Reactions\Validator\ReactionValidator;
+use FoF\Reactions\Reaction;
+use FoF\Reactions\Validator\ReactionValidator;
 
 class EditReactionHandler
 {

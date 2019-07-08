@@ -1,21 +1,20 @@
 {
-  "name": "@reflar/reactions",
+  "name": "@fof/reactions",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "build": "webpack --mode production",
     "watch": "webpack --mode development --watch",
-    "lint": "prettier --config .prettierrc --write src/**/* src/**/**/*",
+    "lint": "prettier --single-quote --trailing-comma es5 --print-width 150 --tab-width 4 --write 'src/**/*'",
     "generate-emoji-map": "node ./scripts/generate-emoji-map.js"
   },
   "dependencies": {
-    "flarum-webpack-config": "0.1.0-beta.9",
-    "simple-emoji-map": "^0.2.1",
-    "webpack": "^4.25.1",
-    "webpack-cli": "^3.1.2"
+    "flarum-webpack-config": "0.1.0-beta.10",
+    "simple-emoji-map": "^0.3.0",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5"
   },
   "devDependencies": {
-    "emojibase-data": "^3.2.0",
-    "prettier": "^1.15.2",
-    "twemoji": "^11.2.0"
+    "prettier": "^1.18.2"
   }
 }

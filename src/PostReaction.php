@@ -1,6 +1,6 @@
 <?php
 
-namespace Reflar\Reactions;
+namespace FoF\Reactions;
 
 use Flarum\Database\AbstractModel;
 

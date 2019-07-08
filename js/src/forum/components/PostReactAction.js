@@ -221,7 +221,7 @@ export default class PostReactAction extends Component {
                     app.alerts.show(
                         (this.successAlert = new Alert({
                             type: 'warning',
-                            children: app.translator.trans('reflar-reactions.forum.warning', {
+                            children: app.translator.trans('fof-reactions.forum.warning', {
                                 reaction,
                             }),
                         }))
