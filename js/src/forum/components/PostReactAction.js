@@ -60,7 +60,7 @@ export default class PostReactAction extends Component {
             }
 
             items.add(
-                reaction.identifier(),
+                reaction.identifier().replace(/fa.? fa-/, ''),
                 <button
                     className="Button Button--link"
                     type="button"
