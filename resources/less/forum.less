@@ -36,18 +36,20 @@
     .CommentPost--Reactions {
         background-color: @body-bg;
         color: @text-color;
-        padding: 7.5px 2px;
-        bottom: 100%;
         visibility: hidden;
         opacity: 0;
         transition: visibility 0s linear 300ms, opacity 300ms;
         max-width: 270px;
-        height: auto !important;
-        overflow: hidden;
 
         /* Position the tooltip */
         position: absolute;
-        z-index: 1;
+        z-index: 1030;
+        padding: 8px 0;
+        margin: 7px 0;
+        left: auto;
+        right: 0;
+        bottom: 100%;
+        top: auto;
 
         border-radius: 4px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
@@ -57,8 +59,12 @@
         ul {
             padding: 0;
             list-style-type: none;
+            width: 100%;
+            min-width: 160px;
+            max-width: 270px;
             display: flex;
             flex-wrap: wrap;
+            justify-content: space-evenly;
 
             li {
                 display: inline-block;
