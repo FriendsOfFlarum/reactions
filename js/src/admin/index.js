@@ -7,7 +7,7 @@ import PermissionGrid from 'flarum/components/PermissionGrid';
 import addSettingsPage from './addSettingsPage';
 import Reaction from '../common/models/Reaction';
 
-app.initializers.add('@fof/reactions', () => {
+app.initializers.add('fof/reactions', () => {
     app.store.models.reactions = Reaction;
 
     Forum.prototype.reactions = Model.hasMany('reactions');

@@ -8,7 +8,7 @@ import addReactionAction from './addReactionAction';
 import PostReactedNotification from './components/PostReactedNotification';
 import Reaction from '../common/models/Reaction';
 
-app.initializers.add('@fof/reactions', () => {
+app.initializers.add('fof/reactions', () => {
     app.store.models.reactions = Reaction;
 
     app.notificationComponents.postReacted = PostReactedNotification;
