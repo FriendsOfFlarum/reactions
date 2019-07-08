@@ -12,7 +12,6 @@
 namespace FoF\Reactions\Listener;
 
 use Flarum\Likes\Event\PostWasLiked;
-use Flarum\Post\Event\Deleted;
 use Flarum\Post\Event\Saving;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\AssertPermissionTrait;
