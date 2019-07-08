@@ -1,20 +1,20 @@
 <?php
 
-/**
- *  This file is part of fof/reactions.
+/*
+ * This file is part of fof/reactions.
  *
- *  Copyright (c) FriendsOfFlarum.
+ * Copyright (c) 2019 FriendsOfFlarum.
  *
- *  For the full copyright and license information, please view the license.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
+use FoF\Reactions\Command\EditReaction;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
-use FoF\Reactions\Command\EditReaction;
 use Tobscure\JsonApi\Document;
 
 class UpdateReactionController extends AbstractShowController

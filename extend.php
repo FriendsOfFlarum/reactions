@@ -1,19 +1,19 @@
 <?php
 
-/**
- *  This file is part of fof/reactions.
+/*
+ * This file is part of fof/reactions.
  *
- *  Copyright (c) FriendsOfFlarum.
+ * Copyright (c) 2019 FriendsOfFlarum.
  *
- *  For the full copyright and license information, please view the license.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace FoF\Reactions;
 
 use Flarum\Extend;
-use Illuminate\Contracts\Events\Dispatcher;
 use FoF\Reactions\Api\Controller;
+use Illuminate\Contracts\Events\Dispatcher;
 
 return [
     (new Extend\Frontend('admin'))

@@ -1,12 +1,12 @@
 <?php
 
-/**
- *  This file is part of fof/reactions.
+/*
+ * This file is part of fof/reactions.
  *
- *  Copyright (c) FriendsOfFlarum.
+ * Copyright (c) 2019 FriendsOfFlarum.
  *
- *  For the full copyright and license information, please view the license.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace FoF\Reactions\Listener;
@@ -16,10 +16,10 @@ use Flarum\Event\ConfigureNotificationTypes;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\Post\Post;
 use Flarum\User\User;
-use Illuminate\Contracts\Events\Dispatcher;
 use FoF\Reactions\Event\PostWasReacted;
 use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\Notification\PostReactedBlueprint;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class SendNotificationWhenPostIsReacted
 {
