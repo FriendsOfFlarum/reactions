@@ -11,8 +11,6 @@
 
 namespace FoF\Reactions\Listener;
 
-use Flarum\Api\Serializer\BasicPostSerializer;
-use Flarum\Event\ConfigureNotificationTypes;
 use Flarum\Notification\NotificationSyncer;
 use Flarum\Post\Post;
 use Flarum\User\User;
@@ -21,37 +19,15 @@ use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\Notification\PostReactedBlueprint;
 use Illuminate\Contracts\Events\Dispatcher;
 
-class SendNotificationWhenPostIsReacted
+class SendNotifications
 {
-    /**
-     * @var NotificationSyncer
-     */
-    protected $notifications;
-
-    /**
-     * @param NotificationSyncer $notifications
-     */
-    public function __construct(NotificationSyncer $notifications)
-    {
-        $this->notifications = $notifications;
-    }
-
     /**
      * @param Dispatcher $events
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(ConfigureNotificationTypes::class, [$this, 'registerNotificationType']);
         $events->listen(PostWasReacted::class, [$this, 'whenPostWasReacted']);
         $events->listen(PostWasUnreacted::class, [$this, 'whenPostWasUnreacted']);
-    }
-
-    /**
-     * @param ConfigureNotificationTypes $event
-     */
-    public function registerNotificationType(ConfigureNotificationTypes $event)
-    {
-        $event->add(PostReactedBlueprint::class, BasicPostSerializer::class, ['alert']);
     }
 
     /**
@@ -70,7 +46,7 @@ class SendNotificationWhenPostIsReacted
     public function sync(Post $post, User $user, $reaction, array $recipients)
     {
         if ($post->user->id != $user->id) {
-            $this->notifications->sync(
+            app(NotificationSyncer::class)->sync(
                 new PostReactedBlueprint($post, $user, $reaction),
                 $recipients
             );

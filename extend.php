@@ -11,6 +11,7 @@
 
 namespace FoF\Reactions;
 
+use Flarum\Event\ConfigureNotificationTypes;
 use Flarum\Extend;
 use FoF\Reactions\Api\Controller;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -31,6 +32,10 @@ return [
     function (Dispatcher $events) {
         $events->subscribe(Listener\AddPostReactionsRelationship::class);
         $events->subscribe(Listener\SaveReactionsToDatabase::class);
-        $events->subscribe(Listener\SendNotificationWhenPostIsReacted::class);
+
+        // notifications
+        $events->subscribe(Listener\SendNotifications::class);
+
+        $events->listen(ConfigureNotificationTypes::class, Listener\AddNotificationType::class);
     },
 ];

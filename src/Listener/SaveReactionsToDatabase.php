@@ -32,7 +32,7 @@ class SaveReactionsToDatabase
     protected $settings;
 
     /**
-     * @param SaveVotesToDatabase $gamification
+     * @param SettingsRepositoryInterface $settings
      */
     public function __construct(SettingsRepositoryInterface $settings)
     {
@@ -45,7 +45,6 @@ class SaveReactionsToDatabase
     public function subscribe(Dispatcher $events)
     {
         $events->listen(Saving::class, [$this, 'whenSaving']);
-        $events->listen(Deleted::class, [$this, 'whenDeleted']);
     }
 
     /**
@@ -100,13 +99,5 @@ class SaveReactionsToDatabase
                 }
             }
         }
-    }
-
-    /**
-     * @param Deleted $event
-     */
-    public function whenDeleted(Deleted $event)
-    {
-        $event->post->reactions()->detach();
     }
 }
