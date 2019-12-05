@@ -11,6 +11,7 @@
 
 namespace FoF\Reactions\Listener;
 
+use Carbon\Carbon;
 use Flarum\Likes\Event\PostWasLiked;
 use Flarum\Post\Event\Saving;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -93,7 +94,7 @@ class SaveReactionsToDatabase
                         $post->raise(new PostWasUnreacted($post, $actor));
                     }
                 } else {
-                    $post->reactions()->attach($reaction, ['user_id' => $actor->id, 'reaction_id' => $reaction->id]);
+                    $post->reactions()->attach($reaction, ['user_id' => $actor->id, 'reaction_id' => $reaction->id, 'created_at' => Carbon::now()]);
                     $post->raise(new PostWasReacted($post, $actor, $reaction));
                 }
             }
