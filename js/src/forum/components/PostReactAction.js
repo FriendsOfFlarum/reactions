@@ -77,9 +77,9 @@ export default class PostReactAction extends Component {
     }
 
     init() {
-        const reactions = this.post.reactions() || [];
-
         this.post = this.props.post;
+
+        const reactions = this.post.reactions() || [];
 
         this.reaction = app.session.user && reactions.filter(reaction => reaction.user_id() == app.session.user.data.id)[0];
 
