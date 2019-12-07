@@ -14,7 +14,6 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-
         if ($schema->hasColumn('created_at', 'updated_at')) {
             return;
         }
