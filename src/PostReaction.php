@@ -19,4 +19,6 @@ class PostReaction extends AbstractModel
      * {@inheritdoc}
      */
     protected $table = 'post_reactions';
+    public $timestamps = true;
+    public $dates = ['created_at', 'updated_at'];
 }
