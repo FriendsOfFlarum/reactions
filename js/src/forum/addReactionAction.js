@@ -9,7 +9,7 @@ export default () => {
 
         if (post.isHidden()) return;
 
-        const reaction = app.session.user && post.reactions().some(user => user === app.session.user);
+        const reaction = app.session.user && Array.isArray(post.reactions()) && post.reactions().some(user => user === app.session.user);
 
         items.add(
             'react',

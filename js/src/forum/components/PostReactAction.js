@@ -77,9 +77,11 @@ export default class PostReactAction extends Component {
     }
 
     init() {
+        const reactions = this.post.reactions() || [];
+
         this.post = this.props.post;
 
-        this.reaction = app.session.user && this.post.reactions().filter(reaction => reaction.user_id() == app.session.user.data.id)[0];
+        this.reaction = app.session.user && reactions.filter(reaction => reaction.user_id() == app.session.user.data.id)[0];
 
         this.reacted = {};
 
@@ -91,8 +93,6 @@ export default class PostReactAction extends Component {
             this.names[reaction.identifier()] = e.url;
             this.reacted[reaction.identifier()] = [];
         });
-
-        const reactions = this.post.reactions();
 
         Object.keys(this.names).forEach(reaction => {
             this.reacted[reaction] = reactions.filter(e => e.identifier() === reaction);
@@ -205,7 +205,9 @@ export default class PostReactAction extends Component {
             .save({ reaction })
             .then(() => {
                 const identifier = this.reaction && this.reaction.identifier();
-                this.reaction = this.post.reactions().filter(r => r.user_id() == app.session.user.data.id)[0];
+                const reactions = this.post.reactions() || [];
+
+                this.reaction = reactions.filter(r => r.user_id() == app.session.user.data.id)[0];
 
                 /**
                  * We've saved the fact that we have or haven't reacted to the post,
