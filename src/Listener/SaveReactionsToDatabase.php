@@ -12,6 +12,7 @@
 namespace FoF\Reactions\Listener;
 
 use Carbon\Carbon;
+use Flarum\Foundation\ValidationException;
 use Flarum\Likes\Event\PostWasLiked;
 use Flarum\Post\Event\Saving;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -21,6 +22,7 @@ use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
 use Illuminate\Contracts\Events\Dispatcher;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class SaveReactionsToDatabase
 {
@@ -32,11 +34,17 @@ class SaveReactionsToDatabase
     protected $settings;
 
     /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    /**
      * @param SettingsRepositoryInterface $settings
      */
-    public function __construct(SettingsRepositoryInterface $settings)
+    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator)
     {
         $this->settings = $settings;
+        $this->translator = $translator;
     }
 
     /**
@@ -62,6 +70,8 @@ class SaveReactionsToDatabase
             $reactionType = $data['attributes']['reaction'];
 
             $this->assertCan($actor, 'react', $post);
+
+            $this->validateReaction($reactionType);
 
             if (class_exists('FoF\Gamification\Listeners\SaveVotesToDatabase') && $reactionType == $this->settings->get('fof-reactions.convertToUpvote')) {
                 app()->make('FoF\Gamification\Listeners\SaveVotesToDatabase')->vote($post, $isDownvoted = false,
@@ -98,6 +108,16 @@ class SaveReactionsToDatabase
                     $post->raise(new PostWasReacted($post, $actor, $reaction));
                 }
             }
+        }
+    }
+
+    protected function validateReaction($identifier) {
+        $reaction = Reaction::where('identifier', $identifier)->first();
+
+        if (!$reaction->enabled) {
+            throw new ValidationException([
+                'message' => $this->translator->trans('fof-reactions.forum.disabled-reaction')
+            ]);
         }
     }
 }
