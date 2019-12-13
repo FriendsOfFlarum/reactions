@@ -4,6 +4,7 @@ import emoji from '../../common/util/emoji';
 import Page from 'flarum/components/Page';
 import Select from 'flarum/components/Select';
 import saveSettings from 'flarum/utils/saveSettings';
+import Checkbox from 'flarum/components/Checkbox';
 
 export default class SettingsPage extends Page {
     init() {
@@ -88,6 +89,12 @@ export default class SettingsPage extends Page {
                                                 onclick: this.deleteReaction.bind(this, reaction),
                                             })}
                                             {demos}
+                                            {Checkbox.component({
+                                                className: 'Reactions-checkbox',
+                                                state: reaction.enabled(),
+                                                children: app.translator.trans('fof-reactions.admin.page.reactions.Enabledtext'),
+                                                onchange: this.updateStatus.bind(this, reaction),
+                                            })}
                                         </div>,
                                     ];
                                 })}
@@ -240,6 +247,7 @@ export default class SettingsPage extends Page {
                 identifier: m.prop(response.data.attributes.identifier),
                 type: m.prop(response.data.attributes.type),
                 id: m.prop(response.data.id),
+                enabled: m.prop(response.data.attributes.enabled),
             });
 
             this.newReaction.identifier('');
@@ -288,6 +296,22 @@ export default class SettingsPage extends Page {
         this.reactions.some((reaction, i) => {
             if (reaction.id() === reactionToDelete.id()) {
                 this.reactions.splice(i, 1);
+                return true;
+            }
+        });
+    }
+
+    updateStatus(reactionToUpdate, value) {
+        app.request({
+            method: 'PATCH',
+            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id(),
+            data: {
+                enabled: value,
+            },
+        });
+        this.reactions.some((reaction, i) => {
+            if (reaction.id() === reactionToUpdate.id()) {
+                reaction.enabled = m.prop(value);
                 return true;
             }
         });
