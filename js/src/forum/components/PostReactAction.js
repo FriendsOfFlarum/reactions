@@ -37,6 +37,10 @@ export default class PostReactAction extends Component {
         app.forum.reactions().forEach(reaction => {
             let buttonLabel;
 
+            if (reaction.enabled() === 0) {
+                return;
+            }
+
             if (reaction.type() === 'emoji') {
                 const url = this.names[reaction.identifier()];
                 buttonLabel = (

@@ -6,4 +6,5 @@ export default class Reaction extends mixin(Model, {
     type: Model.attribute('type'),
     user_id: Model.attribute('user_id'),
     post_id: Model.attribute('post_id'),
+    enabled: Model.attribute('enabled'),
 }) {}

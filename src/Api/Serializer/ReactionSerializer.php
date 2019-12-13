@@ -28,6 +28,7 @@ class ReactionSerializer extends AbstractSerializer
         return [
             'identifier' => $reaction->identifier,
             'type'       => $reaction->type,
+            'enabled'    => $reaction->enabled,
         ];
     }
 }

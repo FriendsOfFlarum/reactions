@@ -57,6 +57,10 @@ class EditReactionHandler
             $reaction->type = $data['type'];
         }
 
+        if (isset($data['enabled'])) {
+            $reaction->enabled = $data['enabled'];
+        }
+
         $this->validator->assertValid($reaction->getDirty());
 
         $reaction->save();
