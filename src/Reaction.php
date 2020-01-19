@@ -17,7 +17,7 @@ use Flarum\Database\AbstractModel;
  * @property string identifier
  * @property string display
  * @property string type
- * @property boolean enabled
+ * @property bool enabled
  */
 class Reaction extends AbstractModel
 {
@@ -32,6 +32,7 @@ class Reaction extends AbstractModel
      * @param $identifier
      * @param $type
      * @param bool $enabled
+     *
      * @return static
      */
     public static function build($identifier, $type, $enabled = true)

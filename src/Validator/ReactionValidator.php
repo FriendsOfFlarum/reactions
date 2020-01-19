@@ -32,7 +32,7 @@ class ReactionValidator extends AbstractValidator
         ],
         'enabled' => [
             'nullable',
-            'bool'
+            'bool',
         ],
     ];
 }

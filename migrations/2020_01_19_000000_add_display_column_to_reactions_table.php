@@ -12,5 +12,5 @@
 use Flarum\Database\Migration;
 
 return Migration::addColumns('reactions', [
-    'display' => ['string', 'length' => 255, 'nullable' => true]
+    'display' => ['string', 'length' => 255, 'nullable' => true],
 ]);
