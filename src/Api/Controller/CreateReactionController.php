@@ -14,6 +14,7 @@ namespace FoF\Reactions\Api\Controller;
 use Flarum\Api\Controller\AbstractCreateController;
 use FoF\Reactions\Command\CreateReaction;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -46,7 +47,7 @@ class CreateReactionController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         return $this->bus->dispatch(
-            new CreateReaction($request->getAttribute('actor'), ($request->getParsedBody()))
+            new CreateReaction($request->getAttribute('actor'), Arr::get($request->getParsedBody(), 'data.attributes', $request->getParsedBody()))
         );
     }
 }

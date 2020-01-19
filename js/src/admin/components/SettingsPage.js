@@ -71,21 +71,27 @@ export default class SettingsPage extends Page {
                                     return [
                                         <div className="Reactions--item">
                                             <input
-                                                className="FormControl Reactions-identifier"
+                                                className="FormControl Reactions-input"
+                                                value={reaction.display() || ''}
+                                                placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.display')}
+                                                oninput={m.withAttr('value', val => this.update(reaction, 'display', val))}
+                                            />
+                                            <input
+                                                className="FormControl Reactions-input"
                                                 type="text"
                                                 value={reaction.identifier()}
                                                 placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.identifier')}
-                                                oninput={m.withAttr('value', this.updateIdentifier.bind(this, reaction))}
+                                                oninput={m.withAttr('value', val => this.update(reaction, 'identifier', val))}
                                             />
                                             {Select.component({
                                                 options: { emoji: 'emoji', icon: 'icon' },
                                                 value: reaction.type(),
-                                                onchange: this.updateType.bind(this, reaction),
+                                                onchange: val => this.update(reaction, 'type', val),
                                             })}
                                             {Switch.component({
                                                 className: 'Reactions-switch',
                                                 state: reaction.enabled(),
-                                                onchange: this.updateStatus.bind(this, reaction),
+                                                onchange: val => this.update(reaction, 'enabled', val),
                                             })}
                                             {Button.component({
                                                 type: 'button',
@@ -101,7 +107,7 @@ export default class SettingsPage extends Page {
                                 <br />
                                 <div className="Reactions--item">
                                     <input
-                                        className="FormControl Reactions-identifier"
+                                        className="FormControl Reactions-input"
                                         type="text"
                                         placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.identifier')}
                                         oninput={m.withAttr('value', this.newReaction.identifier)}
@@ -230,59 +236,32 @@ export default class SettingsPage extends Page {
         return fieldsCheck;
     }
 
-    /**
-     *
-     * @param reaction
-     */
-    addReaction(reaction) {
-        app.request({
-            method: 'POST',
-            url: app.forum.attribute('apiUrl') + '/reactions',
-            data: {
-                identifier: this.newReaction.identifier(),
-                type: this.newReaction.type(),
-            },
-        }).then(response => {
-            this.reactions.push({
-                identifier: m.prop(response.data.attributes.identifier),
-                type: m.prop(response.data.attributes.type),
-                id: m.prop(response.data.id),
-                enabled: m.prop(response.data.attributes.enabled),
-            });
+    addReaction() {
+        const reaction = app.store.createRecord('reactions');
 
-            this.newReaction.identifier('');
-            this.newReaction.type('icon');
-            m.redraw();
+        reaction.save({
+            identifier: this.newReaction.identifier(),
+            type: this.newReaction.type(),
         });
+
+        this.reactions.push(reaction);
+
+        this.newReaction.identifier('');
+        this.newReaction.type('icon');
     }
 
-    updateIdentifier(reactionToUpdate, value) {
+    update(reaction, key, value) {
         app.request({
             method: 'PATCH',
-            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id(),
+            url: `${app.forum.attribute('apiUrl')}/reactions/${reaction.id()}`,
             data: {
-                identifier: value,
+                [key]: value,
             },
         });
-        this.reactions.some((reaction, i) => {
-            if (reaction.id() === reactionToUpdate.id()) {
-                reaction.identifier = m.prop(value);
-                return true;
-            }
-        });
-    }
 
-    updateType(reactionToUpdate, value) {
-        app.request({
-            method: 'PATCH',
-            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id(),
-            data: {
-                type: value,
-            },
-        });
-        this.reactions.some((reaction, i) => {
-            if (reaction.id() === reactionToUpdate.id()) {
-                reaction.type = m.prop(value);
+        this.reactions.some((r, i) => {
+            if (r.id() === reaction.id()) {
+                reaction[key] = m.prop(value);
                 return true;
             }
         });
@@ -291,27 +270,11 @@ export default class SettingsPage extends Page {
     deleteReaction(reactionToDelete) {
         app.request({
             method: 'DELETE',
-            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToDelete.id(),
+            url: `${app.forum.attribute('apiUrl')}/reactions/${reactionToDelete.id()}`,
         });
         this.reactions.some((reaction, i) => {
             if (reaction.id() === reactionToDelete.id()) {
                 this.reactions.splice(i, 1);
-                return true;
-            }
-        });
-    }
-
-    updateStatus(reactionToUpdate, value) {
-        app.request({
-            method: 'PATCH',
-            url: app.forum.attribute('apiUrl') + '/reactions/' + reactionToUpdate.id(),
-            data: {
-                enabled: value,
-            },
-        });
-        this.reactions.some((reaction, i) => {
-            if (reaction.id() === reactionToUpdate.id()) {
-                reaction.enabled = m.prop(value);
                 return true;
             }
         });
@@ -364,6 +327,6 @@ export default class SettingsPage extends Page {
      * @returns string
      */
     addPrefix(key) {
-        return this.settingsPrefix + '.' + key;
+        return `${this.settingsPrefix}.${key}`;
     }
 }

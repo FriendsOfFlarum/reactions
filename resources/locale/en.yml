@@ -19,6 +19,7 @@ fof-reactions:
         reactions: Current Reactions
         Helptext: Input the name (identifier) of the emoji or font-awesome icon and select which type you would like.
         help:
+          display: Display
           identifier: Identifier
 
       convert:

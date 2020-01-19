@@ -68,7 +68,7 @@ export default class PostReactAction extends Component {
                 <button
                     className="Button Button--link"
                     type="button"
-                    title={reaction.identifier()}
+                    title={reaction.display() || reaction.identifier()}
                     onclick={el => this.react(el)}
                     data-reaction={reaction.identifier()}
                 >

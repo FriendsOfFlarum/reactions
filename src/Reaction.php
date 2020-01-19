@@ -13,6 +13,12 @@ namespace FoF\Reactions;
 
 use Flarum\Database\AbstractModel;
 
+/**
+ * @property string identifier
+ * @property string display
+ * @property string type
+ * @property boolean enabled
+ */
 class Reaction extends AbstractModel
 {
     /**
@@ -23,10 +29,9 @@ class Reaction extends AbstractModel
     /**
      * Create a reaction.
      *
-     * @param int    $post_id
-     * @param int    $user_id
-     * @param string $reaction
-     *
+     * @param $identifier
+     * @param $type
+     * @param bool $enabled
      * @return static
      */
     public static function build($identifier, $type, $enabled = true)

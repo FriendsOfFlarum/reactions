@@ -53,6 +53,10 @@ class EditReactionHandler
             $reaction->identifier = $data['identifier'];
         }
 
+        if (isset($data['display'])) {
+            $reaction->display = $data['display'];
+        }
+
         if (isset($data['type'])) {
             $reaction->type = $data['type'];
         }

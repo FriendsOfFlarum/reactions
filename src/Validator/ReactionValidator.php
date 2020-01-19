@@ -21,10 +21,18 @@ class ReactionValidator extends AbstractValidator
             'string',
             'unique:reactions',
         ],
+        'display' => [
+            'nullable',
+            'string',
+        ],
         'type' => [
             'required',
             'string',
             'regex:/icon|emoji/i',
+        ],
+        'enabled' => [
+            'nullable',
+            'bool'
         ],
     ];
 }
