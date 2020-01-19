@@ -111,12 +111,13 @@ class SaveReactionsToDatabase
         }
     }
 
-    protected function validateReaction($identifier) {
+    protected function validateReaction($identifier)
+    {
         $reaction = Reaction::where('identifier', $identifier)->first();
 
         if (!$reaction->enabled) {
             throw new ValidationException([
-                'message' => $this->translator->trans('fof-reactions.forum.disabled-reaction')
+                'message' => $this->translator->trans('fof-reactions.forum.disabled-reaction'),
             ]);
         }
     }

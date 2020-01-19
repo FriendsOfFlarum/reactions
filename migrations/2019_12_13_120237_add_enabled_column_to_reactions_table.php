@@ -14,11 +14,9 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-
         $schema->table('reactions', function (Blueprint $table) {
             $table->boolean('enabled')->default(true);
         });
-
     },
 
     'down' => function (Builder $schema) {
