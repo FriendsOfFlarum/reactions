@@ -37,7 +37,7 @@ export default class PostReactAction extends Component {
         app.forum.reactions().forEach(reaction => {
             let buttonLabel;
 
-            if (reaction.enabled() === 0) {
+            if (!reaction.enabled()) {
                 return;
             }
 

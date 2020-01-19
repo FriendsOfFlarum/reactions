@@ -15,7 +15,6 @@ fof-reactions:
 
     page:
       reactions:
-        Enabledtext: Enable
         title: Custom Reactions
         reactions: Current Reactions
         Helptext: Input the name (identifier) of the emoji or font-awesome icon and select which type you would like.

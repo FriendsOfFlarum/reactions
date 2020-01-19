@@ -4,7 +4,7 @@ import emoji from '../../common/util/emoji';
 import Page from 'flarum/components/Page';
 import Select from 'flarum/components/Select';
 import saveSettings from 'flarum/utils/saveSettings';
-import Checkbox from 'flarum/components/Checkbox';
+import Switch from 'flarum/components/Switch';
 
 export default class SettingsPage extends Page {
     init() {
@@ -69,7 +69,7 @@ export default class SettingsPage extends Page {
                                     }
 
                                     return [
-                                        <div>
+                                        <div className="Reactions--item">
                                             <input
                                                 className="FormControl Reactions-identifier"
                                                 type="text"
@@ -82,24 +82,24 @@ export default class SettingsPage extends Page {
                                                 value: reaction.type(),
                                                 onchange: this.updateType.bind(this, reaction),
                                             })}
+                                            {Switch.component({
+                                                className: 'Reactions-switch',
+                                                state: reaction.enabled(),
+                                                onchange: this.updateStatus.bind(this, reaction),
+                                            })}
                                             {Button.component({
                                                 type: 'button',
                                                 className: 'Button Button--warning Reactions-button',
                                                 icon: 'fa fa-times',
                                                 onclick: this.deleteReaction.bind(this, reaction),
                                             })}
-                                            {demos}
-                                            {Checkbox.component({
-                                                className: 'Reactions-checkbox',
-                                                state: reaction.enabled(),
-                                                children: app.translator.trans('fof-reactions.admin.page.reactions.Enabledtext'),
-                                                onchange: this.updateStatus.bind(this, reaction),
-                                            })}
+
+                                            <div className="Reactions-demo">{demos}</div>
                                         </div>,
                                     ];
                                 })}
                                 <br />
-                                <div>
+                                <div className="Reactions--item">
                                     <input
                                         className="FormControl Reactions-identifier"
                                         type="text"
