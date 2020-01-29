@@ -59,6 +59,7 @@ class SaveReactionsToDatabase
      * @param Saving $event
      *
      * @throws \Flarum\User\Exception\PermissionDeniedException
+     * @throws \Flarum\Foundation\ValidationException
      */
     public function whenSaving(Saving $event)
     {
@@ -70,6 +71,12 @@ class SaveReactionsToDatabase
             $reactionType = $data['attributes']['reaction'];
 
             $this->assertCan($actor, 'react', $post);
+
+            if ($actor->id === $post->user_id) {
+                throw new ValidationException([
+                    'message' => $this->translator->trans('fof-reactions.forum.reacting-own-post')
+                ]);
+            }
 
             $this->validateReaction($reactionType);
 
