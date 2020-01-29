@@ -1,0 +1,46 @@
+fof-reactions:
+  forum:
+    disabled-reaction: Du kannst die Reaktion gerade nicht verwenden. Bitte aktualisiere die Seite.
+    warning: Deine Reaktion wurde umgewandelt
+    notification: "{username} hat mit {reaction} auf deinen Beitrag reagiert"
+    settings:
+        notify_post_reacted_label: Jemand reagiert auf einen meiner Beiträge
+
+  admin:
+    permissions:
+        react_posts_label: Reagieren auf Beiträge
+
+    nav:
+      desc: Ändere diese Einstellung und füge benutzerdefinierte Reaktionen hinzu.
+
+    page:
+      reactions:
+        title: Benutzerdefinierte Reaktionen
+        reactions: Aktuelle Reaktionen
+        Helptext: Geben Sie den Namen (Bezeichner) des Emoji oder font-awesome Icons ein und wählen Sie den gewünschten Typ aus.
+        help:
+          display: Anzeige
+          identifier: Bezeichner
+
+      convert:
+        help: Wenn gerade eine Erweiterung aktualisiert wurde, müssen die Reaktionen umgewandelt werden. Wenn diese Erweiterung gerade erst installiert wurde, können Sie diese Meldung getrost ignorieren.
+        button: Alte Reaktionen umwandeln
+        converting: Die Reaktionen werden jetzt umgewandelt. Aktualisiere die Website nach ein paar Minuten, um den Vorgang abzuschließen. (Die Konvertierungszeit kann je nach Anzahl der Reaktionen eine Weile dauern)
+        converted: "{number} Likes erfolgreich umgewandelt"
+
+      settings:
+        save_settings: Einstellungen speichern
+        integrations:
+          legend: Verknüpfungen
+          warning: Dieselbe Reaktion <strong>kann nicht</strong> in ein Like <strong>und</strong> Upvotes umgewandelt werden
+          gamification:
+            legend: Gamifizierung
+            upvoteLabel: Reaktionen zu Upvotes umwandeln
+            upvoteHelptext: Gib den Bezeichner der Reaktion ein, der automatisch in ein Upvote umgewandelt werden soll
+            downvoteLabel: Reaktionen zu Downvotes umwandeln
+            downvoteHelptext: Gib den Bezeichner der Reaktion ein, der automatisch in ein Downvote umgewandelt werden soll
+
+          likes:
+            legend: Likes
+            Label: Reaktionen in Likes umwandeln
+            Helptext: Gib den Bezeichner der Reaktion ein, der automatisch in ein Like umgewandelt werden soll
