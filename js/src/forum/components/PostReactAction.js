@@ -128,7 +128,7 @@ export default class PostReactAction extends Component {
                     return [
                         <span
                             className="Button-label Button-emoji-parent"
-                            onclick={el => this.react(this.reaction ? identifier : el)}
+                            onclick={this.post.user() !== app.session.user ? (el => this.react(this.reaction ? identifier : el)) : ''}
                             data-reaction={identifier}
                         >
                             {icon}
@@ -136,7 +136,7 @@ export default class PostReactAction extends Component {
                         </span>,
                     ];
                 })}
-                {!this.reaction ? (
+                {!this.reaction && this.post.user() !== app.session.user ? (
                     <div className="CommentPost--Reactions" style={this.post.number() === 1 ? '' : 'left: -28%;'}>
                         <ul className="Reactions--Ul">{listItems(this.getReactions().toArray())}</ul>
                     </div>
@@ -146,6 +146,9 @@ export default class PostReactAction extends Component {
     }
 
     reactButton() {
+        if (this.post.user() === app.session.user) {
+            return ('');
+        }
         return (
             <button className="Button Button--link Reactions--ShowReactions" type="Button" title="React">
                 <span className="Button-label" style={this.reaction ? 'display: none' : 'display:'}>

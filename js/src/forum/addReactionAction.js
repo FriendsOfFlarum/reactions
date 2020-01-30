@@ -7,7 +7,7 @@ export default () => {
     extend(CommentPost.prototype, 'actionItems', function(items) {
         const post = this.props.post;
 
-        if (post.isHidden() || post.user() === app.session.user) return;
+        if (post.isHidden()) return;
 
         const reaction = app.session.user && Array.isArray(post.reactions()) && post.reactions().some(user => user === app.session.user);
 

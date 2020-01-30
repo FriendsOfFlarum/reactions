@@ -74,7 +74,7 @@ class SaveReactionsToDatabase
 
             if ($actor->id === $post->user_id) {
                 throw new ValidationException([
-                    'message' => $this->translator->trans('fof-reactions.forum.reacting-own-post')
+                    'message' => $this->translator->trans('fof-reactions.forum.reacting-own-post'),
                 ]);
             }
 
