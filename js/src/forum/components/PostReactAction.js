@@ -147,7 +147,7 @@ export default class PostReactAction extends Component {
 
     reactButton() {
         if (this.post.user() === app.session.user) {
-            return ('');
+            return;
         }
         return (
             <button className="Button Button--link Reactions--ShowReactions" type="Button" title="React">
