@@ -82,11 +82,21 @@ class SaveReactionsToDatabase
             $this->validateReaction($reactionType);
 
             if (class_exists('FoF\Gamification\Listeners\SaveVotesToDatabase') && $reactionType == $this->settings->get('fof-reactions.convertToUpvote')) {
-                app()->make('FoF\Gamification\Listeners\SaveVotesToDatabase')->vote($post, $isDownvoted = false,
-                    $isUpvoted = true, $actor, $post->user);
+                app()->make('FoF\Gamification\Listeners\SaveVotesToDatabase')->vote(
+                    $post,
+                    $isDownvoted = false,
+                    $isUpvoted = true,
+                    $actor,
+                    $post->user
+                );
             } elseif (class_exists('FoF\Gamification\Listeners\SaveVotesToDatabase') && $reactionType == $this->settings->get('fof-reactions.convertToDownvote')) {
-                app()->make('FoF\Gamification\Listeners\SaveVotesToDatabase')->vote($post, $isDownvoted = true,
-                    $isUpvoted = false, $actor, $post->user);
+                app()->make('FoF\Gamification\Listeners\SaveVotesToDatabase')->vote(
+                    $post,
+                    $isDownvoted = true,
+                    $isUpvoted = false,
+                    $actor,
+                    $post->user
+                );
             } elseif (class_exists('Flarum\Likes\Listener\SaveLikesToDatabase') && $reactionType == $this->settings->get('fof-reactions.convertToLike')) {
                 $liked = $post->likes()->where('user_id', $actor->id)->exists();
                 if ($liked) {
@@ -130,10 +140,10 @@ class SaveReactionsToDatabase
         $pusher = $this->getPusher();
 
         $pusher->trigger('public', 'newReaction', [
-            'reaction'  => $reaction,
-            'postId' => $post->id,
-            'userId' => $actor->id,
-            'identifier' => $identifier
+            'reaction'   => $reaction,
+            'postId'     => $post->id,
+            'userId'     => $actor->id,
+            'identifier' => $identifier,
         ]);
     }
 
