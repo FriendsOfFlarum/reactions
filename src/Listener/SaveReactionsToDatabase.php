@@ -22,6 +22,7 @@ use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
 use Illuminate\Contracts\Events\Dispatcher;
+use Pusher\Pusher;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class SaveReactionsToDatabase
@@ -103,6 +104,9 @@ class SaveReactionsToDatabase
                     if ($oldReaction->reaction_id === null) {
                         $oldReaction->reaction_id = $reaction->id;
                         $oldReaction->save();
+
+                        $this->pushNewReaction($oldReaction, $actor, $post, $reactionType);
+
                         $post->raise(new PostWasReacted($post, $actor, $reaction, true));
                     } else {
                         $oldReaction->reaction_id = null;
@@ -112,9 +116,46 @@ class SaveReactionsToDatabase
                     }
                 } else {
                     $post->reactions()->attach($reaction, ['user_id' => $actor->id, 'reaction_id' => $reaction->id, 'created_at' => Carbon::now()]);
+
+                    $this->pushNewReaction($reaction, $actor, $post, $reactionType);
+
                     $post->raise(new PostWasReacted($post, $actor, $reaction));
                 }
             }
+        }
+    }
+
+    public function pushNewReaction($reaction, $actor, $post, $identifier)
+    {
+        $pusher = $this->getPusher();
+
+        $pusher->trigger('public', 'newReaction', [
+            'reaction'  => $reaction,
+            'postId' => $post->id,
+            'userId' => $actor->id,
+            'identifier' => $identifier
+        ]);
+    }
+
+    private function getPusher()
+    {
+        if (app()->bound(Pusher::class)) {
+            return app(Pusher::class);
+        } else {
+            $settings = app('flarum.settings');
+
+            $options = [];
+
+            if ($cluster = $settings->get('flarum-pusher.app_cluster')) {
+                $options['cluster'] = $cluster;
+            }
+
+            return new Pusher(
+                $settings->get('flarum-pusher.app_key'),
+                $settings->get('flarum-pusher.app_secret'),
+                $settings->get('flarum-pusher.app_id'),
+                $options
+            );
         }
     }
 
