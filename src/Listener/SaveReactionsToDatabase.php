@@ -135,6 +135,13 @@ class SaveReactionsToDatabase
         }
     }
 
+    /**
+     * @param $reaction
+     * @param $actor
+     * @param $post
+     * @param $identifier
+     * @throws \Pusher\PusherException
+     */
     public function pushNewReaction($reaction, $actor, $post, $identifier)
     {
         if ($pusher = $this->getPusher()) {
@@ -148,6 +155,10 @@ class SaveReactionsToDatabase
         }
     }
 
+    /**
+     * @return bool|\Illuminate\Foundation\Application|mixed|Pusher
+     * @throws \Pusher\PusherException
+     */
     private function getPusher()
     {
         if (!class_exists(Pusher::class)) {
