@@ -140,6 +140,7 @@ class SaveReactionsToDatabase
      * @param $actor
      * @param $post
      * @param $identifier
+     *
      * @throws \Pusher\PusherException
      */
     public function pushNewReaction($reaction, $actor, $post, $identifier)
@@ -155,8 +156,9 @@ class SaveReactionsToDatabase
     }
 
     /**
-     * @return bool|\Illuminate\Foundation\Application|mixed|Pusher
      * @throws \Pusher\PusherException
+     *
+     * @return bool|\Illuminate\Foundation\Application|mixed|Pusher
      */
     private function getPusher()
     {
