@@ -137,18 +137,23 @@ class SaveReactionsToDatabase
 
     public function pushNewReaction($reaction, $actor, $post, $identifier)
     {
-        $pusher = $this->getPusher();
+        if ($pusher = $this->getPusher()) {
 
-        $pusher->trigger('public', 'newReaction', [
-            'reaction'   => $reaction,
-            'postId'     => $post->id,
-            'userId'     => $actor->id,
-            'identifier' => $identifier,
-        ]);
+            $pusher->trigger('public', 'newReaction', [
+                'reaction' => $reaction,
+                'postId' => $post->id,
+                'userId' => $actor->id,
+                'identifier' => $identifier,
+            ]);
+        }
     }
 
     private function getPusher()
     {
+        if (!class_exists(Pusher::class)) {
+            return false;
+        }
+
         if (app()->bound(Pusher::class)) {
             return app(Pusher::class);
         } else {
