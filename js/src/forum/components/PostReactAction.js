@@ -128,7 +128,7 @@ export default class PostReactAction extends Component {
                     return [
                         <span
                             className="Button-label Button-emoji-parent"
-                            onclick={this.post.user() !== app.session.user ? (el => this.react(this.reaction ? identifier : el)) : ''}
+                            onclick={this.post.user() !== app.session.user ? el => this.react(this.reaction ? identifier : el) : ''}
                             data-reaction={identifier}
                         >
                             {icon}

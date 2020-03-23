@@ -1,4 +1,4 @@
-import {extend} from 'flarum/extend';
+import { extend } from 'flarum/extend';
 import app from 'flarum/app';
 import Forum from 'flarum/models/Forum';
 import Post from 'flarum/models/Post';
@@ -21,7 +21,7 @@ app.initializers.add('fof/reactions', () => {
 
     addReactionAction();
 
-    extend(CommentPost.prototype, 'config', function (x, isInitialized, context) {
+    extend(CommentPost.prototype, 'config', function(x, isInitialized, context) {
         if (isInitialized) return;
 
         if (app.pusher) {
@@ -32,12 +32,11 @@ app.initializers.add('fof/reactions', () => {
                     if (userId == app.session.user.id()) return;
 
                     if (parseInt(this.props.post.id()) === parseInt(data.postId)) {
-
                         m.startComputation();
 
                         let reaction = {};
                         Object.keys(data.reaction).map(key => {
-                           reaction[key] = m.prop(data.reaction[key]);
+                            reaction[key] = m.prop(data.reaction[key]);
                         });
                         reaction['identifier'] = m.prop(data.identifier);
 

@@ -73,10 +73,7 @@ export default reactionOrIdentifier => {
     }
 
     if (codePoint) {
-        codePoint = codePoint
-            .split('-')
-            .map(s => s.padStart(4, 0))
-            .join('-');
+        codePoint = codePoint.split('-')[0];
     }
 
     const output = codePoint
