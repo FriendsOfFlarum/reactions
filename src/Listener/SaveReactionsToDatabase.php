@@ -172,7 +172,7 @@ class SaveReactionsToDatabase
                 'userId'     => $actor->id,
                 'identifier' => $identifier,
             ]);
-        } 
+        }
     }
 
     /**
