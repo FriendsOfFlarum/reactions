@@ -24,7 +24,7 @@ app.initializers.add('fof/reactions', () => {
     extend(CommentPost.prototype, 'config', function(x, isInitialized, context) {
         if (isInitialized) return;
 
-        
+
         if (app.pusher) {
             app.pusher.then(channels => {
                 channels.main.bind('newReaction', data => {
@@ -37,9 +37,9 @@ app.initializers.add('fof/reactions', () => {
 
                         let reaction = {};
 
-                        /* 
-                         *  Add this to prevent Pusher from crashing Mithril when 
-                         *  reacting for the first time; it will be overwritten 
+                        /*
+                         *  Add this to prevent Pusher from crashing Mithril when
+                         *  reacting for the first time; it will be overwritten
                          *  by the mapping below on the next reaction events.
                          */
                         reaction["user_id"] = m.prop(userId);
@@ -94,7 +94,7 @@ app.initializers.add('fof/reactions', () => {
     extend(NotificationGrid.prototype, 'notificationTypes', items => {
         items.add('postReacted', {
             name: 'postReacted',
-            icon: 'eye',
+            icon: 'fas fa-eye',
             label: app.translator.trans('fof-reactions.forum.settings.notify_post_reacted_label'),
         });
     });
