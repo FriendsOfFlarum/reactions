@@ -122,6 +122,8 @@ class SaveReactionsToDatabase
                         $oldReaction->reaction_id = null;
                         $oldReaction->save();
 
+                        $this->pushRemovedReaction($actor, $post, $reactionType);
+
                         $post->raise(new PostWasUnreacted($post, $actor));
                     }
                 } else {
@@ -153,6 +155,24 @@ class SaveReactionsToDatabase
                 'identifier' => $identifier,
             ]);
         }
+    }
+
+    /**
+     * @param $actor
+     * @param $post
+     * @param $identifier
+     *
+     * @throws \Pusher\PusherException
+     */
+    public function pushRemovedReaction($actor, $post, $identifier)
+    {
+        if ($pusher = $this->getPusher()) {
+            $pusher->trigger('public', 'removedReaction', [
+                'postId'     => $post->id,
+                'userId'     => $actor->id,
+                'identifier' => $identifier,
+            ]);
+        } 
     }
 
     /**
