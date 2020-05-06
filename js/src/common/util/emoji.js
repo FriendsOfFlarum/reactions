@@ -80,7 +80,7 @@ export default reactionOrIdentifier => {
         ? {
               identifier,
               uc: toUnicodeEmoji(codePoint),
-              url: `https://twemoji.maxcdn.com/2/72x72/${codePoint}.png`,
+              url: `//cdn.jsdelivr.net/gh/twitter/twemoji@12/assets/72x72/${codePoint}.png`,
               type: 'emoji',
           }
         : {};
