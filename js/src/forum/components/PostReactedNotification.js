@@ -17,7 +17,7 @@ export default class PostReactedNotification extends Notification {
         const { identifier, type } = JSON.parse(notification.content());
         const user = notification.fromUser();
 
-        const reaction = type === 'emoji' ? <img src={emoji(identifier).url} height="14px" /> : icon(identifier);
+        const reaction = type === 'emoji' ? <img src={emoji(identifier).url} loading="lazy" height="14px" /> : icon(identifier);
 
         return app.translator.trans('fof-reactions.forum.notification', {
             user,

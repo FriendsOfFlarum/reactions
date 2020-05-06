@@ -49,6 +49,7 @@ export default class PostReactAction extends Component {
                             alt={reaction.identifier()}
                             className={reaction.type()}
                             draggable="false"
+                            loading="lazy"
                             src={url}
                             data-reaction={reaction.identifier()}
                         />
@@ -119,6 +120,7 @@ export default class PostReactAction extends Component {
                                 alt={reaction.identifier()}
                                 className="emoji button-emoji"
                                 draggable="false"
+                                loading="lazy"
                                 src={emoji(reaction.identifier()).url}
                                 data-reaction={identifier}
                             />
