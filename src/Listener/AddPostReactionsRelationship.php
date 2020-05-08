@@ -17,6 +17,7 @@ use Flarum\Api\Event\WillGetData;
 use Flarum\Api\Event\WillSerializeData;
 use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
+use Flarum\Api\Serializer\DiscussionSerializer;
 use Flarum\Api\Serializer\PostSerializer;
 use Flarum\Event\GetApiRelationship;
 use Flarum\Event\GetModelRelationship;
@@ -98,6 +99,8 @@ class AddPostReactionsRelationship
     {
         if ($event->isSerializer(PostSerializer::class)) {
             $event->attributes['canReact'] = (bool) $event->actor->can('react', $event->model);
+        }
+        if ($event->isSerializer(DiscussionSerializer::class)) {
             $event->attributes['canSeeReactions'] = (bool) $event->actor->can('canSeeReactions', $event->model);
         }
         if ($event->isSerializer(ForumSerializer::class)) {

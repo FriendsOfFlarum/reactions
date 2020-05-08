@@ -1,6 +1,7 @@
 import { extend } from 'flarum/extend';
 import app from 'flarum/app';
 import Forum from 'flarum/models/Forum';
+import Discussion from 'flarum/models/Discussion';
 import Post from 'flarum/models/Post';
 import Model from 'flarum/Model';
 import NotificationGrid from 'flarum/components/NotificationGrid';
@@ -15,10 +16,11 @@ app.initializers.add('fof/reactions', () => {
     app.notificationComponents.postReacted = PostReactedNotification;
 
     Post.prototype.canReact = Model.attribute('canReact');
-    Post.prototype.canSeeReactions = Model.attribute('canSeeReactions');
     Post.prototype.reactions = Model.hasMany('reactions');
 
     Forum.prototype.reactions = Model.hasMany('reactions');
+
+    Discussion.prototype.canSeeReactions = Model.attribute('canSeeReactions');
 
     addReactionAction();
 

@@ -394,7 +394,7 @@ __webpack_require__.r(__webpack_exports__);
     }), 5);
   });
   Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_utils_PostControls__WEBPACK_IMPORTED_MODULE_4___default.a, 'moderationControls', function (items, post) {
-    if (post.canSeeReactions()) {
+    if (post.discussion().canSeeReactions()) {
       items.add('viewReactions', [m(flarum_components_Button__WEBPACK_IMPORTED_MODULE_5___default.a, {
         icon: 'fas fa-heart',
         onclick: function onclick() {
@@ -403,6 +403,8 @@ __webpack_require__.r(__webpack_exports__);
           }));
         }
       }, flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('fof-reactions.forum.mod_item'))]);
+    } else {
+      console.log(post.discussion());
     }
   });
 });
@@ -931,17 +933,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var flarum_app__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_app__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var flarum_models_Forum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/models/Forum */ "flarum/models/Forum");
 /* harmony import */ var flarum_models_Forum__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_models_Forum__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var flarum_models_Post__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/models/Post */ "flarum/models/Post");
-/* harmony import */ var flarum_models_Post__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_models_Post__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var flarum_Model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/Model */ "flarum/Model");
-/* harmony import */ var flarum_Model__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_Model__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var flarum_components_NotificationGrid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/components/NotificationGrid */ "flarum/components/NotificationGrid");
-/* harmony import */ var flarum_components_NotificationGrid__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_components_NotificationGrid__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! flarum/components/CommentPost */ "flarum/components/CommentPost");
-/* harmony import */ var flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _addReactionAction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./addReactionAction */ "./src/forum/addReactionAction.js");
-/* harmony import */ var _components_PostReactedNotification__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/PostReactedNotification */ "./src/forum/components/PostReactedNotification.js");
-/* harmony import */ var _common_models_Reaction__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../common/models/Reaction */ "./src/common/models/Reaction.js");
+/* harmony import */ var flarum_models_Discussion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/models/Discussion */ "flarum/models/Discussion");
+/* harmony import */ var flarum_models_Discussion__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_models_Discussion__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_models_Post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/models/Post */ "flarum/models/Post");
+/* harmony import */ var flarum_models_Post__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_models_Post__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var flarum_Model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/Model */ "flarum/Model");
+/* harmony import */ var flarum_Model__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_Model__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var flarum_components_NotificationGrid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! flarum/components/NotificationGrid */ "flarum/components/NotificationGrid");
+/* harmony import */ var flarum_components_NotificationGrid__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(flarum_components_NotificationGrid__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! flarum/components/CommentPost */ "flarum/components/CommentPost");
+/* harmony import */ var flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _addReactionAction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./addReactionAction */ "./src/forum/addReactionAction.js");
+/* harmony import */ var _components_PostReactedNotification__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/PostReactedNotification */ "./src/forum/components/PostReactedNotification.js");
+/* harmony import */ var _common_models_Reaction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../common/models/Reaction */ "./src/common/models/Reaction.js");
+
 
 
 
@@ -953,14 +958,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.initializers.add('fof/reactions', function () {
-  flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.store.models.reactions = _common_models_Reaction__WEBPACK_IMPORTED_MODULE_9__["default"];
-  flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.notificationComponents.postReacted = _components_PostReactedNotification__WEBPACK_IMPORTED_MODULE_8__["default"];
-  flarum_models_Post__WEBPACK_IMPORTED_MODULE_3___default.a.prototype.canReact = flarum_Model__WEBPACK_IMPORTED_MODULE_4___default.a.attribute('canReact');
-  flarum_models_Post__WEBPACK_IMPORTED_MODULE_3___default.a.prototype.canSeeReactions = flarum_Model__WEBPACK_IMPORTED_MODULE_4___default.a.attribute('canSeeReactions');
-  flarum_models_Post__WEBPACK_IMPORTED_MODULE_3___default.a.prototype.reactions = flarum_Model__WEBPACK_IMPORTED_MODULE_4___default.a.hasMany('reactions');
-  flarum_models_Forum__WEBPACK_IMPORTED_MODULE_2___default.a.prototype.reactions = flarum_Model__WEBPACK_IMPORTED_MODULE_4___default.a.hasMany('reactions');
-  Object(_addReactionAction__WEBPACK_IMPORTED_MODULE_7__["default"])();
-  Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_6___default.a.prototype, 'config', function (x, isInitialized, context) {
+  flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.store.models.reactions = _common_models_Reaction__WEBPACK_IMPORTED_MODULE_10__["default"];
+  flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.notificationComponents.postReacted = _components_PostReactedNotification__WEBPACK_IMPORTED_MODULE_9__["default"];
+  flarum_models_Post__WEBPACK_IMPORTED_MODULE_4___default.a.prototype.canReact = flarum_Model__WEBPACK_IMPORTED_MODULE_5___default.a.attribute('canReact');
+  flarum_models_Post__WEBPACK_IMPORTED_MODULE_4___default.a.prototype.reactions = flarum_Model__WEBPACK_IMPORTED_MODULE_5___default.a.hasMany('reactions');
+  flarum_models_Forum__WEBPACK_IMPORTED_MODULE_2___default.a.prototype.reactions = flarum_Model__WEBPACK_IMPORTED_MODULE_5___default.a.hasMany('reactions');
+  flarum_models_Discussion__WEBPACK_IMPORTED_MODULE_3___default.a.prototype.canSeeReactions = flarum_Model__WEBPACK_IMPORTED_MODULE_5___default.a.attribute('canSeeReactions');
+  Object(_addReactionAction__WEBPACK_IMPORTED_MODULE_8__["default"])();
+  Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_CommentPost__WEBPACK_IMPORTED_MODULE_7___default.a.prototype, 'config', function (x, isInitialized, context) {
     var _this = this;
 
     if (isInitialized) return;
@@ -1021,7 +1026,7 @@ flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.initializers.add('fof/reaction
       });
     }
   });
-  Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_NotificationGrid__WEBPACK_IMPORTED_MODULE_5___default.a.prototype, 'notificationTypes', function (items) {
+  Object(flarum_extend__WEBPACK_IMPORTED_MODULE_0__["extend"])(flarum_components_NotificationGrid__WEBPACK_IMPORTED_MODULE_6___default.a.prototype, 'notificationTypes', function (items) {
     items.add('postReacted', {
       name: 'postReacted',
       icon: 'fas fa-eye',
@@ -1194,6 +1199,17 @@ module.exports = flarum.core.compat['helpers/listItems'];
 /***/ (function(module, exports) {
 
 module.exports = flarum.core.compat['helpers/username'];
+
+/***/ }),
+
+/***/ "flarum/models/Discussion":
+/*!**********************************************************!*\
+  !*** external "flarum.core.compat['models/Discussion']" ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = flarum.core.compat['models/Discussion'];
 
 /***/ }),
 
