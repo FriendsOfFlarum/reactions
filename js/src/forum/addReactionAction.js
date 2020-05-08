@@ -25,7 +25,7 @@ export default () => {
     });
 
     extend(PostControls, 'moderationControls', function(items, post) {
-        if (post.canSeeReactions()) {
+        if (post.discussion().canSeeReactions()) {
             items.add('viewReactions', [
                 m(Button,
                   {
@@ -37,6 +37,10 @@ export default () => {
                   app.translator.trans('fof-reactions.forum.mod_item')
                   )
             ]);
+        }
+        else
+        {
+            console.log(post.discussion());
         }
     });
 };
