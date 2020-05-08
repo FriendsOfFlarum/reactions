@@ -83,3 +83,61 @@
         transition: visibility 0s linear 0s, opacity 300ms;
     }
 }
+
+.ReactionsModal-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    a {
+        color: @text-color;
+        font-size: 15px;
+        display: block;
+        margin-bottom: 10px;
+        text-decoration: none;
+
+        &:hover .username {
+            text-decoration: underline;
+        }
+    }
+
+    .ReactionGroup {
+        margin-bottom: 40px;
+
+        legend {
+            margin-bottom: 0px !important;
+
+            i {
+                font-size: 15px;
+            }
+
+            .reaction-emoji, .reaction-icon {
+                height: 24px;
+                vertical-align: middle;
+            }
+
+            label {
+                font-weight: bold;
+                vertical-align: middle;
+                margin-left: 15px;
+            }
+        }
+
+        hr {
+            margin-top: 5px !important;
+            margin-bottom: 15px !important;
+            border: 0;
+            clear:both;
+            display:block;
+            width: 100%;               
+            background-color:#ccc;
+            height: 1px;
+        }
+    }
+
+    .Avatar {
+        .Avatar--size(24px);
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+}

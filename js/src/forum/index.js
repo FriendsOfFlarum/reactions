@@ -15,6 +15,7 @@ app.initializers.add('fof/reactions', () => {
     app.notificationComponents.postReacted = PostReactedNotification;
 
     Post.prototype.canReact = Model.attribute('canReact');
+    Post.prototype.canSeeReactions = Model.attribute('canSeeReactions');
     Post.prototype.reactions = Model.hasMany('reactions');
 
     Forum.prototype.reactions = Model.hasMany('reactions');
@@ -38,9 +39,9 @@ app.initializers.add('fof/reactions', () => {
                         let reaction = {};
 
                         /* 
-                         *  Add this to prevent Pusher from crashing Mithril when 
-                         *  reacting for the first time; it will be overwritten 
-                         *  by the mapping below on the next reaction events.
+                         *  Add this to prevent pusher crashing Mithril when 
+                         *  reacting for the first time, it will be overwritten 
+                         *  by the mapping below it every subsequent time.
                          */
                         reaction["user_id"] = m.prop(userId);
 
