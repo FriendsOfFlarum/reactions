@@ -13,7 +13,7 @@ fof-reactions:
   admin:
     permissions:
         react_posts_label: React to posts
-        see_reactions_label: See post reactions
+        see_reactions_label: See who reacted on posts
 
     nav:
       desc: Add custom reactions and change settings.
