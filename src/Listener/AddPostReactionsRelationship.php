@@ -98,6 +98,7 @@ class AddPostReactionsRelationship
     {
         if ($event->isSerializer(PostSerializer::class)) {
             $event->attributes['canReact'] = (bool) $event->actor->can('react', $event->model);
+            $event->attributes['canSeeReactions'] = (bool) $event->actor->can('canSeeReactions', $event->model);
         }
         if ($event->isSerializer(ForumSerializer::class)) {
             $event->attributes['ReactionConverts'] = [

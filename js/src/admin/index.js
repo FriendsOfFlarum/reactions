@@ -20,5 +20,13 @@ app.initializers.add('fof/reactions', () => {
         });
     });
 
+    extend(PermissionGrid.prototype, 'viewItems', items => {
+        items.add('canSeeReactions', {
+            icon: 'fas fa-info-circle',
+            label: app.translator.trans('fof-reactions.admin.permissions.see_reactions_label'),
+            permission: 'post.canSeeReactions'
+        });
+    });
+
     addSettingsPage();
 });
