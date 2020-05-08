@@ -2,6 +2,9 @@ import { extend } from 'flarum/extend';
 import app from 'flarum/app';
 import CommentPost from 'flarum/components/CommentPost';
 import PostReactAction from './components/PostReactAction';
+import PostControls from 'flarum/utils/PostControls';
+import Button from 'flarum/components/Button';
+import ReactionsModal from './components/ReactionsModal';
 
 export default () => {
     extend(CommentPost.prototype, 'actionItems', function(items) {
@@ -19,5 +22,21 @@ export default () => {
             }),
             5
         );
+    });
+
+    extend(PostControls, 'moderationControls', function(items, post) {
+        if (post.canSeeReactions()) {
+            items.add('viewReactions', [
+                m(Button,
+                  {
+                      icon: 'fas fa-heart',
+                      onclick: () => {
+                          app.modal.show(new ReactionsModal({post}));
+                      },
+                  },
+                  app.translator.trans('fof-reactions.forum.mod_item')
+                  )
+            ]);
+        }
     });
 };
