@@ -2,9 +2,6 @@ import Modal from 'flarum/components/Modal';
 import avatar from 'flarum/helpers/avatar';
 import username from 'flarum/helpers/username';
 import emoji from '../../common/util/emoji';
-import icon from 'flarum/helpers/icon';
-
-
 
 
 export default class ReactionsModal extends Modal {

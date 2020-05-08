@@ -7,13 +7,13 @@ fof-reactions:
         notify_post_reacted_label: Someone reacts to one of my posts
     reacting-own-post: You cannot react to your own post
     modal:
-        title: Reactors
-    mod_item: View Reactors
+        title: Reactions
+    mod_item: See reactions
 
   admin:
     permissions:
         react_posts_label: React to posts
-        see_reactions_label: See post reactions
+        see_reactions_label: See reactions to posts
 
     nav:
       desc: Add custom reactions and change settings.
