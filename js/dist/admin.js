@@ -546,7 +546,7 @@ flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.initializers.add('fof/reaction
     items.add('canSeeReactions', {
       icon: 'fas fa-info-circle',
       label: flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('fof-reactions.admin.permissions.see_reactions_label'),
-      permission: 'post.canSeeReactions'
+      permission: 'discussion.canSeeReactions'
     });
   });
   Object(_addSettingsPage__WEBPACK_IMPORTED_MODULE_5__["default"])();

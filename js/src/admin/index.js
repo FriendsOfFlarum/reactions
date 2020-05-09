@@ -24,7 +24,7 @@ app.initializers.add('fof/reactions', () => {
         items.add('canSeeReactions', {
             icon: 'fas fa-info-circle',
             label: app.translator.trans('fof-reactions.admin.permissions.see_reactions_label'),
-            permission: 'post.canSeeReactions'
+            permission: 'discussion.canSeeReactions'
         });
     });
 
