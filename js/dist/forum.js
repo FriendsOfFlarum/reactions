@@ -403,8 +403,6 @@ __webpack_require__.r(__webpack_exports__);
           }));
         }
       }, flarum_app__WEBPACK_IMPORTED_MODULE_1___default.a.translator.trans('fof-reactions.forum.mod_item'))]);
-    } else {
-      console.log(post.discussion());
     }
   });
 });
