@@ -25,19 +25,13 @@ export default () => {
     });
 
     extend(PostControls, 'moderationControls', function (items, post) {
-        if (post.discussion().canSeeReactions()) {
-            items.add('viewReactions', [
-                m(
-                    Button,
-                    {
-                        icon: 'fas fa-heart',
-                        onclick: () => {
-                            app.modal.show(new ReactionsModal({ post }));
-                        },
-                    },
-                    app.translator.trans('fof-reactions.forum.mod_item')
-                ),
-            ]);
+        if (post.discussion().canSeeReactions() && post.reactions() && post.reactions().length) {
+            items.add(
+                'viewReactions',
+                <Button icon="fas fa-heart" onclick={() => app.modal.show(new ReactionsModal({ post }))}>
+                    {app.translator.trans('fof-reactions.forum.mod_item')}
+                </Button>
+            );
         }
     });
 };

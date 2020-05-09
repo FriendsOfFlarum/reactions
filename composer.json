@@ -11,8 +11,7 @@
     "type": "flarum-extension",
     "license": "MIT",
     "require": {
-        "flarum/core": "^0.1.0-beta.9",
-        "staudenmeir/eloquent-has-many-deep": "^1.7"
+        "flarum/core": "^0.1.0-beta.13"
     },
     "replace": {
         "reflar/reactions": "*"
@@ -20,8 +19,8 @@
     "authors": [
         {
             "name": "David Sevilla Martín",
-            "email": "david.s@redevs.org",
-            "homepage": "https://redevs.org",
+            "email": "me+reflar@datitisev.me",
+            "homepage": "https://datitisev.me",
             "role": "Developer"
         },
         {

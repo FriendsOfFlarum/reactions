@@ -3,9 +3,17 @@ import Component from 'flarum/Component';
 import ItemList from 'flarum/utils/ItemList';
 import listItems from 'flarum/helpers/listItems';
 import LogInModal from 'flarum/components/LogInModal';
-import emoji from '../../common/util/emoji';
+
+import groupBy from '../utils/groupBy';
+import ReactionComponent from '../../common/components/ReactionComponent';
 
 export default class PostReactAction extends Component {
+    init() {
+        this.post = this.props.post;
+
+        this.updateChosenReaction();
+    }
+
     config(isInitialized) {
         if (isInitialized) return;
 
@@ -28,33 +36,8 @@ export default class PostReactAction extends Component {
         const items = new ItemList();
 
         app.forum.reactions().forEach((reaction) => {
-            let buttonLabel;
-
             if (!reaction.enabled()) {
                 return;
-            }
-
-            if (reaction.type() === 'emoji') {
-                const url = this.names[reaction.identifier()];
-                buttonLabel = (
-                    <span className="Button-label">
-                        <img
-                            alt={reaction.identifier()}
-                            className={reaction.type()}
-                            draggable="false"
-                            loading="lazy"
-                            src={url}
-                            data-reaction={reaction.identifier()}
-                        />
-                    </span>
-                );
-            } else if (reaction.type() === 'icon') {
-                const spanClass = `fa fa-${reaction.identifier()} reaction-icon`;
-                buttonLabel = (
-                    <span className="Button-label">
-                        <i className={spanClass} data-reaction={reaction.identifier()} aria-hidden />
-                    </span>
-                );
             }
 
             items.add(
@@ -63,10 +46,12 @@ export default class PostReactAction extends Component {
                     className="Button Button--link"
                     type="button"
                     title={reaction.display() || reaction.identifier()}
-                    onclick={(el) => this.react(el)}
+                    onclick={this.react.bind(this, reaction)}
                     data-reaction={reaction.identifier()}
                 >
-                    {buttonLabel}
+                    <span className="Button-label">
+                        <ReactionComponent className={reaction.type()} reaction={reaction} />
+                    </span>
                 </button>
             );
         });
@@ -74,57 +59,25 @@ export default class PostReactAction extends Component {
         return items;
     }
 
-    init() {
-        this.post = this.props.post;
-
-        const reactions = this.post.reactions() || [];
-
-        this.reaction = app.session.user && reactions.filter((reaction) => reaction.user_id() == app.session.user.data.id)[0];
-
-        this.reacted = {};
-
-        this.names = {};
-
-        app.forum.reactions().forEach((reaction) => {
-            const e = emoji(reaction.identifier());
-            if (!e) return;
-            this.names[reaction.identifier()] = e.url;
-            this.reacted[reaction.identifier()] = [];
-        });
-
-        Object.keys(this.names).forEach((reaction) => {
-            this.reacted[reaction] = reactions.filter((e) => e.identifier() === reaction);
-        });
-    }
-
     view() {
+        const postReactions = groupBy(this.props.post.reactions() || [], (r) => r.reactionId());
+
         return (
             <div style="margin-right: 7px" className="Reactions">
                 {this.reactButton()}
-                {Object.keys(this.reacted).map((identifier) => {
-                    const count = this.reacted[identifier].length;
-                    const reaction = app.forum.reactions().filter((e) => e.identifier() === identifier)[0];
+                {Object.keys(postReactions).map((id) => {
+                    const reaction = app.store.getById('reactions', id);
+                    const count = postReactions[id].length;
 
                     if (count === 0) return;
-                    const spanClass = reaction.type() === 'icon' && `${reaction.identifier()} emoji button-emoji reaction-icon`;
-                    const icon =
-                        reaction.type() === 'emoji' ? (
-                            <img
-                                alt={reaction.identifier()}
-                                className="emoji button-emoji"
-                                draggable="false"
-                                loading="lazy"
-                                src={emoji(reaction.identifier()).url}
-                                data-reaction={identifier}
-                            />
-                        ) : (
-                            <i className={spanClass} data-reaction={identifier} aria-hidden />
-                        );
+                    const spanClass = reaction.type() === 'icon' ? `${reaction.identifier()} emoji button-emoji reaction-icon` : '';
+                    const icon = <ReactionComponent reaction={reaction} className={spanClass} data-reaction={reaction.identifier()} />;
+
                     return [
                         <span
                             className="Button-label Button-emoji-parent"
-                            onclick={this.post.user() !== app.session.user ? (el) => this.react(this.reaction ? identifier : el) : ''}
-                            data-reaction={identifier}
+                            onclick={this.post.user() !== app.session.user ? (el) => this.react(this.reaction) : ''}
+                            data-reaction={reaction.identifier()}
                         >
                             {icon}
                             {count > 1 ? count : ''}
@@ -176,14 +129,14 @@ export default class PostReactAction extends Component {
         );
     }
 
-    react(el) {
+    react(reaction) {
         if (!app.session.user) {
             app.modal.show(new LogInModal());
             return;
         }
 
         if (!this.post.canReact()) {
-            app.alerts.show(
+            return app.alerts.show(
                 (this.successAlert = new Alert({
                     type: 'error',
                     children: app.translator.trans('core.lib.error.permission_denied_message'),
@@ -191,25 +144,12 @@ export default class PostReactAction extends Component {
             );
         }
 
-        let isReacted = true;
-
-        if (typeof el === 'string') {
-            isReacted = false;
-        }
-
-        let reaction = el && el.target && el.target.attributes['data-reaction'] ? el.target.attributes['data-reaction'].value : '';
-
-        if (reaction === '') {
-            reaction = el;
-        }
+        // const identifier = reaction === this.reaction ? '' : reaction.identifier();
 
         this.post
-            .save({ reaction })
+            .save({ reaction: (reaction && reaction.id()) || null })
             .then(() => {
-                const identifier = this.reaction && this.reaction.identifier();
-                const reactions = this.post.reactions() || [];
-
-                this.reaction = reactions.filter((r) => r.user_id() == app.session.user.data.id)[0];
+                this.updateChosenReaction();
 
                 /**
                  * We've saved the fact that we have or haven't reacted to the post,
@@ -230,16 +170,16 @@ export default class PostReactAction extends Component {
                             }),
                         }))
                     );
-                } else {
-                    if (isReacted) {
-                        this.reacted[reaction].push(this.reaction);
-                    } else {
-                        this.reacted[identifier] = this.reacted[identifier].filter((r) => r.user_id() != app.session.user.id());
-                    }
                 }
 
                 m.redraw();
             })
             .catch((err) => $('body').append(err));
+    }
+
+    updateChosenReaction() {
+        const postReactions = this.post.reactions() || [];
+
+        return (this.reaction = app.session.user && postReactions.filter((reaction) => reaction.userId() == app.session.user.id())[0]);
     }
 }

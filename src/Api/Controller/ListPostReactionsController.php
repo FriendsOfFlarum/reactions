@@ -22,6 +22,8 @@ class ListPostReactionsController extends AbstractListController
 {
     public $serializer = PostReactionSerializer::class;
 
+    public $include = ['reaction'];
+
     public $optionalInclude = ['user', 'post'];
 
     /**
@@ -45,6 +47,6 @@ class ListPostReactionsController extends AbstractListController
         $postId = array_get($request->getQueryParams(), 'id');
         $post = $this->posts->findOrFail($postId, $request->getAttribute('actor'));
 
-        return $post->reactions;
+        return $post->reactions()->whereNotNull('reaction_id')->get();
     }
 }

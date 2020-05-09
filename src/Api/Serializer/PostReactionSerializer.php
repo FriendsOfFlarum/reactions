@@ -20,36 +20,39 @@ class PostReactionSerializer extends AbstractSerializer
     /**
      * {@inheritdoc}
      */
-    protected $type = 'reactions';
+    protected $type = 'post_reactions';
 
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultAttributes($reaction)
+    protected function getDefaultAttributes($postReaction)
     {
         return [
-            'identifier' => $reaction->identifier,
-            'type'       => $reaction->type,
-            'user_id'    => (int) $reaction->pivot->user_id,
-            'post_id'    => (int) $reaction->pivot->post_id,
+            'userId'     => $postReaction->user_id,
+            'postId'     => $postReaction->post_id,
+            'reactionId' => $postReaction->reaction_id,
         ];
     }
 
     /**
-     * @param $reaction
+     * @param $postReaction
      *
      * @return string
      */
-    public function getId($reaction)
+    public function getId($postReaction)
     {
-        return $reaction->id.'-'.$reaction->pivot->user_id.'.'.$reaction->pivot->post_id;
+        return $postReaction->id;
     }
 
-    public function user($reaction) {
-        return $this->hasOne($reaction, BasicUserSerializer::class);
+    public function reaction($postReaction) {
+        return $this->hasOne($postReaction, ReactionSerializer::class);
     }
 
-    public function post($reaction) {
-        return $this->hasOne($reaction, BasicPostSerializer::class);
+    public function user($postReaction) {
+        return $this->hasOne($postReaction, BasicUserSerializer::class);
+    }
+
+    public function post($postReaction) {
+        return $this->hasOne($postReaction, BasicPostSerializer::class);
     }
 }

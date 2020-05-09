@@ -9,9 +9,11 @@ import CommentPost from 'flarum/components/CommentPost';
 import addReactionAction from './addReactionAction';
 import PostReactedNotification from './components/PostReactedNotification';
 import Reaction from '../common/models/Reaction';
+import PostReaction from './models/PostReaction';
 
 app.initializers.add('fof/reactions', () => {
     app.store.models.reactions = Reaction;
+    app.store.models.post_reactions = PostReaction;
 
     app.notificationComponents.postReacted = PostReactedNotification;
 

@@ -12,13 +12,26 @@
 namespace FoF\Reactions;
 
 use Flarum\Database\AbstractModel;
+use Flarum\Post\Post;
+use Flarum\User\User;
 
 class PostReaction extends AbstractModel
 {
-    /**
-     * {@inheritdoc}
-     */
     protected $table = 'post_reactions';
+
     public $timestamps = true;
+
     public $dates = ['created_at', 'updated_at'];
+
+    public function reaction() {
+        return $this->belongsTo(Reaction::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function post() {
+        return $this->belongsTo(Post::class);
+    }
 }

@@ -45,26 +45,10 @@ class AddPostReactionsRelationship
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(GetModelRelationship::class, [$this, 'getModelRelationship']);
         $events->listen(WillSerializeData::class, [$this, 'loadReactionsRelationship']);
         $events->listen(GetApiRelationship::class, [$this, 'getApiAttributes']);
         $events->listen(Serializing::class, [$this, 'prepareApiAttributes']);
         $events->listen(WillGetData::class, [$this, 'includeReactions']);
-    }
-
-    /**
-     * @param GetModelRelationship $event
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|null
-     */
-    public function getModelRelationship(GetModelRelationship $event)
-    {
-        if ($event->isRelationship(Post::class, 'reactions')) {
-            return $event->model->belongsToMany(Reaction::class, 'post_reactions', 'post_id')->withPivot(
-                'reaction_id',
-                'user_id'
-            );
-        }
     }
 
     /**

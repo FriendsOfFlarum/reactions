@@ -1,7 +1,10 @@
 import Modal from 'flarum/components/Modal';
+import LoadingIndicator from 'flarum/components/LoadingIndicator';
 import avatar from 'flarum/helpers/avatar';
 import username from 'flarum/helpers/username';
-import emoji from '../../common/util/emoji';
+
+import ReactionComponent from '../../common/components/ReactionComponent';
+import groupBy from '../utils/groupBy';
 
 export default class ReactionsModal extends Modal {
     className() {
@@ -13,43 +16,48 @@ export default class ReactionsModal extends Modal {
     }
 
     init() {
-        this.idToReaction = app.forum
-            .reactions()
-            .filter((x) => x.display())
-            .reduce((a, x) => ({ ...a, [Number(x.id())]: x.display() }), {});
+        this.loading = true;
 
-        this.groupToPreloaded = {};
+        this.groupedReactions = groupBy(this.props.post.reactions(), (r) => r.reactionId());
 
-        this.groupedReactions = this.groupReactions(this.props.post.reactions());
-        this.groupedReactions.forEach((g) => {
-            g.forEach((r) => {
-                app.store.find('users', r['userId']).then((user) => {
-                    this.groupToPreloaded[r['id']]['modalUsers'].push(
-                        <li>
-                            <a className="ReactionsModal-user" href={app.route.user(user)} config={m.route}>
-                                {avatar(user)} {username(user)}
-                            </a>
-                        </li>
-                    );
-
-                    m.redraw();
-                });
-            });
-        });
+        this.load();
     }
 
     content() {
+        if (this.loading) {
+            return (
+                <div className="Modal-body">
+                    <LoadingIndicator />
+                </div>
+            );
+        }
+
         return (
             <div className="Modal-body">
                 <ul className="ReactionsModal-list">
-                    {this.groupedReactions.map((g) => {
-                        let preloadedGroup = this.groupToPreloaded[g[0]['id']];
+                    {Object.keys(this.groupedReactions).map((id) => {
+                        const reaction = app.store.getById('reactions', id);
+                        const postReactions = this.groupedReactions[id];
+
+                        if (!postReactions.length) return;
 
                         return (
                             <div className="ReactionsModal-group">
-                                <legend>{preloadedGroup['legend']}</legend>
+                                <legend>
+                                    <ReactionComponent reaction={reaction} className={'ReactionModal-reaction'} />
+
+                                    <label className="ReactionsModal-display">{reaction.display() || reaction.identifier()}</label>
+                                </legend>
+
                                 <hr className="ReactionsModal-delimiter" />
-                                {preloadedGroup['modalUsers']}
+
+                                {postReactions.map((r) => (
+                                    <li>
+                                        <a className="ReactionsModal-user" href={app.route.user(r.user())} config={m.route}>
+                                            {avatar(r.user(), { loading: 'lazy' })} {username(r.user())}
+                                        </a>
+                                    </li>
+                                ))}
                             </div>
                         );
                     })}
@@ -58,53 +66,14 @@ export default class ReactionsModal extends Modal {
         );
     }
 
-    groupReactions(reactions) {
-        // Recreate reactions to only have useful data
-        const informativeReactions = reactions.map((r) => {
-            let t = {};
-
-            t['id'] = Number(r.id().split('-')[0]);
-            t['userId'] = Number(r.user_id());
-
-            /*
-             *  This is pre-calculated HTML for each reaction.
-             *  We only load it if the legend is empty, since we need
-             *  to load it only once per reaction group.
-             */
-            if (!(t['id'] in this.groupToPreloaded)) {
-                this.groupToPreloaded[t['id']] = { legend: [], modalUsers: [] };
-
-                if (r.type() === 'emoji') {
-                    this.groupToPreloaded[t['id']]['legend'].push(<img className="ReactionsModal-emoji" src={emoji(r.identifier()).url} />);
-                } else if (r.type() === 'icon') {
-                    this.groupToPreloaded[t['id']]['legend'].push(
-                        <i className={`fa fa-${r.identifier()} ReactionsModal-icon`} data-reaction={r.identifier()} />
-                    );
-                }
-
-                /*
-                 *  Always fallback to the identifier for unknown identifiers,
-                 *  otherwise use the display name as a reaction label,
-                 *  or keep it empty if there is no display value.
-                 */
-                this.groupToPreloaded[t['id']]['legend'].push(
-                    <label className="ReactionsModal-display">
-                        {this.groupToPreloaded[t['id']]['legend'].length === 0 ? r.identifier() : this.idToReaction[t['id']] || ''}
-                    </label>
-                );
-            }
-
-            return t;
-        });
-
-        // Group extensions by id, sort them by the id
-        const groupedReactions = Object.values(
-            informativeReactions.reduce((rv, x) => {
-                (rv[x['id']] = rv[x['id']] || []).push(x);
-                return rv;
-            }, {})
-        ).sort((l, r) => r['id'] - l['id']);
-
-        return groupedReactions;
+    load() {
+        return app
+            .request({
+                method: 'GET',
+                url: app.forum.attribute('apiUrl') + this.props.post.apiEndpoint() + '/reactions',
+                data: { include: 'user' },
+            })
+            .then((response) => app.store.pushPayload(response))
+            .then(this.loaded.bind(this), this.loaded.bind(this));
     }
 }

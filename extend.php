@@ -11,8 +11,11 @@
 
 namespace FoF\Reactions;
 
+use Flarum\Database\AbstractModel;
 use Flarum\Event\ConfigureNotificationTypes;
 use Flarum\Extend;
+use Flarum\Post\Event\Saving;
+use Flarum\Post\Post;
 use FoF\Reactions\Api\Controller;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -30,9 +33,15 @@ return [
         ->post('/reactions', 'reactions.create', Controller\CreateReactionController::class)
         ->patch('/reactions/{id}', 'reactions.update', Controller\UpdateReactionController::class)
         ->delete('/reactions/{id}', 'reactions.delete', Controller\DeleteReactionController::class),
+    (new Extend\Model(Post::class))
+        ->relationship('reactions', function (AbstractModel $model) {
+            return $model->hasMany(PostReaction::class, 'post_id')
+                ->whereNotNull('reaction_id');
+        }),
+    (new Extend\Event())
+        ->listen(Saving::class, Listener\SaveReactionsToDatabase::class),
     function (Dispatcher $events) {
         $events->subscribe(Listener\AddPostReactionsRelationship::class);
-        $events->subscribe(Listener\SaveReactionsToDatabase::class);
 
         // notifications
         $events->subscribe(Listener\SendNotifications::class);

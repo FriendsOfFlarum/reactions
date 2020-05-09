@@ -12,16 +12,18 @@
 namespace FoF\Reactions\Listener;
 
 use Carbon\Carbon;
+use Flarum\Extension\ExtensionManager;
 use Flarum\Foundation\ValidationException;
 use Flarum\Likes\Event\PostWasLiked;
 use Flarum\Post\Event\Saving;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\AssertPermissionTrait;
+use FoF\Gamification\Listeners\SaveVotesToDatabase;
 use FoF\Reactions\Event\PostWasReacted;
 use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Arr;
 use Pusher\Pusher;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -40,20 +42,15 @@ class SaveReactionsToDatabase
     protected $translator;
 
     /**
-     * @param SettingsRepositoryInterface $settings
+     * @var ExtensionManager
      */
-    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator)
+    protected $extensions;
+
+    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions)
     {
         $this->settings = $settings;
         $this->translator = $translator;
-    }
-
-    /**
-     * @param Dispatcher $events
-     */
-    public function subscribe(Dispatcher $events)
-    {
-        $events->listen(Saving::class, [$this, 'whenSaving']);
+        $this->extensions = $extensions;
     }
 
     /**
@@ -62,14 +59,16 @@ class SaveReactionsToDatabase
      * @throws \Flarum\User\Exception\PermissionDeniedException
      * @throws \Flarum\Foundation\ValidationException
      */
-    public function whenSaving(Saving $event)
+    public function handle(Saving $event)
     {
         $post = $event->post;
         $data = $event->data;
 
-        if ($post->exists && isset($data['attributes']['reaction'])) {
+        if ($post->exists && Arr::has($data, 'attributes.reaction')) {
             $actor = $event->actor;
-            $reactionType = $data['attributes']['reaction'];
+
+            $reactionId = Arr::get($data, 'attributes.reaction');
+            $reactionIdentifier = null;
 
             $this->assertCan($actor, 'react', $post);
 
@@ -79,26 +78,35 @@ class SaveReactionsToDatabase
                 ]);
             }
 
-            $this->validateReaction($reactionType);
+            $this->validateReaction($reactionId);
 
-            if (class_exists('FoF\Gamification\Listeners\SaveVotesToDatabase') && $reactionType == $this->settings->get('fof-reactions.convertToUpvote')) {
-                app()->make('FoF\Gamification\Listeners\SaveVotesToDatabase')->vote(
+            $reaction = Reaction::where('id', $reactionId)->firstOrFail();
+
+            $gamification = $this->extensions->isEnabled('fof-gamification');
+            $likes = $this->extensions->isEnabled('flarum-likes');
+
+            $gamificationUpvote = $this->settings->get('fof-reactions.convertToUpvote');
+            $gamificationDownvote = $this->settings->get('fof-reactions.convertToDownvote');
+
+            if ($gamification && class_exists(SaveVotesToDatabase::class) && $reaction && $reaction->identifier == $gamificationUpvote) {
+                app()->make(SaveVotesToDatabase::class)->vote(
                     $post,
-                    $isDownvoted = false,
-                    $isUpvoted = true,
+                    false,
+                    true,
                     $actor,
                     $post->user
                 );
-            } elseif (class_exists('FoF\Gamification\Listeners\SaveVotesToDatabase') && $reactionType == $this->settings->get('fof-reactions.convertToDownvote')) {
-                app()->make('FoF\Gamification\Listeners\SaveVotesToDatabase')->vote(
+            } else if ($gamification && class_exists(SaveVotesToDatabase::class) && $reaction && $reaction->identifier == $gamificationDownvote) {
+                app()->make(SaveVotesToDatabase::class)->vote(
                     $post,
-                    $isDownvoted = true,
-                    $isUpvoted = false,
+                    true,
+                    false,
                     $actor,
                     $post->user
                 );
-            } elseif (class_exists('Flarum\Likes\Listener\SaveLikesToDatabase') && $reactionType == $this->settings->get('fof-reactions.convertToLike')) {
+            } elseif ($likes && $reaction && $reaction->identifier == $this->settings->get('fof-reactions.convertToLike')) {
                 $liked = $post->likes()->where('user_id', $actor->id)->exists();
+
                 if ($liked) {
                     return;
                 } else {
@@ -108,28 +116,27 @@ class SaveReactionsToDatabase
                 }
             } else {
                 $oldReaction = PostReaction::where([['user_id', $actor->id], ['post_id', $post->id]])->first();
-                $reaction = Reaction::where('identifier', $reactionType)->firstOrFail();
 
-                if ($oldReaction) {
-                    if ($oldReaction->reaction_id === null) {
-                        $oldReaction->reaction_id = $reaction->id;
-                        $oldReaction->save();
+                $removeReaction = ($oldReaction && !is_null($oldReaction->reaction_id)) || is_null($reactionId);
 
-                        $this->pushNewReaction($oldReaction, $actor, $post, $reactionType);
-
-                        $post->raise(new PostWasReacted($post, $actor, $reaction, true));
-                    } else {
+                if ($removeReaction) {
+                    if ($oldReaction) {
                         $oldReaction->reaction_id = null;
                         $oldReaction->save();
-
-                        $this->pushRemovedReaction($actor, $post, $reactionType);
-
-                        $post->raise(new PostWasUnreacted($post, $actor));
                     }
-                } else {
-                    $post->reactions()->attach($reaction, ['user_id' => $actor->id, 'reaction_id' => $reaction->id, 'created_at' => Carbon::now()]);
 
-                    $this->pushNewReaction($reaction, $actor, $post, $reactionType);
+                    $this->pushRemovedReaction($reaction, $actor, $post);
+
+                    $post->raise(new PostWasUnreacted($post, $actor));
+                } else {
+                    if ($oldReaction) {
+                        $oldReaction->reaction_id = $reaction->id;
+                        $oldReaction->save();
+                    } else {
+                        $post->reactions()->attach($reaction, ['user_id' => $actor->id, 'reaction_id' => $reaction->id, 'created_at' => Carbon::now()]);
+                    }
+
+                    $this->pushNewReaction($reaction, $actor, $post);
 
                     $post->raise(new PostWasReacted($post, $actor, $reaction));
                 }
@@ -145,32 +152,29 @@ class SaveReactionsToDatabase
      *
      * @throws \Pusher\PusherException
      */
-    public function pushNewReaction($reaction, $actor, $post, $identifier)
+    public function pushNewReaction($reaction, $actor, $post)
     {
         if ($pusher = $this->getPusher()) {
             $pusher->trigger('public', 'newReaction', [
-                'reaction'   => $reaction,
+                'reactionId' => $reaction->id,
                 'postId'     => $post->id,
                 'userId'     => $actor->id,
-                'identifier' => $identifier,
             ]);
         }
     }
 
     /**
+     * @param $reaction
      * @param $actor
      * @param $post
-     * @param $identifier
-     *
-     * @throws \Pusher\PusherException
      */
-    public function pushRemovedReaction($actor, $post, $identifier)
+    public function pushRemovedReaction($reaction, $actor, $post)
     {
         if ($pusher = $this->getPusher()) {
             $pusher->trigger('public', 'removedReaction', [
+                'reactionId' => $reaction->id,
                 'postId'     => $post->id,
                 'userId'     => $actor->id,
-                'identifier' => $identifier,
             ]);
         }
     }
@@ -206,11 +210,13 @@ class SaveReactionsToDatabase
         }
     }
 
-    protected function validateReaction($identifier)
+    protected function validateReaction($reactionId)
     {
-        $reaction = Reaction::where('identifier', $identifier)->first();
+        if (is_null($reactionId)) return;
 
-        if (!$reaction->enabled) {
+        $reaction = Reaction::find($reactionId);
+
+        if (!$reaction || !$reaction->enabled) {
             throw new ValidationException([
                 'message' => $this->translator->trans('fof-reactions.forum.disabled-reaction'),
             ]);

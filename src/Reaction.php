@@ -24,8 +24,6 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  */
 class Reaction extends AbstractModel
 {
-    use HasRelationships;
-
     /**
      * {@inheritdoc}
      */
@@ -48,15 +46,5 @@ class Reaction extends AbstractModel
         $reaction->enabled = $enabled;
 
         return $reaction;
-    }
-
-    public function user() {
-        return $this->hasOneDeep(User::class, [PostReactions::class])
-            ->latest();
-    }
-
-    public function post() {
-        return $this->hasOneDeep(Post::class, [PostReactions::class])
-            ->latest();
     }
 }

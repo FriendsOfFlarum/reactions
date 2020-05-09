@@ -96,6 +96,10 @@
         margin-bottom: 10px;
         text-decoration: none;
 
+        .username {
+            vertical-align: bottom;
+        }
+
         &:hover .username {
             text-decoration: underline;
         }
@@ -104,14 +108,16 @@
     .ReactionsModal-group {
         margin-bottom: 40px;
 
-        .ReactionsModal-emoji {
-            height: 24px;
-            vertical-align: middle;
-        }
+        .ReactionsModal-reaction {
+            .emoji {
+                height: 24px;
+                vertical-align: middle;
+            }
 
-        .ReactionsModal-icon {
-            font-size: 15px;
-            vertical-align: middle;
+            .icon {
+                font-size: 15px;
+                vertical-align: middle;
+            }
         }
 
         .ReactionsModal-display {
@@ -120,8 +126,8 @@
             overflow-x: auto;
 
             font-weight: bold;
-            vertical-align: middle;
-            margin-left: 15px;
+            vertical-align: bottom;
+            margin-left: 10px;
         }
 
         .ReactionsModal-delimiter {

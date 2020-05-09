@@ -109,18 +109,21 @@ export default class SettingsPage extends Page {
                                     <input
                                         className="FormControl Reactions-input"
                                         type="text"
+                                        loading={this.addLoading}
                                         placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.identifier')}
                                         oninput={m.withAttr('value', this.newReaction.identifier)}
                                     />
                                     {Select.component({
                                         options: { emoji: 'emoji', icon: 'icon' },
+                                        disabled: this.addLoading,
                                         value: this.newReaction.type(),
                                         onchange: this.newReaction.type,
                                     })}
                                     {Button.component({
                                         type: 'button',
                                         className: 'Button Button--warning Reactions-button',
-                                        icon: 'fa fa-plus',
+                                        icon: this.addLoading ? '' : 'fa fa-plus',
+                                        loading: this.addLoading,
                                         onclick: this.addReaction.bind(this),
                                     })}
                                     {this.newReaction.type() === 'icon' ? (
@@ -239,15 +242,28 @@ export default class SettingsPage extends Page {
     addReaction() {
         const reaction = app.store.createRecord('reactions');
 
-        reaction.save({
-            identifier: this.newReaction.identifier(),
-            type: this.newReaction.type(),
-        });
+        this.addLoading = true;
 
-        this.reactions.push(reaction);
+        reaction
+            .save({
+                identifier: this.newReaction.identifier(),
+                type: this.newReaction.type(),
+            })
+            .then(() => {
+                this.reactions.push(reaction);
 
-        this.newReaction.identifier('');
-        this.newReaction.type('icon');
+                this.newReaction.identifier('');
+                this.newReaction.type('icon');
+
+                this.addLoading = false;
+
+                m.redraw();
+            })
+            .catch(() => {
+                this.addLoading = false;
+
+                m.redraw();
+            });
     }
 
     update(reaction, key, value) {
