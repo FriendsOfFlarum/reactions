@@ -25,6 +25,7 @@ return [
         ->js(__DIR__.'/js/dist/forum.js'),
     new Extend\Locales(__DIR__.'/resources/locale'),
     (new Extend\Routes('api'))
+        ->get('/posts/{id}/reactions', 'post.reactions.index', Controller\ListPostReactionsController::class)
         ->get('/reactions', 'reactions.index', Controller\ListReactionsController::class)
         ->post('/reactions', 'reactions.create', Controller\CreateReactionController::class)
         ->patch('/reactions/{id}', 'reactions.update', Controller\UpdateReactionController::class)

@@ -12,6 +12,8 @@
 namespace FoF\Reactions\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
+use Flarum\Api\Serializer\BasicPostSerializer;
+use Flarum\Api\Serializer\BasicUserSerializer;
 
 class PostReactionSerializer extends AbstractSerializer
 {
@@ -41,5 +43,13 @@ class PostReactionSerializer extends AbstractSerializer
     public function getId($reaction)
     {
         return $reaction->id.'-'.$reaction->pivot->user_id.'.'.$reaction->pivot->post_id;
+    }
+
+    public function user($reaction) {
+        return $this->hasOne($reaction, BasicUserSerializer::class);
+    }
+
+    public function post($reaction) {
+        return $this->hasOne($reaction, BasicPostSerializer::class);
     }
 }

@@ -1,0 +1,50 @@
+<?php
+
+/*
+ * This file is part of fof/reactions.
+ *
+ * Copyright (c) 2019 FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace FoF\Reactions\Api\Controller;
+
+use Flarum\Api\Controller\AbstractListController;
+use Flarum\Post\Post;
+use Flarum\Post\PostRepository;
+use FoF\Reactions\Api\Serializer\PostReactionSerializer;
+use Psr\Http\Message\ServerRequestInterface;
+use Tobscure\JsonApi\Document;
+
+class ListPostReactionsController extends AbstractListController
+{
+    public $serializer = PostReactionSerializer::class;
+
+    public $optionalInclude = ['user', 'post'];
+
+    /**
+     * @var PostRepository
+     */
+    protected $posts;
+
+    public function __construct(PostRepository $posts)
+    {
+        $this->posts = $posts;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @param Document               $document
+     *
+     * @return mixed
+     */
+    protected function data(ServerRequestInterface $request, Document $document)
+    {
+        $postId = array_get($request->getQueryParams(), 'id');
+        $post = $this->posts->findOrFail($postId, $request->getAttribute('actor'));
+
+        return $post->reactions;
+    }
+}
