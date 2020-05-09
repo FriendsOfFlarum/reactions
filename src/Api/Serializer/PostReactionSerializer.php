@@ -44,15 +44,18 @@ class PostReactionSerializer extends AbstractSerializer
         return $postReaction->id;
     }
 
-    public function reaction($postReaction) {
+    public function reaction($postReaction)
+    {
         return $this->hasOne($postReaction, ReactionSerializer::class);
     }
 
-    public function user($postReaction) {
+    public function user($postReaction)
+    {
         return $this->hasOne($postReaction, BasicUserSerializer::class);
     }
 
-    public function post($postReaction) {
+    public function post($postReaction)
+    {
         return $this->hasOne($postReaction, BasicPostSerializer::class);
     }
 }

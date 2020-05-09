@@ -23,15 +23,18 @@ class PostReaction extends AbstractModel
 
     public $dates = ['created_at', 'updated_at'];
 
-    public function reaction() {
+    public function reaction()
+    {
         return $this->belongsTo(Reaction::class);
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function post() {
+    public function post()
+    {
         return $this->belongsTo(Post::class);
     }
 }

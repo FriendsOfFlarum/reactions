@@ -12,7 +12,6 @@
 namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
-use Flarum\Post\Post;
 use Flarum\Post\PostRepository;
 use FoF\Reactions\Api\Serializer\PostReactionSerializer;
 use Psr\Http\Message\ServerRequestInterface;

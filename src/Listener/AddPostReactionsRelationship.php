@@ -20,8 +20,6 @@ use Flarum\Api\Serializer\DiscussionSerializer;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\PostSerializer;
 use Flarum\Event\GetApiRelationship;
-use Flarum\Event\GetModelRelationship;
-use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
 use FoF\Reactions\Api\Serializer\PostReactionSerializer;
 use FoF\Reactions\Api\Serializer\ReactionSerializer;

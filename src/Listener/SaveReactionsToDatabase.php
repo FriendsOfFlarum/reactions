@@ -96,7 +96,7 @@ class SaveReactionsToDatabase
                     $actor,
                     $post->user
                 );
-            } else if ($gamification && class_exists(SaveVotesToDatabase::class) && $reaction && $reaction->identifier == $gamificationDownvote) {
+            } elseif ($gamification && class_exists(SaveVotesToDatabase::class) && $reaction && $reaction->identifier == $gamificationDownvote) {
                 app()->make(SaveVotesToDatabase::class)->vote(
                     $post,
                     true,
@@ -212,7 +212,9 @@ class SaveReactionsToDatabase
 
     protected function validateReaction($reactionId)
     {
-        if (is_null($reactionId)) return;
+        if (is_null($reactionId)) {
+            return;
+        }
 
         $reaction = Reaction::find($reactionId);
 

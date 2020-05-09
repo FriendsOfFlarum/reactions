@@ -12,9 +12,6 @@
 namespace FoF\Reactions;
 
 use Flarum\Database\AbstractModel;
-use Flarum\Post\Post;
-use Flarum\User\User;
-use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
  * @property string identifier
