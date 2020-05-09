@@ -3,7 +3,7 @@ import AdminNav from 'flarum/components/AdminNav';
 import AdminLinkButton from 'flarum/components/AdminLinkButton';
 import SettingsPage from './components/SettingsPage';
 
-export default function() {
+export default function () {
     app.routes['fof-reactions'] = {
         path: '/fof/reactions',
         component: SettingsPage.component(),
@@ -11,7 +11,7 @@ export default function() {
 
     app.extensionSettings['fof-reactions'] = () => m.route(app.route('fof-reactions'));
 
-    extend(AdminNav.prototype, 'items', items => {
+    extend(AdminNav.prototype, 'items', (items) => {
         items.add(
             'fof-reactions',
             AdminLinkButton.component({

@@ -12,7 +12,7 @@ app.initializers.add('fof/reactions', () => {
 
     Forum.prototype.reactions = Model.hasMany('reactions');
 
-    extend(PermissionGrid.prototype, 'replyItems', items => {
+    extend(PermissionGrid.prototype, 'replyItems', (items) => {
         items.add('reactPosts', {
             icon: 'far fa-thumbs-up',
             label: app.translator.trans('fof-reactions.admin.permissions.react_posts_label'),
@@ -20,11 +20,11 @@ app.initializers.add('fof/reactions', () => {
         });
     });
 
-    extend(PermissionGrid.prototype, 'viewItems', items => {
+    extend(PermissionGrid.prototype, 'viewItems', (items) => {
         items.add('canSeeReactions', {
             icon: 'fas fa-info-circle',
             label: app.translator.trans('fof-reactions.admin.permissions.see_reactions_label'),
-            permission: 'discussion.canSeeReactions'
+            permission: 'discussion.canSeeReactions',
         });
     });
 

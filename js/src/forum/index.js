@@ -24,13 +24,12 @@ app.initializers.add('fof/reactions', () => {
 
     addReactionAction();
 
-    extend(CommentPost.prototype, 'config', function(x, isInitialized, context) {
+    extend(CommentPost.prototype, 'config', function (x, isInitialized, context) {
         if (isInitialized) return;
 
-
         if (app.pusher) {
-            app.pusher.then(channels => {
-                channels.main.bind('newReaction', data => {
+            app.pusher.then((channels) => {
+                channels.main.bind('newReaction', (data) => {
                     var userId = parseInt(data.userId);
 
                     if (userId == app.session.user.id()) return;
@@ -45,9 +44,9 @@ app.initializers.add('fof/reactions', () => {
                          *  reacting for the first time; it will be overwritten
                          *  by the mapping below on the next reaction events.
                          */
-                        reaction["user_id"] = m.prop(userId);
+                        reaction['user_id'] = m.prop(userId);
 
-                        Object.keys(data.reaction).map(key => {
+                        Object.keys(data.reaction).map((key) => {
                             reaction[key] = m.prop(data.reaction[key]);
                         });
                         reaction['identifier'] = m.prop(data.identifier);
@@ -64,7 +63,7 @@ app.initializers.add('fof/reactions', () => {
                     }
                 });
 
-                channels.main.bind('removedReaction', data => {
+                channels.main.bind('removedReaction', (data) => {
                     var userId = parseInt(data.userId);
                     const postId = parseInt(data.postId);
                     const identifier = data.identifier;
@@ -74,11 +73,9 @@ app.initializers.add('fof/reactions', () => {
                     if (parseInt(this.props.post.id()) === parseInt(data.postId)) {
                         m.startComputation();
 
-                        const newReactions = this.props.post.reactions().filter(r => !(
-                            r.user_id() == userId
-                            && r.post_id() == postId
-                            && r.identifier() == identifier
-                        ));
+                        const newReactions = this.props.post
+                            .reactions()
+                            .filter((r) => !(r.user_id() == userId && r.post_id() == postId && r.identifier() == identifier));
 
                         this.props.post.reactions = m.prop(newReactions);
 
@@ -94,7 +91,7 @@ app.initializers.add('fof/reactions', () => {
         }
     });
 
-    extend(NotificationGrid.prototype, 'notificationTypes', items => {
+    extend(NotificationGrid.prototype, 'notificationTypes', (items) => {
         items.add('postReacted', {
             name: 'postReacted',
             icon: 'fas fa-eye',

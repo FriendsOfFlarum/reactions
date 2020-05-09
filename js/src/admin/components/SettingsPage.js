@@ -23,7 +23,7 @@ export default class SettingsPage extends Page {
             type: m.prop('emoji'),
         };
 
-        this.fields.forEach(key => (this.values[key] = m.prop(settings[this.addPrefix(key)])));
+        this.fields.forEach((key) => (this.values[key] = m.prop(settings[this.addPrefix(key)])));
     }
 
     /**
@@ -42,7 +42,7 @@ export default class SettingsPage extends Page {
                             </div>
                             <br />
                             <div className="Reactions--Container">
-                                {this.reactions.map(reaction => {
+                                {this.reactions.map((reaction) => {
                                     const spanClass = reaction.type() === 'icon' && `fa fa-${reaction.identifier()} Reactions-demo`;
                                     const data = emoji(reaction.identifier());
                                     const demos = [];
@@ -74,24 +74,24 @@ export default class SettingsPage extends Page {
                                                 className="FormControl Reactions-input"
                                                 value={reaction.display() || ''}
                                                 placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.display')}
-                                                oninput={m.withAttr('value', val => this.update(reaction, 'display', val))}
+                                                oninput={m.withAttr('value', (val) => this.update(reaction, 'display', val))}
                                             />
                                             <input
                                                 className="FormControl Reactions-input"
                                                 type="text"
                                                 value={reaction.identifier()}
                                                 placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.identifier')}
-                                                oninput={m.withAttr('value', val => this.update(reaction, 'identifier', val))}
+                                                oninput={m.withAttr('value', (val) => this.update(reaction, 'identifier', val))}
                                             />
                                             {Select.component({
                                                 options: { emoji: 'emoji', icon: 'icon' },
                                                 value: reaction.type(),
-                                                onchange: val => this.update(reaction, 'type', val),
+                                                onchange: (val) => this.update(reaction, 'type', val),
                                             })}
                                             {Switch.component({
                                                 className: 'Reactions-switch',
                                                 state: reaction.enabled(),
-                                                onchange: val => this.update(reaction, 'enabled', val),
+                                                onchange: (val) => this.update(reaction, 'enabled', val),
                                             })}
                                             {Button.component({
                                                 type: 'button',
@@ -232,7 +232,7 @@ export default class SettingsPage extends Page {
      * @returns boolean
      */
     changed() {
-        var fieldsCheck = this.fields.some(key => this.values[key]() !== app.data.settings[this.addPrefix(key)]);
+        var fieldsCheck = this.fields.some((key) => this.values[key]() !== app.data.settings[this.addPrefix(key)]);
         return fieldsCheck;
     }
 
@@ -296,7 +296,7 @@ export default class SettingsPage extends Page {
         const settings = {};
 
         // gets all the values from the form
-        this.fields.forEach(key => (settings[this.addPrefix(key)] = this.values[key]()));
+        this.fields.forEach((key) => (settings[this.addPrefix(key)] = this.values[key]()));
 
         // actually saves everything in the database
         saveSettings(settings)

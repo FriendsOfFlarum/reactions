@@ -12,19 +12,12 @@ export default class PostReactAction extends Component {
         if ('ontouchstart' in window) {
             $('.Reactions')
                 .unbind()
-                .on('touchend', function() {
-                    $(this)
-                        .find('.CommentPost--Reactions')
-                        .toggleClass('mobile-show');
+                .on('touchend', function () {
+                    $(this).find('.CommentPost--Reactions').toggleClass('mobile-show');
                 });
-            $(document).click(function(e) {
+            $(document).click(function (e) {
                 var target = e.target;
-                if (
-                    !$(target).is('.Reactions') &&
-                    !$(target)
-                        .parents()
-                        .is('.Reactions')
-                ) {
+                if (!$(target).is('.Reactions') && !$(target).parents().is('.Reactions')) {
                     $('.CommentPost--Reactions').removeClass('mobile-show');
                 }
             });
@@ -34,7 +27,7 @@ export default class PostReactAction extends Component {
     getReactions() {
         const items = new ItemList();
 
-        app.forum.reactions().forEach(reaction => {
+        app.forum.reactions().forEach((reaction) => {
             let buttonLabel;
 
             if (!reaction.enabled()) {
@@ -70,7 +63,7 @@ export default class PostReactAction extends Component {
                     className="Button Button--link"
                     type="button"
                     title={reaction.display() || reaction.identifier()}
-                    onclick={el => this.react(el)}
+                    onclick={(el) => this.react(el)}
                     data-reaction={reaction.identifier()}
                 >
                     {buttonLabel}
@@ -86,21 +79,21 @@ export default class PostReactAction extends Component {
 
         const reactions = this.post.reactions() || [];
 
-        this.reaction = app.session.user && reactions.filter(reaction => reaction.user_id() == app.session.user.data.id)[0];
+        this.reaction = app.session.user && reactions.filter((reaction) => reaction.user_id() == app.session.user.data.id)[0];
 
         this.reacted = {};
 
         this.names = {};
 
-        app.forum.reactions().forEach(reaction => {
+        app.forum.reactions().forEach((reaction) => {
             const e = emoji(reaction.identifier());
             if (!e) return;
             this.names[reaction.identifier()] = e.url;
             this.reacted[reaction.identifier()] = [];
         });
 
-        Object.keys(this.names).forEach(reaction => {
-            this.reacted[reaction] = reactions.filter(e => e.identifier() === reaction);
+        Object.keys(this.names).forEach((reaction) => {
+            this.reacted[reaction] = reactions.filter((e) => e.identifier() === reaction);
         });
     }
 
@@ -108,9 +101,9 @@ export default class PostReactAction extends Component {
         return (
             <div style="margin-right: 7px" className="Reactions">
                 {this.reactButton()}
-                {Object.keys(this.reacted).map(identifier => {
+                {Object.keys(this.reacted).map((identifier) => {
                     const count = this.reacted[identifier].length;
-                    const reaction = app.forum.reactions().filter(e => e.identifier() === identifier)[0];
+                    const reaction = app.forum.reactions().filter((e) => e.identifier() === identifier)[0];
 
                     if (count === 0) return;
                     const spanClass = reaction.type() === 'icon' && `${reaction.identifier()} emoji button-emoji reaction-icon`;
@@ -130,7 +123,7 @@ export default class PostReactAction extends Component {
                     return [
                         <span
                             className="Button-label Button-emoji-parent"
-                            onclick={this.post.user() !== app.session.user ? el => this.react(this.reaction ? identifier : el) : ''}
+                            onclick={this.post.user() !== app.session.user ? (el) => this.react(this.reaction ? identifier : el) : ''}
                             data-reaction={identifier}
                         >
                             {icon}
@@ -216,7 +209,7 @@ export default class PostReactAction extends Component {
                 const identifier = this.reaction && this.reaction.identifier();
                 const reactions = this.post.reactions() || [];
 
-                this.reaction = reactions.filter(r => r.user_id() == app.session.user.data.id)[0];
+                this.reaction = reactions.filter((r) => r.user_id() == app.session.user.data.id)[0];
 
                 /**
                  * We've saved the fact that we have or haven't reacted to the post,
@@ -241,12 +234,12 @@ export default class PostReactAction extends Component {
                     if (isReacted) {
                         this.reacted[reaction].push(this.reaction);
                     } else {
-                        this.reacted[identifier] = this.reacted[identifier].filter(r => r.user_id() != app.session.user.id());
+                        this.reacted[identifier] = this.reacted[identifier].filter((r) => r.user_id() != app.session.user.id());
                     }
                 }
 
                 m.redraw();
             })
-            .catch(err => $('body').append(err));
+            .catch((err) => $('body').append(err));
     }
 }

@@ -3,8 +3,8 @@ import emojis from 'simple-emoji-map';
 const flatten = (arr, depth = 1) => arr.reduce((a, v) => a.concat(depth > 1 && Array.isArray(v) ? flatten(v, depth - 1) : v), []);
 const shortnames = flatten(Object.values(emojis));
 const entries = Object.entries(emojis);
-const getEmoji = identifier => entries.find(([, value]) => value.includes(identifier));
-const toUnicodeEmoji = codePoint => String.fromCodePoint(...codePoint.split('-').map(e => `0x${e}`));
+const getEmoji = (identifier) => entries.find(([, value]) => value.includes(identifier));
+const toUnicodeEmoji = (codePoint) => String.fromCodePoint(...codePoint.split('-').map((e) => `0x${e}`));
 
 export class Match {
     /**
@@ -56,7 +56,7 @@ export class Match {
 }
 const emojiCache = new Map();
 
-export default reactionOrIdentifier => {
+export default (reactionOrIdentifier) => {
     if (!reactionOrIdentifier) return {};
 
     const identifier = reactionOrIdentifier.identifier || reactionOrIdentifier;
