@@ -149,9 +149,9 @@ class SaveReactionsToDatabase
     /**
      * @param $event
      * @param PostReaction $postReaction
-     * @param Reaction $reaction
-     * @param User $actor
-     * @param Post $post
+     * @param Reaction     $reaction
+     * @param User         $actor
+     * @param Post         $post
      */
     public function push($event, PostReaction $postReaction, Reaction $reaction, User $actor, Post $post)
     {
