@@ -38,9 +38,5 @@ export default () => {
                   )
             ]);
         }
-        else
-        {
-            console.log(post.discussion());
-        }
     });
 };
