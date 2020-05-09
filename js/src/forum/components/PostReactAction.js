@@ -60,7 +60,7 @@ export default class PostReactAction extends Component {
     }
 
     view() {
-        const postReactions = groupBy(this.props.post.reactions() || [], (r) => r.reactionId());
+        const postReactions = groupBy(this.props.post.reactions().filter(Boolean) || [], (r) => r.reactionId());
 
         return (
             <div style="margin-right: 7px" className="Reactions">

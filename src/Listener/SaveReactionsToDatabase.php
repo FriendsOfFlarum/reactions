@@ -16,15 +16,17 @@ use Flarum\Extension\ExtensionManager;
 use Flarum\Foundation\ValidationException;
 use Flarum\Likes\Event\PostWasLiked;
 use Flarum\Post\Event\Saving;
+use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\AssertPermissionTrait;
+use Flarum\User\User;
 use FoF\Gamification\Listeners\SaveVotesToDatabase;
 use FoF\Reactions\Event\PostWasReacted;
 use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
 use Illuminate\Support\Arr;
-use Pusher\Pusher;
+use Pusher;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class SaveReactionsToDatabase
@@ -115,28 +117,28 @@ class SaveReactionsToDatabase
                     $post->raise(new PostWasLiked($post, $actor));
                 }
             } else {
-                $oldReaction = PostReaction::where([['user_id', $actor->id], ['post_id', $post->id]])->first();
+                $postReaction = PostReaction::where([['user_id', $actor->id], ['post_id', $post->id]])->first();
 
-                $removeReaction = ($oldReaction && !is_null($oldReaction->reaction_id)) || is_null($reactionId);
+                $removeReaction = ($postReaction && !is_null($postReaction->reaction_id)) || is_null($reactionId);
 
                 if ($removeReaction) {
-                    if ($oldReaction) {
-                        $oldReaction->reaction_id = null;
-                        $oldReaction->save();
+                    if ($postReaction) {
+                        $postReaction->reaction_id = null;
+                        $postReaction->save();
                     }
 
-                    $this->pushRemovedReaction($reaction, $actor, $post);
+                    $this->push('removedReaction', $postReaction, $reaction, $actor, $post);
 
                     $post->raise(new PostWasUnreacted($post, $actor));
                 } else {
-                    if ($oldReaction) {
-                        $oldReaction->reaction_id = $reaction->id;
-                        $oldReaction->save();
+                    if ($postReaction) {
+                        $postReaction->reaction_id = $reaction->id;
+                        $postReaction->save();
                     } else {
                         $post->reactions()->attach($reaction, ['user_id' => $actor->id, 'reaction_id' => $reaction->id, 'created_at' => Carbon::now()]);
                     }
 
-                    $this->pushNewReaction($reaction, $actor, $post);
+                    $this->push('newReaction', $postReaction, $reaction, $actor, $post);
 
                     $post->raise(new PostWasReacted($post, $actor, $reaction));
                 }
@@ -145,36 +147,20 @@ class SaveReactionsToDatabase
     }
 
     /**
-     * @param $reaction
-     * @param $actor
-     * @param $post
-     * @param $identifier
-     *
-     * @throws \Pusher\PusherException
+     * @param $event
+     * @param PostReaction $postReaction
+     * @param Reaction $reaction
+     * @param User $actor
+     * @param Post $post
      */
-    public function pushNewReaction($reaction, $actor, $post)
+    public function push($event, PostReaction $postReaction, Reaction $reaction, User $actor, Post $post)
     {
         if ($pusher = $this->getPusher()) {
-            $pusher->trigger('public', 'newReaction', [
-                'reactionId' => $reaction->id,
-                'postId'     => $post->id,
-                'userId'     => $actor->id,
-            ]);
-        }
-    }
-
-    /**
-     * @param $reaction
-     * @param $actor
-     * @param $post
-     */
-    public function pushRemovedReaction($reaction, $actor, $post)
-    {
-        if ($pusher = $this->getPusher()) {
-            $pusher->trigger('public', 'removedReaction', [
-                'reactionId' => $reaction->id,
-                'postId'     => $post->id,
-                'userId'     => $actor->id,
+            $pusher->trigger('public', $event, [
+                'id'         => (string) $postReaction->id,
+                'reactionId' => (string) $reaction->id,
+                'postId'     => (string) $post->id,
+                'userId'     => (string) $actor->id,
             ]);
         }
     }

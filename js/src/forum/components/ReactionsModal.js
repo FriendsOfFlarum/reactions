@@ -18,7 +18,7 @@ export default class ReactionsModal extends Modal {
     init() {
         this.loading = true;
 
-        this.groupedReactions = groupBy(this.props.post.reactions(), (r) => r.reactionId());
+        this.groupedReactions = groupBy(this.props.post.reactions().filter(Boolean), (r) => r.reactionId());
 
         this.load();
     }
@@ -51,7 +51,7 @@ export default class ReactionsModal extends Modal {
 
                                 <hr className="ReactionsModal-delimiter" />
 
-                                {postReactions.map((r) => (
+                                {postReactions.filter(r => r.user()).map((r) => (
                                     <li>
                                         <a className="ReactionsModal-user" href={app.route.user(r.user())} config={m.route}>
                                             {avatar(r.user(), { loading: 'lazy' })} {username(r.user())}
