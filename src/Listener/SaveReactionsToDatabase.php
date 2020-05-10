@@ -11,7 +11,6 @@
 
 namespace FoF\Reactions\Listener;
 
-use Carbon\Carbon;
 use Flarum\Extension\ExtensionManager;
 use Flarum\Foundation\ValidationException;
 use Flarum\Likes\Event\PostWasLiked;
@@ -135,7 +134,7 @@ class SaveReactionsToDatabase
                         $postReaction->reaction_id = $reaction->id;
                         $postReaction->save();
                     } else {
-                        $postReaction = new PostReaction;
+                        $postReaction = new PostReaction();
 
                         $postReaction->post_id = $post->id;
                         $postReaction->user_id = $actor->id;
