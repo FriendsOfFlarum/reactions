@@ -135,7 +135,13 @@ class SaveReactionsToDatabase
                         $postReaction->reaction_id = $reaction->id;
                         $postReaction->save();
                     } else {
-                        $post->reactions()->attach($reaction, ['user_id' => $actor->id, 'reaction_id' => $reaction->id, 'created_at' => Carbon::now()]);
+                        $postReaction = new PostReaction;
+
+                        $postReaction->post_id = $post->id;
+                        $postReaction->user_id = $actor->id;
+                        $postReaction->reaction_id = $reaction->id;
+
+                        $postReaction->save();
                     }
 
                     $this->push('newReaction', $postReaction, $reaction, $actor, $post);
