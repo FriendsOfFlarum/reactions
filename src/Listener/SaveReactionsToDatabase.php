@@ -119,12 +119,12 @@ class SaveReactionsToDatabase
                 $removeReaction = ($postReaction && !is_null($postReaction->reaction_id)) || is_null($reactionId);
 
                 if ($removeReaction) {
+                    $this->push('removedReaction', $postReaction, $reaction ?: $postReaction->reaction, $actor, $post);
+
                     if ($postReaction) {
                         $postReaction->reaction_id = null;
                         $postReaction->save();
                     }
-
-                    $this->push('removedReaction', $postReaction, $reaction, $actor, $post);
 
                     $post->raise(new PostWasUnreacted($post, $actor));
                 } else {
