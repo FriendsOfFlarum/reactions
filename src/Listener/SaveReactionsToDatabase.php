@@ -79,9 +79,7 @@ class SaveReactionsToDatabase
                 ]);
             }
 
-            $this->validateReaction($reactionId);
-
-            $reaction = Reaction::where('id', $reactionId)->firstOrFail();
+            $reaction = !is_null($reactionId) ? Reaction::where('id', $reactionId)->first() : null;
 
             $gamification = $this->extensions->isEnabled('fof-gamification');
             $likes = $this->extensions->isEnabled('flarum-likes');
@@ -130,6 +128,8 @@ class SaveReactionsToDatabase
 
                     $post->raise(new PostWasUnreacted($post, $actor));
                 } else {
+                    $this->validateReaction($reactionId);
+
                     if ($postReaction) {
                         $postReaction->reaction_id = $reaction->id;
                         $postReaction->save();
