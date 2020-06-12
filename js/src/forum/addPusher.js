@@ -33,14 +33,14 @@ export default () => {
                                 data: {
                                     type: 'reactions',
                                     id: reactionId,
-                                }
+                                },
                             },
                             post: {
                                 data: {
                                     type: 'posts',
                                     id: postId,
-                                }
-                            }
+                                },
+                            },
                         },
                     });
 

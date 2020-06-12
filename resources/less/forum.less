@@ -1,10 +1,22 @@
 .Reactions {
-    .Button-emoji-parent {
-        float: right;
-        margin-top: 8px;
+    .Reactions--reactions {
+        display: inline-block;
+        vertical-align: text-bottom;
 
-        .button-emoji {
-            margin: auto !important;
+        .Button-emoji-parent {
+            padding: 8px 10px;
+
+            .button-emoji {
+                margin: auto !important;
+            }
+
+            .count {
+                margin-left: 2px;
+            }
+
+            &.disabled {
+                background: transparent;
+            }
         }
     }
 
@@ -77,10 +89,14 @@
         }
     }
 
-    &:hover .CommentPost--Reactions {
-        visibility: visible;
-        opacity: 1;
-        transition: visibility 0s linear 0s, opacity 300ms;
+    .Reactions--react {
+        display: inline-block;
+
+        &:hover .CommentPost--Reactions {
+            visibility: visible;
+            opacity: 1;
+            transition: visibility 0s linear 0s, opacity 300ms;
+        }
     }
 }
 

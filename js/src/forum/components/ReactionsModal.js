@@ -51,13 +51,15 @@ export default class ReactionsModal extends Modal {
 
                                 <hr className="ReactionsModal-delimiter" />
 
-                                {postReactions.filter(r => r.user()).map((r) => (
-                                    <li>
-                                        <a className="ReactionsModal-user" href={app.route.user(r.user())} config={m.route}>
-                                            {avatar(r.user(), { loading: 'lazy' })} {username(r.user())}
-                                        </a>
-                                    </li>
-                                ))}
+                                {postReactions
+                                    .filter((r) => r.user())
+                                    .map((r) => (
+                                        <li>
+                                            <a className="ReactionsModal-user" href={app.route.user(r.user())} config={m.route}>
+                                                {avatar(r.user(), { loading: 'lazy' })} {username(r.user())}
+                                            </a>
+                                        </li>
+                                    ))}
                             </div>
                         );
                     })}

@@ -1,6 +1,7 @@
 import Alert from 'flarum/components/Alert';
 import Component from 'flarum/Component';
 import ItemList from 'flarum/utils/ItemList';
+import Button from 'flarum/components/Button';
 import listItems from 'flarum/helpers/listItems';
 import LogInModal from 'flarum/components/LogInModal';
 
@@ -35,11 +36,7 @@ export default class PostReactAction extends Component {
     getReactions() {
         const items = new ItemList();
 
-        app.forum.reactions().forEach((reaction) => {
-            if (!reaction.enabled()) {
-                return;
-            }
-
+        app.forum.reactions().forEach((reaction) =>
             items.add(
                 reaction.identifier().replace(/fa.? fa-/, ''),
                 <button
@@ -53,53 +50,65 @@ export default class PostReactAction extends Component {
                         <ReactionComponent className={reaction.type()} reaction={reaction} />
                     </span>
                 </button>
-            );
-        });
+            )
+        );
 
         return items;
     }
 
     view() {
-        const postReactions = groupBy(this.props.post.reactions().filter(Boolean) || [], (r) => r.reactionId());
+        const postReactions = groupBy(this.post.reactions().filter(Boolean) || [], (r) => r.reactionId());
+        const canReact = this.post.canReact();
 
         return (
             <div style="margin-right: 7px" className="Reactions">
-                {this.reactButton()}
-                {Object.keys(postReactions).map((id) => {
-                    const reaction = app.store.getById('reactions', id);
-                    const count = postReactions[id].length;
+                <div className="Reactions--reactions">
+                    {Object.keys(postReactions).map((id) => {
+                        const reaction = app.store.getById('reactions', id);
+                        const count = postReactions[id].length;
 
-                    if (count === 0) return;
-                    const spanClass = reaction.type() === 'icon' ? `${reaction.identifier()} emoji button-emoji reaction-icon` : '';
-                    const icon = <ReactionComponent reaction={reaction} className={spanClass} data-reaction={reaction.identifier()} />;
+                        if (count === 0) return;
 
-                    return [
-                        <span
-                            className="Button-label Button-emoji-parent"
-                            onclick={this.post.user() !== app.session.user ? (el) => this.react(this.reaction) : ''}
-                            data-reaction={reaction.identifier()}
-                        >
-                            {icon}
-                            {count > 1 ? count : ''}
-                        </span>,
-                    ];
-                })}
-                {!this.reaction && this.post.user() !== app.session.user ? (
-                    <div className="CommentPost--Reactions" style={this.post.number() === 1 ? '' : 'left: -28%;'}>
-                        <ul className="Reactions--Ul">{listItems(this.getReactions().toArray())}</ul>
-                    </div>
-                ) : null}
+                        const spanClass = reaction.type() === 'icon' ? `${reaction.identifier()} emoji button-emoji reaction-icon` : '';
+                        const icon = <ReactionComponent reaction={reaction} className={spanClass} data-reaction={reaction.identifier()} />;
+
+                        return Button.component({
+                            className: `Button Button--flat Button-emoji-parent ${
+                                this.reaction && this.reaction.reactionId() == reaction.id() && 'active'
+                            }`,
+                            onclick: canReact ? this.react.bind(this, this.reaction) : '',
+                            'data-reaction': reaction.identifier(),
+                            disabled: !canReact,
+                            children: (
+                                <span>
+                                    {icon} {count > 1 ? <span className="count">{count}</span> : ''}
+                                </span>
+                            ),
+                        });
+                    })}
+                </div>
+
+                <div className="Reactions--react">
+                    {this.reactButton()}
+
+                    {!this.reaction && canReact ? (
+                        <div className="CommentPost--Reactions" style={this.post.number() === 1 ? '' : 'left: -28%;'}>
+                            <ul className="Reactions--Ul">{listItems(this.getReactions().toArray())}</ul>
+                        </div>
+                    ) : null}
+                </div>
             </div>
         );
     }
 
     reactButton() {
-        if (this.post.user() === app.session.user) {
+        if (this.reaction || !this.post.canReact()) {
             return;
         }
+
         return (
             <button className="Button Button--link Reactions--ShowReactions" type="Button" title="React">
-                <span className="Button-label" style={this.reaction ? 'display: none' : 'display:'}>
+                <span className="Button-label">
                     <svg class="button-react" width="20px" height="20px" viewBox="0 0 18 18">
                         /* Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch */
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -129,7 +138,9 @@ export default class PostReactAction extends Component {
         );
     }
 
-    react(reaction) {
+    react(reaction, e) {
+        e.target.blur();
+
         if (!app.session.user) {
             app.modal.show(new LogInModal());
             return;
