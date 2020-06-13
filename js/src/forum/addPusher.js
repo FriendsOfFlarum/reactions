@@ -66,6 +66,10 @@ export default () => {
 
                     app.store.remove(postReaction);
 
+                    if (app.current instanceof DiscussionPage) {
+                        app.store.find('posts', postId).then(() => app.current.stream.update());
+                    }
+
                     m.redraw();
                 });
 

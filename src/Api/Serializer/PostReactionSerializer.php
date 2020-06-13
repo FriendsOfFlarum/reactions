@@ -34,16 +34,6 @@ class PostReactionSerializer extends AbstractSerializer
         ];
     }
 
-    /**
-     * @param $postReaction
-     *
-     * @return string
-     */
-    public function getId($postReaction)
-    {
-        return $postReaction->id;
-    }
-
     public function reaction($postReaction)
     {
         return $this->hasOne($postReaction, ReactionSerializer::class);

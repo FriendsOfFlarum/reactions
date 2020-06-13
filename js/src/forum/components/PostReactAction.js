@@ -60,15 +60,15 @@ export default class PostReactAction extends Component {
     }
 
     view() {
-        const postReactions = groupBy(this.post.reactions().filter(Boolean) || [], (r) => r.reactionId());
+        const groupedPostReactions = groupBy(this.getPostReactions(), (r) => r.reactionId());
         const canReact = this.post.canReact();
 
         return (
             <div style="margin-right: 7px" className="Reactions">
                 <div className="Reactions--reactions">
-                    {Object.keys(postReactions).map((id) => {
+                    {Object.keys(groupedPostReactions).map((id) => {
                         const reaction = app.store.getById('reactions', id);
-                        const count = postReactions[id].length;
+                        const count = groupedPostReactions[id].length;
 
                         if (count === 0) return;
 
@@ -199,8 +199,12 @@ export default class PostReactAction extends Component {
     }
 
     updateChosenReaction() {
-        const postReactions = this.post.reactions() || [];
+        const postReactions = this.getPostReactions();
 
         return (this.reaction = app.session.user && postReactions.filter((reaction) => reaction.userId() == app.session.user.id())[0]);
+    }
+
+    getPostReactions() {
+        return app.store.all('post_reactions').filter((p) => p && p.postId() == this.post.id());
     }
 }

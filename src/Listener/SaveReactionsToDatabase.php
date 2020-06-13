@@ -162,9 +162,9 @@ class SaveReactionsToDatabase
         if ($pusher = $this->getPusher()) {
             $pusher->trigger('public', $event, [
                 'id'         => (string) $postReaction->id,
-                'reactionId' => (string) $reaction->id,
-                'postId'     => (string) $post->id,
-                'userId'     => (string) $actor->id,
+                'reactionId' => $reaction->id,
+                'postId'     => $post->id,
+                'userId'     => $actor->id,
             ]);
         }
     }
