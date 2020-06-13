@@ -12,6 +12,8 @@ export default class PostReactAction extends Component {
     init() {
         this.post = this.props.post;
 
+        this.loading = {};
+
         this.updateChosenReaction();
     }
 
@@ -39,17 +41,18 @@ export default class PostReactAction extends Component {
         app.forum.reactions().forEach((reaction) =>
             items.add(
                 reaction.identifier().replace(/fa.? fa-/, ''),
-                <button
+                <Button
                     className="Button Button--link"
                     type="button"
                     title={reaction.display() || reaction.identifier()}
                     onclick={this.react.bind(this, reaction)}
                     data-reaction={reaction.identifier()}
+                    loading={this.loading[reaction.id()]}
                 >
                     <span className="Button-label">
                         <ReactionComponent className={reaction.type()} reaction={reaction} />
                     </span>
-                </button>
+                </Button>
             )
         );
 
@@ -76,9 +79,10 @@ export default class PostReactAction extends Component {
                             className: `Button Button--flat Button-emoji-parent ${
                                 this.reaction && this.reaction.reactionId() == reaction.id() && 'active'
                             }`,
-                            onclick: canReact ? this.react.bind(this, this.reaction) : '',
+                            onclick: canReact ? this.react.bind(this, reaction) : '',
                             'data-reaction': reaction.identifier(),
                             disabled: !canReact,
+                            loading: this.loading[reaction.id()],
                             children: (
                                 <span>
                                     {icon} {count > 1 ? <span className="count">{count}</span> : ''}
@@ -88,26 +92,22 @@ export default class PostReactAction extends Component {
                     })}
                 </div>
 
-                <div className="Reactions--react">
-                    {this.reactButton()}
+                {(!Object.keys(this.loading).length || this.loading[null]) && !this.reaction && canReact && (
+                    <div className="Reactions--react">
+                        {this.reactButton()}
 
-                    {!this.reaction && canReact ? (
                         <div className="CommentPost--Reactions" style={this.post.number() === 1 ? '' : 'left: -28%;'}>
                             <ul className="Reactions--Ul">{listItems(this.getReactions().toArray())}</ul>
                         </div>
-                    ) : null}
-                </div>
+                    </div>
+                )}
             </div>
         );
     }
 
     reactButton() {
-        if (this.reaction || !this.post.canReact()) {
-            return;
-        }
-
         return (
-            <button className="Button Button--link Reactions--ShowReactions" type="Button" title="React">
+            <Button className="Button Button--link Reactions--ShowReactions" type="Button" title="React" loading={this.loading[null]}>
                 <span className="Button-label">
                     <svg class="button-react" width="20px" height="20px" viewBox="0 0 18 18">
                         /* Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch */
@@ -134,7 +134,7 @@ export default class PostReactAction extends Component {
                         </g>
                     </svg>
                 </span>
-            </button>
+            </Button>
         );
     }
 
@@ -155,11 +155,15 @@ export default class PostReactAction extends Component {
             );
         }
 
-        // const identifier = reaction === this.reaction ? '' : reaction.identifier();
+        const id = !reaction ? null : reaction.id();
 
-        this.post
-            .save({ reaction: (reaction && reaction.id()) || null })
+        this.loading[id] = true;
+
+        return this.post
+            .save({ reaction: id })
             .then(() => {
+                delete this.loading[id];
+
                 this.updateChosenReaction();
 
                 /**
@@ -185,7 +189,13 @@ export default class PostReactAction extends Component {
 
                 m.redraw();
             })
-            .catch((err) => $('body').append(err));
+            .catch((err) => {
+                delete this.loading[id];
+
+                $('body').append(err);
+
+                m.redraw();
+            });
     }
 
     updateChosenReaction() {

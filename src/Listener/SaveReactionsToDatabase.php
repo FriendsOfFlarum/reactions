@@ -115,13 +115,12 @@ class SaveReactionsToDatabase
                 }
             } else {
                 $postReaction = PostReaction::where([['user_id', $actor->id], ['post_id', $post->id]])->first();
-
-                $removeReaction = ($postReaction && !is_null($postReaction->reaction_id)) || is_null($reactionId);
+                $removeReaction = is_null($reactionId) || ($postReaction && $postReaction->reaction_id == $reactionId);
 
                 if ($removeReaction) {
-                    $this->push('removedReaction', $postReaction, $reaction ?: $postReaction->reaction, $actor, $post);
-
                     if ($postReaction) {
+                        $this->push('removedReaction', $postReaction, $reaction ?: $postReaction->reaction, $actor, $post);
+
                         $postReaction->reaction_id = null;
                         $postReaction->save();
                     }
