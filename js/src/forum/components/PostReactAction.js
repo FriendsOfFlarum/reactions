@@ -49,9 +49,7 @@ export default class PostReactAction extends Component {
                     data-reaction={reaction.identifier()}
                     loading={this.loading[reaction.id()]}
                 >
-                    <span className="Button-label">
-                        <ReactionComponent className={reaction.type()} reaction={reaction} />
-                    </span>
+                    <ReactionComponent className={reaction.type()} reaction={reaction} />
                 </Button>
             )
         );
