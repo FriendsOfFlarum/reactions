@@ -32,7 +32,7 @@ app.initializers.add('fof/reactions', () => {
     extend(NotificationGrid.prototype, 'notificationTypes', (items) => {
         items.add('postReacted', {
             name: 'postReacted',
-            icon: 'fas fa-eye',
+            icon: 'far fa-smile',
             label: app.translator.trans('fof-reactions.forum.settings.notify_post_reacted_label'),
         });
     });
