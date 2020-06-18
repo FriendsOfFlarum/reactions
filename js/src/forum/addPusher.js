@@ -1,6 +1,9 @@
-import { extend } from 'flarum/extend';
+import debounce from 'lodash.debounce';
 
+import { extend } from 'flarum/extend';
 import DiscussionPage from 'flarum/components/DiscussionPage';
+
+const update = debounce((postId) => app.store.find('posts', postId, { include: 'reactions' }).then(() => m.redraw()), 1500);
 
 export default () => {
     extend(DiscussionPage.prototype, 'config', function (x, isInitialized, context) {
@@ -8,53 +11,13 @@ export default () => {
 
         if (app.pusher) {
             app.pusher.then((channels) => {
-                channels.main.bind('newReaction', ({ id, userId, postId, reactionId }) => {
+                channels.main.bind('newReaction', ({ postId, reactionId }) => {
                     const reaction = app.store.getById('reactions', reactionId);
                     const post = app.store.getById('posts', postId);
 
                     if (!reaction || !post) return;
 
-                    app.store.pushObject({
-                        type: 'post_reactions',
-                        id,
-                        attributes: {
-                            userId,
-                            postId,
-                            reactionId,
-                        },
-                        relationships: {
-                            user: {
-                                data: {
-                                    type: 'users',
-                                    id: userId,
-                                },
-                            },
-                            reaction: {
-                                data: {
-                                    type: 'reactions',
-                                    id: reactionId,
-                                },
-                            },
-                            post: {
-                                data: {
-                                    type: 'posts',
-                                    id: postId,
-                                },
-                            },
-                        },
-                    });
-
-                    if (!post.data.relationships) post.data.relationships = {};
-                    if (!post.data.relationships.post_reactions) post.data.relationships.post_reactions = { data: [] };
-
-                    post.data.relationships.post_reactions.data.push({
-                        type: 'post_reactions',
-                        id,
-                    });
-
-                    app.store.pushObject(post.data);
-
-                    m.redraw();
+                    update(postId);
                 });
 
                 channels.main.bind('removedReaction', ({ userId, postId, reactionId }) => {
@@ -66,9 +29,7 @@ export default () => {
 
                     app.store.remove(postReaction);
 
-                    if (app.current instanceof DiscussionPage) {
-                        app.store.find('posts', postId).then(() => app.current.stream.update());
-                    }
+                    update(postId);
 
                     m.redraw();
                 });

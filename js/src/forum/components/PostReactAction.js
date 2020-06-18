@@ -154,13 +154,20 @@ export default class PostReactAction extends Component {
         }
 
         const id = !reaction ? null : reaction.id();
+        const originalPostReactions = this.post.reactions();
 
         this.loading[id] = true;
 
         return this.post
             .save({ reaction: id })
-            .then(() => {
+            .then((post) => {
                 delete this.loading[id];
+
+                for (const postReaction of originalPostReactions) {
+                    if (!post.reactions().includes(postReaction)) {
+                        app.store.remove(postReaction);
+                    }
+                }
 
                 this.updateChosenReaction();
 
@@ -203,6 +210,6 @@ export default class PostReactAction extends Component {
     }
 
     getPostReactions() {
-        return app.store.all('post_reactions').filter((p) => p && p.postId() == this.post.id());
+        return this.post.reactions() || app.store.all('post_reactions').filter((p) => p && p.postId() == this.post.id());
     }
 }
