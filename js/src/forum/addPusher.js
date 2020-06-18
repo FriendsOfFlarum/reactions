@@ -3,7 +3,17 @@ import debounce from 'lodash.debounce';
 import { extend } from 'flarum/extend';
 import DiscussionPage from 'flarum/components/DiscussionPage';
 
-const update = debounce((postId) => app.store.find('posts', postId, { include: 'reactions' }).then(() => m.redraw()), 1500);
+const fetch = (postId) => app.store.find('posts', postId, { include: 'reactions' }).then(() => m.redraw());
+const debounced = [];
+const update = (postId) => {
+    let func = debounced[postId];
+
+    if (func) return func(postId);
+
+    func = debounced[postId] = debounce(fetch, 1500);
+
+    return func(postId);
+};
 
 export default () => {
     extend(DiscussionPage.prototype, 'config', function (x, isInitialized, context) {
