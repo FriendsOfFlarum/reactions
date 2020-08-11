@@ -68,7 +68,7 @@ export default class PostReactAction extends Component {
                         const reaction = app.store.getById('reactions', id);
                         const count = groupedPostReactions[id].length;
 
-                        if (count === 0) return;
+                        if (count === 0 || typeof reaction === 'undefined') return;
 
                         const spanClass = reaction.type() === 'icon' ? `${reaction.identifier()} emoji button-emoji reaction-icon` : '';
                         const icon = <ReactionComponent reaction={reaction} className={spanClass} data-reaction={reaction.identifier()} />;
