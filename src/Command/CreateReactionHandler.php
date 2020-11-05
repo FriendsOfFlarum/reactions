@@ -11,15 +11,13 @@
 
 namespace FoF\Reactions\Command;
 
-use Flarum\User\AssertPermissionTrait;
 use Flarum\User\Exception\PermissionDeniedException;
 use FoF\Reactions\Reaction;
 use FoF\Reactions\Validator\ReactionValidator;
+use Illuminate\Support\Arr;
 
 class CreateReactionHandler
 {
-    use AssertPermissionTrait;
-
     /**
      * @var ReactionValidator
      */
@@ -45,11 +43,11 @@ class CreateReactionHandler
         $actor = $command->actor;
         $data = $command->data;
 
-        $this->assertAdmin($actor);
+        $actor->assertAdmin();
 
         $reaction = Reaction::build(
-            array_get($data, 'identifier'),
-            array_get($data, 'type')
+            Arr::get($data, 'identifier'),
+            Arr::get($data, 'type')
         );
 
         $this->validator->assertValid($reaction->getAttributes());

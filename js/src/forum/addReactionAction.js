@@ -8,7 +8,7 @@ import ReactionsModal from './components/ReactionsModal';
 
 export default () => {
     extend(CommentPost.prototype, 'actionItems', function (items) {
-        const post = this.props.post;
+        const post = this.attrs.post;
 
         if (post.isHidden()) return;
 
@@ -28,7 +28,7 @@ export default () => {
         if (post.discussion().canSeeReactions() && post.reactions() && post.reactions().length) {
             items.add(
                 'viewReactions',
-                <Button icon="fas fa-heart" onclick={() => app.modal.show(new ReactionsModal({ post }))}>
+                <Button icon="fas fa-heart" onclick={() => app.modal.show(ReactionsModal, { post })}>
                     {app.translator.trans('fof-reactions.forum.mod_item')}
                 </Button>
             );

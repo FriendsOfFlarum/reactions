@@ -11,15 +11,12 @@
 
 namespace FoF\Reactions\Command;
 
-use Flarum\User\AssertPermissionTrait;
 use Flarum\User\Exception\PermissionDeniedException;
 use FoF\Reactions\Reaction;
 use FoF\Reactions\Validator\ReactionValidator;
 
 class EditReactionHandler
 {
-    use AssertPermissionTrait;
-
     /**
      * @var ReactionValidator
      */
@@ -45,7 +42,7 @@ class EditReactionHandler
         $actor = $command->actor;
         $data = $command->data;
 
-        $this->assertAdmin($actor);
+        $actor->assertAdmin();
 
         $reaction = Reaction::where('id', $command->reactionId)->first();
 

@@ -11,14 +11,11 @@
 
 namespace FoF\Reactions\Command;
 
-use Flarum\User\AssertPermissionTrait;
 use Flarum\User\Exception\PermissionDeniedException;
 use FoF\Reactions\Reaction;
 
 class DeleteReactionHandler
 {
-    use AssertPermissionTrait;
-
     /**
      * @param DeleteReaction $command
      *
@@ -30,7 +27,7 @@ class DeleteReactionHandler
     {
         $actor = $command->actor;
 
-        $this->assertAdmin($actor);
+        $actor->assertAdmin();
 
         $reaction = Reaction::where('id', $command->reactionId)->first();
 

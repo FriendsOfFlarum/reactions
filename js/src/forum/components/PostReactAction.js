@@ -9,8 +9,10 @@ import groupBy from '../utils/groupBy';
 import ReactionComponent from '../../common/components/ReactionComponent';
 
 export default class PostReactAction extends Component {
-    init() {
-        this.post = this.props.post;
+    oninit(vdom) {
+        super.oninit(vdom);
+
+        this.post = this.attrs.post;
 
         this.loading = {};
 
@@ -81,12 +83,9 @@ export default class PostReactAction extends Component {
                             'data-reaction': reaction.identifier(),
                             disabled: !canReact,
                             loading: this.loading[reaction.id()],
-                            children: (
-                                <span>
-                                    {icon} {count > 1 ? <span className="count">{count}</span> : ''}
-                                </span>
-                            ),
-                        });
+                        }, <span>
+                        {icon} {count > 1 ? <span className="count">{count}</span> : ''}
+                    </span>);
                     })}
                 </div>
 
@@ -140,17 +139,12 @@ export default class PostReactAction extends Component {
         e.target.blur();
 
         if (!app.session.user) {
-            app.modal.show(new LogInModal());
+            app.modal.show(LogInModal);
             return;
         }
 
         if (!this.post.canReact()) {
-            return app.alerts.show(
-                (this.successAlert = new Alert({
-                    type: 'error',
-                    children: app.translator.trans('core.lib.error.permission_denied_message'),
-                }))
-            );
+            return app.alerts.show({type: 'error'}, app.translator.trans('core.lib.error.permission_denied_message'));
         }
 
         const id = !reaction ? null : reaction.id();
@@ -182,24 +176,19 @@ export default class PostReactAction extends Component {
                         (app.forum.attribute('ReactionConverts')[0] === reaction || app.forum.attribute('ReactionConverts')[1] === reaction)) ||
                     (this.post.data.relationships.likes !== undefined && app.forum.attribute('ReactionConverts')[2] === reaction)
                 ) {
-                    app.alerts.show(
-                        (this.successAlert = new Alert({
-                            type: 'warning',
-                            children: app.translator.trans('fof-reactions.forum.warning', {
-                                reaction,
-                            }),
-                        }))
-                    );
+                    app.alerts.show({type: 'warning'}, app.translator.trans('fof-reactions.forum.warning', {
+                        reaction,
+                    }));
                 }
 
-                m.redraw();
+                m.redraw.sync();
             })
             .catch((err) => {
                 delete this.loading[id];
 
                 $('body').append(err);
 
-                m.redraw();
+                m.redraw.sync();
             });
     }
 

@@ -5,9 +5,12 @@ import Page from 'flarum/components/Page';
 import Select from 'flarum/components/Select';
 import saveSettings from 'flarum/utils/saveSettings';
 import Switch from 'flarum/components/Switch';
+import Stream from 'flarum/utils/Stream';
+import withAttr from 'flarum/utils/withAttr';
 
 export default class SettingsPage extends Page {
-    init() {
+    oninit(vdom) {
+
         this.fields = ['convertToUpvote', 'convertToDownvote', 'convertToLike'];
 
         this.values = {};
@@ -19,11 +22,11 @@ export default class SettingsPage extends Page {
         const settings = app.data.settings;
 
         this.newReaction = {
-            identifier: m.prop(''),
-            type: m.prop('emoji'),
+            identifier: Stream(''),
+            type: Stream('emoji'),
         };
 
-        this.fields.forEach((key) => (this.values[key] = m.prop(settings[this.addPrefix(key)])));
+        this.fields.forEach((key) => (this.values[key] = Stream(settings[this.addPrefix(key)])));
     }
 
     /**
@@ -74,14 +77,14 @@ export default class SettingsPage extends Page {
                                                 className="FormControl Reactions-input"
                                                 value={reaction.display() || ''}
                                                 placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.display')}
-                                                oninput={m.withAttr('value', (val) => this.update(reaction, 'display', val))}
+                                                oninput={withAttr('value', (val) => this.update(reaction, 'display', val))}
                                             />
                                             <input
                                                 className="FormControl Reactions-input"
                                                 type="text"
                                                 value={reaction.identifier()}
                                                 placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.identifier')}
-                                                oninput={m.withAttr('value', (val) => this.update(reaction, 'identifier', val))}
+                                                oninput={withAttr('value', (val) => this.update(reaction, 'identifier', val))}
                                             />
                                             {Select.component({
                                                 options: { emoji: 'emoji', icon: 'icon' },
@@ -111,7 +114,7 @@ export default class SettingsPage extends Page {
                                         type="text"
                                         loading={this.addLoading}
                                         placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.identifier')}
-                                        oninput={m.withAttr('value', this.newReaction.identifier)}
+                                        oninput={withAttr('value', this.newReaction.identifier)}
                                     />
                                     {Select.component({
                                         options: { emoji: 'emoji', icon: 'icon' },
@@ -172,7 +175,7 @@ export default class SettingsPage extends Page {
                                             className="FormControl reactions-settings-input"
                                             value={this.values.convertToUpvote() || ''}
                                             placeholder="thumbsup"
-                                            oninput={m.withAttr('value', this.values.convertToUpvote)}
+                                            oninput={withAttr('value', this.values.convertToUpvote)}
                                         />
                                         <label>
                                             {app.translator.trans('fof-reactions.admin.page.settings.integrations.gamification.downvoteLabel')}
@@ -184,7 +187,7 @@ export default class SettingsPage extends Page {
                                             className="FormControl reactions-settings-input"
                                             value={this.values.convertToDownvote() || ''}
                                             placeholder="thumbsdown"
-                                            oninput={m.withAttr('value', this.values.convertToDownvote)}
+                                            oninput={withAttr('value', this.values.convertToDownvote)}
                                         />
                                     </div>
                                 ) : (
@@ -201,7 +204,7 @@ export default class SettingsPage extends Page {
                                             className="FormControl reactions-settings-input"
                                             value={this.values.convertToLike() || ''}
                                             placeholder="thumbsup"
-                                            oninput={m.withAttr('value', this.values.convertToLike)}
+                                            oninput={withAttr('value', this.values.convertToLike)}
                                         />
                                     </div>
                                 ) : (
@@ -218,12 +221,12 @@ export default class SettingsPage extends Page {
                             {Button.component({
                                 type: 'submit',
                                 className: 'Button Button--primary',
-                                children: app.translator.trans('fof-reactions.admin.page.settings.save_settings', {
-                                    strong: <strong />,
-                                }),
                                 loading: this.loading,
                                 disabled: !this.changed(),
-                            })}
+                            }, app.translator.trans('fof-reactions.admin.page.settings.save_settings', {
+                                strong: <strong />,
+                            })
+                            )}
                         </fieldset>
                     </form>
                 </div>
@@ -257,12 +260,12 @@ export default class SettingsPage extends Page {
 
                 this.addLoading = false;
 
-                m.redraw();
+                m.redraw.sync();
             })
             .catch(() => {
                 this.addLoading = false;
 
-                m.redraw();
+                m.redraw.sync();
             });
     }
 
@@ -277,7 +280,7 @@ export default class SettingsPage extends Page {
 
         this.reactions.some((r, i) => {
             if (r.id() === reaction.id()) {
-                reaction[key] = m.prop(value);
+                reaction[key] = Stream(value);
                 return true;
             }
         });
@@ -329,7 +332,7 @@ export default class SettingsPage extends Page {
             .then(() => {
                 // return to the initial state and redraw the page
                 this.loading = false;
-                m.redraw();
+                m.redraw.sync();
             });
     }
 

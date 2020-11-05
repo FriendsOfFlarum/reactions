@@ -6,10 +6,10 @@ import SettingsPage from './components/SettingsPage';
 export default function () {
     app.routes['fof-reactions'] = {
         path: '/fof/reactions',
-        component: SettingsPage.component(),
+        component: SettingsPage,
     };
 
-    app.extensionSettings['fof-reactions'] = () => m.route(app.route('fof-reactions'));
+    app.extensionSettings['fof-reactions'] = () => m.route.set(app.route('fof-reactions'));
 
     extend(AdminNav.prototype, 'items', (items) => {
         items.add(
@@ -17,9 +17,8 @@ export default function () {
             AdminLinkButton.component({
                 href: app.route('fof-reactions'),
                 icon: 'fa fa-heart',
-                children: 'Reactions',
                 description: app.translator.trans('fof-reactions.admin.nav.desc'),
-            })
+            }, 'Reactions')
         );
     });
 }

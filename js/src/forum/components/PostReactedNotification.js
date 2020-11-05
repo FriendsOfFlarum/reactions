@@ -9,11 +9,11 @@ export default class PostReactedNotification extends Notification {
     }
 
     href() {
-        return app.route.post(this.props.notification.subject());
+        return app.route.post(this.attrs.notification.subject());
     }
 
     content() {
-        const notification = this.props.notification;
+        const notification = this.attrs.notification;
         const { identifier, type } = JSON.parse(notification.content());
         const user = notification.fromUser();
 
@@ -26,6 +26,6 @@ export default class PostReactedNotification extends Notification {
     }
 
     excerpt() {
-        return this.props.notification.subject().contentPlain();
+        return this.attrs.notification.subject().contentPlain();
     }
 }

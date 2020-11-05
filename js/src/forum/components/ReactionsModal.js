@@ -15,10 +15,10 @@ export default class ReactionsModal extends Modal {
         return app.translator.trans('fof-reactions.forum.modal.title');
     }
 
-    init() {
+    oninit(vdom) {
         this.loading = true;
 
-        this.groupedReactions = groupBy(this.props.post.reactions().filter(Boolean), (r) => r.reactionId());
+        this.groupedReactions = groupBy(this.attrs.post.reactions().filter(Boolean), (r) => r.reactionId());
 
         this.load();
     }
@@ -72,7 +72,7 @@ export default class ReactionsModal extends Modal {
         return app
             .request({
                 method: 'GET',
-                url: app.forum.attribute('apiUrl') + this.props.post.apiEndpoint() + '/reactions',
+                url: app.forum.attribute('apiUrl') + this.attrs.post.apiEndpoint() + '/reactions',
                 data: { include: 'user' },
             })
             .then((response) => app.store.pushPayload(response))

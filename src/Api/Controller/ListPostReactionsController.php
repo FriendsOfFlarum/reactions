@@ -14,6 +14,7 @@ namespace FoF\Reactions\Api\Controller;
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Post\PostRepository;
 use FoF\Reactions\Api\Serializer\PostReactionSerializer;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -43,7 +44,7 @@ class ListPostReactionsController extends AbstractListController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $postId = array_get($request->getQueryParams(), 'id');
+        $postId = Arr::get($request->getQueryParams(), 'id');
         $post = $this->posts->findOrFail($postId, $request->getAttribute('actor'));
 
         return $post->reactions()->whereNotNull('reaction_id')->get();

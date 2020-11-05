@@ -14,6 +14,7 @@ namespace FoF\Reactions\Api\Controller;
 use Flarum\Api\Controller\AbstractShowController;
 use FoF\Reactions\Command\EditReaction;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -44,7 +45,7 @@ class UpdateReactionController extends AbstractShowController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $id = array_get($request->getQueryParams(), 'id');
+        $id = Arr::_get($request->getQueryParams(), 'id');
         $actor = $request->getAttribute('actor');
         $data = $request->getParsedBody();
 

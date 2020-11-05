@@ -5,7 +5,7 @@ import emoji from '../util/emoji';
 
 export default class ReactionComponent extends Component {
     view() {
-        const attrs = { ...this.props };
+        const attrs = { ...this.attrs };
         const reaction = extract(attrs, 'reaction');
         const className = extract(attrs, 'className');
 
