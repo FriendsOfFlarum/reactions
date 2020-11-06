@@ -25,7 +25,7 @@ use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
 use Illuminate\Support\Arr;
 use Pusher;
-use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class SaveReactionsToDatabase
 {
@@ -35,7 +35,7 @@ class SaveReactionsToDatabase
     protected $settings;
 
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     protected $translator;
 
@@ -44,7 +44,7 @@ class SaveReactionsToDatabase
      */
     protected $extensions;
 
-    public function __construct(SettingsRepositoryInterface $settings, Translator $translator, ExtensionManager $extensions)
+    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions)
     {
         $this->settings = $settings;
         $this->translator = $translator;
