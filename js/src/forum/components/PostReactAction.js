@@ -19,9 +19,8 @@ export default class PostReactAction extends Component {
         this.updateChosenReaction();
     }
 
-    config(isInitialized) {
-        if (isInitialized) return;
-
+    oncreate(vnode) {
+        super.oncreate(vnode);
         if ('ontouchstart' in window) {
             $('.Reactions')
                 .unbind()
