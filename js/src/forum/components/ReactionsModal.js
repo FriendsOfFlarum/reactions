@@ -15,7 +15,8 @@ export default class ReactionsModal extends Modal {
         return app.translator.trans('fof-reactions.forum.modal.title');
     }
 
-    oninit(vdom) {
+    oninit(vnode) {
+        super.oninit(vnode);
         this.loading = true;
 
         this.groupedReactions = groupBy(this.attrs.post.reactions().filter(Boolean), (r) => r.reactionId());
