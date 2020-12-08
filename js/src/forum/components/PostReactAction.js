@@ -40,7 +40,10 @@ export default class PostReactAction extends Component {
     getReactions() {
         const items = new ItemList();
 
-        app.forum.reactions().forEach((reaction) =>
+        app.forum.reactions().forEach((reaction) => {
+            if (!reaction.enabled()) {
+                return;
+            }
             items.add(
                 reaction.identifier().replace(/fa.? fa-/, ''),
                 <Button
@@ -54,7 +57,7 @@ export default class PostReactAction extends Component {
                     <ReactionComponent className={reaction.type()} reaction={reaction} />
                 </Button>
             )
-        );
+            });
 
         return items;
     }

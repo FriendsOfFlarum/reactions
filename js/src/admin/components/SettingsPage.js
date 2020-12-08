@@ -9,7 +9,8 @@ import Stream from 'flarum/utils/Stream';
 import withAttr from 'flarum/utils/withAttr';
 
 export default class SettingsPage extends Page {
-    oninit(vdom) {
+    oninit(vnode) {
+        super.oninit(vnode)
 
         this.fields = ['convertToUpvote', 'convertToDownvote', 'convertToLike'];
 
@@ -273,7 +274,7 @@ export default class SettingsPage extends Page {
         app.request({
             method: 'PATCH',
             url: `${app.forum.attribute('apiUrl')}/reactions/${reaction.id()}`,
-            data: {
+            body: {
                 [key]: value,
             },
         });

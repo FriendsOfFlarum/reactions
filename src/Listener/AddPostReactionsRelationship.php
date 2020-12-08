@@ -70,7 +70,7 @@ class AddPostReactionsRelationship
     public function loadReactionsRelationship(WillSerializeData $event)
     {
         if ($event->isController(Controller\ShowForumController::class)) {
-            $event->data['reactions'] = Reaction::where('enabled', true)->get();
+            $event->data['reactions'] = Reaction::get();
         }
     }
 
