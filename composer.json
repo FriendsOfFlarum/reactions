@@ -10,8 +10,12 @@
     ],
     "type": "flarum-extension",
     "license": "MIT",
+    "support": {
+        "issues": "https://github.com/friendsofflarum/reactions/issues",
+        "source": "https://github.com/friendsofflarum/reactions"
+    },
     "require": {
-        "flarum/core": "^0.1.0-beta.14"
+        "flarum/core": ">=0.1.0-beta.14 <0.1.0-beta.15"
     },
     "replace": {
         "reflar/reactions": "*"
@@ -45,7 +49,7 @@
             }
         },
         "flagrow": {
-            "discuss": "https://discuss.flarum.org/d/20655-friendsofflarum-reactions"
+            "discuss": "https://discuss.flarum.org/d/20655"
         }
     }
 }
