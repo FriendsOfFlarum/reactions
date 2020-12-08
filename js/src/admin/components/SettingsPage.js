@@ -10,7 +10,7 @@ import withAttr from 'flarum/utils/withAttr';
 
 export default class SettingsPage extends Page {
     oninit(vnode) {
-        super.oninit(vnode)
+        super.oninit(vnode);
 
         this.fields = ['convertToUpvote', 'convertToDownvote', 'convertToLike'];
 
@@ -219,14 +219,16 @@ export default class SettingsPage extends Page {
                             ) : (
                                 ''
                             )}
-                            {Button.component({
-                                type: 'submit',
-                                className: 'Button Button--primary',
-                                loading: this.loading,
-                                disabled: !this.changed(),
-                            }, app.translator.trans('fof-reactions.admin.page.settings.save_settings', {
-                                strong: <strong />,
-                            })
+                            {Button.component(
+                                {
+                                    type: 'submit',
+                                    className: 'Button Button--primary',
+                                    loading: this.loading,
+                                    disabled: !this.changed(),
+                                },
+                                app.translator.trans('fof-reactions.admin.page.settings.save_settings', {
+                                    strong: <strong />,
+                                })
                             )}
                         </fieldset>
                     </form>

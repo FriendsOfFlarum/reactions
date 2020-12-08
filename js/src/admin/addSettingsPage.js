@@ -14,11 +14,14 @@ export default function () {
     extend(AdminNav.prototype, 'items', (items) => {
         items.add(
             'fof-reactions',
-            AdminLinkButton.component({
-                href: app.route('fof-reactions'),
-                icon: 'fa fa-heart',
-                description: app.translator.trans('fof-reactions.admin.nav.desc'),
-            }, 'Reactions')
+            AdminLinkButton.component(
+                {
+                    href: app.route('fof-reactions'),
+                    icon: 'fa fa-heart',
+                    description: app.translator.trans('fof-reactions.admin.nav.desc'),
+                },
+                'Reactions'
+            )
         );
     });
 }

@@ -56,8 +56,8 @@ export default class PostReactAction extends Component {
                 >
                     <ReactionComponent className={reaction.type()} reaction={reaction} />
                 </Button>
-            )
-            });
+            );
+        });
 
         return items;
     }
@@ -78,17 +78,20 @@ export default class PostReactAction extends Component {
                         const spanClass = reaction.type() === 'icon' ? `${reaction.identifier()} emoji button-emoji reaction-icon` : '';
                         const icon = <ReactionComponent reaction={reaction} className={spanClass} data-reaction={reaction.identifier()} />;
 
-                        return Button.component({
-                            className: `Button Button--flat Button-emoji-parent ${
-                                this.reaction && this.reaction.reactionId() == reaction.id() && 'active'
-                            }`,
-                            onclick: canReact ? this.react.bind(this, reaction) : '',
-                            'data-reaction': reaction.identifier(),
-                            disabled: !canReact,
-                            loading: this.loading[reaction.id()],
-                        }, <span>
-                        {icon} {count > 1 ? <span className="count">{count}</span> : ''}
-                    </span>);
+                        return Button.component(
+                            {
+                                className: `Button Button--flat Button-emoji-parent ${
+                                    this.reaction && this.reaction.reactionId() == reaction.id() && 'active'
+                                }`,
+                                onclick: canReact ? this.react.bind(this, reaction) : '',
+                                'data-reaction': reaction.identifier(),
+                                disabled: !canReact,
+                                loading: this.loading[reaction.id()],
+                            },
+                            <span>
+                                {icon} {count > 1 ? <span className="count">{count}</span> : ''}
+                            </span>
+                        );
                     })}
                 </div>
 
@@ -147,7 +150,7 @@ export default class PostReactAction extends Component {
         }
 
         if (!this.post.canReact()) {
-            return app.alerts.show({type: 'error'}, app.translator.trans('core.lib.error.permission_denied_message'));
+            return app.alerts.show({ type: 'error' }, app.translator.trans('core.lib.error.permission_denied_message'));
         }
 
         const id = !reaction ? null : reaction.id();
@@ -179,9 +182,12 @@ export default class PostReactAction extends Component {
                         (app.forum.attribute('ReactionConverts')[0] === reaction || app.forum.attribute('ReactionConverts')[1] === reaction)) ||
                     (this.post.data.relationships.likes !== undefined && app.forum.attribute('ReactionConverts')[2] === reaction)
                 ) {
-                    app.alerts.show({type: 'warning'}, app.translator.trans('fof-reactions.forum.warning', {
-                        reaction,
-                    }));
+                    app.alerts.show(
+                        { type: 'warning' },
+                        app.translator.trans('fof-reactions.forum.warning', {
+                            reaction,
+                        })
+                    );
                 }
 
                 m.redraw.sync();
