@@ -2,7 +2,7 @@ import Modal from 'flarum/components/Modal';
 import LoadingIndicator from 'flarum/components/LoadingIndicator';
 import avatar from 'flarum/helpers/avatar';
 import username from 'flarum/helpers/username';
-
+import Link from 'flarum/components/Link';
 import ReactionComponent from '../../common/components/ReactionComponent';
 import groupBy from '../utils/groupBy';
 
@@ -56,9 +56,10 @@ export default class ReactionsModal extends Modal {
                                     .filter((r) => r.user())
                                     .map((r) => (
                                         <li>
-                                            <a className="ReactionsModal-user" href={app.route.user(r.user())} config={m.route}>
-                                                {avatar(r.user(), { loading: 'lazy' })} {username(r.user())}
-                                            </a>
+                                            <Link className="ReactionsModal-user" href={app.route.user(r.user())}>
+                                                {avatar(r.user(), { loading: 'lazy' })}
+                                                {username(r.user())}
+                                            </Link>
                                         </li>
                                     ))}
                             </div>
@@ -74,7 +75,7 @@ export default class ReactionsModal extends Modal {
             .request({
                 method: 'GET',
                 url: app.forum.attribute('apiUrl') + this.attrs.post.apiEndpoint() + '/reactions',
-                data: { include: 'user' },
+                params: { include: 'user' },
             })
             .then((response) => app.store.pushPayload(response))
             .then(this.loaded.bind(this), this.loaded.bind(this));

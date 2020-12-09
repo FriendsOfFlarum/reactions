@@ -9,8 +9,8 @@ import groupBy from '../utils/groupBy';
 import ReactionComponent from '../../common/components/ReactionComponent';
 
 export default class PostReactAction extends Component {
-    oninit(vdom) {
-        super.oninit(vdom);
+    oninit(vnode) {
+        super.oninit(vnode);
 
         this.post = this.attrs.post;
 
@@ -189,14 +189,14 @@ export default class PostReactAction extends Component {
                     );
                 }
 
-                m.redraw.sync();
+                m.redraw();
             })
             .catch((err) => {
                 delete this.loading[id];
 
                 $('body').append(err);
 
-                m.redraw.sync();
+                m.redraw();
             });
     }
 

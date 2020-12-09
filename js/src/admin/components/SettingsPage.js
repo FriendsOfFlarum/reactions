@@ -263,12 +263,12 @@ export default class SettingsPage extends Page {
 
                 this.addLoading = false;
 
-                m.redraw.sync();
+                m.redraw();
             })
             .catch(() => {
                 this.addLoading = false;
 
-                m.redraw.sync();
+                m.redraw();
             });
     }
 
@@ -335,7 +335,7 @@ export default class SettingsPage extends Page {
             .then(() => {
                 // return to the initial state and redraw the page
                 this.loading = false;
-                m.redraw.sync();
+                m.redraw();
             });
     }
 
