@@ -64,12 +64,14 @@ return [
     (new Extend\ApiSerializer(Serializer\PostSerializer::class))
         ->mutate(function (Serializer\PostSerializer $serializer, AbstractModel $post, array $attributes): array {
             $attributes['canReact'] = !$serializer->getActor()->is($post->user) && (bool) $serializer->getActor()->can('react', $post);
+
             return $attributes;
         }),
 
     (new Extend\ApiSerializer(Serializer\DiscussionSerializer::class))
         ->mutate(function (Serializer\DiscussionSerializer $serializer, AbstractModel $discussion, array $attributes): array {
             $attributes['canSeeReactions'] = (bool) $serializer->getActor()->can('canSeeReactions', $discussion);
+
             return $attributes;
         }),
 
