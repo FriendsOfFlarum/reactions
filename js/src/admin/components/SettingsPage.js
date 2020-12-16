@@ -1,14 +1,14 @@
 import Alert from 'flarum/components/Alert';
 import Button from 'flarum/components/Button';
 import emoji from '../../common/util/emoji';
-import Page from 'flarum/components/Page';
+import ExtensionPage from 'flarum/components/ExtensionPage';
 import Select from 'flarum/components/Select';
 import saveSettings from 'flarum/utils/saveSettings';
 import Switch from 'flarum/components/Switch';
 import Stream from 'flarum/utils/Stream';
 import withAttr from 'flarum/utils/withAttr';
 
-export default class SettingsPage extends Page {
+export default class SettingsPage extends ExtensionPage {
     oninit(vnode) {
         super.oninit(vnode);
 
@@ -33,7 +33,7 @@ export default class SettingsPage extends Page {
     /**
      * @returns {*}
      */
-    view() {
+    content() {
         return (
             <div className="SettingsPage--reactions">
                 <div className="container">
@@ -158,12 +158,12 @@ export default class SettingsPage extends Page {
                         </fieldset>
                         <fieldset>
                             <div className="Reaction-settings">
-                                {this.isEnabled('fof-gamification') || this.isEnabled('flarum-likes') ? (
+                                {this.isExtEnabled('fof-gamification') || this.isExtEnabled('flarum-likes') ? (
                                     <legend>{app.translator.trans('fof-reactions.admin.page.settings.integrations.legend')}</legend>
                                 ) : (
                                     ''
                                 )}
-                                {this.isEnabled('fof-gamification') ? (
+                                {this.isExtEnabled('fof-gamification') ? (
                                     <div>
                                         <legend>{app.translator.trans('fof-reactions.admin.page.settings.integrations.gamification.legend')}</legend>
                                         <label>
@@ -194,7 +194,7 @@ export default class SettingsPage extends Page {
                                 ) : (
                                     ''
                                 )}
-                                {this.isEnabled('flarum-likes') ? (
+                                {this.isExtEnabled('flarum-likes') ? (
                                     <div>
                                         <legend>{app.translator.trans('fof-reactions.admin.page.settings.integrations.likes.legend')}</legend>
                                         <label>{app.translator.trans('fof-reactions.admin.page.settings.integrations.likes.Label')}</label>
@@ -339,7 +339,7 @@ export default class SettingsPage extends Page {
             });
     }
 
-    isEnabled(name) {
+    isExtEnabled(name) {
         const enabled = JSON.parse(app.data.settings.extensions_enabled);
 
         return enabled.indexOf(name) !== -1;
