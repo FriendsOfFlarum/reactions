@@ -1,12 +1,12 @@
-import Alert from 'flarum/components/Alert';
-import Button from 'flarum/components/Button';
+import Alert from 'flarum/common/components/Alert';
+import Button from 'flarum/common/components/Button';
 import emoji from '../../common/util/emoji';
-import ExtensionPage from 'flarum/components/ExtensionPage';
-import Select from 'flarum/components/Select';
-import saveSettings from 'flarum/utils/saveSettings';
-import Switch from 'flarum/components/Switch';
-import Stream from 'flarum/utils/Stream';
-import withAttr from 'flarum/utils/withAttr';
+import ExtensionPage from 'flarum/common/components/ExtensionPage';
+import Select from 'flarum/common/components/Select';
+import saveSettings from 'flarum/common/utils/saveSettings';
+import Switch from 'flarum/common/components/Switch';
+import Stream from 'flarum/common/utils/Stream';
+import withAttr from 'flarum/common/utils/withAttr';
 
 export default class SettingsPage extends ExtensionPage {
     oninit(vnode) {

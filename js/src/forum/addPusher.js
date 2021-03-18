@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce';
 
-import { extend } from 'flarum/extend';
-import DiscussionPage from 'flarum/components/DiscussionPage';
+import { extend } from 'flarum/common/extend';
+import DiscussionPage from 'flarum/common/components/DiscussionPage';
 
 const fetch = (postId) => app.store.find('posts', postId, { include: 'reactions' }).then(() => m.redraw());
 const debounced = [];

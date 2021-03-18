@@ -1,5 +1,5 @@
-import Notification from 'flarum/components/Notification';
-import icon from 'flarum/helpers/icon';
+import Notification from 'flarum/common/components/Notification';
+import icon from 'flarum/common/helpers/icon';
 
 import emoji from '../../common/util/emoji';
 

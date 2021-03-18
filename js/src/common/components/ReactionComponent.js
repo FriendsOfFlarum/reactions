@@ -1,5 +1,5 @@
-import Component from 'flarum/Component';
-import extract from 'flarum/utils/extract';
+import Component from 'flarum/common/Component';
+import extract from 'flarum/common/utils/extract';
 
 import emoji from '../util/emoji';
 

@@ -25,7 +25,7 @@ use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
 use Illuminate\Support\Arr;
 use Pusher;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SaveReactionsToDatabase
 {
@@ -85,7 +85,7 @@ class SaveReactionsToDatabase
             $gamificationDownvote = $this->settings->get('fof-reactions.convertToDownvote');
 
             if ($gamification && class_exists(SaveVotesToDatabase::class) && $reaction && $reaction->identifier == $gamificationUpvote) {
-                app()->make(SaveVotesToDatabase::class)->vote(
+                resolve(SaveVotesToDatabase::class)->vote(
                     $post,
                     false,
                     true,
@@ -93,7 +93,7 @@ class SaveReactionsToDatabase
                     $post->user
                 );
             } elseif ($gamification && class_exists(SaveVotesToDatabase::class) && $reaction && $reaction->identifier == $gamificationDownvote) {
-                app()->make(SaveVotesToDatabase::class)->vote(
+                resolve(SaveVotesToDatabase::class)->vote(
                     $post,
                     true,
                     false,
@@ -177,10 +177,10 @@ class SaveReactionsToDatabase
             return false;
         }
 
-        if (app()->bound(Pusher::class)) {
-            return app(Pusher::class);
+        if (resolve('container')->bound(Pusher::class)) {
+            return resolve(Pusher::class);
         } else {
-            $settings = app('flarum.settings');
+            $settings = resolve('flarum.settings');
 
             $options = [];
 

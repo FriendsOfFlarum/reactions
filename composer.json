@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "flarum/core": "^0.1.0-beta.15"
+        "flarum/core": "^0.1.0-beta.16"
     },
     "replace": {
         "reflar/reactions": "*"
@@ -50,7 +50,7 @@
     "extra": {
         "flarum-extension": {
             "title": "FoF Reactions",
-            "category": "discussion",
+            "category": "feature",
             "icon": {
                 "name": "far fa-smile",
                 "backgroundColor": "#e74c3c",

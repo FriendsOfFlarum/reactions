@@ -1,9 +1,8 @@
-import Alert from 'flarum/components/Alert';
-import Component from 'flarum/Component';
-import ItemList from 'flarum/utils/ItemList';
-import Button from 'flarum/components/Button';
-import listItems from 'flarum/helpers/listItems';
-import LogInModal from 'flarum/components/LogInModal';
+import Component from 'flarum/common/Component';
+import ItemList from 'flarum/common/utils/ItemList';
+import Button from 'flarum/common/components/Button';
+import listItems from 'flarum/common/helpers/listItems';
+import LogInModal from 'flarum/common/components/LogInModal';
 
 import groupBy from '../utils/groupBy';
 import ReactionComponent from '../../common/components/ReactionComponent';

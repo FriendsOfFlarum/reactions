@@ -54,7 +54,7 @@ class SendNotifications
     public function sync(Post $post, User $user, $reaction, array $recipients)
     {
         if ($post->user && $post->user->id != $user->id) {
-            app(NotificationSyncer::class)->sync(
+            resolve(NotificationSyncer::class)->sync(
                 new PostReactedBlueprint($post, $user, $reaction),
                 $recipients
             );

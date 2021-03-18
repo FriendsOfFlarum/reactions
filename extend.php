@@ -22,7 +22,6 @@ use FoF\Reactions\Api\Controller;
 use FoF\Reactions\Api\Serializer\PostReactionSerializer;
 use FoF\Reactions\Api\Serializer\ReactionSerializer;
 use FoF\Reactions\Notification\PostReactedBlueprint;
-use Illuminate\Contracts\Events\Dispatcher;
 
 return [
     (new Extend\Frontend('admin'))
@@ -49,7 +48,8 @@ return [
         }),
 
     (new Extend\Event())
-        ->listen(Saving::class, Listener\SaveReactionsToDatabase::class),
+        ->listen(Saving::class, Listener\SaveReactionsToDatabase::class)
+        ->subscribe(Listener\SendNotifications::class),
 
     (new Extend\Notification())
         ->type(PostReactedBlueprint::class, BasicPostSerializer::class, ['alert']),
@@ -59,17 +59,17 @@ return [
 
     (new Extend\ApiSerializer(Serializer\ForumSerializer::class))
         ->hasMany('reactions', ReactionSerializer::class)
-        ->mutate(ReactionsForumAttributes::class),
+        ->attributes(ReactionsForumAttributes::class),
 
     (new Extend\ApiSerializer(Serializer\PostSerializer::class))
-        ->mutate(function (Serializer\PostSerializer $serializer, AbstractModel $post, array $attributes): array {
+        ->attributes(function (Serializer\PostSerializer $serializer, AbstractModel $post, array $attributes): array {
             $attributes['canReact'] = !$serializer->getActor()->is($post->user) && (bool) $serializer->getActor()->can('react', $post);
 
             return $attributes;
         }),
 
     (new Extend\ApiSerializer(Serializer\DiscussionSerializer::class))
-        ->mutate(function (Serializer\DiscussionSerializer $serializer, AbstractModel $discussion, array $attributes): array {
+        ->attributes(function (Serializer\DiscussionSerializer $serializer, AbstractModel $discussion, array $attributes): array {
             $attributes['canSeeReactions'] = (bool) $serializer->getActor()->can('canSeeReactions', $discussion);
 
             return $attributes;
@@ -97,9 +97,4 @@ return [
 
     (new Extend\ApiController(ApiController\UpdatePostController::class))
         ->addInclude('reactions'),
-
-    function (Dispatcher $events) {
-        // notifications
-        $events->subscribe(Listener\SendNotifications::class);
-    },
 ];

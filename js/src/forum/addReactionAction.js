@@ -1,9 +1,9 @@
-import { extend } from 'flarum/extend';
-import app from 'flarum/app';
-import CommentPost from 'flarum/components/CommentPost';
+import { extend } from 'flarum/common/extend';
+import app from 'flarum/common/app';
+import CommentPost from 'flarum/common/components/CommentPost';
 import PostReactAction from './components/PostReactAction';
-import PostControls from 'flarum/utils/PostControls';
-import Button from 'flarum/components/Button';
+import PostControls from 'flarum/common/utils/PostControls';
+import Button from 'flarum/common/components/Button';
 import ReactionsModal from './components/ReactionsModal';
 
 export default () => {
