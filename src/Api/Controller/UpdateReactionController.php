@@ -12,6 +12,7 @@
 namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
+use FoF\Reactions\Api\Serializer\ReactionSerializer;
 use FoF\Reactions\Command\EditReaction;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Arr;
@@ -23,7 +24,7 @@ class UpdateReactionController extends AbstractShowController
     /**
      * {@inheritdoc}
      */
-    public $serializer = 'FoF\Reactions\Api\Serializer\ReactionSerializer';
+    public $serializer = ReactionSerializer::class;
     /**
      * @var Dispatcher
      */

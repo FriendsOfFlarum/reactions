@@ -4,7 +4,7 @@ import Forum from 'flarum/common/models/Forum';
 import Discussion from 'flarum/common/models/Discussion';
 import Post from 'flarum/common/models/Post';
 import Model from 'flarum/common/Model';
-import NotificationGrid from 'flarum/common/components/NotificationGrid';
+import NotificationGrid from 'flarum/forum/components/NotificationGrid';
 
 import PostReactedNotification from './components/PostReactedNotification';
 import Reaction from '../common/models/Reaction';

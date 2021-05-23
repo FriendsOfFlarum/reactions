@@ -1,8 +1,6 @@
 import Model from 'flarum/common/Model';
 import mixin from 'flarum/common/utils/mixin';
 
-// const reaction = Model.hasOne('reaction');
-
 export default class PostReaction extends mixin(Model, {
     reaction: Model.hasOne('reaction'),
 

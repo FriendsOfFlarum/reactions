@@ -38,11 +38,11 @@ fof-reactions:
           gamification:
             legend: Gamification
             upvoteLabel: Convert reactions to upvotes
-            upvoteHelptext: Input the identifier of the reaction you would like to automatically convert into an upvote
+            upvoteHelptext: Enter the identifier of the reaction you would like to automatically convert into an upvote
             downvoteLabel: Convert reactions to downvotes
-            downvoteHelptext: Input the identifier of the reaction you would like to automatically convert into an downvote
+            downvoteHelptext: Enter the identifier of the reaction you would like to automatically convert into an downvote
 
           likes:
             legend: Likes
             Label: Convert reactions to likes
-            Helptext: Input the identifier of the reaction you would like to automatically convert into an likes
+            Helptext: Enter the identifier of the reaction you would like to automatically convert into a like

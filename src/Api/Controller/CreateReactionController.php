@@ -12,6 +12,7 @@
 namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractCreateController;
+use FoF\Reactions\Api\Serializer\ReactionSerializer;
 use FoF\Reactions\Command\CreateReaction;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Arr;
@@ -23,7 +24,7 @@ class CreateReactionController extends AbstractCreateController
     /**
      * {@inheritdoc}
      */
-    public $serializer = 'FoF\Reactions\Api\Serializer\ReactionSerializer';
+    public $serializer = ReactionSerializer::class;
 
     /**
      * @var Dispatcher

@@ -12,6 +12,7 @@
 namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
+use FoF\Reactions\Api\Serializer\ReactionSerializer;
 use FoF\Reactions\Reaction;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -21,7 +22,7 @@ class ListReactionsController extends AbstractListController
     /**
      * {@inheritdoc}
      */
-    public $serializer = 'FoF\Reactions\Api\Serializer\ReactionSerializer';
+    public $serializer = ReactionSerializer::class;
 
     /**
      * @param ServerRequestInterface $request
