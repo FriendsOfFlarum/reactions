@@ -108,7 +108,7 @@ export default class PostReactAction extends Component {
 
     reactButton() {
         return (
-            <Button className="Button Button--link Reactions--ShowReactions" type="Button" title="React" loading={this.loading[null]}>
+            <Button className="Button Button--link Reactions--ShowReactions" type="Button" title={app.translator.trans('fof-reactions.forum.react_button_label')} loading={this.loading[null]}>
                 <span className="Button-label">
                     <svg class="button-react" width="20px" height="20px" viewBox="0 0 18 18">
                         /* Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch */
