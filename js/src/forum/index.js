@@ -1,5 +1,5 @@
 import { extend } from 'flarum/common/extend';
-import app from 'flarum/common/app';
+import app from 'flarum/forum/app';
 import Forum from 'flarum/common/models/Forum';
 import Discussion from 'flarum/common/models/Discussion';
 import Post from 'flarum/common/models/Post';

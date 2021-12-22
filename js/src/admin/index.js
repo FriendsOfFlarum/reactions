@@ -1,4 +1,4 @@
-import app from 'flarum/common/app';
+import app from 'flarum/admin/app';
 import Forum from 'flarum/common/models/Forum';
 import Model from 'flarum/common/Model';
 
