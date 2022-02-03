@@ -72,15 +72,11 @@ export default (reactionOrIdentifier) => {
     if (match.score) codePoint = match.emoji;
   }
 
-  if (codePoint) {
-    codePoint = codePoint.split('-')[0];
-  }
-
   const output = codePoint
     ? {
         identifier,
         uc: toUnicodeEmoji(codePoint),
-        url: `//cdn.jsdelivr.net/gh/twitter/twemoji@13/assets/72x72/${codePoint}.png`,
+        url: `//cdn.jsdelivr.net/gh/twitter/twemoji@13/assets/72x72/${codePoint.toLowerCase()}.png`,
         type: 'emoji',
       }
     : {};
