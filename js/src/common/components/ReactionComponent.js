@@ -1,5 +1,6 @@
 import Component from 'flarum/common/Component';
 import extract from 'flarum/common/utils/extract';
+import classList from 'flarum/common/utils/classList';
 
 import emoji from '../util/emoji';
 
@@ -18,9 +19,9 @@ export default class ReactionComponent extends Component {
     if (reaction.type() === 'emoji') {
       const { url } = emoji(reaction.identifier());
 
-      return <img className={`${className} emoji`} src={url} loading="lazy" draggable="false" alt={display} {...attrs} />;
+      return <img className={className} src={url} loading="lazy" draggable="false" alt={display} {...attrs} />;
     } else {
-      return <i className={`${className} icon`} aria-hidden {...attrs} />;
+      return <i className={classList(className, reaction.identifier())} aria-hidden {...attrs} />;
     }
   }
 }
