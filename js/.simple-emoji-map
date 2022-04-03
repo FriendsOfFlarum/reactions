@@ -2,5 +2,9 @@
     "shortnames": {
         "1f697": ["car"]
     },
+    "shortcodes": {
+        "dataset": "emojibase-legacy",
+        "fallbackDataset": "emojibase"
+    },
     "type": "codepoint"
 }
