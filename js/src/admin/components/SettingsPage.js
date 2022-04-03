@@ -60,16 +60,24 @@ export default class SettingsPage extends ExtensionPage {
                     );
                   }
 
-                  if ((reaction.type === 'emoji' && data.uc) || data.uc) {
+                  if (data.uc) {
                     demos.push(
-                      <img
-                        alt={reaction.identifier()}
-                        className="Reactions-demo"
-                        draggable="false"
-                        style={reaction.type() !== 'emoji' && 'opacity: 0.5;'}
-                        src={data.url}
-                        width="30px"
-                      />
+                      <>
+                        <img
+                          alt={data.identifier}
+                          className="Reactions-demo"
+                          draggable="false"
+                          style={reaction.type() !== 'emoji' && 'opacity: 0.5;'}
+                          src={data.url}
+                          width="30px"
+                        />
+
+                        {data.score && reaction.type() === 'emoji' && (
+                          <p className="Reactions-demo-identifier">
+                            (<code>{data.identifier}</code>)
+                          </p>
+                        )}
+                      </>
                     );
                   }
 

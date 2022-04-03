@@ -13,6 +13,7 @@
     "@flarum/prettier-config": "^1.0.0",
     "flarum-tsconfig": "^1.0.2",
     "flarum-webpack-config": "^2.0.0",
+    "fuzzyset": "^1.0.7",
     "lodash.debounce": "^4.0.8",
     "simple-emoji-map": "^0.5.0",
     "webpack": "^5.71.0",

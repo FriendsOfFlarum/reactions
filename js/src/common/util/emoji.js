@@ -1,4 +1,5 @@
 import emojis from 'simple-emoji-map';
+import FuzzySet from 'fuzzyset';
 
 const flatten = (arr, depth = 1) => arr.reduce((a, v) => a.concat(depth > 1 && Array.isArray(v) ? flatten(v, depth - 1) : v), []);
 const shortnames = flatten(Object.values(emojis));
@@ -6,75 +7,42 @@ const entries = Object.entries(emojis);
 const getEmoji = (identifier) => entries.find(([, value]) => value.includes(identifier));
 const toUnicodeEmoji = (codePoint) => String.fromCodePoint(...codePoint.split('-').map((e) => `0x${e}`));
 
-export class Match {
-  /**
-   * Match
-   * Creates a new `Match` instance.
-   *
-   * It contains the following properties:
-   *
-   *  - `input` (String): The input string.
-   *  - `score` (Number): A number between `0` and `1`. The closer to `1` it is, the better match it is.
-   *  - `emoji` (Object): The emoji object.
-   *  - `emoji_name` (String): The emoji name.
-   *
-   * @name Match
-   * @function
-   * @param {String} input The input string (just a word).
-   */
-  constructor(input) {
-    let r = emojis[input],
-      finalScore = -1,
-      emojiName = null;
-
-    if (r) {
-      finalScore = 1;
-      emojiName = input;
-    } else {
-      Object.entries(emojis).forEach(([n, e]) => {
-        for (let i = 0; i <= e.length; ++i) {
-          const c = e[i] || n,
-            equals = c === input,
-            indexF = c.indexOf(input),
-            indexS = input.indexOf(c),
-            score = equals && input.length ? 1 : indexF === 0 || (indexS === 0 && c.length > 1) ? 1 : indexF > 0 || indexS > 0 ? 0 : -1;
-
-          if (score > finalScore) {
-            emojiName = n;
-            finalScore = score;
-            if (score === 1) {
-              return false;
-            }
-          }
-        }
-      });
-    }
-
-    this.score = finalScore;
-    this.emoji = emojiName;
-  }
-}
 const emojiCache = new Map();
+const fuzzySet = new FuzzySet(shortnames);
+
+const search = (query) => {
+  const results = fuzzySet.get(query);
+  const [score, item] = results[0];
+
+  return {
+    score,
+    item,
+  };
+};
 
 export default (reactionOrIdentifier) => {
   if (!reactionOrIdentifier) return {};
 
-  const identifier = reactionOrIdentifier.identifier || reactionOrIdentifier;
-  let codePoint;
+  let identifier = reactionOrIdentifier.identifier || reactionOrIdentifier;
 
   if (emojiCache.has(identifier)) return emojiCache.get(identifier);
 
-  if (shortnames.includes(identifier)) {
-    const emoji = getEmoji(identifier);
-    codePoint = emoji && emoji[0];
-  } else {
-    const match = new Match(identifier);
-    if (match.score) codePoint = match.emoji;
+  let score;
+
+  if (!shortnames.includes(identifier)) {
+    const match = search(identifier);
+
+    identifier = match?.item;
+    score = match?.score;
   }
+
+  const emoji = getEmoji(identifier);
+  const codePoint = emoji?.[0];
 
   const output = codePoint
     ? {
         identifier,
+        score,
         uc: toUnicodeEmoji(codePoint),
         url: `//cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/72x72/${codePoint.toLowerCase()}.png`,
         type: 'emoji',
