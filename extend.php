@@ -81,7 +81,8 @@ return [
         }),
 
     (new Extend\ApiController(ApiController\ShowDiscussionController::class))
-        ->addInclude('posts.reactions'),
+        ->addInclude('posts.reactions')
+        ->addOptionalInclude('firstPost.reactions'),
 
     (new Extend\ApiController(ApiController\ShowForumController::class))
         ->addInclude('reactions'),
