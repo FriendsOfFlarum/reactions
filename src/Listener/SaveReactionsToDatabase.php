@@ -173,28 +173,11 @@ class SaveReactionsToDatabase
      */
     private function getPusher()
     {
-        if (!class_exists(Pusher::class)) {
-            return false;
-        }
-
-        if (resolve('container')->bound(Pusher::class)) {
+        if (class_exists(Pusher::class) && resolve('container')->bound(Pusher::class)) {
             return resolve(Pusher::class);
-        } else {
-            $settings = resolve('flarum.settings');
-
-            $options = [];
-
-            if ($cluster = $settings->get('flarum-pusher.app_cluster')) {
-                $options['cluster'] = $cluster;
-            }
-
-            return new Pusher(
-                $settings->get('flarum-pusher.app_key'),
-                $settings->get('flarum-pusher.app_secret'),
-                $settings->get('flarum-pusher.app_id'),
-                $options
-            );
         }
+
+        return false;
     }
 
     protected function validateReaction($reactionId)
