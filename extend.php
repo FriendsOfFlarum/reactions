@@ -80,6 +80,9 @@ return [
             $data['reactions'] = Reaction::get();
         }),
 
+    (new Extend\ApiController(ApiController\ListDiscussionsController::class))
+        ->addOptionalInclude('firstPost.reactions'),
+
     (new Extend\ApiController(ApiController\ShowDiscussionController::class))
         ->addInclude('posts.reactions')
         ->addOptionalInclude('firstPost.reactions'),
