@@ -171,9 +171,7 @@ export default class SettingsPage extends ExtensionPage {
                   <Switch state={this.values.react_own_post()} onchange={this.values.react_own_post} className="reactions-settings-switch">
                     {app.translator.trans('fof-reactions.admin.page.settings.react_own_posts_label')}
                   </Switch>
-                  <div className="helpText">
-                    {app.translator.trans('fof-reactions.admin.page.settings.react_own_posts_help')}
-                  </div>
+                  <div className="helpText">{app.translator.trans('fof-reactions.admin.page.settings.react_own_posts_help')}</div>
                 </div>
                 {this.isExtEnabled('fof-gamification') || this.isExtEnabled('flarum-likes') ? (
                   <legend>{app.translator.trans('fof-reactions.admin.page.settings.integrations.legend')}</legend>
