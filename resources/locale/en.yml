@@ -32,6 +32,8 @@ fof-reactions:
         converted: "Successfully converted all {number} likes"
 
       settings:
+        react_own_posts_help: When enabled, subject to permission, users may react to their own posts on the forum. To prevent users reacting on their own posts, disable this setting.
+        react_own_posts_label: Users may react to their own posts
         save_settings: Save Settings
         integrations:
           legend: Integrations
