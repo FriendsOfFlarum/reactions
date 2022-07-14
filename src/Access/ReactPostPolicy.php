@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/reactions.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Reactions\Access;
 
 use Flarum\Post\Post;
@@ -21,7 +30,7 @@ class ReactPostPolicy extends AbstractPolicy
 
     public function react(User $actor, Post $post)
     {
-        if ($actor->id === $post->user_id && ! (bool) $this->settings->get('fof-reactions.react_own_post')) {
+        if ($actor->id === $post->user_id && !(bool) $this->settings->get('fof-reactions.react_own_post')) {
             return $this->deny();
         }
     }
