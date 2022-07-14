@@ -327,11 +327,11 @@ export default class SettingsPage extends ExtensionPage {
     saveSettings(this.prepareSubmissionData())
       .then(() => {
         // on success, show popup
-        app.alerts.show(
-          (this.successAlert = new Alert({
+        this.successAlert = app.alerts.show(
+          {
             type: 'success',
-            children: app.translator.trans('core.admin.basics.saved_message'),
-          }))
+          },
+          app.translator.trans('core.admin.settings.saved_message')
         );
       })
       .catch(() => {})
