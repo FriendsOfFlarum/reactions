@@ -15,6 +15,8 @@ export default class SettingsPage extends ExtensionPage {
 
     this.fields = ['convertToUpvote', 'convertToDownvote', 'convertToLike'];
 
+    this.switches = ['react_own_post'];
+
     this.values = {};
 
     this.reactions = app.forum.reactions();
@@ -29,6 +31,7 @@ export default class SettingsPage extends ExtensionPage {
     };
 
     this.fields.forEach((key) => (this.values[key] = Stream(settings[this.addPrefix(key)])));
+    this.switches.forEach((key) => (this.values[key] = Stream(!!Number(settings[this.addPrefix(key)]))));
   }
 
   /**
@@ -164,6 +167,12 @@ export default class SettingsPage extends ExtensionPage {
             </fieldset>
             <fieldset>
               <div className="Reaction-settings">
+                <div>
+                  <Switch state={this.values.react_own_post()} onchange={this.values.react_own_post} className="reactions-settings-switch">
+                    {app.translator.trans('fof-reactions.admin.page.settings.react_own_posts_label')}
+                  </Switch>
+                  <div className="helpText">{app.translator.trans('fof-reactions.admin.page.settings.react_own_posts_help')}</div>
+                </div>
                 {this.isExtEnabled('fof-gamification') || this.isExtEnabled('flarum-likes') ? (
                   <legend>{app.translator.trans('fof-reactions.admin.page.settings.integrations.legend')}</legend>
                 ) : (
@@ -240,7 +249,8 @@ export default class SettingsPage extends ExtensionPage {
    */
   changed() {
     var fieldsCheck = this.fields.some((key) => this.values[key]() !== app.data.settings[this.addPrefix(key)]);
-    return fieldsCheck;
+    var switchesCheck = this.switches.some((key) => this.values[key]() !== (app.data.settings[this.addPrefix(key)] == '1'));
+    return fieldsCheck || switchesCheck;
   }
 
   addReaction() {
@@ -313,20 +323,15 @@ export default class SettingsPage extends ExtensionPage {
     // remove previous success popup
     app.alerts.dismiss(this.successAlert);
 
-    const settings = {};
-
-    // gets all the values from the form
-    this.fields.forEach((key) => (settings[this.addPrefix(key)] = this.values[key]()));
-
     // actually saves everything in the database
-    saveSettings(settings)
+    saveSettings(this.prepareSubmissionData())
       .then(() => {
         // on success, show popup
-        app.alerts.show(
-          (this.successAlert = new Alert({
+        this.successAlert = app.alerts.show(
+          {
             type: 'success',
-            children: app.translator.trans('core.admin.basics.saved_message'),
-          }))
+          },
+          app.translator.trans('core.admin.settings.saved_message')
         );
       })
       .catch(() => {})
@@ -348,5 +353,14 @@ export default class SettingsPage extends ExtensionPage {
    */
   addPrefix(key) {
     return `${this.settingsPrefix}.${key}`;
+  }
+
+  prepareSubmissionData() {
+    const settings = {};
+
+    this.switches.forEach((key) => (settings[this.addPrefix(key)] = this.values[key]()));
+    this.fields.forEach((key) => (settings[this.addPrefix(key)] = this.values[key]()));
+
+    return settings;
   }
 }
