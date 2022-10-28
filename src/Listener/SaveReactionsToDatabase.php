@@ -70,12 +70,6 @@ class SaveReactionsToDatabase
 
             $actor->assertCan('react', $post);
 
-            if ($actor->id === $post->user_id) {
-                throw new ValidationException([
-                    'message' => $this->translator->trans('fof-reactions.forum.reacting-own-post'),
-                ]);
-            }
-
             $reaction = !is_null($reactionId) ? Reaction::where('id', $reactionId)->first() : null;
 
             $gamification = $this->extensions->isEnabled('fof-gamification');
