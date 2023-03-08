@@ -30,11 +30,11 @@ class Deleting
      * Deleted constructor.
      *
      * @param Reaction $actor
-     * @param User $actor
+     * @param User     $actor
      */
     public function __construct(Reaction $reaction, User $actor)
     {
         $this->reaction = $reaction;
-		$this->actor = $actor;
+        $this->actor = $actor;
     }
 }
