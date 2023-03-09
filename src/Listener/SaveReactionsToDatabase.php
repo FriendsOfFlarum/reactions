@@ -24,8 +24,8 @@ use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\Event\WillReactToPost;
 use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
-use Illuminate\Support\Arr;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Arr;
 use Pusher;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
