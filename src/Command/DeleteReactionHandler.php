@@ -12,10 +12,26 @@
 namespace FoF\Reactions\Command;
 
 use Flarum\User\Exception\PermissionDeniedException;
+use FoF\Reactions\Event\Deleted;
+use FoF\Reactions\Event\Deleting;
 use FoF\Reactions\Reaction;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class DeleteReactionHandler
 {
+    /**
+     * @var Dispatcher
+     */
+    protected $events;
+
+    /**
+     * @param Dispatcher $events
+     */
+    public function __construct(Dispatcher $events)
+    {
+        $this->events = $events;
+    }
+
     /**
      * @param DeleteReaction $command
      *
@@ -31,6 +47,10 @@ class DeleteReactionHandler
 
         $reaction = Reaction::where('id', $command->reactionId)->first();
 
+        $this->events->dispatch(new Deleting($reaction, $actor));
+
         $reaction->delete();
+
+        $this->events->dispatch(new Deleted($reaction, $actor));
     }
 }

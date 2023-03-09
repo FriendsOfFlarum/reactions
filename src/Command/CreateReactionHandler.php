@@ -12,8 +12,11 @@
 namespace FoF\Reactions\Command;
 
 use Flarum\User\Exception\PermissionDeniedException;
+use FoF\Reactions\Event\Created;
+use FoF\Reactions\Event\Creating;
 use FoF\Reactions\Reaction;
 use FoF\Reactions\Validator\ReactionValidator;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
 
 class CreateReactionHandler
@@ -24,11 +27,18 @@ class CreateReactionHandler
     protected $validator;
 
     /**
-     * @param ReactionValidator $validator
+     * @var Dispatcher
      */
-    public function __construct(ReactionValidator $validator)
+    protected $events;
+
+    /**
+     * @param ReactionValidator $validator
+     * @param Dispatcher        $events
+     */
+    public function __construct(ReactionValidator $validator, Dispatcher $events)
     {
         $this->validator = $validator;
+        $this->events = $events;
     }
 
     /**
@@ -50,9 +60,13 @@ class CreateReactionHandler
             Arr::get($data, 'type')
         );
 
+        $this->events->dispatch(new Creating($reaction, $actor, $data));
+
         $this->validator->assertValid($reaction->getAttributes());
 
         $reaction->save();
+
+        $this->events->dispatch(new Created($reaction, $actor, []));
 
         return $reaction;
     }

@@ -5,6 +5,11 @@ import Model from 'flarum/common/Model';
 import SettingsPage from './components/SettingsPage';
 import Reaction from '../common/models/Reaction';
 
+export * from './components';
+export * from '../common/components';
+export * from '../common/models';
+export * from '../common/util';
+
 app.initializers.add('fof/reactions', () => {
   app.store.models.reactions = Reaction;
 

@@ -85,7 +85,7 @@ export default class SettingsPage extends ExtensionPage {
                   }
 
                   return [
-                    <div className="Reactions--item">
+                    <div className="Reactions--item" data-id={reaction.id()}>
                       <input
                         className="FormControl Reactions-input"
                         value={reaction.display() || ''}
