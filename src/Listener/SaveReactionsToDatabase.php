@@ -66,7 +66,6 @@ class SaveReactionsToDatabase
             $actor = $event->actor;
 
             $reactionId = Arr::get($data, 'attributes.reaction');
-            $reactionIdentifier = null;
 
             $actor->assertCan('react', $post);
 
