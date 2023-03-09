@@ -21,9 +21,11 @@ use Flarum\User\User;
 use FoF\Gamification\Listeners\SaveVotesToDatabase;
 use FoF\Reactions\Event\PostWasReacted;
 use FoF\Reactions\Event\PostWasUnreacted;
+use FoF\Reactions\Event\WillReactToPost;
 use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
 use Illuminate\Support\Arr;
+use Illuminate\Contracts\Events\Dispatcher;
 use Pusher;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -44,11 +46,17 @@ class SaveReactionsToDatabase
      */
     protected $extensions;
 
-    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions)
+    /**
+     * @var Dispatcher
+     */
+    protected $events;
+
+    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions, Dispatcher $events)
     {
         $this->settings = $settings;
         $this->translator = $translator;
         $this->extensions = $extensions;
+        $this->events = $events;
     }
 
     /**
@@ -70,6 +78,8 @@ class SaveReactionsToDatabase
             $actor->assertCan('react', $post);
 
             $reaction = !is_null($reactionId) ? Reaction::where('id', $reactionId)->first() : null;
+
+            $this->events->dispatch(new WillReactToPost($post, $actor, $reaction));
 
             $gamification = $this->extensions->isEnabled('fof-gamification');
             $likes = $this->extensions->isEnabled('flarum-likes');
