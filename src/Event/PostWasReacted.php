@@ -13,6 +13,7 @@ namespace FoF\Reactions\Event;
 
 use Flarum\Post\Post;
 use Flarum\User\User;
+use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
 
 class PostWasReacted
@@ -21,6 +22,11 @@ class PostWasReacted
      * @var Post
      */
     public $post;
+
+    /**
+     * @var PostReaction
+     */
+    public $postReaction;
 
     /**
      * @var User
@@ -41,13 +47,15 @@ class PostWasReacted
      * PostWasReacted constructor.
      *
      * @param Post $post
+     * @param PostReaction $postReaction
      * @param User $user
-     * @param $reaction
+     * @param Reaction $reaction
      * @param bool $changed
      */
-    public function __construct(Post $post, User $user, Reaction $reaction, $changed = false)
+    public function __construct(Post $post, PostReaction $postReaction, User $user, Reaction $reaction, $changed = false)
     {
         $this->post = $post;
+        $this->postReaction = $postReaction;
         $this->user = $user;
         $this->reaction = $reaction;
         $this->changed = $changed;
