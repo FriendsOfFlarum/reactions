@@ -46,11 +46,11 @@ class PostWasReacted
     /**
      * PostWasReacted constructor.
      *
-     * @param Post $post
+     * @param Post         $post
      * @param PostReaction $postReaction
-     * @param User $user
-     * @param Reaction $reaction
-     * @param bool $changed
+     * @param User         $user
+     * @param Reaction     $reaction
+     * @param bool         $changed
      */
     public function __construct(Post $post, PostReaction $postReaction, User $user, Reaction $reaction, $changed = false)
     {

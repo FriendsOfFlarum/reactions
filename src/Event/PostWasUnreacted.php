@@ -33,9 +33,9 @@ class PostWasUnreacted
     public $user;
 
     /**
-     * @param Post $post
+     * @param Post         $post
      * @param PostReaction $postReaction
-     * @param User $user
+     * @param User         $user
      */
     public function __construct(Post $post, PostReaction $postReaction, User $user)
     {
