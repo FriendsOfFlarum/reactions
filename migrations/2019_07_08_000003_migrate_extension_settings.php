@@ -23,4 +23,7 @@ return [
                 ->update(['key' => "fof-reactions.$key"]);
         }
     },
+    'down' => function() {
+        //
+    }
 ];
