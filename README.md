@@ -6,14 +6,14 @@ A [Flarum](http://flarum.org) extension. A Flarum extension that adds reactions 
 
 - Just click the react button when hovering over a post, and choose the reaction!
 - Custom reactions can be easily added via the admin page
-- Integration with Likes and Gamification
+- Integration with `flarum/likes` and `fof/gamification`
 
 ### Installation
 
-Use [Bazaar](https://discuss.flarum.org/d/5151-flagrow-bazaar-the-extension-marketplace) or install manually with composer:
+Install manually with composer:
 
 ```sh
-composer require fof/reactions
+composer require fof/reactions:"*"
 ```
 
 
@@ -29,5 +29,6 @@ composer update fof/reactions
 
 - [Packagist](https://packagist.org/packages/fof/reactions)
 - [GitHub](https://github.com/FriendsOfFlarum/reactions)
+- [Discuss](https://discuss.flarum.org/d/20655)
 
 An extension by [FriendsOfFlarum](https://github.com/FriendsOfFlarum).
