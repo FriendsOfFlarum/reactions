@@ -20,7 +20,7 @@ class EditReaction
      *
      * @var int
      */
-    public $pageId;
+    public $reactionId;
 
     /**
      * The user performing the action.
