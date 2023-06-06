@@ -125,7 +125,7 @@ class SaveReactionsToDatabase
                         $postReaction->save();
                     }
 
-                    $post->raise(new PostWasUnreacted($post, $actor));
+                    $post->raise(new PostWasUnreacted($post, $postReaction, $actor));
                 } else {
                     $this->validateReaction($reactionId);
 
@@ -144,7 +144,7 @@ class SaveReactionsToDatabase
 
                     $this->push('newReaction', $postReaction, $reaction, $actor, $post);
 
-                    $post->raise(new PostWasReacted($post, $actor, $reaction));
+                    $post->raise(new PostWasReacted($post, $postReaction, $actor, $reaction));
                 }
             }
         }
