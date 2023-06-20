@@ -26,11 +26,13 @@ class Reaction extends AbstractModel
      */
     protected $table = 'reactions';
 
+    public $casts = [
+        'enabled' => 'boolean',
+    ];
+
     /**
      * Create a reaction.
      *
-     * @param      $identifier
-     * @param      $type
      * @param bool $enabled
      *
      * @return static
