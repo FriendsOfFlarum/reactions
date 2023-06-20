@@ -151,7 +151,7 @@ class SaveReactionsToDatabase
     }
 
     /**
-     * @param $event
+     * @param              $event
      * @param PostReaction $postReaction
      * @param Reaction     $reaction
      * @param User         $actor

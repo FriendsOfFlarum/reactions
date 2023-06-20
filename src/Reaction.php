@@ -29,8 +29,8 @@ class Reaction extends AbstractModel
     /**
      * Create a reaction.
      *
-     * @param $identifier
-     * @param $type
+     * @param      $identifier
+     * @param      $type
      * @param bool $enabled
      *
      * @return static

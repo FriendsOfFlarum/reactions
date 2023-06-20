@@ -42,7 +42,7 @@ class WillReactToPost
      *
      * @param Post $post
      * @param User $user
-     * @param $reaction
+     * @param      $reaction
      * @param bool $changed
      */
     public function __construct(Post $post, User $user, Reaction $reaction, $changed = false)
