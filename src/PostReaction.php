@@ -14,9 +14,12 @@ namespace FoF\Reactions;
 use Flarum\Database\AbstractModel;
 use Flarum\Post\Post;
 use Flarum\User\User;
+use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class PostReaction extends AbstractModel
 {
+    use HasEagerLimit;
+
     protected $table = 'post_reactions';
 
     public $timestamps = true;

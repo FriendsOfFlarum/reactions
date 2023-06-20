@@ -13,12 +13,12 @@ namespace FoF\Reactions;
 
 use Flarum\Api\Controller as ApiController;
 use Flarum\Api\Serializer;
-use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Database\AbstractModel;
 use Flarum\Extend;
 use Flarum\Post\Event\Saving;
 use Flarum\Post\Post;
 use FoF\Reactions\Api\Controller;
+use FoF\Reactions\Api\LoadReactionsRelationship;
 use FoF\Reactions\Api\Serializer\PostReactionSerializer;
 use FoF\Reactions\Api\Serializer\ReactionSerializer;
 use FoF\Reactions\Notification\PostReactedBlueprint;
@@ -52,21 +52,22 @@ return [
         ->subscribe(Listener\SendNotifications::class),
 
     (new Extend\Notification())
-        ->type(PostReactedBlueprint::class, BasicPostSerializer::class, ['alert']),
-
-    (new Extend\ApiSerializer(Serializer\BasicPostSerializer::class))
-        ->hasMany('reactions', PostReactionSerializer::class),
-
-    (new Extend\ApiSerializer(Serializer\ForumSerializer::class))
-        ->hasMany('reactions', ReactionSerializer::class)
-        ->attributes(ReactionsForumAttributes::class),
+        ->type(PostReactedBlueprint::class, PostSerializer::class, ['alert']),
 
     (new Extend\ApiSerializer(Serializer\PostSerializer::class))
+        ->hasMany('reactions', PostReactionSerializer::class)
         ->attributes(function (Serializer\PostSerializer $serializer, AbstractModel $post, array $attributes): array {
             $attributes['canReact'] = (bool) $serializer->getActor()->can('react', $post);
 
             return $attributes;
+        })
+        ->attribute('reactionsCount', function (Serializer\PostSerializer $serializer, AbstractModel $model) {
+            return $model->getAttribute('reactions_count') ?: 0;
         }),
+
+    (new Extend\ApiSerializer(Serializer\ForumSerializer::class))
+        ->hasMany('reactions', ReactionSerializer::class)
+        ->attributes(ReactionsForumAttributes::class),
 
     (new Extend\ApiSerializer(Serializer\DiscussionSerializer::class))
         ->attributes(function (Serializer\DiscussionSerializer $serializer, AbstractModel $discussion, array $attributes): array {
@@ -76,7 +77,7 @@ return [
         }),
 
     (new Extend\ApiController(ApiController\ShowForumController::class))
-        ->prepareDataForSerialization(function (ApiController\ShowForumController $controller, &$data, $request, $document) {
+        ->prepareDataForSerialization(function (ApiController\ShowForumController $controller, &$data) {
             $data['reactions'] = Reaction::get();
         }),
 
@@ -85,22 +86,32 @@ return [
 
     (new Extend\ApiController(ApiController\ShowDiscussionController::class))
         ->addInclude('posts.reactions')
-        ->addOptionalInclude('firstPost.reactions'),
+        ->addOptionalInclude('firstPost.reactions')
+        ->loadWhere('posts.reactions', [LoadReactionsRelationship::class, 'mutateRelation'])
+         ->prepareDataForSerialization([LoadReactionsRelationship::class, 'countRelation']),
 
     (new Extend\ApiController(ApiController\ShowForumController::class))
         ->addInclude('reactions'),
 
     (new Extend\ApiController(ApiController\ListPostsController::class))
-        ->addInclude('reactions'),
+        ->addInclude('reactions')
+        ->loadWhere('reactions', [LoadReactionsRelationship::class, 'mutateRelation'])
+        ->prepareDataForSerialization([LoadReactionsRelationship::class, 'countRelation']),
 
     (new Extend\ApiController(ApiController\ShowPostController::class))
-        ->addInclude('reactions'),
+        ->addInclude('reactions')
+        ->loadWhere('reactions', [LoadReactionsRelationship::class, 'mutateRelation'])
+        ->prepareDataForSerialization([LoadReactionsRelationship::class, 'countRelation']),
 
     (new Extend\ApiController(ApiController\CreatePostController::class))
-        ->addInclude('reactions'),
+        ->addInclude('reactions')
+        ->loadWhere('reactions', [LoadReactionsRelationship::class, 'mutateRelation'])
+        ->prepareDataForSerialization([LoadReactionsRelationship::class, 'countRelation']),
 
     (new Extend\ApiController(ApiController\UpdatePostController::class))
-        ->addInclude('reactions'),
+        ->addInclude('reactions')
+        ->loadWhere('reactions', [LoadReactionsRelationship::class, 'mutateRelation'])
+        ->prepareDataForSerialization([LoadReactionsRelationship::class, 'countRelation']),
 
     (new Extend\Settings())
         ->default('fof-reactions.react_own_post', false),
