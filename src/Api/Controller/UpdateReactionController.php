@@ -12,6 +12,7 @@
 namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Http\RequestUtil;
 use FoF\Reactions\Api\Serializer\ReactionSerializer;
 use FoF\Reactions\Command\EditReaction;
 use Illuminate\Contracts\Bus\Dispatcher;
@@ -30,24 +31,18 @@ class UpdateReactionController extends AbstractShowController
      */
     protected $bus;
 
-    /**
-     * @param Dispatcher $bus
-     */
     public function __construct(Dispatcher $bus)
     {
         $this->bus = $bus;
     }
 
     /**
-     * @param ServerRequestInterface $request
-     * @param Document               $document
-     *
      * @return mixed
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $id = Arr::get($request->getQueryParams(), 'id');
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
         $data = $request->getParsedBody();
 
         return $this->bus->dispatch(

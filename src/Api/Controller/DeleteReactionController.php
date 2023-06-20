@@ -12,6 +12,7 @@
 namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
+use Flarum\Http\RequestUtil;
 use FoF\Reactions\Command\DeleteReaction;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Arr;
@@ -24,21 +25,15 @@ class DeleteReactionController extends AbstractDeleteController
      */
     protected $bus;
 
-    /**
-     * @param Dispatcher $bus
-     */
     public function __construct(Dispatcher $bus)
     {
         $this->bus = $bus;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     */
     protected function delete(ServerRequestInterface $request)
     {
         $this->bus->dispatch(
-            new DeleteReaction(Arr::get($request->getQueryParams(), 'id'), $request->getAttribute('actor'))
+            new DeleteReaction(Arr::get($request->getQueryParams(), 'id'), RequestUtil::getActor($request))
         );
     }
 }
