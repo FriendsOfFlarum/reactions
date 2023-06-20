@@ -60,5 +60,8 @@
         "flagrow": {
             "discuss": "https://discuss.flarum.org/d/20655"
         }
+    },
+    "require-dev": {
+        "flarum/likes": "*"
     }
 }
