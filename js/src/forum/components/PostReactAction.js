@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import Component from 'flarum/common/Component';
 import ItemList from 'flarum/common/utils/ItemList';
 import Button from 'flarum/common/components/Button';
@@ -61,15 +62,15 @@ export default class PostReactAction extends Component {
   }
 
   view() {
-    const groupedPostReactions = groupBy(this.getPostReactions(), (r) => r.reactionId());
+    const reactionCounts = this.post.reactionCounts();
     const canReact = this.post.canReact();
 
     return (
       <div style="margin-right: 7px" className="Reactions">
         <div className="Reactions--reactions">
-          {Object.keys(groupedPostReactions).map((id) => {
+          {Object.keys(reactionCounts).map((id) => {
             const reaction = app.store.getById('reactions', id);
-            const count = groupedPostReactions[id].length;
+            const count = reactionCounts[id];
 
             if (count === 0) return;
 
@@ -78,7 +79,9 @@ export default class PostReactAction extends Component {
 
             return Button.component(
               {
-                className: `Button Button--flat Button-emoji-parent ${this.reaction && this.reaction.reactionId() == reaction.id() && 'active'}`,
+                className: `Button Button--flat Button-emoji-parent ${
+                  this.post.userReaction() && this.post.userReaction() == reaction.id() && 'active'
+                }`,
                 onclick: canReact ? this.react.bind(this, reaction) : '',
                 'data-reaction': reaction.identifier(),
                 disabled: !canReact,
@@ -91,7 +94,7 @@ export default class PostReactAction extends Component {
           })}
         </div>
 
-        {(!Object.keys(this.loading).length || this.loading[null]) && !this.reaction && canReact && (
+        {(!Object.keys(this.loading).length || this.loading[null]) && !this.post.userReaction() && canReact && (
           <div className="Reactions--react">
             {this.reactButton()}
 
@@ -145,17 +148,19 @@ export default class PostReactAction extends Component {
   react(reaction, e) {
     e.target.blur();
 
-    if (!app.session.user) {
+    const allowAnonymous = app.forum.attribute('fofReactionsAllowAnonymous');
+
+    if (!app.session.user && !allowAnonymous) {
       app.modal.show(LogInModal);
       return;
     }
 
-    if (!this.post.canReact()) {
+    if (!this.post.canReact() || !allowAnonymous) {
       return app.alerts.show({ type: 'error' }, app.translator.trans('core.lib.error.permission_denied_message'));
     }
 
     const id = !reaction ? null : reaction.id();
-    const originalPostReactions = this.post.reactions();
+    const originalPostReactions = this.post.reactionCounts();
 
     this.loading[id] = true;
 
@@ -164,19 +169,13 @@ export default class PostReactAction extends Component {
       .then((post) => {
         delete this.loading[id];
 
-        for (const postReaction of originalPostReactions) {
-          if (!post.reactions().includes(postReaction)) {
-            app.store.remove(postReaction);
+        for (const reactionId in originalPostReactions) {
+          if (!post.reactionCounts().hasOwnProperty(reactionId)) {
+            app.store.remove(app.store.getById('reactions', reactionId));
           }
         }
 
         this.updateChosenReaction();
-
-        /**
-         * We've saved the fact that we have or haven't reacted to the post,
-         * but in order to provide instantaneous feedback to the user, we'll
-         * need to add or remove the reaction from the current ones manually
-         */
 
         if (
           (app.forum.data.relationships.ranks !== undefined &&
@@ -203,12 +202,6 @@ export default class PostReactAction extends Component {
   }
 
   updateChosenReaction() {
-    const postReactions = this.getPostReactions();
-
-    return (this.reaction = app.session.user && postReactions.filter((reaction) => reaction.userId() == app.session.user.id())[0]);
-  }
-
-  getPostReactions() {
-    return this.post.reactions() || app.store.all('post_reactions').filter((p) => p && p.postId() == this.post.id());
+    return (this.reaction = this.post.userReaction());
   }
 }

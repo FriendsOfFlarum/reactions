@@ -12,20 +12,23 @@ export default () => {
 
     if (post.isHidden()) return;
 
-    const reaction = app.session.user && Array.isArray(post.reactions()) && post.reactions().some((user) => user === app.session.user);
+    const hasReacted = app.session.user && post.userReaction() !== null;
 
     items.add(
       'react',
       PostReactAction.component({
         post,
-        reaction,
+        hasReacted,
       }),
       5
     );
   });
 
   extend(PostControls, 'moderationControls', function (items, post) {
-    if (post.discussion().canSeeReactions() && post.reactions() && post.reactions().length) {
+    const reactionCounts = post.reactionCounts();
+    const hasReactions = reactionCounts && Object.keys(reactionCounts).length > 0;
+
+    if (post.discussion().canSeeReactions() && hasReactions) {
       items.add(
         'viewReactions',
         <Button icon="fas fa-heart" onclick={() => app.modal.show(ReactionsModal, { post })}>

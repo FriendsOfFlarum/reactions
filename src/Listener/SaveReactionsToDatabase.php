@@ -22,10 +22,13 @@ use FoF\Gamification\Listeners\SaveVotesToDatabase;
 use FoF\Reactions\Event\PostWasReacted;
 use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\Event\WillReactToPost;
+use FoF\Reactions\PostAnonymousReaction;
 use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
+use Psr\Http\Message\ServerRequestInterface;
 use Pusher;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -51,12 +54,16 @@ class SaveReactionsToDatabase
      */
     protected $events;
 
-    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions, Dispatcher $events)
+    /** @var ServerRequestInterface */
+    protected $request;
+
+    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions, Dispatcher $events, Container $container)
     {
         $this->settings = $settings;
         $this->translator = $translator;
         $this->extensions = $extensions;
         $this->events = $events;
+        $this->request = $container->make('fof-reactions.request');
     }
 
     /**
@@ -81,8 +88,8 @@ class SaveReactionsToDatabase
 
             $this->events->dispatch(new WillReactToPost($post, $actor, $reaction));
 
-            $gamification = $this->extensions->isEnabled('fof-gamification');
-            $likes = $this->extensions->isEnabled('flarum-likes');
+            $gamification = $this->isExtensionEnabled('fof-gamification');
+            $likes = $this->isExtensionEnabled('flarum-likes');
 
             $gamificationUpvote = $this->settings->get('fof-reactions.convertToUpvote');
             $gamificationDownvote = $this->settings->get('fof-reactions.convertToDownvote');
@@ -114,12 +121,21 @@ class SaveReactionsToDatabase
                     $post->raise(new PostWasLiked($post, $actor));
                 }
             } else {
-                $postReaction = PostReaction::where([['user_id', $actor->id], ['post_id', $post->id]])->first();
+                $guestId = $this->getSessionId();
+
+                if ($actor->isGuest()) {
+                    $postReaction = PostAnonymousReaction::where([['guest_id', $guestId], ['post_id', $post->id]])->first();
+                } else {
+                    $postReaction = PostReaction::where([['user_id', $actor->id], ['post_id', $post->id]])->first();
+                }
                 $removeReaction = is_null($reactionId) || ($postReaction && $postReaction->reaction_id == $reactionId);
 
                 if ($removeReaction) {
                     if ($postReaction) {
-                        $this->push('removedReaction', $postReaction, $reaction ?: $postReaction->reaction, $actor, $post);
+                        // We'll maintain current behaviour and only push to Pusher if the reaction is not anonymous
+                        if ($postReaction instanceof PostReaction) {
+                            $this->push('removedReaction', $postReaction, $reaction ?: $postReaction->reaction, $actor, $post);
+                        }
 
                         $postReaction->reaction_id = null;
                         $postReaction->save();
@@ -133,16 +149,26 @@ class SaveReactionsToDatabase
                         $postReaction->reaction_id = $reaction->id;
                         $postReaction->save();
                     } else {
-                        $postReaction = new PostReaction();
+                        $isGuest = $actor->isGuest();
+                        $postReaction = $isGuest ? new PostAnonymousReaction() : new PostReaction();
 
                         $postReaction->post_id = $post->id;
-                        $postReaction->user_id = $actor->id;
+                        
+                        if ($isGuest) {
+                            $postReaction->guest_id = $guestId;
+                        } else {
+                            $postReaction->user_id = $actor->id;
+                        }
+
                         $postReaction->reaction_id = $reaction->id;
 
                         $postReaction->save();
                     }
 
-                    $this->push('newReaction', $postReaction, $reaction, $actor, $post);
+                    // We'll maintain current behaviour and only push to Pusher if the reaction is not anonymous
+                    if ($postReaction instanceof PostReaction) {
+                        $this->push('newReaction', $postReaction, $reaction, $actor, $post);
+                    }
 
                     $post->raise(new PostWasReacted($post, $postReaction, $actor, $reaction));
                 }
@@ -196,5 +222,15 @@ class SaveReactionsToDatabase
                 'message' => $this->translator->trans('fof-reactions.forum.disabled-reaction'),
             ]);
         }
+    }
+
+    protected function isExtensionEnabled(string $extension): bool
+    {
+        return $this->extensions->isEnabled($extension);
+    }
+
+    protected function getSessionId(): string
+    {
+        return $this->request->getAttribute('session')->getId();
     }
 }

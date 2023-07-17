@@ -41,11 +41,11 @@ return [
         ->patch('/reactions/{id}', 'reactions.update', Controller\UpdateReactionController::class)
         ->delete('/reactions/{id}', 'reactions.delete', Controller\DeleteReactionController::class),
 
-    (new Extend\Model(Post::class))
-        ->relationship('reactions', function (AbstractModel $model) {
-            return $model->hasMany(PostReaction::class, 'post_id')
-                ->whereNotNull('reaction_id');
-        }),
+    // (new Extend\Model(Post::class))
+    //     ->relationship('reactions', function (AbstractModel $model) {
+    //         return $model->hasMany(PostReaction::class, 'post_id')
+    //             ->whereNotNull('reaction_id');
+    //     }),
 
     (new Extend\Event())
         ->listen(Saving::class, Listener\SaveReactionsToDatabase::class)
@@ -54,19 +54,15 @@ return [
     (new Extend\Notification())
         ->type(PostReactedBlueprint::class, BasicPostSerializer::class, ['alert']),
 
-    (new Extend\ApiSerializer(Serializer\BasicPostSerializer::class))
-        ->hasMany('reactions', PostReactionSerializer::class),
+    // (new Extend\ApiSerializer(Serializer\BasicPostSerializer::class))
+    //     ->hasMany('reactions', PostReactionSerializer::class),
 
     (new Extend\ApiSerializer(Serializer\ForumSerializer::class))
         ->hasMany('reactions', ReactionSerializer::class)
         ->attributes(ReactionsForumAttributes::class),
 
     (new Extend\ApiSerializer(Serializer\PostSerializer::class))
-        ->attributes(function (Serializer\PostSerializer $serializer, AbstractModel $post, array $attributes): array {
-            $attributes['canReact'] = (bool) $serializer->getActor()->can('react', $post);
-
-            return $attributes;
-        }),
+        ->attributes(PostAttributes::class),
 
     (new Extend\ApiSerializer(Serializer\DiscussionSerializer::class))
         ->attributes(function (Serializer\DiscussionSerializer $serializer, AbstractModel $discussion, array $attributes): array {
@@ -80,31 +76,36 @@ return [
             $data['reactions'] = Reaction::get();
         }),
 
-    (new Extend\ApiController(ApiController\ListDiscussionsController::class))
-        ->addOptionalInclude('firstPost.reactions'),
+    // (new Extend\ApiController(ApiController\ListDiscussionsController::class))
+    //     ->addOptionalInclude('firstPost.reactions'),
 
-    (new Extend\ApiController(ApiController\ShowDiscussionController::class))
-        ->addInclude('posts.reactions')
-        ->addOptionalInclude('firstPost.reactions'),
+    // (new Extend\ApiController(ApiController\ShowDiscussionController::class))
+    //     ->addInclude('posts.reactions')
+    //     ->addOptionalInclude('firstPost.reactions'),
 
     (new Extend\ApiController(ApiController\ShowForumController::class))
         ->addInclude('reactions'),
 
-    (new Extend\ApiController(ApiController\ListPostsController::class))
-        ->addInclude('reactions'),
+    // (new Extend\ApiController(ApiController\ListPostsController::class))
+    //     ->addInclude('reactions'),
 
-    (new Extend\ApiController(ApiController\ShowPostController::class))
-        ->addInclude('reactions'),
+    // (new Extend\ApiController(ApiController\ShowPostController::class))
+    //     ->addInclude('reactions'),
 
-    (new Extend\ApiController(ApiController\CreatePostController::class))
-        ->addInclude('reactions'),
+    // (new Extend\ApiController(ApiController\CreatePostController::class))
+    //     ->addInclude('reactions'),
 
-    (new Extend\ApiController(ApiController\UpdatePostController::class))
-        ->addInclude('reactions'),
+    // (new Extend\ApiController(ApiController\UpdatePostController::class))
+    //     ->addInclude('reactions'),
 
     (new Extend\Settings())
-        ->default('fof-reactions.react_own_post', false),
+        ->default('fof-reactions.react_own_post', false)
+        ->default('fof-reactions.allow-anonymous', true)
+        ->serializeToForum('fofReactionsAllowAnonymous', 'fof-reactions.allow-anonymous'),
 
     (new Extend\Policy())
         ->modelPolicy(Post::class, Access\ReactPostPolicy::class),
+
+    (new Extend\Middleware('api'))
+        ->add(Middleware\BindRequestToContainer::class),
 ];
