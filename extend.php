@@ -19,7 +19,6 @@ use Flarum\Extend;
 use Flarum\Post\Event\Saving;
 use Flarum\Post\Post;
 use FoF\Reactions\Api\Controller;
-use FoF\Reactions\Api\Serializer\PostReactionSerializer;
 use FoF\Reactions\Api\Serializer\ReactionSerializer;
 use FoF\Reactions\Notification\PostReactedBlueprint;
 
@@ -41,21 +40,12 @@ return [
         ->patch('/reactions/{id}', 'reactions.update', Controller\UpdateReactionController::class)
         ->delete('/reactions/{id}', 'reactions.delete', Controller\DeleteReactionController::class),
 
-    // (new Extend\Model(Post::class))
-    //     ->relationship('reactions', function (AbstractModel $model) {
-    //         return $model->hasMany(PostReaction::class, 'post_id')
-    //             ->whereNotNull('reaction_id');
-    //     }),
-
     (new Extend\Event())
         ->listen(Saving::class, Listener\SaveReactionsToDatabase::class)
         ->subscribe(Listener\SendNotifications::class),
 
     (new Extend\Notification())
         ->type(PostReactedBlueprint::class, BasicPostSerializer::class, ['alert']),
-
-    // (new Extend\ApiSerializer(Serializer\BasicPostSerializer::class))
-    //     ->hasMany('reactions', PostReactionSerializer::class),
 
     (new Extend\ApiSerializer(Serializer\ForumSerializer::class))
         ->hasMany('reactions', ReactionSerializer::class)
@@ -76,27 +66,8 @@ return [
             $data['reactions'] = Reaction::get();
         }),
 
-    // (new Extend\ApiController(ApiController\ListDiscussionsController::class))
-    //     ->addOptionalInclude('firstPost.reactions'),
-
-    // (new Extend\ApiController(ApiController\ShowDiscussionController::class))
-    //     ->addInclude('posts.reactions')
-    //     ->addOptionalInclude('firstPost.reactions'),
-
     (new Extend\ApiController(ApiController\ShowForumController::class))
         ->addInclude('reactions'),
-
-    // (new Extend\ApiController(ApiController\ListPostsController::class))
-    //     ->addInclude('reactions'),
-
-    // (new Extend\ApiController(ApiController\ShowPostController::class))
-    //     ->addInclude('reactions'),
-
-    // (new Extend\ApiController(ApiController\CreatePostController::class))
-    //     ->addInclude('reactions'),
-
-    // (new Extend\ApiController(ApiController\UpdatePostController::class))
-    //     ->addInclude('reactions'),
 
     (new Extend\Settings())
         ->default('fof-reactions.react_own_post', false)
