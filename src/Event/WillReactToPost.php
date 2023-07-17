@@ -50,5 +50,6 @@ class WillReactToPost
         $this->post = $post;
         $this->user = $user;
         $this->reaction = $reaction;
+        $this->changed = $changed;
     }
 }

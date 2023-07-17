@@ -17,6 +17,7 @@ use Flarum\User\User;
 use FoF\Reactions\Event\PostWasReacted;
 use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\Notification\PostReactedBlueprint;
+use FoF\Reactions\PostAnonymousReaction;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class SendNotifications
@@ -35,6 +36,10 @@ class SendNotifications
      */
     public function whenPostWasReacted(PostWasReacted $event)
     {
+        if ($event->postReaction instanceof PostAnonymousReaction) {
+            return;
+        }
+
         $this->sync($event->post, $event->user, $event->reaction, [$event->post->user]);
     }
 
@@ -43,6 +48,10 @@ class SendNotifications
      */
     public function whenPostWasUnreacted(PostWasUnreacted $event)
     {
+        if ($event->postReaction instanceof PostAnonymousReaction) {
+            return;
+        }
+
         $this->sync($event->post, $event->user, '', []);
     }
 

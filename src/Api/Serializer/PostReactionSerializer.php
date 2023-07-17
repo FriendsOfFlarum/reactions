@@ -14,6 +14,7 @@ namespace FoF\Reactions\Api\Serializer;
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
+use Illuminate\Support\Str;
 
 class PostReactionSerializer extends AbstractSerializer
 {
@@ -27,8 +28,14 @@ class PostReactionSerializer extends AbstractSerializer
      */
     protected function getDefaultAttributes($postReaction)
     {
+        if (Str::length($postReaction->user_id) === 40) {
+            $userId = null;
+        } else {
+            $userId = $postReaction->user_id;
+        }
+
         return [
-            'userId'     => $postReaction->user_id,
+            'userId'     => $userId,
             'postId'     => $postReaction->post_id,
             'reactionId' => $postReaction->reaction_id,
         ];

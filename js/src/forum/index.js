@@ -27,7 +27,8 @@ app.initializers.add('fof/reactions', () => {
   app.notificationComponents.postReacted = PostReactedNotification;
 
   Post.prototype.canReact = Model.attribute('canReact');
-  Post.prototype.reactions = Model.hasMany('reactions');
+  Post.prototype.reactionCounts = Model.attribute('reactionCounts');
+  Post.prototype.userReaction = Model.attribute('userReaction');
 
   Forum.prototype.reactions = Model.hasMany('reactions');
 

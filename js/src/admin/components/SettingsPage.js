@@ -15,7 +15,7 @@ export default class SettingsPage extends ExtensionPage {
 
     this.fields = ['convertToUpvote', 'convertToDownvote', 'convertToLike'];
 
-    this.switches = ['react_own_post'];
+    this.switches = ['react_own_post', 'anonymousReactions'];
 
     this.values = {};
 
@@ -172,6 +172,12 @@ export default class SettingsPage extends ExtensionPage {
                     {app.translator.trans('fof-reactions.admin.page.settings.react_own_posts_label')}
                   </Switch>
                   <div className="helpText">{app.translator.trans('fof-reactions.admin.page.settings.react_own_posts_help')}</div>
+                </div>
+                <div>
+                  <Switch state={this.values.anonymousReactions()} onchange={this.values.anonymousReactions} className="reactions-settings-switch">
+                    {app.translator.trans('fof-reactions.admin.page.settings.allow-anonymous')}
+                  </Switch>
+                  <div className="helpText">{app.translator.trans('fof-reactions.admin.page.settings.allow-anonymous-help')}</div>
                 </div>
                 {this.isExtEnabled('fof-gamification') || this.isExtEnabled('flarum-likes') ? (
                   <legend>{app.translator.trans('fof-reactions.admin.page.settings.integrations.legend')}</legend>
