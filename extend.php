@@ -19,7 +19,6 @@ use Flarum\Extend;
 use Flarum\Post\Event\Saving;
 use Flarum\Post\Post;
 use FoF\Reactions\Api\Controller;
-use FoF\Reactions\Api\Serializer\PostReactionSerializer;
 use FoF\Reactions\Api\Serializer\ReactionSerializer;
 use FoF\Reactions\Notification\PostReactedBlueprint;
 

@@ -33,7 +33,7 @@ class PostReactionSerializer extends AbstractSerializer
         } else {
             $userId = $postReaction->user_id;
         }
-        
+
         return [
             'userId'     => $userId,
             'postId'     => $postReaction->post_id,
