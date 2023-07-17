@@ -51,7 +51,7 @@ class SendNotifications
         if ($event->postReaction instanceof PostAnonymousReaction) {
             return;
         }
-        
+
         $this->sync($event->post, $event->user, '', []);
     }
 

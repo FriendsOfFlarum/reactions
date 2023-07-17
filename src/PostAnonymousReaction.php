@@ -21,8 +21,8 @@ class PostAnonymousReaction extends AbstractModel
     public $timestamps = true;
 
     public $casts = [
-        'created_at' => 'datetime', 
-        'updated_at' => 'datetime'
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     protected $fillable = ['post_id', 'guest_id', 'reaction_id'];

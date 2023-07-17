@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/reactions.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Reactions;
 
 use Flarum\Api\Serializer\PostSerializer;
@@ -10,7 +19,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class PostAttributes
 {
-    /** @var SettingsRepositoryInterface $settings */
+    /** @var SettingsRepositoryInterface */
     protected $settings;
 
     public function __construct(SettingsRepositoryInterface $settings)

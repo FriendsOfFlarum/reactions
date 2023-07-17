@@ -13,8 +13,8 @@ namespace FoF\Reactions\Event;
 
 use Flarum\Post\Post;
 use Flarum\User\User;
-use FoF\Reactions\PostReaction;
 use FoF\Reactions\PostAnonymousReaction;
+use FoF\Reactions\PostReaction;
 
 class PostWasUnreacted
 {
@@ -34,9 +34,9 @@ class PostWasUnreacted
     public $user;
 
     /**
-     * @param Post         $post
+     * @param Post                               $post
      * @param PostReaction|PostAnonymousReaction $postReaction
-     * @param User         $user
+     * @param User                               $user
      */
     public function __construct(Post $post, $postReaction, User $user)
     {

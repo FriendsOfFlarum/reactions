@@ -153,7 +153,7 @@ class SaveReactionsToDatabase
                         $postReaction = $isGuest ? new PostAnonymousReaction() : new PostReaction();
 
                         $postReaction->post_id = $post->id;
-                        
+
                         if ($isGuest) {
                             $postReaction->guest_id = $guestId;
                         } else {
@@ -177,7 +177,7 @@ class SaveReactionsToDatabase
     }
 
     /**
-     * @param $event
+     * @param              $event
      * @param PostReaction $postReaction
      * @param Reaction     $reaction
      * @param User         $actor
