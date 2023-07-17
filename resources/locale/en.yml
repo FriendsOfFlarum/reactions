@@ -34,7 +34,9 @@ fof-reactions:
 
       settings:
         react_own_posts_help: When enabled, subject to permission, users may react to their own posts on the forum. To prevent users reacting on their own posts, disable this setting.
-        react_own_posts_label: Users may react to their own posts
+        react_own_posts_label: Users may react to their own posts,
+        allow-anonymous: Allow anonymous(guest) reactions
+        allow-anonymous-help: If enabled, guests and anonymous users will be able to react to posts. Note that anonymous reactions will not be linked to a user profile and will be aggregated in the reactions list.
         save_settings: Save Settings
         integrations:
           legend: Integrations
