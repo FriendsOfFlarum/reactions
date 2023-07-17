@@ -71,8 +71,8 @@ return [
 
     (new Extend\Settings())
         ->default('fof-reactions.react_own_post', false)
-        ->default('fof-reactions.allow-anonymous', false)
-        ->serializeToForum('fofReactionsAllowAnonymous', 'fof-reactions.allow-anonymous'),
+        ->default('fof-reactions.anonymousReactions', false)
+        ->serializeToForum('fofReactionsAllowAnonymous', 'fof-reactions.anonymousReactions'),
 
     (new Extend\Policy())
         ->modelPolicy(Post::class, Access\ReactPostPolicy::class),

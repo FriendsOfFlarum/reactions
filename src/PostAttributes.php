@@ -59,7 +59,7 @@ class PostAttributes
 
         // Query for anonymous reactions if allowed
         $anonymousReactions = collect([]);
-        if ($this->settings->get('fof-reactions.allow-anonymous')) {
+        if ($this->settings->get('fof-reactions.anonymousReactions')) {
             $anonymousReactions = PostAnonymousReaction::where('post_id', $post->id)
                 ->groupBy('reaction_id')
                 ->selectRaw('reaction_id, COUNT(*) as count')

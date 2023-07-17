@@ -56,7 +56,7 @@ class ListPostReactionsController extends AbstractListController
         $postId = Arr::get($request->getQueryParams(), 'id');
         $post = $this->posts->findOrFail($postId, $request->getAttribute('actor'));
 
-        if ($this->settings->get('fof-reactions.allow-anonymous')) {
+        if ($this->settings->get('fof-reactions.anonymousReactions')) {
             // If anonymous reactions are allowed, we union reactions from registered users and anonymous users
             $query = PostReaction::where('post_id', $post->id)
                 ->whereNotNull('reaction_id')
