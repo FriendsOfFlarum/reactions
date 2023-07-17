@@ -8,6 +8,7 @@ fof-reactions:
     reacting-own-post: You cannot react to your own post
     modal:
         title: Reactions
+        anonymous_count: "plus {count} anonymous users"
     mod_item: View Reactions
     react_button_label: React
 

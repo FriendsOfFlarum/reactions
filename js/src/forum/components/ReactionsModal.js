@@ -20,8 +20,6 @@ export default class ReactionsModal extends Modal {
     super.oninit(vnode);
     this.loading = true;
 
-    this.groupedReactions = groupBy(this.attrs.post.reactions().filter(Boolean), (r) => r.reactionId());
-
     this.load();
   }
 
@@ -37,35 +35,28 @@ export default class ReactionsModal extends Modal {
     return (
       <div className="Modal-body">
         <ul className="ReactionsModal-list">
-          {Object.keys(this.groupedReactions).map((id) => {
-            const reaction = app.store.getById('reactions', id);
-            const postReactions = this.groupedReactions[id];
+          {this.reactions.map(({ reaction, users, anonymousCount }) => (
+            <div className="ReactionsModal-group">
+              <legend>
+                <ReactionComponent reaction={reaction} className={'ReactionModal-reaction'} />
 
-            if (!postReactions.length) return;
+                <label className="ReactionsModal-display">{reaction.display() || reaction.identifier()}</label>
+              </legend>
 
-            return (
-              <div className="ReactionsModal-group">
-                <legend>
-                  <ReactionComponent reaction={reaction} className={'ReactionModal-reaction'} />
+              <hr className="ReactionsModal-delimiter" />
 
-                  <label className="ReactionsModal-display">{reaction.display() || reaction.identifier()}</label>
-                </legend>
+              {users.filter(Boolean).map((user) => (
+                <li>
+                  <Link className="ReactionsModal-user" href={app.route.user(user)}>
+                    {avatar(user, { loading: 'lazy' })}
+                    {username(user)}
+                  </Link>
+                </li>
+              ))}
 
-                <hr className="ReactionsModal-delimiter" />
-
-                {postReactions
-                  .filter((r) => r.user())
-                  .map((r) => (
-                    <li>
-                      <Link className="ReactionsModal-user" href={app.route.user(r.user())}>
-                        {avatar(r.user(), { loading: 'lazy' })}
-                        {username(r.user())}
-                      </Link>
-                    </li>
-                  ))}
-              </div>
-            );
-          })}
+              {anonymousCount > 0 && <li>{app.translator.trans('fof-reactions.forum.modal.anonymous_count', { count: anonymousCount })}</li>}
+            </div>
+          ))}
         </ul>
       </div>
     );
@@ -78,7 +69,40 @@ export default class ReactionsModal extends Modal {
         url: app.forum.attribute('apiUrl') + this.attrs.post.apiEndpoint() + '/reactions',
         params: { include: 'user' },
       })
-      .then((response) => app.store.pushPayload(response))
-      .then(this.loaded.bind(this), this.loaded.bind(this));
+      .then((response) => {
+        this.reactions = this.processResponse(response);
+        this.loading = false;
+        m.redraw();
+      });
+  }
+
+  processResponse(response) {
+    const reactions = [];
+
+    const groupedReactions = groupBy(response.data, (r) => r.attributes.reactionId);
+
+    for (let reactionId in groupedReactions) {
+      const reaction = app.store.getById('reactions', reactionId);
+      const users = [];
+      let anonymousCount = 0;
+
+      for (let reaction of groupedReactions[reactionId]) {
+        const userId = reaction.attributes.userId;
+        if (userId === null) {
+          // Check for null userId
+          anonymousCount++;
+        } else {
+          const user = app.store.getById('users', userId);
+          if (user) {
+            // Check for null user
+            users.push(user);
+          }
+        }
+      }
+
+      reactions.push({ reaction, users, anonymousCount });
+    }
+
+    return reactions;
   }
 }
