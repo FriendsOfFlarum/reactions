@@ -229,8 +229,8 @@ class SaveReactionsToDatabase
         return $this->extensions->isEnabled($extension);
     }
 
-    protected function getSessionId(): string
+    protected function getSessionId(): ?string
     {
-        return $this->request->getAttribute('session')->getId();
+        return $this->request->getAttribute('session')?->getId();
     }
 }
