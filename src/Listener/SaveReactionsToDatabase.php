@@ -218,7 +218,7 @@ class SaveReactionsToDatabase
 
         if (!$reaction || !$reaction->enabled) {
             throw new ValidationException([
-                'message' => $this->translator->trans('fof-reactions.forum.disabled-reaction'),
+                'reaction' => $this->translator->trans('fof-reactions.forum.disabled-reaction'),
             ]);
         }
     }

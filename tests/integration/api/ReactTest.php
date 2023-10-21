@@ -197,4 +197,50 @@ class ReactTest extends TestCase
 
         return $this->send($request);
     }
+
+    protected function disableReactionId(int $reactionId): void
+    {
+        $this->database()->table('reactions')->where('id', $reactionId)->update(['enabled' => false]);
+    }
+
+    /**
+     * @test
+     */
+    public function user_cannot_react_to_a_post_if_reaction_disabled()
+    {
+        $this->disableReactionId(1);
+
+        $response = $this->sendReactRequest(1, 1, 3);
+
+        $this->assertEquals(422, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+
+        // check the error pointer
+        $this->assertEquals('/data/attributes/reaction', $body['errors'][0]['source']['pointer']);
+
+        $postReaction = PostReaction::query()->where('post_id', 1)->where('user_id', 3)->first();
+        $this->assertNull($postReaction, 'Reaction was saved to database');
+    }
+
+    /**
+     * @test
+     */
+    public function guest_cannot_react_to_a_post_when_feature_is_enabled_but_reaction_disabled()
+    {
+        $this->setting('fof-reactions.anonymousReactions', true);
+        $this->disableReactionId(1);
+
+        $response = $this->sendReactRequest(1, 1);
+
+        $this->assertEquals(422, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+
+        // check the error pointer
+        $this->assertEquals('/data/attributes/reaction', $body['errors'][0]['source']['pointer']);
+
+        $postReaction = PostAnonymousReaction::query()->where('post_id', 1)->where('reaction_id', 1)->first();
+        $this->assertNull($postReaction, 'Anonymous reaction was saved to database');
+    }
 }
