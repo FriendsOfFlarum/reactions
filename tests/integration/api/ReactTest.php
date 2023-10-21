@@ -14,6 +14,8 @@ namespace FoF\Reactions\tests\integration\api;
 use Carbon\Carbon;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use FoF\Reactions\PostAnonymousReaction;
+use FoF\Reactions\PostReaction;
 use Psr\Http\Message\ResponseInterface;
 
 class ReactTest extends TestCase
@@ -61,10 +63,30 @@ class ReactTest extends TestCase
 
         $response = $this->sendReactRequest($postId, $reactionId, $authenticatedAs);
 
+        $this->assertEquals(200, $response->getStatusCode());
+
         $body = json_decode((string) $response->getBody(), true);
 
-        $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(1, $body['data']['attributes']['reactionCounts'][$reactionId], $message);
+
+        if ($authenticatedAs) {
+            $postReaction = PostReaction::query()->where('post_id', $postId)->where('user_id', $authenticatedAs)->first();
+            $this->assertNotNull($postReaction, 'Reaction was not saved to database');
+            $this->assertEquals($postId, $postReaction->post_id);
+            $this->assertEquals($authenticatedAs, $postReaction->user_id);
+            $this->assertEquals($reactionId, $postReaction->reaction_id);
+            $this->assertNotNull($postReaction->created_at, 'Created at timestamp not set');
+            $this->assertNotNull($postReaction->updated_at, 'Updated at timestamp not set');
+        } else {
+            $postReaction = PostAnonymousReaction::query()->where('post_id', $postId)->where('reaction_id', $reactionId)->first();
+            $this->assertNotNull($postReaction, 'Anonymous reaction was not saved to database');
+            $this->assertEquals($postId, $postReaction->post_id);
+            $this->assertEquals($reactionId, $postReaction->reaction_id);
+            $this->assertNotNull($postReaction->created_at, 'Created at timestamp not set');
+            $this->assertNotNull($postReaction->updated_at, 'Updated at timestamp not set');
+            $this->assertNotNull($postReaction->guest_id, 'Guest ID not set');
+            $this->assertNotEmpty($postReaction->guest_id, 'Guest ID not set');
+        }
     }
 
     /**
