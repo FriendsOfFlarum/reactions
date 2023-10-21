@@ -63,7 +63,7 @@ class ListPostReactionsController extends AbstractListController
                 ->whereNotNull('reaction_id')
                 ->unionAll(
                     PostAnonymousReaction::query()->where('post_id', $post->id)
-                        ->whereNotNull('reaction_id')
+                        ->whereNotNull('reaction_id')->toBase()
                 );
         } else {
             // If anonymous reactions are not allowed, we just get reactions from registered users.

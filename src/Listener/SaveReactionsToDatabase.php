@@ -110,11 +110,13 @@ class SaveReactionsToDatabase
                     $post->user
                 );
             } elseif ($likes && $reaction && $reaction->identifier == $this->settings->get('fof-reactions.convertToLike')) {
+                /** @phpstan-ignore-next-line */
                 $liked = $post->likes()->where('user_id', $actor->id)->exists();
 
                 if ($liked) {
                     return;
                 } else {
+                    /** @phpstan-ignore-next-line */
                     $post->likes()->attach($actor->id);
 
                     $post->raise(new PostWasLiked($post, $actor));
@@ -194,8 +196,6 @@ class SaveReactionsToDatabase
     }
 
     /**
-     * @throws \Pusher\PusherException
-     *
      * @return bool|\Illuminate\Foundation\Application|mixed|Pusher
      */
     private function getPusher()
