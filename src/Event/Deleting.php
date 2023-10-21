@@ -19,12 +19,12 @@ class Deleting
     /**
      * @var Reaction
      */
-    public Reaction $reaction;
+    public $reaction;
 
     /**
      * @var User
      */
-    public User $actor;
+    public $actor;
 
     /**
      * Deleted constructor.
