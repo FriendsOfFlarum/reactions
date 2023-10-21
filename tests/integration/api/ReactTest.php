@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/reactions.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Reactions\tests\integration\api;
 
 use Carbon\Carbon;
@@ -10,7 +19,7 @@ use Psr\Http\Message\ResponseInterface;
 class ReactTest extends TestCase
 {
     use RetrievesAuthorizedUsers;
-    
+
     public function setUp(): void
     {
         parent::setUp();
@@ -37,15 +46,16 @@ class ReactTest extends TestCase
 
     /**
      * @dataProvider allowedUsersToReact
+     *
      * @test
      */
     public function can_react_to_a_post_if_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, bool $canReactOwnPost = null, bool $guestReactionsEnabled = null)
     {
-        if (! is_null($canReactOwnPost)) {
+        if (!is_null($canReactOwnPost)) {
             $this->setting('fof-reactions.react_own_post', $canReactOwnPost);
         }
 
-        if (! is_null($guestReactionsEnabled)) {
+        if (!is_null($guestReactionsEnabled)) {
             $this->setting('fof-reactions.anonymousReactions', $guestReactionsEnabled);
         }
 
@@ -59,15 +69,16 @@ class ReactTest extends TestCase
 
     /**
      * @dataProvider unallowedUsersToReact
+     *
      * @test
      */
     public function cannot_react_to_a_post_if_not_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, bool $canReactOwnPost = null, bool $guestReactionsEnabled = null)
     {
-        if (! is_null($canReactOwnPost)) {
+        if (!is_null($canReactOwnPost)) {
             $this->setting('fof-reactions.react_own_post', $canReactOwnPost);
         }
 
-        if (! is_null($guestReactionsEnabled)) {
+        if (!is_null($guestReactionsEnabled)) {
             $this->setting('fof-reactions.anonymousReactions', $guestReactionsEnabled);
         }
 
@@ -105,7 +116,7 @@ class ReactTest extends TestCase
 
     protected function sendReactRequest(int $postId, int $reactionId, ?int $authenticatedAs = null): ResponseInterface
     {
-        if (! isset($authenticatedAs)) {
+        if (!isset($authenticatedAs)) {
             $initial = $this->send(
                 $this->request('GET', '/')
             );
@@ -115,17 +126,17 @@ class ReactTest extends TestCase
 
         $request = $this->request('PATCH', "/api/posts/$postId", [
             'authenticatedAs' => $authenticatedAs,
-            'cookiesFrom' => $initial ?? null,
-            'json' => [
+            'cookiesFrom'     => $initial ?? null,
+            'json'            => [
                 'data' => [
                     'attributes' => [
-                        'reaction' => $reactionId
-                    ]
-                ]
-            ]
+                        'reaction' => $reactionId,
+                    ],
+                ],
+            ],
         ]);
 
-        if (! isset($authenticatedAs)) {
+        if (!isset($authenticatedAs)) {
             $request = $request->withHeader('X-CSRF-Token', $token);
         }
 
