@@ -33,6 +33,7 @@ class ReactTest extends TestCase
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'Acme', 'email' => 'acme@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 4, 'username' => 'Acme2', 'email' => 'acme2@machine.local', 'is_email_confirmed' => 1],
+                ['id' => 5, 'username' => 'Acme3', 'email' => 'acme3@machine.local', 'is_email_confirmed' => 1],
             ],
             'discussions' => [
                 ['id' => 1, 'title' => __CLASS__, 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'comment_count' => 2],
@@ -42,8 +43,25 @@ class ReactTest extends TestCase
                 ['id' => 3, 'number' => 2, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 2, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
                 ['id' => 5, 'number' => 3, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 3, 'type' => 'discussionRenamed', 'content' => '<t><p>something</p></t>'],
                 ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
+                ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 5, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
             ],
+            'groups' => [
+                ['id' => 5, 'name_singular' => 'Acme', 'name_plural' => 'Acme', 'is_hidden' => 0],
+                ['id' => 6, 'name_singular' => 'Acme1', 'name_plural' => 'Acme1', 'is_hidden' => 0]
+            ],
+            'group_user' => [
+                ['user_id' => 1, 'group_id' => 5],
+                ['user_id' => 2, 'group_id' => 5],
+                ['user_id' => 3, 'group_id' => 5],
+                ['user_id' => 4, 'group_id' => 5],
+            ]
         ]);
+    }
+
+    protected function rewriteDefaultPermissionsAfterBoot()
+    {
+        $this->database()->table('group_permission')->where('permission', 'discussion.reactPosts')->delete();
+        $this->database()->table('group_permission')->insert(['permission' => 'discussion.reactPosts', 'group_id' => 5]);
     }
 
     /**
@@ -60,6 +78,8 @@ class ReactTest extends TestCase
         if (!is_null($guestReactionsEnabled)) {
             $this->setting('fof-reactions.anonymousReactions', $guestReactionsEnabled);
         }
+
+        $this->rewriteDefaultPermissionsAfterBoot();
 
         $response = $this->sendReactRequest($postId, $reactionId, $authenticatedAs);
 
@@ -104,9 +124,19 @@ class ReactTest extends TestCase
             $this->setting('fof-reactions.anonymousReactions', $guestReactionsEnabled);
         }
 
+        $this->rewriteDefaultPermissionsAfterBoot();
+
         $response = $this->sendReactRequest($postId, $reactionId, $authenticatedAs);
 
         $this->assertEquals(403, $response->getStatusCode(), $message);
+
+        if ($authenticatedAs) {
+            $postReaction = PostReaction::query()->where('post_id', $postId)->where('user_id', $authenticatedAs)->first();
+            $this->assertNull($postReaction, 'Reaction was saved to database');
+        } else {
+            $postReaction = PostAnonymousReaction::query()->where('post_id', $postId)->where('reaction_id', $reactionId)->first();
+            $this->assertNull($postReaction, 'Anonymous reaction was saved to database');
+        }
     }
 
     public function allowedUsersToReact(): array
@@ -130,7 +160,10 @@ class ReactTest extends TestCase
             [5, 3, 1, 'User with permission cannot react own post by default'],
             [1, null, 1, 'Guests cannot react by default'],
             [1, null, 1, 'Guests cannot react when setting off', null, false],
-            // [1, 2, 'User without permission cannot like any post'],
+            [1, 5, 3, 'User without permission cannot react any post'],
+            [5, 5, 3, 'User without permission cannot react own post'],
+            [5, 5, 3, 'User without permission cannot react own post when own post enabled', true],
+            [5, 5, 3, 'User without permission cannot react own post when own post and guest reacting enabled', true, true],
             [5, 3, 3, 'User with permission cannot react own post if setting off', false],
             [1, 1, 3, 'Admin cannot like own post if setting off', false],
         ];
