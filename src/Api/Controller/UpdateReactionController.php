@@ -22,10 +22,8 @@ use Tobscure\JsonApi\Document;
 
 class UpdateReactionController extends AbstractShowController
 {
-    /**
-     * {@inheritdoc}
-     */
     public $serializer = ReactionSerializer::class;
+    
     /**
      * @var Dispatcher
      */

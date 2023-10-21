@@ -62,7 +62,6 @@ class SaveReactionsToDatabase
         $this->translator = $translator;
         $this->extensions = $extensions;
         $this->events = $events;
-        $this->request = resolve('fof-reactions.request');
     }
 
     /**
@@ -75,6 +74,8 @@ class SaveReactionsToDatabase
     {
         $post = $event->post;
         $data = $event->data;
+
+        $this->request = resolve('fof-reactions.request');
 
         if ($post->exists && Arr::has($data, 'attributes.reaction')) {
             $actor = $event->actor;
