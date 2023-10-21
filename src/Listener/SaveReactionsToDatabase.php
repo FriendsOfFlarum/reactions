@@ -63,7 +63,7 @@ class SaveReactionsToDatabase
         $this->translator = $translator;
         $this->extensions = $extensions;
         $this->events = $events;
-        $this->request = $container->make('fof-reactions.request');
+        $this->request = resolve('fof-reactions.request');
     }
 
     /**
@@ -122,7 +122,6 @@ class SaveReactionsToDatabase
                 }
             } else {
                 $guestId = $this->getSessionId();
-
                 if ($actor->isGuest()) {
                     $postReaction = PostAnonymousReaction::where([['guest_id', $guestId], ['post_id', $post->id]])->first();
                 } else {

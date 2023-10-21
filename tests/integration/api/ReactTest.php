@@ -64,7 +64,7 @@ class ReactTest extends TestCase
         $body = json_decode((string) $response->getBody(), true);
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(1, $body['data']['attributes']['reactionCounts'][1], $message);
+        $this->assertEquals(1, $body['data']['attributes']['reactionCounts'][$reactionId], $message);
     }
 
     /**
@@ -90,12 +90,12 @@ class ReactTest extends TestCase
     public function allowedUsersToReact(): array
     {
         return [
-            // [$postId, $authAs, $reactionId, $message, $canReactOwnPost]
+            // [$postId, $authAs, $reactionId, $message, $canReactOwnPost, $guestReactionsEnabled]
             [1, 1, 1, 'Admin can react any post when anypost enabled', true],
             [1, 3, 1, 'User with permission can react other posts'],
             [5, 3, 1, 'User with permission can react own post when anypost enabled', true],
             [1, null, 1, 'Guest can react when feature enabled', null, true],
-            //[1, 4, 2, 'User with permission can react when guest reacting is also enabled', false, true],
+            [1, 4, 2, 'User with permission can react when guest reacting is also enabled', false, true],
             [5, 4, 1, 'User with permission can react own post when anypost and guest reacting enabled', true, true],
         ];
     }
@@ -103,7 +103,7 @@ class ReactTest extends TestCase
     public function unallowedUsersToReact(): array
     {
         return [
-            // [$postId, $authAs, $reactionId, $message, $canReactOwnPost]
+            // [$postId, $authAs, $reactionId, $message, $canReactOwnPost, $guestReactionsEnabled]
             [1, 1, 1, 'Admin cannot react own post by default'],
             [5, 3, 1, 'User with permission cannot react own post by default'],
             [1, null, 1, 'Guests cannot react by default'],
