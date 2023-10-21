@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/reactions.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Reactions\tests\integration\api;
 
 use Carbon\Carbon;
@@ -47,7 +56,7 @@ class PostAttributesTest extends TestCase
                 ['id' => 3, 'post_id' => 1, 'reaction_id' => 1, 'guest_id' => '123098'],
                 ['id' => 4, 'post_id' => 1, 'reaction_id' => 1, 'guest_id' => 'gd'],
                 ['id' => 5, 'post_id' => 1, 'reaction_id' => null, 'guest_id' => 'gsadasdd'],
-            ]
+            ],
         ]);
     }
 
