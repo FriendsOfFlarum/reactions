@@ -94,6 +94,6 @@
         "flarum/testing": "^1.0.0",
         "flarum/likes": "*",
         "fof/gamification": "*",
-        "flarum/phpstan": "^1.8"
+        "flarum/phpstan": "*"
     }
 }
