@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/reactions.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Reactions\tests\integration\api;
 
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
@@ -19,7 +28,7 @@ class EditReactionTest extends TestCase
         $this->prepareDatabase([
             'users' => [
                 $this->normalUser(),
-            ]
+            ],
         ]);
     }
 
@@ -28,11 +37,11 @@ class EditReactionTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/reactions', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'identifier' => 'test',
-                            'type' => 'emoji',
+                            'type'       => 'emoji',
                         ],
                     ],
                 ],
@@ -56,13 +65,13 @@ class EditReactionTest extends TestCase
         $id = $this->addNewReaction();
 
         $response = $this->send(
-            $this->request('PATCH', '/api/reactions/' . $id, [
+            $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'identifier' => 'test2',
-                    'type' => 'icon',
-                    'enabled' => true,
-                    'display' => 'Test 2',
+                    'type'       => 'icon',
+                    'enabled'    => true,
+                    'display'    => 'Test 2',
                 ],
             ])
         );
@@ -93,13 +102,13 @@ class EditReactionTest extends TestCase
         $id = $this->addNewReaction();
 
         $response = $this->send(
-            $this->request('PATCH', '/api/reactions/' . $id, [
+            $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'identifier' => 'test2',
-                            'type' => 'emoji',
+                            'type'       => 'emoji',
                         ],
                     ],
                 ],
@@ -117,9 +126,9 @@ class EditReactionTest extends TestCase
         $id = $this->addNewReaction();
 
         $response = $this->send(
-            $this->request('PATCH', '/api/reactions/' . $id, [
+            $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'type' => 'invalid',
@@ -140,11 +149,11 @@ class EditReactionTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/reactions/110', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'identifier' => 'test2',
-                            'type' => 'emoji',
+                            'type'       => 'emoji',
                         ],
                     ],
                 ],

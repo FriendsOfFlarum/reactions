@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/reactions.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Reactions\tests\integration\api;
 
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
@@ -9,7 +18,7 @@ use FoF\Reactions\Reaction;
 class CreateReactionTest extends TestCase
 {
     use RetrievesAuthorizedUsers;
-    
+
     public function setUp(): void
     {
         parent::setUp();
@@ -19,8 +28,8 @@ class CreateReactionTest extends TestCase
         $this->prepareDatabase([
             'users' => [
                 $this->normalUser(),
-            ]
-            ]);
+            ],
+        ]);
     }
 
     /**
@@ -31,13 +40,13 @@ class CreateReactionTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/reactions', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'identifier' => 'like',
-                            'type' => 'emoji',
-                            'enabled' => true,
-                            'display' => 'Like',
+                            'type'       => 'emoji',
+                            'enabled'    => true,
+                            'display'    => 'Like',
                         ],
                     ],
                 ],
@@ -74,13 +83,13 @@ class CreateReactionTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/reactions', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'identifier' => 'like',
-                            'type' => 'emoji',
-                            'enabled' => true,
-                            'display' => 'Like',
+                            'type'       => 'emoji',
+                            'enabled'    => true,
+                            'display'    => 'Like',
                         ],
                     ],
                 ],
@@ -98,10 +107,10 @@ class CreateReactionTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/reactions', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
-                            'type' => 'emoji',
+                            'type'    => 'emoji',
                             'enabled' => true,
                             'display' => 'Like',
                         ],
@@ -126,12 +135,12 @@ class CreateReactionTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/reactions', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'identifier' => 'like',
-                            'enabled' => true,
-                            'display' => 'Like',
+                            'enabled'    => true,
+                            'display'    => 'Like',
                         ],
                     ],
                 ],
@@ -154,11 +163,11 @@ class CreateReactionTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/reactions', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'identifier' => 'like',
-                            'type' => 'invalid',
+                            'type'       => 'invalid',
                         ],
                     ],
                 ],

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/reactions.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Reactions\tests\integration\api;
 
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
@@ -19,8 +28,8 @@ class DeleteReactionTest extends TestCase
         $this->prepareDatabase([
             'users' => [
                 $this->normalUser(),
-            ]
-            ]);
+            ],
+        ]);
     }
 
     /**
@@ -29,9 +38,9 @@ class DeleteReactionTest extends TestCase
     public function admin_can_delete_reaction()
     {
         $this->app();
-        
+
         $this->assertNotNull(Reaction::find(5));
-        
+
         $response = $this->send(
             $this->request('DELETE', '/api/reactions/5', [
                 'authenticatedAs' => 1,
