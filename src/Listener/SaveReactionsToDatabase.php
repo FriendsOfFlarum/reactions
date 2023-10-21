@@ -231,6 +231,7 @@ class SaveReactionsToDatabase
     protected function getSessionId(): ?string
     {
         $session = $this->request->getAttribute('session');
+
         return $session ? $session->getId() : null;
     }
 }
