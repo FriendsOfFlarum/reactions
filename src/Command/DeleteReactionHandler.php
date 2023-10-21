@@ -37,7 +37,7 @@ class DeleteReactionHandler
      *
      * @throws PermissionDeniedException
      *
-     * @return Reaction
+     * @return void
      */
     public function handle(DeleteReaction $command)
     {

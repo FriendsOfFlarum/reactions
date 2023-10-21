@@ -37,7 +37,7 @@ class EditReaction
     public $data;
 
     /**
-     * @param int   $pageId The ID of the page to edit.
+     * @param int   $reactionId The ID of the page to edit.
      * @param User  $actor  The user performing the action.
      * @param array $data   The attributes to update on the reaction.
      */

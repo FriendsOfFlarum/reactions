@@ -14,16 +14,14 @@ namespace FoF\Reactions;
 use Flarum\Database\AbstractModel;
 
 /**
- * @property string identifier
- * @property string display
- * @property string type
- * @property bool enabled
+ * @property int $id
+ * @property string $identifier
+ * @property string $display
+ * @property string $type
+ * @property bool $enabled
  */
 class Reaction extends AbstractModel
 {
-    /**
-     * {@inheritdoc}
-     */
     protected $table = 'reactions';
 
     /**

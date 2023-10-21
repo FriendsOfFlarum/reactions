@@ -14,6 +14,16 @@ namespace FoF\Reactions;
 use Flarum\Database\AbstractModel;
 use Flarum\Post\Post;
 
+/**
+ * @property int $id
+ * @property int $post_id
+ * @property int $guest_id
+ * @property ?int $reaction_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property Post $post
+ * @property Reaction $reaction
+ */
 class PostAnonymousReaction extends AbstractModel
 {
     protected $table = 'post_anonymous_reactions';

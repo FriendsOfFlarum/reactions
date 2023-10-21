@@ -25,7 +25,6 @@ use FoF\Reactions\Event\WillReactToPost;
 use FoF\Reactions\PostAnonymousReaction;
 use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
@@ -57,7 +56,7 @@ class SaveReactionsToDatabase
     /** @var ServerRequestInterface */
     protected $request;
 
-    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions, Dispatcher $events, Container $container)
+    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions, Dispatcher $events)
     {
         $this->settings = $settings;
         $this->translator = $translator;
