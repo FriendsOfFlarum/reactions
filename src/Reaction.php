@@ -14,11 +14,11 @@ namespace FoF\Reactions;
 use Flarum\Database\AbstractModel;
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $identifier
  * @property string $display
  * @property string $type
- * @property bool $enabled
+ * @property bool   $enabled
  */
 class Reaction extends AbstractModel
 {
