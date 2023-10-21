@@ -24,6 +24,10 @@ class Reaction extends AbstractModel
 {
     protected $table = 'reactions';
 
+    protected $casts = [
+        'enabled' => 'bool',
+    ];
+
     /**
      * Create a reaction.
      *

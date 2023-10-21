@@ -44,7 +44,7 @@ class EditReactionHandler
 
         $actor->assertAdmin();
 
-        $reaction = Reaction::where('id', $command->reactionId)->first();
+        $reaction = Reaction::query()->where('id', $command->reactionId)->firstOrFail();
 
         if (isset($data['identifier'])) {
             $reaction->identifier = $data['identifier'];
@@ -62,9 +62,11 @@ class EditReactionHandler
             $reaction->enabled = $data['enabled'];
         }
 
-        $this->validator->assertValid($reaction->getDirty());
+        $this->validator->assertValid($reaction->getAttributes());
 
-        $reaction->save();
+        if ($reaction->isDirty()) {
+            $reaction->save();
+        }
 
         return $reaction;
     }

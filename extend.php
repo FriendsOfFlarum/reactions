@@ -62,7 +62,7 @@ return [
         }),
 
     (new Extend\ApiController(ApiController\ShowForumController::class))
-        ->prepareDataForSerialization(function (ApiController\ShowForumController $controller, &$data, $request, $document) {
+        ->prepareDataForSerialization(function (ApiController\ShowForumController $controller, &$data) {
             $data['reactions'] = Reaction::get();
         }),
 
