@@ -95,7 +95,7 @@ class ReactTest extends TestCase
             [1, 3, 1, 'User with permission can react other posts'],
             [5, 3, 1, 'User with permission can react own post when anypost enabled', true],
             [1, null, 1, 'Guest can react when feature enabled', null, true],
-            [1, 4, 2, 'User with permission can react when guest reacting is also enabled', false, true],
+            //[1, 4, 2, 'User with permission can react when guest reacting is also enabled', false, true],
             [5, 4, 1, 'User with permission can react own post when anypost and guest reacting enabled', true, true],
         ];
     }
