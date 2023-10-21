@@ -47,14 +47,14 @@ class ReactTest extends TestCase
             ],
             'groups' => [
                 ['id' => 5, 'name_singular' => 'Acme', 'name_plural' => 'Acme', 'is_hidden' => 0],
-                ['id' => 6, 'name_singular' => 'Acme1', 'name_plural' => 'Acme1', 'is_hidden' => 0]
+                ['id' => 6, 'name_singular' => 'Acme1', 'name_plural' => 'Acme1', 'is_hidden' => 0],
             ],
             'group_user' => [
                 ['user_id' => 1, 'group_id' => 5],
                 ['user_id' => 2, 'group_id' => 5],
                 ['user_id' => 3, 'group_id' => 5],
                 ['user_id' => 4, 'group_id' => 5],
-            ]
+            ],
         ]);
     }
 
