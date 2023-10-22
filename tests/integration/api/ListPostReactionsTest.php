@@ -101,7 +101,7 @@ class ListPostReactionsTest extends TestCase
     public function guest_can_see_reactions_when_permission_given_on_a_post_when_guest_reacting_is_off()
     {
         $this->addGuestViewPermission();
-        
+
         $response = $this->send(
             $this->request('GET', '/api/posts/1/reactions', [
             ])
@@ -146,7 +146,6 @@ class ListPostReactionsTest extends TestCase
     {
         $this->setting('fof-reactions.anonymousReactions', true);
         $this->addGuestViewPermission();
-
 
         $response = $this->send(
             $this->request('GET', '/api/posts/1/reactions', [
