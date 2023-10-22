@@ -54,8 +54,13 @@ class ListPostReactionsController extends AbstractListController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
+        $actor = RequestUtil::getActor($request);
+        
         $postId = Arr::get($request->getQueryParams(), 'id');
-        $post = $this->posts->findOrFail($postId, RequestUtil::getActor($request));
+        $post = $this->posts->findOrFail($postId, $actor);
+
+        $actor->assertCan('canSeeReactions', $post->discussion);
+
 
         if ($this->settings->get('fof-reactions.anonymousReactions')) {
             // If anonymous reactions are allowed, we union reactions from registered users and anonymous users
