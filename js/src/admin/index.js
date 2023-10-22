@@ -30,6 +30,7 @@ app.initializers.add('fof/reactions', () => {
         icon: 'fas fa-info-circle',
         label: app.translator.trans('fof-reactions.admin.permissions.see_reactions_label'),
         permission: 'discussion.canSeeReactions',
+        allowGuest: true,
       },
       'view'
     )
