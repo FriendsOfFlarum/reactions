@@ -12,6 +12,7 @@
 namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
+use Flarum\Http\RequestUtil;
 use Flarum\Post\PostRepository;
 use Flarum\Settings\SettingsRepositoryInterface;
 use FoF\Reactions\Api\Serializer\PostReactionSerializer;
@@ -25,9 +26,9 @@ class ListPostReactionsController extends AbstractListController
 {
     public $serializer = PostReactionSerializer::class;
 
-    public $include = ['reaction'];
+    public $include = ['reaction', 'user'];
 
-    public $optionalInclude = ['user', 'post'];
+    public $optionalInclude = ['post'];
 
     /**
      * @var PostRepository
@@ -53,20 +54,24 @@ class ListPostReactionsController extends AbstractListController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
+        $actor = RequestUtil::getActor($request);
+
         $postId = Arr::get($request->getQueryParams(), 'id');
-        $post = $this->posts->findOrFail($postId, $request->getAttribute('actor'));
+        $post = $this->posts->findOrFail($postId, $actor);
+
+        $actor->assertCan('canSeeReactions', $post->discussion);
 
         if ($this->settings->get('fof-reactions.anonymousReactions')) {
             // If anonymous reactions are allowed, we union reactions from registered users and anonymous users
-            $query = PostReaction::where('post_id', $post->id)
+            $query = PostReaction::query()->where('post_id', $post->id)
                 ->whereNotNull('reaction_id')
                 ->unionAll(
-                    PostAnonymousReaction::where('post_id', $post->id)
-                        ->whereNotNull('reaction_id')
+                    PostAnonymousReaction::query()->where('post_id', $post->id)
+                        ->whereNotNull('reaction_id')->toBase()
                 );
         } else {
             // If anonymous reactions are not allowed, we just get reactions from registered users.
-            $query = PostReaction::where('post_id', $post->id)
+            $query = PostReaction::query()->where('post_id', $post->id)
                 ->whereNotNull('reaction_id');
         }
 

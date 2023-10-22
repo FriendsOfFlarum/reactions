@@ -1,0 +1,12 @@
+name: FoF Reactions PHP
+
+on: [workflow_dispatch, push, pull_request]
+
+jobs:
+  run:
+    uses: flarum/framework/.github/workflows/REUSABLE_backend.yml@main
+    with:
+      enable_backend_testing: true
+      enable_phpstan: true
+      backend_directory: .
+      php_versions: '["7.4", "8.0", "8.1", "8.2"]'

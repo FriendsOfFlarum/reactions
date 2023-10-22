@@ -12,16 +12,16 @@
 namespace FoF\Reactions\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
+use FoF\Reactions\Reaction;
 
 class ReactionSerializer extends AbstractSerializer
 {
-    /**
-     * {@inheritdoc}
-     */
     protected $type = 'reactions';
 
     /**
-     * {@inheritdoc}
+     * @param Reaction $reaction
+     *
+     * @return array
      */
     protected function getDefaultAttributes($reaction)
     {

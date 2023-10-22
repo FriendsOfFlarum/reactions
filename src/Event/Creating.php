@@ -19,12 +19,12 @@ class Creating
     /**
      * @var Reaction
      */
-    public Reaction $reaction;
+    public $reaction;
 
     /**
      * @var User
      */
-    public User $actor;
+    public $actor;
 
     /**
      * @var array
@@ -37,9 +37,10 @@ class Creating
      * @param Reaction $actor
      * @param User     $actor
      */
-    public function __construct(Reaction $reaction, User $actor)
+    public function __construct(Reaction $reaction, User $actor, array $data)
     {
         $this->reaction = $reaction;
         $this->actor = $actor;
+        $this->data = $data;
     }
 }

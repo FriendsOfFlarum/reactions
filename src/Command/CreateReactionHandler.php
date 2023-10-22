@@ -66,7 +66,7 @@ class CreateReactionHandler
 
         $reaction->save();
 
-        $this->events->dispatch(new Created($reaction, $actor, []));
+        $this->events->dispatch(new Created($reaction, $actor));
 
         return $reaction;
     }

@@ -14,17 +14,17 @@ namespace FoF\Reactions\Api\Serializer;
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
+use FoF\Reactions\PostReaction;
 use Illuminate\Support\Str;
 
 class PostReactionSerializer extends AbstractSerializer
 {
-    /**
-     * {@inheritdoc}
-     */
     protected $type = 'post_reactions';
 
     /**
-     * {@inheritdoc}
+     * @param PostReaction $postReaction
+     *
+     * @return array
      */
     protected function getDefaultAttributes($postReaction)
     {
@@ -41,17 +41,17 @@ class PostReactionSerializer extends AbstractSerializer
         ];
     }
 
-    public function reaction($postReaction)
+    public function reaction(PostReaction $postReaction)
     {
         return $this->hasOne($postReaction, ReactionSerializer::class);
     }
 
-    public function user($postReaction)
+    public function user(PostReaction $postReaction)
     {
         return $this->hasOne($postReaction, BasicUserSerializer::class);
     }
 
-    public function post($postReaction)
+    public function post(PostReaction $postReaction)
     {
         return $this->hasOne($postReaction, BasicPostSerializer::class);
     }

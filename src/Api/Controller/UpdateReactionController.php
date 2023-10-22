@@ -12,6 +12,7 @@
 namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Http\RequestUtil;
 use FoF\Reactions\Api\Serializer\ReactionSerializer;
 use FoF\Reactions\Command\EditReaction;
 use Illuminate\Contracts\Bus\Dispatcher;
@@ -21,10 +22,8 @@ use Tobscure\JsonApi\Document;
 
 class UpdateReactionController extends AbstractShowController
 {
-    /**
-     * {@inheritdoc}
-     */
     public $serializer = ReactionSerializer::class;
+
     /**
      * @var Dispatcher
      */
@@ -47,7 +46,7 @@ class UpdateReactionController extends AbstractShowController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $id = Arr::get($request->getQueryParams(), 'id');
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
         $data = $request->getParsedBody();
 
         return $this->bus->dispatch(

@@ -15,6 +15,18 @@ use Flarum\Database\AbstractModel;
 use Flarum\Post\Post;
 use Flarum\User\User;
 
+/**
+ * @property int            $id
+ * @property int            $post_id
+ * @property int            $reaction_id
+ * @property string         $user_id
+ * @property string         $ip_address
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property Post           $post
+ * @property Reaction       $reaction
+ * @property User           $user
+ */
 class PostReaction extends AbstractModel
 {
     protected $table = 'post_reactions';

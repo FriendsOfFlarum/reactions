@@ -25,7 +25,6 @@ use FoF\Reactions\Event\WillReactToPost;
 use FoF\Reactions\PostAnonymousReaction;
 use FoF\Reactions\PostReaction;
 use FoF\Reactions\Reaction;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
@@ -57,13 +56,12 @@ class SaveReactionsToDatabase
     /** @var ServerRequestInterface */
     protected $request;
 
-    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions, Dispatcher $events, Container $container)
+    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions, Dispatcher $events)
     {
         $this->settings = $settings;
         $this->translator = $translator;
         $this->extensions = $extensions;
         $this->events = $events;
-        $this->request = $container->make('fof-reactions.request');
     }
 
     /**
@@ -76,6 +74,8 @@ class SaveReactionsToDatabase
     {
         $post = $event->post;
         $data = $event->data;
+
+        $this->request = resolve('fof-reactions.request');
 
         if ($post->exists && Arr::has($data, 'attributes.reaction')) {
             $actor = $event->actor;
@@ -111,18 +111,22 @@ class SaveReactionsToDatabase
                     $post->user
                 );
             } elseif ($likes && $reaction && $reaction->identifier == $this->settings->get('fof-reactions.convertToLike')) {
+                /** @phpstan-ignore-next-line */
                 $liked = $post->likes()->where('user_id', $actor->id)->exists();
 
                 if ($liked) {
                     return;
                 } else {
+                    // TODO: we should probably start checking permission to like here
+                    //$actor->assertCan('like', $post);
+
+                    /** @phpstan-ignore-next-line */
                     $post->likes()->attach($actor->id);
 
                     $post->raise(new PostWasLiked($post, $actor));
                 }
             } else {
                 $guestId = $this->getSessionId();
-
                 if ($actor->isGuest()) {
                     $postReaction = PostAnonymousReaction::where([['guest_id', $guestId], ['post_id', $post->id]])->first();
                 } else {
@@ -196,8 +200,6 @@ class SaveReactionsToDatabase
     }
 
     /**
-     * @throws \Pusher\PusherException
-     *
      * @return bool|\Illuminate\Foundation\Application|mixed|Pusher
      */
     private function getPusher()
@@ -219,7 +221,7 @@ class SaveReactionsToDatabase
 
         if (!$reaction || !$reaction->enabled) {
             throw new ValidationException([
-                'message' => $this->translator->trans('fof-reactions.forum.disabled-reaction'),
+                'reaction' => $this->translator->trans('fof-reactions.forum.disabled-reaction'),
             ]);
         }
     }
@@ -229,8 +231,10 @@ class SaveReactionsToDatabase
         return $this->extensions->isEnabled($extension);
     }
 
-    protected function getSessionId(): string
+    protected function getSessionId(): ?string
     {
-        return $this->request->getAttribute('session')->getId();
+        $session = $this->request->getAttribute('session');
+
+        return $session ? $session->getId() : null;
     }
 }

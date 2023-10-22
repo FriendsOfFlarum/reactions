@@ -12,6 +12,7 @@
 namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\Http\RequestUtil;
 use FoF\Reactions\Api\Serializer\ReactionSerializer;
 use FoF\Reactions\Command\CreateReaction;
 use Illuminate\Contracts\Bus\Dispatcher;
@@ -21,9 +22,6 @@ use Tobscure\JsonApi\Document;
 
 class CreateReactionController extends AbstractCreateController
 {
-    /**
-     * {@inheritdoc}
-     */
     public $serializer = ReactionSerializer::class;
 
     /**
@@ -31,24 +29,15 @@ class CreateReactionController extends AbstractCreateController
      */
     protected $bus;
 
-    /**
-     * @param Dispatcher $bus
-     */
     public function __construct(Dispatcher $bus)
     {
         $this->bus = $bus;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param Document               $document
-     *
-     * @return mixed
-     */
     protected function data(ServerRequestInterface $request, Document $document)
     {
         return $this->bus->dispatch(
-            new CreateReaction($request->getAttribute('actor'), Arr::get($request->getParsedBody(), 'data.attributes', $request->getParsedBody()))
+            new CreateReaction(RequestUtil::getActor($request), Arr::get($request->getParsedBody(), 'data.attributes', $request->getParsedBody()))
         );
     }
 }
