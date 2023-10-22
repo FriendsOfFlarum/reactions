@@ -26,9 +26,9 @@ class ListPostReactionsController extends AbstractListController
 {
     public $serializer = PostReactionSerializer::class;
 
-    public $include = ['reaction'];
+    public $include = ['reaction', 'user'];
 
-    public $optionalInclude = ['user', 'post'];
+    public $optionalInclude = ['post'];
 
     /**
      * @var PostRepository
