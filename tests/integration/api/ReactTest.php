@@ -267,4 +267,46 @@ class ReactTest extends TestCase
 
         $this->assertTrue($likes->contains(3), 'User is in the collection of users who liked the post');
     }
+
+    /**
+     * @test
+     */
+    public function user_with_permission_can_react_and_not_have_it_converted_to_a_like()
+    {
+        $this->extension('flarum-likes');
+        $this->setting('fof-reactions.convertToLike', 'thumbsup');
+
+        $response = $this->sendReactRequest(1, 2, 3);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+
+        $this->assertEquals(1, $body['data']['attributes']['reactionCounts'][2]);
+
+        $likes = Post::query()->where('id', 1)->first()->likes()->get();
+
+        $this->assertCount(0, $likes);
+    }
+
+    /**
+     * @test
+     */
+    public function empty_string_as_convert_like_setting_does_nothing()
+    {
+        $this->extension('flarum-likes');
+        $this->setting('fof-reactions.convertToLike', '');
+
+        $response = $this->sendReactRequest(1, 1, 3);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+
+        $this->assertEquals(1, $body['data']['attributes']['reactionCounts'][1]);
+
+        $likes = Post::query()->where('id', 1)->first()->likes()->get();
+
+        $this->assertCount(0, $likes);
+    }
 }
