@@ -117,6 +117,9 @@ class SaveReactionsToDatabase
                 if ($liked) {
                     return;
                 } else {
+                    // TODO: we should probably start checking permission to like here
+                    //$actor->assertCan('like', $post);
+
                     /** @phpstan-ignore-next-line */
                     $post->likes()->attach($actor->id);
 

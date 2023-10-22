@@ -12,6 +12,7 @@
 namespace FoF\Reactions\tests\integration\api;
 
 use Carbon\Carbon;
+use Flarum\Post\Post;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use FoF\Reactions\PostAnonymousReaction;
@@ -242,5 +243,28 @@ class ReactTest extends TestCase
 
         $postReaction = PostAnonymousReaction::query()->where('post_id', 1)->where('reaction_id', 1)->first();
         $this->assertNull($postReaction, 'Anonymous reaction was saved to database');
+    }
+
+    /**
+     * @test
+     */
+    public function user_with_permission_can_react_and_is_converted_to_like_when_likes_is_enabled()
+    {
+        $this->extension('flarum-likes');
+        $this->setting('fof-reactions.convertToLike', 'thumbsup');
+
+        $response = $this->sendReactRequest(1, 1, 3);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+
+        $this->assertEquals(0, $body['data']['attributes']['reactionCounts'][1]);
+
+        $likes = Post::query()->where('id', 1)->first()->likes()->get();
+
+        $this->assertCount(1, $likes);
+
+        $this->assertTrue($likes->contains(3), 'User is in the collection of users who liked the post');
     }
 }
