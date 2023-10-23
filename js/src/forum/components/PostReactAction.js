@@ -155,7 +155,7 @@ export default class PostReactAction extends Component {
       return;
     }
 
-    if (!this.post.canReact() || !allowAnonymous) {
+    if (!this.post.canReact()) {
       return app.alerts.show({ type: 'error' }, app.translator.trans('core.lib.error.permission_denied_message'));
     }
 
