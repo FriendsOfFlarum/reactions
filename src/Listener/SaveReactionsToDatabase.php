@@ -53,9 +53,6 @@ class SaveReactionsToDatabase
      */
     protected $events;
 
-    /** @var ServerRequestInterface */
-    protected $request;
-
     public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions, Dispatcher $events)
     {
         $this->settings = $settings;
@@ -74,8 +71,6 @@ class SaveReactionsToDatabase
     {
         $post = $event->post;
         $data = $event->data;
-
-        $this->request = resolve('fof-reactions.request');
 
         if ($post->exists && Arr::has($data, 'attributes.reaction')) {
             $actor = $event->actor;
@@ -233,7 +228,9 @@ class SaveReactionsToDatabase
 
     protected function getSessionId(): ?string
     {
-        $session = $this->request->getAttribute('session');
+        /** @var ServerRequestInterface $request */
+        $request = resolve('fof-reactions.request');
+        $session = $request->getAttribute('session');
 
         return $session ? $session->getId() : null;
     }

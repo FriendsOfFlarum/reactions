@@ -30,12 +30,12 @@ class ReactPostPolicy extends AbstractPolicy
 
     public function react(User $actor, Post $post)
     {
-        if ($actor->isGuest() && (bool) $this->settings->get('fof-reactions.anonymousReactions')) {
-            return $this->allow();
-        }
-
         if ($actor->id === $post->user_id && !(bool) $this->settings->get('fof-reactions.react_own_post')) {
             return $this->deny();
+        }
+        
+        if ($actor->isGuest() && (bool) $this->settings->get('fof-reactions.anonymousReactions')) {
+            return $this->allow();
         }
     }
 }
