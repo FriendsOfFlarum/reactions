@@ -13,7 +13,7 @@ export default class SettingsPage extends ExtensionPage {
   oninit(vnode) {
     super.oninit(vnode);
 
-    this.fields = ['convertToUpvote', 'convertToDownvote', 'convertToLike'];
+    this.fields = ['convertToUpvote', 'convertToDownvote', 'convertToLike', 'cdnUrl'];
 
     this.switches = ['react_own_post', 'anonymousReactions'];
 
@@ -43,6 +43,20 @@ export default class SettingsPage extends ExtensionPage {
         <div className="container">
           <form onsubmit={this.onsubmit.bind(this)}>
             <fieldset>
+              <legend>{app.translator.trans('fof-reactions.admin.page.cdn.title')}</legend>
+              <p className="helpText">{app.translator.trans('fof-reactions.admin.page.cdn.help')}</p>
+              <label>{app.translator.trans('fof-reactions.admin.page.cdn.label')}</label>
+              <p className="helpText">
+                {app.translator.trans('fof-reactions.admin.page.cdn.default-url', {
+                  url: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/[codepoint].png',
+                })}
+              </p>
+              <input
+                className="FormControl reactions-settings-input"
+                value={this.values.cdnUrl()}
+                oninput={withAttr('value', this.values.cdnUrl)}
+                placeholder="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/[codepoint].png"
+              />
               <legend>{app.translator.trans('fof-reactions.admin.page.reactions.title')}</legend>
               <label>{app.translator.trans('fof-reactions.admin.page.reactions.reactions')}</label>
               <div style="margin-bottom: -10px" className="helpText">
