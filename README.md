@@ -8,6 +8,12 @@ A [Flarum](http://flarum.org) extension. A Flarum extension that adds reactions 
 - Custom reactions can be easily added via the admin page
 - Integration with `flarum/likes` and `fof/gamification`
 
+### CDN
+
+By default, this extension uses `Twemoji 14` delivered via `cdnjs.cloudflare.com`. You may however change this to any valid CDN of your chooosing, including switching out from Twemoji. See the extension settings in the Flarum admin panel for usage example.
+
+![image](https://github.com/FriendsOfFlarum/reactions/assets/16573496/2b79e7d8-3e08-4e19-be54-0d5913500760)
+
 ### Installation
 
 Install manually with composer:
@@ -21,6 +27,7 @@ composer require fof/reactions:"*"
 
 ```sh
 composer update fof/reactions
+php flarum cache:clear
 ```
 
 ### Links

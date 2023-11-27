@@ -25,11 +25,13 @@ use FoF\Reactions\Notification\PostReactedBlueprint;
 return [
     (new Extend\Frontend('admin'))
         ->css(__DIR__.'/resources/less/admin.less')
-        ->js(__DIR__.'/js/dist/admin.js'),
+        ->js(__DIR__.'/js/dist/admin.js')
+        ->content(Content\AddReactionCdn::class),
 
     (new Extend\Frontend('forum'))
         ->css(__DIR__.'/resources/less/forum.less')
-        ->js(__DIR__.'/js/dist/forum.js'),
+        ->js(__DIR__.'/js/dist/forum.js')
+        ->content(Content\AddReactionCdn::class),
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
@@ -72,7 +74,9 @@ return [
     (new Extend\Settings())
         ->default('fof-reactions.react_own_post', false)
         ->default('fof-reactions.anonymousReactions', false)
-        ->serializeToForum('fofReactionsAllowAnonymous', 'fof-reactions.anonymousReactions', 'boolVal'),
+        ->default('fof-reactions.cdnUrl', 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/[codepoint].png')
+        ->serializeToForum('fofReactionsAllowAnonymous', 'fof-reactions.anonymousReactions', 'boolVal')
+        ->serializeToForum('fofReactionsCdnUrl', 'fof-reactions.cdnUrl', 'strval'),
 
     (new Extend\Policy())
         ->modelPolicy(Post::class, Access\ReactPostPolicy::class),

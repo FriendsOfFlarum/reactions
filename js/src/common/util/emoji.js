@@ -1,3 +1,4 @@
+import app from 'flarum/common/app';
 import emojis from 'simple-emoji-map';
 import FuzzySet from 'fuzzyset';
 
@@ -44,7 +45,7 @@ export default (reactionOrIdentifier) => {
         identifier,
         score,
         uc: toUnicodeEmoji(codePoint),
-        url: `//cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/72x72/${codePoint.toLowerCase()}.png`,
+        url: app.data['fof-reactions.cdnUrl'].replace('[codepoint]', codePoint.toLowerCase()),
         type: 'emoji',
       }
     : {};
