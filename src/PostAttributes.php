@@ -78,6 +78,12 @@ class PostAttributes
     protected function getActorReactionForPost(User $actor, Post $post, ServerRequestInterface $request): ?int
     {
         if ($actor->isGuest()) {
+            $session = $request->getAttribute('session');
+
+            if ($session === null) {
+                return null;
+            }
+            
             return PostAnonymousReaction::where('post_id', $post->id)
                 ->where('guest_id', $request->getAttribute('session')->getId())
                 ->value('reaction_id');
