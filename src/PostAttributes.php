@@ -85,7 +85,7 @@ class PostAttributes
             }
 
             return PostAnonymousReaction::where('post_id', $post->id)
-                ->where('guest_id', $request->getAttribute('session')->getId())
+                ->where('guest_id', $session->getId())
                 ->value('reaction_id');
         }
 
