@@ -7,6 +7,7 @@ import LogInModal from 'flarum/forum/components/LogInModal';
 
 import groupBy from '../utils/groupBy';
 import ReactionComponent from '../../common/components/ReactionComponent';
+import icon from 'flarum/common/helpers/icon';
 
 export default class PostReactAction extends Component {
   oninit(vnode) {
@@ -117,9 +118,8 @@ export default class PostReactAction extends Component {
       >
         <span className="Button-label">
           <svg class="button-react" width="20px" height="20px" viewBox="0 0 18 18">
-            /* Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch */
-            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <g id="ic_reactions_grey_16px">
+            <g id="Reaction" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <g id="ic_reactions_grey">
                 <g id="Group-2">
                   <g id="0:0:0:0">
                     <rect id="Rectangle-5" x="0" y="0" width="18" height="18" />
