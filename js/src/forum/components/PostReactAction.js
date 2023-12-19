@@ -4,10 +4,7 @@ import ItemList from 'flarum/common/utils/ItemList';
 import Button from 'flarum/common/components/Button';
 import listItems from 'flarum/common/helpers/listItems';
 import LogInModal from 'flarum/forum/components/LogInModal';
-
-import groupBy from '../utils/groupBy';
 import ReactionComponent from '../../common/components/ReactionComponent';
-import icon from 'flarum/common/helpers/icon';
 
 export default class PostReactAction extends Component {
   oninit(vnode) {
