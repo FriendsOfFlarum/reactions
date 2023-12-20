@@ -210,7 +210,7 @@ class ListPostReactionsTest extends TestCase
         $this->setting('fof-reactions.anonymousReactions', true);
 
         $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
+            $this->request('GET', '/api/posts/1/reactions?include=user', [
                 'authenticatedAs' => 2,
             ])
         );

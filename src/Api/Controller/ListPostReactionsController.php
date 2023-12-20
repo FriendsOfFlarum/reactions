@@ -61,21 +61,17 @@ class ListPostReactionsController extends AbstractListController
 
         $actor->assertCan('canSeeReactions', $post->discussion);
 
+        $query = PostReaction::query()
+            ->where('post_id', $post->id)
+            ->whereNotNull('reaction_id');
+
         if ($this->settings->get('fof-reactions.anonymousReactions')) {
-            // If anonymous reactions are allowed, we union reactions from registered users and anonymous users
-            $query = PostReaction::query()->where('post_id', $post->id)
-                ->whereNotNull('reaction_id')
-                ->unionAll(
-                    PostAnonymousReaction::query()->where('post_id', $post->id)
-                        ->whereNotNull('reaction_id')->toBase()
-                );
-        } else {
-            // If anonymous reactions are not allowed, we just get reactions from registered users.
-            $query = PostReaction::query()->where('post_id', $post->id)
-                ->whereNotNull('reaction_id');
+            $query->unionAll(
+                PostAnonymousReaction::query()->where('post_id', $post->id)
+                    ->whereNotNull('reaction_id')->toBase()
+            );
         }
 
-        // Execute the query and return the result.
         return $query->get();
     }
 }
