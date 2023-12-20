@@ -65,7 +65,7 @@ class EditReactionTest extends TestCase
         $id = $this->addNewReaction();
 
         $response = $this->send(
-            $this->request('PATCH', '/api/reactions/' . $id, [
+            $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 1,
                 'json'            => [
                     'attributes' => [
@@ -73,7 +73,7 @@ class EditReactionTest extends TestCase
                         'type'       => 'icon',
                         'enabled'    => true,
                         'display'    => 'Test 2',
-                    ]
+                    ],
                 ],
             ])
         );
@@ -104,7 +104,7 @@ class EditReactionTest extends TestCase
         $id = $this->addNewReaction();
 
         $response = $this->send(
-            $this->request('PATCH', '/api/reactions/' . $id, [
+            $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 2,
                 'json'            => [
                     'attributes' => [
@@ -126,7 +126,7 @@ class EditReactionTest extends TestCase
         $id = $this->addNewReaction();
 
         $response = $this->send(
-            $this->request('PATCH', '/api/reactions/' . $id, [
+            $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 1,
                 'json'            => [
                     'attributes' => [
