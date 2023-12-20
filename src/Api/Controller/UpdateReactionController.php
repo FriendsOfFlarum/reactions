@@ -47,7 +47,7 @@ class UpdateReactionController extends AbstractShowController
     {
         $id = Arr::get($request->getQueryParams(), 'id');
         $actor = RequestUtil::getActor($request);
-        $data = $request->getParsedBody();
+        $data = Arr::get($request->getParsedBody(), 'attributes', []);
 
         return $this->bus->dispatch(
             new EditReaction($id, $actor, $data)
