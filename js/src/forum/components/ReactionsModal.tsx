@@ -119,5 +119,7 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
 
     this.reactions = reactions;
     this.loading = false;
+
+    m.redraw();
   }
 }
