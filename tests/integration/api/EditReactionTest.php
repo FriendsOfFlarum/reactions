@@ -68,10 +68,12 @@ class EditReactionTest extends TestCase
             $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 1,
                 'json'            => [
-                    'identifier' => 'test2',
-                    'type'       => 'icon',
-                    'enabled'    => true,
-                    'display'    => 'Test 2',
+                    'attributes' => [
+                        'identifier' => 'test2',
+                        'type'       => 'icon',
+                        'enabled'    => true,
+                        'display'    => 'Test 2',
+                    ],
                 ],
             ])
         );
@@ -105,11 +107,9 @@ class EditReactionTest extends TestCase
             $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 2,
                 'json'            => [
-                    'data' => [
-                        'attributes' => [
-                            'identifier' => 'test2',
-                            'type'       => 'emoji',
-                        ],
+                    'attributes' => [
+                        'identifier' => 'test2',
+                        'type'       => 'emoji',
                     ],
                 ],
             ])
@@ -129,10 +129,8 @@ class EditReactionTest extends TestCase
             $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 1,
                 'json'            => [
-                    'data' => [
-                        'attributes' => [
-                            'type' => 'invalid',
-                        ],
+                    'attributes' => [
+                        'type' => 'invalid',
                     ],
                 ],
             ])
@@ -150,11 +148,9 @@ class EditReactionTest extends TestCase
             $this->request('PATCH', '/api/reactions/110', [
                 'authenticatedAs' => 1,
                 'json'            => [
-                    'data' => [
-                        'attributes' => [
-                            'identifier' => 'test2',
-                            'type'       => 'emoji',
-                        ],
+                    'attributes' => [
+                        'identifier' => 'test2',
+                        'type'       => 'emoji',
                     ],
                 ],
             ])

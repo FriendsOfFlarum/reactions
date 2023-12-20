@@ -62,7 +62,7 @@ class EditReactionHandler
             $reaction->enabled = $data['enabled'];
         }
 
-        $this->validator->assertValid($reaction->getAttributes());
+        $this->validator->assertValid($reaction->getDirty());
 
         if ($reaction->isDirty()) {
             $reaction->save();
