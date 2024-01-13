@@ -19,9 +19,9 @@ export default class ReactionComponent extends Component {
     if (reaction.type() === 'emoji') {
       const { url } = emoji(reaction.identifier());
 
-      return <img className={className} src={url} loading="lazy" draggable="false" alt={display} {...attrs} />;
+      return <img className={classList(className, 'emoji')} src={url} loading="lazy" draggable="false" alt={display} {...attrs} />;
     } else {
-      return <i className={classList(className, reaction.identifier())} aria-hidden {...attrs} />;
+      return <i className={classList(className, reaction.identifier(), 'icon')} aria-hidden {...attrs} />;
     }
   }
 }
