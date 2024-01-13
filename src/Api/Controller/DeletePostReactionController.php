@@ -45,7 +45,7 @@ class DeletePostReactionController extends AbstractDeleteController
 
             PostReaction::query()->where('post_id', $postId)->where('reaction_id', $reactionId)->delete();
             PostAnonymousReaction::query()->where('post_id', $postId)->where('reaction_id', $reactionId)->delete();
-        } else if ($postReactionId) {
+        } elseif ($postReactionId) {
             // Delete a specific post_reaction for the post
             $reaction = PostReaction::query()->where('post_id', $postId)->where('id', $postReactionId)->firstOrFail();
 
