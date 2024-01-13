@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/reactions.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Reactions\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
@@ -12,7 +21,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class DeletePostReactionController extends AbstractDeleteController
 {
-
     protected function delete(ServerRequestInterface $request)
     {
         $actor = RequestUtil::getActor($request);
