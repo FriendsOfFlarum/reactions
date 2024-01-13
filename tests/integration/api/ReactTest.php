@@ -12,11 +12,14 @@
 namespace FoF\Reactions\tests\integration\api;
 
 use Carbon\Carbon;
+use Flarum\Group\Group;
 use Flarum\Post\Post;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use Flarum\User\User;
 use FoF\Reactions\PostAnonymousReaction;
 use FoF\Reactions\PostReaction;
+use FoF\Reactions\Reaction;
 use Psr\Http\Message\ResponseInterface;
 
 class ReactTest extends TestCase
@@ -35,6 +38,7 @@ class ReactTest extends TestCase
                 ['id' => 3, 'username' => 'Acme', 'email' => 'acme@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 4, 'username' => 'Acme2', 'email' => 'acme2@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 5, 'username' => 'Acme3', 'email' => 'acme3@machine.local', 'is_email_confirmed' => 1],
+                ['id' => 6, 'username' => 'Acme4', 'email' => 'acme4@machine.local', 'is_email_confirmed' => 1],
             ],
             'discussions' => [
                 ['id' => 1, 'title' => __CLASS__, 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'comment_count' => 2],
@@ -55,6 +59,11 @@ class ReactTest extends TestCase
                 ['user_id' => 2, 'group_id' => 5],
                 ['user_id' => 3, 'group_id' => 5],
                 ['user_id' => 4, 'group_id' => 5],
+                ['user_id' => 6, 'group_id' => 5],
+                ['user_id' => 6, 'group_id' => Group::MODERATOR_ID],
+            ],
+            'group_permission' => [
+                ['permission' => 'discussion.deleteReactionsPosts', 'group_id' => Group::MODERATOR_ID],
             ],
         ]);
     }
@@ -243,6 +252,64 @@ class ReactTest extends TestCase
 
         $postReaction = PostAnonymousReaction::query()->where('post_id', 1)->where('reaction_id', 1)->first();
         $this->assertNull($postReaction, 'Anonymous reaction was saved to database');
+    }
+
+    /**
+     * @dataProvider deleteSpecificPostReactionUsersData
+     *
+     * @test
+     */
+    public function user_can_delete_own_post_reaction_by_id($reactionAs, $authAs, $message, $statusCode)
+    {
+        $this->sendReactRequest(1, 1, $reactionAs);
+
+        $postReaction = PostReaction::query()->where('post_id', 1)->where('user_id', $reactionAs)->first();
+
+        $this->assertNotNull($postReaction, "Reaction was not saved to database -- unable to react as user $reactionAs");
+
+        if (is_null($authAs)) {
+            $initial = $this->send(
+                $this->request('GET', '/')
+            );
+
+            $token = $initial->getHeaderLine('X-CSRF-Token');
+        }
+
+        $request = $this->request('DELETE', "/api/posts/1/reactions/specific/{$postReaction->id}", [
+            'authenticatedAs' => $authAs,
+            'cookiesFrom'     => $initial ?? null,
+        ]);
+
+        if (is_null($authAs)) {
+            $request = $request->withHeader('X-CSRF-Token', $token);
+        }
+
+        $response = $this->send($request);
+
+        $this->assertEquals($statusCode, $response->getStatusCode(), $message);
+
+        if ($statusCode === 204) {
+            $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        }
+
+        $postReaction->refresh();
+
+        if ($statusCode === 204) {
+            $this->assertFalse($postReaction->exists(), 'Reaction was not deleted from database');
+        } else {
+            $this->assertTrue($postReaction->exists(), 'Reaction should not have been deleted from database');
+        }
+    }
+
+    public function deleteSpecificPostReactionUsersData() {
+        return [
+            // [$reactionAs, $authAs, $message, $statusCode]
+            [3, 1, 'Admin can delete any post reaction', 204],
+            [2, 6, 'User with permission can delete other post reaction', 204],
+            [5, 5, 'User with permission can delete own post reaction', 204],
+            [5, 4, 'User without permission cannot delete other post reaction', 403],
+            [3, null, 'Guest cannot delete any post reaction', 403],
+        ];
     }
 
     /**
