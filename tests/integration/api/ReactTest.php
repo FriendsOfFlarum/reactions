@@ -16,10 +16,8 @@ use Flarum\Group\Group;
 use Flarum\Post\Post;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
-use Flarum\User\User;
 use FoF\Reactions\PostAnonymousReaction;
 use FoF\Reactions\PostReaction;
-use FoF\Reactions\Reaction;
 use Psr\Http\Message\ResponseInterface;
 
 class ReactTest extends TestCase
@@ -301,7 +299,8 @@ class ReactTest extends TestCase
         }
     }
 
-    public function deleteSpecificPostReactionUsersData() {
+    public function deleteSpecificPostReactionUsersData()
+    {
         return [
             // [$reactionAs, $authAs, $message, $statusCode]
             [3, 1, 'Admin can delete any post reaction', 204],
