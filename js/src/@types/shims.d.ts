@@ -4,7 +4,7 @@ import Reaction from '../common/models/Reaction';
 declare module 'flarum/common/models/Post' {
   export default interface Post {
     reactionCounts(): Record<string, number>;
-    userReaction(): PostReaction | null;
+    userReaction(): number | undefined;
 
     canReact(): boolean;
     canDeletePostReactions(): boolean;

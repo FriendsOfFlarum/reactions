@@ -77,9 +77,7 @@ export default class PostReactAction extends Component {
 
             return Button.component(
               {
-                className: `Button Button--flat Button-emoji-parent ${
-                  this.post.userReaction() && this.post.userReaction() == reaction.id() && 'active'
-                }`,
+                className: `Button Button--flat Button-emoji-parent ${this.post.userReaction() == reaction.id() && 'active'}`,
                 onclick: canReact ? this.react.bind(this, reaction) : '',
                 'data-reaction': reaction.identifier(),
                 disabled: !canReact,
