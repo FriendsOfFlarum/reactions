@@ -27,7 +27,9 @@ interface ReactionGroup {
 export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
   reactions: ReactionGroup[] = [];
   loading: boolean = false;
-  deleting: Record<string, boolean> = {};
+
+  deletingSpecific: Record<string, boolean> = {};
+  deletingType: Record<string, boolean> = {};
 
   className() {
     return 'ReactionsModal Modal--small';
@@ -55,6 +57,8 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
       <div className="Modal-body">
         <ul className="ReactionsModal-list">
           {this.reactions.map(({ reaction, users, anonymousCount }) => this.buildReactionSection(reaction, users, anonymousCount))}
+
+          {!this.reactions.length && <p>{app.translator.trans('fof-reactions.forum.modal.no_reactions')}</p>}
         </ul>
       </div>
     );
@@ -72,6 +76,14 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
         <legend>
           <ReactionComponent reaction={reaction} className={'ReactionModal-reaction'} />
           <label className="ReactionsModal-display">{reaction.display() || reaction.identifier()}</label>
+          {post.canDeletePostReactions() && (
+            <Button
+              icon="fas fa-minus-circle"
+              className="Button Button--icon Button--link"
+              loading={this.deletingType[reaction.id()!]}
+              onclick={this.deletePostReaction.bind(this, false, reaction.id()!)}
+            />
+          )}
         </legend>
 
         <hr className="ReactionsModal-delimiter" />
@@ -86,7 +98,7 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
               <Button
                 icon="fas fa-minus-circle"
                 className="Button Button--icon Button--link"
-                loading={this.deleting[postReactionId]}
+                loading={this.deletingSpecific[postReactionId]}
                 onclick={this.deletePostReaction.bind(this, postReactionId, reaction.id()!)}
               />
             )}
@@ -139,32 +151,52 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
     m.redraw();
   }
 
-  async deletePostReaction(postReactionId: string, reactionId: string): Promise<void> {
-    if (!postReactionId) return;
+  async deletePostReaction(postReactionId: string | false, reactionId: string): Promise<void> {
+    const isSpecific = postReactionId !== false;
+    const loadingArr = isSpecific ? this.deletingSpecific : this.deletingType;
+    const id = isSpecific ? postReactionId : reactionId;
 
-    this.deleting[postReactionId] = true;
+    loadingArr[id] = true;
 
     await app.request({
       method: 'DELETE',
-      url: `${app.forum.attribute('apiUrl')}/posts/${this.attrs.post.id()}/reactions/${postReactionId}`,
+      url: `${app.forum.attribute('apiUrl')}/posts/${this.attrs.post.id()}/reactions/${isSpecific ? 'specific' : 'type'}/${id}`,
     });
 
-    // Filter out the deleted reaction
+    // Filter out the deleted reaction type
     const reaction = this.reactions.find((reaction) => reaction.reaction.id() === reactionId);
-    const postReaction = app.store.getById('post_reactions', postReactionId);
 
-    if (reaction) {
-      delete reaction.users[postReactionId];
+    if (isSpecific) {
+      // Remove only the specific post_reaction
+      const postReaction = app.store.getById('post_reactions', postReactionId);
 
-      // Remove reaction group if there are no more reactions of this type
-      if (!Object.keys(reaction.users).length && !reaction.anonymousCount) {
-        this.reactions = this.reactions.filter((r) => r.reaction.id() !== reactionId);
+      if (reaction) {
+        delete reaction.users[postReactionId];
+
+        // Remove reaction group if there are no more reactions of this type
+        if (!Object.keys(reaction.users).length && !reaction.anonymousCount) {
+          this.reactions = this.reactions.filter((r) => r.reaction.id() !== reactionId);
+        }
       }
+
+      if (postReaction) app.store.remove(postReaction);
+
+      this.attrs.post.reactionCounts()[reactionId]--;
+    } else {
+      // Remove all reactions of this type
+      this.reactions = this.reactions.filter((r) => r.reaction.id() !== reactionId);
+
+      if (reaction) {
+        for (const postReactionId in reaction.users) {
+          const postReaction = app.store.getById('post_reactions', postReactionId);
+          if (postReaction) app.store.remove(postReaction);
+        }
+      }
+
+      this.attrs.post.reactionCounts()[reactionId] = 0;
     }
 
-    if (postReaction) app.store.remove(postReaction);
-
-    delete this.deleting[postReactionId];
+    delete loadingArr[id];
 
     m.redraw();
   }

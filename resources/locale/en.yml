@@ -9,6 +9,7 @@ fof-reactions:
     modal:
         title: Reactions
         anonymous_count: "{count, plural, one {# anonymous user} other {# anonymous users}}"
+        no_reactions: No reactions yet
     mod_item: View Reactions
     react_button_label: React
 

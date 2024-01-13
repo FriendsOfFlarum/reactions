@@ -37,7 +37,8 @@ return [
 
     (new Extend\Routes('api'))
         ->get('/posts/{id}/reactions', 'post.reactions.index', Controller\ListPostReactionsController::class)
-        ->delete('/posts/{id}/reactions/{reactionId}', 'post.reactions.delete', Controller\DeletePostReactionController::class)
+        ->delete('/posts/{id}/reactions/specific/{postReactionId}', 'post.reactions.specific.delete', Controller\DeletePostReactionController::class)
+        ->delete('/posts/{id}/reactions/type/{reactionId}', 'post.reactions.type.delete', Controller\DeletePostReactionController::class)
         ->get('/reactions', 'reactions.index', Controller\ListReactionsController::class)
         ->post('/reactions', 'reactions.create', Controller\CreateReactionController::class)
         ->patch('/reactions/{id}', 'reactions.update', Controller\UpdateReactionController::class)
