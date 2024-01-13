@@ -12,6 +12,7 @@ import Post from 'flarum/common/models/Post';
 import { ApiResponsePlural } from 'flarum/common/Store';
 import User from 'flarum/common/models/User';
 import Reaction from '../../common/models/Reaction';
+import Button from 'flarum/common/components/Button';
 
 interface ReactionsModalAttrs extends IInternalModalAttrs {
   post: Post;
@@ -19,13 +20,14 @@ interface ReactionsModalAttrs extends IInternalModalAttrs {
 
 interface ReactionGroup {
   reaction: Reaction;
-  users: User[];
+  users: Record<string, User>; // map the post reaction id to the user
   anonymousCount: number;
 }
 
 export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
   reactions: ReactionGroup[] = [];
   loading: boolean = false;
+  deleting: Record<string, boolean> = {};
 
   className() {
     return 'ReactionsModal Modal--small';
@@ -58,7 +60,13 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
     );
   }
 
-  buildReactionSection(reaction: Reaction, users: User[], anonymousCount: number): Mithril.Children {
+  buildReactionSection(reaction: Reaction, users: Record<string, User>, anonymousCount: number): Mithril.Children {
+    const post = this.attrs.post;
+
+    // The user can delete the reaction if they can delete reactions on the post, or
+    // if they can react (i.e. modify their reaction) and it's their own reaction
+    const canDeleteReaction = (user: User) => post.canDeletePostReactions() || (post.canReact() && user === app.session.user);
+
     return (
       <div className="ReactionsModal-group">
         <legend>
@@ -68,12 +76,20 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
 
         <hr className="ReactionsModal-delimiter" />
 
-        {users.map((user: User) => (
-          <li key={user.id()}>
+        {Object.entries(users).map(([postReactionId, user]: [string, User], index: number) => (
+          <li key={user.id()} data-post-reaction-id={postReactionId} data-user-id={user.id()}>
             <Link className="ReactionsModal-user" href={app.route.user(user)}>
               {avatar(user, { loading: 'lazy' })}
               {username(user)}
             </Link>
+            {canDeleteReaction(user) && (
+              <Button
+                icon="fas fa-minus-circle"
+                className="Button Button--icon Button--link"
+                loading={this.deleting[postReactionId]}
+                onclick={this.deletePostReaction.bind(this, postReactionId, reaction.id()!)}
+              />
+            )}
           </li>
         ))}
 
@@ -97,7 +113,7 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
         continue;
       }
 
-      const users: User[] = [];
+      const users: Record<string, User> = {};
       let anonymousCount = 0;
 
       for (let reactionInstance of groupedReactions[reactionId]) {
@@ -109,7 +125,7 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
           const user = app.store.getById<User>('users', userId);
           if (user) {
             // Check for null user
-            users.push(user);
+            users[reactionInstance.id()!] = user;
           }
         }
       }
@@ -119,6 +135,36 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
 
     this.reactions = reactions;
     this.loading = false;
+
+    m.redraw();
+  }
+
+  async deletePostReaction(postReactionId: string, reactionId: string): Promise<void> {
+    if (!postReactionId) return;
+
+    this.deleting[postReactionId] = true;
+
+    await app.request({
+      method: 'DELETE',
+      url: `${app.forum.attribute('apiUrl')}/posts/${this.attrs.post.id()}/reactions/${postReactionId}`,
+    });
+
+    // Filter out the deleted reaction
+    const reaction = this.reactions.find((reaction) => reaction.reaction.id() === reactionId);
+    const postReaction = app.store.getById('post_reactions', postReactionId);
+
+    if (reaction) {
+      delete reaction.users[postReactionId];
+
+      // Remove reaction group if there are no more reactions of this type
+      if (!Object.keys(reaction.users).length && !reaction.anonymousCount) {
+        this.reactions = this.reactions.filter((r) => r.reaction.id() !== reactionId);
+      }
+    }
+
+    if (postReaction) app.store.remove(postReaction);
+
+    delete this.deleting[postReactionId];
 
     m.redraw();
   }

@@ -34,5 +34,13 @@ app.initializers.add('fof/reactions', () => {
       },
       'view'
     )
+    .registerPermission(
+      {
+        icon: 'fas fa-trash',
+        label: app.translator.trans('fof-reactions.admin.permissions.delete_post_reactions_label'),
+        permission: 'discussion.deletePostReactions',
+      },
+      'moderate'
+    )
     .registerPage(SettingsPage);
 });
