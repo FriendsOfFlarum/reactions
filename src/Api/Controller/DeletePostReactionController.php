@@ -37,21 +37,24 @@ class DeletePostReactionController extends AbstractDeleteController
 
         $post = Post::whereVisibleTo($actor)->findOrFail($postId);
 
-        $actor->assertCan('react', $post);
-
         if ($reactionId) {
             // Delete all post_reactions of a specific type (i.e. `reaction_id`)
-            $actor->assertCan('deletePostReactions', $post);
+            $actor->assertCan('deleteReactions', $post);
 
             PostReaction::query()->where('post_id', $postId)->where('reaction_id', $reactionId)->delete();
             PostAnonymousReaction::query()->where('post_id', $postId)->where('reaction_id', $reactionId)->delete();
         } elseif ($postReactionId) {
             // Delete a specific post_reaction for the post
+            /**
+             * @var PostReaction $reaction
+             */
             $reaction = PostReaction::query()->where('post_id', $postId)->where('id', $postReactionId)->firstOrFail();
 
             // If the post is not the actor's, they must have permission to delete reactions
-            if ($reaction->user_id !== $actor->id) {
-                $actor->assertCan('deletePostReactions', $post);
+            if ($reaction->user_id != $actor->id) {
+                $actor->assertCan('deleteReactions', $post);
+            } else {
+                $actor->assertCan('react', $post);
             }
 
             $reaction->delete();
