@@ -126,8 +126,28 @@
         }
     }
 
+    li {
+        display: flex;
+
+        .ReactionsModal-user {
+            flex: 1;
+        }
+    }
+
     .ReactionsModal-group {
         margin-bottom: 40px;
+
+        legend {
+            display: flex;
+
+            label {
+                flex: 1;
+            }
+
+            .Button {
+                padding: 2px 0;
+            }
+        }
 
         .ReactionsModal-reaction {
             .emoji {

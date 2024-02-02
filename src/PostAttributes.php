@@ -32,6 +32,7 @@ class PostAttributes
         $actor = $serializer->getActor();
 
         $attributes['canReact'] = (bool) $actor->can('react', $post);
+        $attributes['canDeletePostReactions'] = (bool) $actor->can('deleteReactions', $post);
 
         // Get reaction counts for the post.
         $reactionCounts = $this->getReactionCountsForPost($post);

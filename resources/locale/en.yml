@@ -9,6 +9,7 @@ fof-reactions:
     modal:
         title: Reactions
         anonymous_count: "{count, plural, one {# anonymous user} other {# anonymous users}}"
+        no_reactions: No reactions yet
     mod_item: View Reactions
     react_button_label: React
 
@@ -16,12 +17,13 @@ fof-reactions:
     permissions:
         react_posts_label: React to posts
         see_reactions_label: See who reacted on posts
+        delete_post_reactions_label: Delete reactions on posts
 
     page:
       cdn:
         title: CDN
         help: |
-          By default, we serve the reaction assets from Cloudflare's CDN. You also have the option to specify any other CDN address 
+          By default, we serve the reaction assets from Cloudflare's CDN. You also have the option to specify any other CDN address
           as required. <code>[codepoint]</code> will be substituted with the codepoint of the emoji.
 
           For example, to switch to Noto Emoji via jsdelivr, you would enter <code>https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@v2.040/svg/emoji_u[codepoint].svg</code>. This field must NEVER be left empty.

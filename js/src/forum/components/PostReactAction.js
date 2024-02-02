@@ -63,6 +63,8 @@ export default class PostReactAction extends Component {
     const reactionCounts = this.post.reactionCounts();
     const canReact = this.post.canReact();
 
+    const hasReacted = this.post.userReaction() && reactionCounts[this.post.userReaction()] > 0;
+
     return (
       <div style="margin-right: 7px" className="Reactions">
         <div className="Reactions--reactions">
@@ -77,9 +79,7 @@ export default class PostReactAction extends Component {
 
             return Button.component(
               {
-                className: `Button Button--flat Button-emoji-parent ${
-                  this.post.userReaction() && this.post.userReaction() == reaction.id() && 'active'
-                }`,
+                className: `Button Button--flat Button-emoji-parent ${this.post.userReaction() == reaction.id() && 'active'}`,
                 onclick: canReact ? this.react.bind(this, reaction) : '',
                 'data-reaction': reaction.identifier(),
                 disabled: !canReact,
@@ -92,7 +92,7 @@ export default class PostReactAction extends Component {
           })}
         </div>
 
-        {(!Object.keys(this.loading).length || this.loading[null]) && !this.post.userReaction() && canReact && (
+        {(!Object.keys(this.loading).length || this.loading[null]) && !hasReacted && canReact && (
           <div className="Reactions--react">
             {this.reactButton()}
 
