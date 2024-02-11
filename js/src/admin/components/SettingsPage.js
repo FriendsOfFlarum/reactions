@@ -1,5 +1,4 @@
 import app from 'flarum/admin/app';
-import Alert from 'flarum/common/components/Alert';
 import Button from 'flarum/common/components/Button';
 import emoji from '../../common/util/emoji';
 import ExtensionPage from 'flarum/admin/components/ExtensionPage';
@@ -8,6 +7,7 @@ import saveSettings from 'flarum/admin/utils/saveSettings';
 import Switch from 'flarum/common/components/Switch';
 import Stream from 'flarum/common/utils/Stream';
 import withAttr from 'flarum/common/utils/withAttr';
+import extractText from 'flarum/common/utils/extractText';
 
 export default class SettingsPage extends ExtensionPage {
   oninit(vnode) {
@@ -283,8 +283,8 @@ export default class SettingsPage extends ExtensionPage {
         identifier: this.newReaction.identifier(),
         type: this.newReaction.type(),
       })
-      .then(() => {
-        this.reactions.push(reaction);
+      .then((savedReaction) => {
+        this.reactions.push(savedReaction);
 
         this.newReaction.identifier('');
         this.newReaction.type('icon');
@@ -311,7 +311,7 @@ export default class SettingsPage extends ExtensionPage {
       },
     });
 
-    this.reactions.some((r, i) => {
+    this.reactions.some((r) => {
       if (r.id() === reaction.id()) {
         reaction[key] = Stream(value);
         return true;
@@ -320,6 +320,8 @@ export default class SettingsPage extends ExtensionPage {
   }
 
   deleteReaction(reactionToDelete) {
+    if (!confirm(extractText(app.translator.trans('fof-reactions.admin.page.reactions.delete_confirmation')))) return;
+
     app.request({
       method: 'DELETE',
       url: `${app.forum.attribute('apiUrl')}/reactions/${reactionToDelete.id()}`,

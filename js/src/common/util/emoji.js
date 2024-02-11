@@ -13,6 +13,9 @@ const fuzzySet = new FuzzySet(shortnames);
 
 const search = (query) => {
   const results = fuzzySet.get(query);
+
+  if (!results) return null;
+
   const [score, item] = results[0];
 
   return {
