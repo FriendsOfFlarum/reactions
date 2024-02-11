@@ -284,8 +284,8 @@ export default class SettingsPage extends ExtensionPage {
         identifier: this.newReaction.identifier(),
         type: this.newReaction.type(),
       })
-      .then(() => {
-        this.reactions.push(reaction);
+      .then((savedReaction) => {
+        this.reactions.push(savedReaction);
 
         this.newReaction.identifier('');
         this.newReaction.type('icon');
