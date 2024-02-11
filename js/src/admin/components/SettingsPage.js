@@ -1,5 +1,4 @@
 import app from 'flarum/admin/app';
-import Alert from 'flarum/common/components/Alert';
 import Button from 'flarum/common/components/Button';
 import emoji from '../../common/util/emoji';
 import ExtensionPage from 'flarum/admin/components/ExtensionPage';
@@ -312,7 +311,7 @@ export default class SettingsPage extends ExtensionPage {
       },
     });
 
-    this.reactions.some((r, i) => {
+    this.reactions.some((r) => {
       if (r.id() === reaction.id()) {
         reaction[key] = Stream(value);
         return true;
