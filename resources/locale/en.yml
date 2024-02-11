@@ -36,6 +36,7 @@ fof-reactions:
         help:
           display: Display
           identifier: Identifier
+        delete_confirmation: Are you sure you want to delete this reaction? This action cannot be undone.
 
       convert:
         help: If you just updated your extension, your reactions will have to be converted. If you just installed this extension, you can saftely ignore this message.

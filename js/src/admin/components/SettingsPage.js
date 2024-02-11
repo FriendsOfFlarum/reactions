@@ -8,6 +8,7 @@ import saveSettings from 'flarum/admin/utils/saveSettings';
 import Switch from 'flarum/common/components/Switch';
 import Stream from 'flarum/common/utils/Stream';
 import withAttr from 'flarum/common/utils/withAttr';
+import extractText from 'flarum/common/utils/extractText';
 
 export default class SettingsPage extends ExtensionPage {
   oninit(vnode) {
@@ -320,6 +321,8 @@ export default class SettingsPage extends ExtensionPage {
   }
 
   deleteReaction(reactionToDelete) {
+    if (!confirm(extractText(app.translator.trans('fof-reactions.admin.page.reactions.delete_confirmation')))) return;
+
     app.request({
       method: 'DELETE',
       url: `${app.forum.attribute('apiUrl')}/reactions/${reactionToDelete.id()}`,
