@@ -25,7 +25,7 @@ class WillReactToPost
     /**
      * @var User
      */
-    public $user;
+    public $actor;
 
     /**
      * @var Reaction
@@ -48,7 +48,7 @@ class WillReactToPost
     public function __construct(Post $post, User $user, Reaction $reaction, $changed = false)
     {
         $this->post = $post;
-        $this->user = $user;
+        $this->actor = $user;
         $this->reaction = $reaction;
         $this->changed = $changed;
     }
