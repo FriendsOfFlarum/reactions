@@ -1,6 +1,6 @@
 import app from 'flarum/forum/app';
 import Notification from 'flarum/forum/components/Notification';
-import icon from 'flarum/common/helpers/icon';
+import Icon from 'flarum/common/components/Icon';
 
 import emoji from '../../common/util/emoji';
 
@@ -18,7 +18,7 @@ export default class PostReactedNotification extends Notification {
     const { identifier, type } = JSON.parse(notification.content());
     const user = notification.fromUser();
 
-    const reaction = type === 'emoji' ? <img src={emoji(identifier).url} loading="lazy" height="14px" /> : icon(identifier);
+    const reaction = type === 'emoji' ? <img src={emoji(identifier).url} loading="lazy" height="14px" /> : <Icon name={identifier} />;
 
     return app.translator.trans('fof-reactions.forum.notification', {
       user,

@@ -1,7 +1,7 @@
 import app from 'flarum/forum/app';
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
-import avatar from 'flarum/common/helpers/avatar';
+import Avatar from 'flarum/common/components/Avatar';
 import username from 'flarum/common/helpers/username';
 import Link from 'flarum/common/components/Link';
 import ReactionComponent from '../../common/components/ReactionComponent';
@@ -85,13 +85,11 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
             />
           )}
         </legend>
-
         <hr className="ReactionsModal-delimiter" />
-
         {Object.entries(users).map(([postReactionId, user]: [string, User], index: number) => (
           <li key={user.id()} data-post-reaction-id={postReactionId} data-user-id={user.id()}>
             <Link className="ReactionsModal-user" href={app.route.user(user)}>
-              {avatar(user, { loading: 'lazy' })}
+              <Avatar user={user} loading="lazy" />
               {username(user)}
             </Link>
             {canDeleteReaction(user) && (
@@ -104,7 +102,6 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
             )}
           </li>
         ))}
-
         {anonymousCount > 0 && <li>{app.translator.trans('fof-reactions.forum.modal.anonymous_count', { count: anonymousCount })}</li>}
       </div>
     );
