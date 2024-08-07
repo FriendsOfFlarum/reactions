@@ -110,7 +110,7 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
   async load(): Promise<void> {
     this.loading = true;
 
-    const response = await app.store.find<ApiResponsePlural<PostReaction>>(`/posts/${this.attrs.post.id()}/reactions`, { include: 'user,reaction' });
+    const response = await app.store.find<ApiResponsePlural<PostReaction>>(`/posts_reactions`, { include: 'user,reaction', filter: { post: this.attrs.post.id() } });
 
     const groupedReactions = groupBy(response, (r: PostReaction) => r.reactionId());
     const reactions: ReactionGroup[] = [];

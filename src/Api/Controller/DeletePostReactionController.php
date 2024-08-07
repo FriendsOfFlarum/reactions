@@ -21,6 +21,7 @@ use Illuminate\Support\Arr;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Psr\Http\Message\ServerRequestInterface;
 
+/** @TODO: Remove this in favor of the api resource class that was added. */
 class DeletePostReactionController extends AbstractDeleteController
 {
     /**

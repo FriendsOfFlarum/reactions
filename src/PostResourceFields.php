@@ -11,40 +11,32 @@
 
 namespace FoF\Reactions;
 
-use Flarum\Api\Serializer\PostSerializer;
+use Flarum\Api\Context;
+use Flarum\Api\Schema;
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Psr\Http\Message\ServerRequestInterface;
 
-class PostAttributes
+class PostResourceFields
 {
-    /** @var SettingsRepositoryInterface */
-    protected $settings;
-
-    public function __construct(SettingsRepositoryInterface $settings)
-    {
-        $this->settings = $settings;
+    public function __construct(
+        protected SettingsRepositoryInterface $settings
+    ) {
     }
 
-    public function __invoke(PostSerializer $serializer, Post $post, array $attributes): array
+    public function __invoke(): array
     {
-        $actor = $serializer->getActor();
-
-        $attributes['canReact'] = (bool) $actor->can('react', $post);
-        $attributes['canDeletePostReactions'] = (bool) $actor->can('deleteReactions', $post);
-
-        // Get reaction counts for the post.
-        $reactionCounts = $this->getReactionCountsForPost($post);
-
-        // Get user's reaction to the post.
-        $userReaction = $this->getActorReactionForPost($actor, $post, $serializer->getRequest());
-
-        // Add custom attributes.
-        $attributes['reactionCounts'] = $reactionCounts;
-        $attributes['userReactionIdentifier'] = $userReaction;
-
-        return $attributes;
+        return [
+            Schema\Boolean::make('canReact')
+                ->get(fn (Post $post, Context $context) => $context->getActor()->can('react', $post)),
+            Schema\Boolean::make('canDeletePostReactions')
+                ->get(fn (Post $post, Context $context) => $context->getActor()->can('deleteReactions', $post)),
+            Schema\Number::make('reactionCounts')
+                ->get(fn (Post $post) => $this->getReactionCountsForPost($post)),
+            Schema\Number::make('userReactionIdentifier')
+                ->get(fn (Post $post, Context $context) => $this->getActorReactionForPost($context->getActor(), $post, $context->request)),
+        ];
     }
 
     protected function getReactionCountsForPost(Post $post): array
