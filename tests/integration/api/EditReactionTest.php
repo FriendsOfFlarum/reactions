@@ -14,6 +14,7 @@ namespace FoF\Reactions\tests\integration\api;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use FoF\Reactions\Reaction;
+use PHPUnit\Framework\Attributes\Test;
 
 class EditReactionTest extends TestCase
 {
@@ -55,9 +56,7 @@ class EditReactionTest extends TestCase
         return $response['data']['id'];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function admin_can_edit_reaction()
     {
         $this->app();
@@ -96,9 +95,7 @@ class EditReactionTest extends TestCase
         $this->assertTrue($reaction->enabled);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function normal_user_cannot_edit_reaction()
     {
         $id = $this->addNewReaction();
@@ -118,9 +115,7 @@ class EditReactionTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function cannot_edit_reaction_with_invalid_type()
     {
         $id = $this->addNewReaction();
@@ -139,9 +134,7 @@ class EditReactionTest extends TestCase
         $this->assertEquals(422, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function cannot_edit_non_existent_reaction()
     {
         $response = $this->send(
