@@ -3,7 +3,6 @@ import Component from 'flarum/common/Component';
 import ItemList from 'flarum/common/utils/ItemList';
 import Button from 'flarum/common/components/Button';
 import listItems from 'flarum/common/helpers/listItems';
-import LogInModal from 'flarum/forum/components/LogInModal';
 import ReactionComponent from '../../common/components/ReactionComponent';
 
 export default class PostReactAction extends Component {
@@ -148,7 +147,7 @@ export default class PostReactAction extends Component {
     const allowAnonymous = app.forum.attribute('fofReactionsAllowAnonymous');
 
     if (!app.session.user && !allowAnonymous) {
-      app.modal.show(LogInModal);
+      app.modal.show(() => import('flarum/forum/components/LogInModal'));
       return;
     }
 
