@@ -49,7 +49,7 @@ return [
         ->subscribe(Listener\SendNotifications::class),
 
     (new Extend\Notification())
-        ->type(PostReactedBlueprint::class, BasicPostSerializer::class, ['alert']),
+        ->type(PostReactedBlueprint::class, ['alert']),
 
     (new Extend\ApiSerializer(Serializer\ForumSerializer::class))
         ->hasMany('reactions', ReactionSerializer::class)
