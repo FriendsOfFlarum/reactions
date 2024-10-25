@@ -32,7 +32,7 @@ class ForumResourceFields
 
             Schema\Relationship\ToMany::make('reactions')
                 ->includable()
-                ->get(fn () => Reaction::all()),
+                ->get(fn () => Reaction::all()->all()),
         ];
     }
 }

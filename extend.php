@@ -14,7 +14,6 @@ namespace FoF\Reactions;
 use Flarum\Api\Context;
 use Flarum\Discussion\Discussion;
 use Flarum\Extend;
-use Flarum\Post\Event\Saving;
 use Flarum\Post\Post;
 use Flarum\Search\Database\DatabaseSearchDriver;
 use FoF\Reactions\Notification\PostReactedBlueprint;
@@ -41,7 +40,6 @@ return [
         ->scope(Access\ScopePostReactionVisibility::class),
 
     (new Extend\Event())
-        ->listen(Saving::class, Listener\SaveReactionsToDatabase::class)
         ->subscribe(Listener\SendNotifications::class),
 
     (new Extend\Notification())
@@ -56,8 +54,7 @@ return [
         ->endpoint(Endpoint\Show::class, fn (Endpoint\Show $show) => $show->addDefaultInclude(['reactions'])),
 
     (new Extend\ApiResource(Resource\PostResource::class))
-        ->fields(PostResourceFields::class)
-        ->endpoints(PostRso),
+        ->fields(PostResourceFields::class),
 
     (new Extend\ApiResource(Resource\DiscussionResource::class))
         ->fields(fn (): array => [

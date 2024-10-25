@@ -12,11 +12,12 @@
 namespace FoF\Reactions\Notification;
 
 use Flarum\Database\AbstractModel;
+use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Post\Post;
 use Flarum\User\User;
 
-class PostReactedBlueprint implements BlueprintInterface
+class PostReactedBlueprint implements BlueprintInterface, AlertableInterface
 {
     /**
      * @var Post

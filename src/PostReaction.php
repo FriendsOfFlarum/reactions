@@ -12,6 +12,7 @@
 namespace FoF\Reactions;
 
 use Flarum\Database\AbstractModel;
+use Flarum\Database\ScopeVisibilityTrait;
 use Flarum\Post\Post;
 use Flarum\User\User;
 
@@ -29,6 +30,8 @@ use Flarum\User\User;
  */
 class PostReaction extends AbstractModel
 {
+    use ScopeVisibilityTrait;
+
     protected $table = 'post_reactions';
 
     public $timestamps = true;
