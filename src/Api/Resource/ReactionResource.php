@@ -31,11 +31,6 @@ class ReactionResource extends Resource\AbstractDatabaseResource
         return Reaction::class;
     }
 
-    public function scope(Builder $query, OriginalContext $context): void
-    {
-        $query->whereVisibleTo($context->getActor());
-    }
-
     public function endpoints(): array
     {
         return [

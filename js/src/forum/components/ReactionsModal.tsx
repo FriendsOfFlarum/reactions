@@ -110,7 +110,7 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
   async load(): Promise<void> {
     this.loading = true;
 
-    const response = await app.store.find<ApiResponsePlural<PostReaction>>(`/posts_reactions`, {
+    const response = await app.store.find<ApiResponsePlural<PostReaction>>(`post_reactions`, {
       include: 'user,reaction',
       filter: { post: this.attrs.post.id() },
     });
@@ -160,7 +160,12 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
 
     await app.request({
       method: 'DELETE',
-      url: `${app.forum.attribute('apiUrl')}/posts/${this.attrs.post.id()}/reactions/${isSpecific ? 'specific' : 'type'}/${id}`,
+      url: `${app.forum.attribute('apiUrl')}/post_reactions/delete`,
+      body: {
+        postId: this.attrs.post.id(),
+        specific: isSpecific,
+        reactionOrPostReactionId: id,
+      },
     });
 
     // Filter out the deleted reaction type
