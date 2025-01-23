@@ -19,6 +19,8 @@ use Flarum\Testing\integration\TestCase;
 use FoF\Reactions\PostAnonymousReaction;
 use FoF\Reactions\PostReaction;
 use Psr\Http\Message\ResponseInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 class ReactTest extends TestCase
 {
@@ -72,11 +74,8 @@ class ReactTest extends TestCase
         $this->database()->table('group_permission')->insert(['permission' => 'discussion.reactPosts', 'group_id' => 5]);
     }
 
-    /**
-     * @dataProvider allowedUsersToReact
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('allowedUsersToReact')]
     public function can_react_to_a_post_if_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, bool $canReactOwnPost = null, bool $guestReactionsEnabled = null)
     {
         if (!is_null($canReactOwnPost)) {
@@ -117,11 +116,8 @@ class ReactTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider unallowedUsersToReact
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('unallowedUsersToReact')]
     public function cannot_react_to_a_post_if_not_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, bool $canReactOwnPost = null, bool $guestReactionsEnabled = null)
     {
         if (!is_null($canReactOwnPost)) {
@@ -147,7 +143,7 @@ class ReactTest extends TestCase
         }
     }
 
-    public function allowedUsersToReact(): array
+    public static function allowedUsersToReact(): array
     {
         return [
             // [$postId, $authAs, $reactionId, $message, $canReactOwnPost, $guestReactionsEnabled]
@@ -160,7 +156,7 @@ class ReactTest extends TestCase
         ];
     }
 
-    public function unallowedUsersToReact(): array
+    public static function unallowedUsersToReact(): array
     {
         return [
             // [$postId, $authAs, $reactionId, $message, $canReactOwnPost, $guestReactionsEnabled]
@@ -211,9 +207,7 @@ class ReactTest extends TestCase
         $this->database()->table('reactions')->where('id', $reactionId)->update(['enabled' => false]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_cannot_react_to_a_post_if_reaction_disabled()
     {
         $this->disableReactionId(1);
@@ -231,9 +225,7 @@ class ReactTest extends TestCase
         $this->assertNull($postReaction, 'Reaction was saved to database');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_react_to_a_post_when_feature_is_enabled_but_reaction_disabled()
     {
         $this->setting('fof-reactions.anonymousReactions', true);
@@ -252,11 +244,8 @@ class ReactTest extends TestCase
         $this->assertNull($postReaction, 'Anonymous reaction was saved to database');
     }
 
-    /**
-     * @dataProvider deleteSpecificPostReactionUsersData
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('deleteSpecificPostReactionUsersData')]
     public function user_can_delete_own_post_reaction_by_id($reactionAs, $authAs, $message, $statusCode)
     {
         $this->sendReactRequest(1, 1, $reactionAs);
@@ -299,7 +288,7 @@ class ReactTest extends TestCase
         }
     }
 
-    public function deleteSpecificPostReactionUsersData()
+    public static function deleteSpecificPostReactionUsersData()
     {
         return [
             // [$reactionAs, $authAs, $message, $statusCode]
@@ -311,9 +300,7 @@ class ReactTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_can_react_and_is_converted_to_like_when_likes_is_enabled()
     {
         $this->extension('flarum-likes');
@@ -334,9 +321,7 @@ class ReactTest extends TestCase
         $this->assertTrue($likes->contains(3), 'User is in the collection of users who liked the post');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_can_react_and_not_have_it_converted_to_a_like()
     {
         $this->extension('flarum-likes');
@@ -355,9 +340,7 @@ class ReactTest extends TestCase
         $this->assertCount(0, $likes);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function empty_string_as_convert_like_setting_does_nothing()
     {
         $this->extension('flarum-likes');

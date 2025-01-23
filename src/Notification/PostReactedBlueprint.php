@@ -11,11 +11,13 @@
 
 namespace FoF\Reactions\Notification;
 
+use Flarum\Database\AbstractModel;
+use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Post\Post;
 use Flarum\User\User;
 
-class PostReactedBlueprint implements BlueprintInterface
+class PostReactedBlueprint implements BlueprintInterface, AlertableInterface
 {
     /**
      * @var Post
@@ -46,7 +48,7 @@ class PostReactedBlueprint implements BlueprintInterface
     /**
      * {@inheritdoc}
      */
-    public static function getType()
+    public static function getType(): string
     {
         return 'postReacted';
     }
@@ -54,7 +56,7 @@ class PostReactedBlueprint implements BlueprintInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubjectModel()
+    public static function getSubjectModel(): string
     {
         return Post::class;
     }
@@ -62,7 +64,7 @@ class PostReactedBlueprint implements BlueprintInterface
     /**
      * {@inheritdoc}
      */
-    public function getSubject()
+    public function getSubject(): ?AbstractModel
     {
         return $this->post;
     }
@@ -70,7 +72,7 @@ class PostReactedBlueprint implements BlueprintInterface
     /**
      * {@inheritdoc}
      */
-    public function getFromUser()
+    public function getFromUser(): ?User
     {
         return $this->user;
     }
@@ -88,7 +90,7 @@ class PostReactedBlueprint implements BlueprintInterface
     /**
      * {@inheritdoc}
      */
-    public function getData()
+    public function getData(): mixed
     {
         return $this->reaction;
     }

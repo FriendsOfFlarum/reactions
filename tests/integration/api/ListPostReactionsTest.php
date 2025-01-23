@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Flarum\Group\Group;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ListPostReactionsTest extends TestCase
 {
@@ -82,9 +83,7 @@ class ListPostReactionsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_see_reactions_when_permission_not_given_on_a_post_when_guest_reacting_is_off()
     {
         $response = $this->send(
@@ -95,9 +94,7 @@ class ListPostReactionsTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_can_see_reactions_when_permission_given_on_a_post_when_guest_reacting_is_off()
     {
         $this->addGuestViewPermission();
@@ -139,9 +136,7 @@ class ListPostReactionsTest extends TestCase
         $this->assertEquals('users', $response['data'][3]['relationships']['user']['data']['type']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_can_see_reactions_on_a_post_when_guest_reacting_is_on()
     {
         $this->setting('fof-reactions.anonymousReactions', true);
@@ -159,9 +154,7 @@ class ListPostReactionsTest extends TestCase
         $this->assertEquals(8, count($response['data']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_view_permission_can_see_reactions_on_a_post_when_guest_reacting_is_off()
     {
         $response = $this->send(
@@ -202,9 +195,7 @@ class ListPostReactionsTest extends TestCase
         $this->assertEquals('users', $response['data'][3]['relationships']['user']['data']['type']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_view_permission_can_see_reactions_on_a_post_when_guest_reacting_is_on()
     {
         $this->setting('fof-reactions.anonymousReactions', true);
@@ -222,9 +213,7 @@ class ListPostReactionsTest extends TestCase
         $this->assertEquals(8, count($response['data']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_without_view_permission_cannot_see_reactions_on_a_post_when_guest_reacting_is_off()
     {
         $response = $this->send(
@@ -236,9 +225,7 @@ class ListPostReactionsTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_without_view_permission_cannot_see_reactions_on_a_post_when_guest_reacting_is_on()
     {
         $this->setting('fof-reactions.anonymousReactions', true);

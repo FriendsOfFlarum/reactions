@@ -13,6 +13,7 @@ namespace FoF\Reactions\Tests\Integration\Api;
 
 use Flarum\Testing\integration\TestCase;
 use FoF\Reactions\Reaction;
+use PHPUnit\Framework\Attributes\Test;
 
 class ListReactionsTest extends TestCase
 {
@@ -23,9 +24,7 @@ class ListReactionsTest extends TestCase
         $this->extension('fof-reactions');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_returns_all_reactions()
     {
         $response = $this->send(

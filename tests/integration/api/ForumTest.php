@@ -12,6 +12,7 @@
 namespace FoF\Reactions\tests\integration\api;
 
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ForumTest extends TestCase
 {
@@ -22,9 +23,7 @@ class ForumTest extends TestCase
         $this->extension('fof-reactions');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function forum_relations_are_included()
     {
         $response = $this->send(

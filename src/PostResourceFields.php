@@ -9,12 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace FoF\Reactions\Listener;
+namespace FoF\Reactions;
 
+use Flarum\Api\Context;
+use Flarum\Api\Schema;
 use Flarum\Extension\ExtensionManager;
 use Flarum\Foundation\ValidationException;
 use Flarum\Likes\Event\PostWasLiked;
-use Flarum\Post\Event\Saving;
+use Flarum\Locale\TranslatorInterface;
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
@@ -22,60 +24,90 @@ use FoF\Gamification\Listeners\SaveVotesToDatabase;
 use FoF\Reactions\Event\PostWasReacted;
 use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\Event\WillReactToPost;
-use FoF\Reactions\PostAnonymousReaction;
-use FoF\Reactions\PostReaction;
-use FoF\Reactions\Reaction;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
-use Pusher;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
-class SaveReactionsToDatabase
+class PostResourceFields
 {
-    /**
-     * @var SettingsRepositoryInterface
-     */
-    protected $settings;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    /**
-     * @var ExtensionManager
-     */
-    protected $extensions;
-
-    /**
-     * @var Dispatcher
-     */
-    protected $events;
-
-    public function __construct(SettingsRepositoryInterface $settings, TranslatorInterface $translator, ExtensionManager $extensions, Dispatcher $events)
-    {
-        $this->settings = $settings;
-        $this->translator = $translator;
-        $this->extensions = $extensions;
-        $this->events = $events;
+    public function __construct(
+        protected SettingsRepositoryInterface $settings,
+        protected Dispatcher $events,
+        protected ExtensionManager $extensions,
+        protected TranslatorInterface $translator
+    ) {
     }
 
-    /**
-     * @param Saving $event
-     *
-     * @throws \Flarum\User\Exception\PermissionDeniedException
-     * @throws \Flarum\Foundation\ValidationException
-     */
-    public function handle(Saving $event)
+    public function __invoke(): array
     {
-        $post = $event->post;
-        $data = $event->data;
+        return [
+            Schema\Boolean::make('canReact')
+                ->get(fn (Post $post, Context $context) => $context->getActor()->can('react', $post)),
+            Schema\Boolean::make('canDeletePostReactions')
+                ->get(fn (Post $post, Context $context) => $context->getActor()->can('deleteReactions', $post)),
+            Schema\Arr::make('reactionCounts')
+                ->get(fn (Post $post) => $this->getReactionCountsForPost($post)),
+            Schema\Number::make('userReactionIdentifier')
+                ->get(fn (Post $post, Context $context) => $this->getActorReactionForPost($context->getActor(), $post, $context->request)),
 
-        if ($post->exists && Arr::has($data, 'attributes.reaction')) {
-            $actor = $event->actor;
+            Schema\Str::make('reaction')
+                ->hidden()
+                ->writableOnUpdate()
+                ->save($this->setReaction(...)),
+        ];
+    }
 
-            $reactionId = Arr::get($data, 'attributes.reaction');
+    protected function getReactionCountsForPost(Post $post): array
+    {
+        // Initialize counts array
+        $counts = [];
+
+        // Query for reactions from registered users
+        $registeredReactions = PostReaction::where('post_id', $post->id)
+            ->groupBy('reaction_id')
+            ->selectRaw('reaction_id, COUNT(*) as count')
+            ->pluck('count', 'reaction_id');
+
+        // Query for anonymous reactions if allowed
+        $anonymousReactions = collect([]);
+        if ($this->settings->get('fof-reactions.anonymousReactions')) {
+            $anonymousReactions = PostAnonymousReaction::where('post_id', $post->id)
+                ->groupBy('reaction_id')
+                ->selectRaw('reaction_id, COUNT(*) as count')
+                ->pluck('count', 'reaction_id');
+        }
+
+        // Merge the registered and anonymous reactions
+        $reactions = Reaction::all();
+        foreach ($reactions as $reaction) {
+            $counts[$reaction->id] = $registeredReactions->get($reaction->id, 0) + $anonymousReactions->get($reaction->id, 0);
+        }
+
+        return $counts;
+    }
+
+    protected function getActorReactionForPost(User $actor, Post $post, ServerRequestInterface $request): ?int
+    {
+        if ($actor->isGuest()) {
+            $session = $request->getAttribute('session');
+
+            if ($session === null) {
+                return null;
+            }
+
+            return PostAnonymousReaction::where('post_id', $post->id)
+                ->where('guest_id', $session->getId())
+                ->value('reaction_id');
+        }
+
+        return PostReaction::where('post_id', $post->id)
+            ->where('user_id', $actor->id)
+            ->value('reaction_id');
+    }
+
+    protected function setReaction(Post $post, ?string $reactionId, Context $context): void
+    {
+        if ($post->exists) {
+            $actor = $context->getActor();
 
             $actor->assertCan('react', $post);
 
@@ -83,8 +115,8 @@ class SaveReactionsToDatabase
 
             $this->events->dispatch(new WillReactToPost($post, $actor, $reaction));
 
-            $gamification = $this->isExtensionEnabled('fof-gamification');
-            $likes = $this->isExtensionEnabled('flarum-likes');
+            $gamification = $this->extensions->isEnabled('fof-gamification');
+            $likes = $this->extensions->isEnabled('flarum-likes');
 
             $gamificationUpvote = $this->settings->get('fof-reactions.convertToUpvote');
             $gamificationDownvote = $this->settings->get('fof-reactions.convertToDownvote');
@@ -121,12 +153,14 @@ class SaveReactionsToDatabase
                     $post->raise(new PostWasLiked($post, $actor));
                 }
             } else {
-                $guestId = $this->getSessionId();
+                $guestId = $context->request->getAttribute('session')?->getId();
+
                 if ($actor->isGuest()) {
                     $postReaction = PostAnonymousReaction::where([['guest_id', $guestId], ['post_id', $post->id]])->first();
                 } else {
                     $postReaction = PostReaction::where([['user_id', $actor->id], ['post_id', $post->id]])->first();
                 }
+
                 $removeReaction = is_null($reactionId) || ($postReaction && $postReaction->reaction_id == $reactionId);
 
                 if ($removeReaction) {
@@ -219,19 +253,5 @@ class SaveReactionsToDatabase
                 'reaction' => $this->translator->trans('fof-reactions.forum.disabled-reaction'),
             ]);
         }
-    }
-
-    protected function isExtensionEnabled(string $extension): bool
-    {
-        return $this->extensions->isEnabled($extension);
-    }
-
-    protected function getSessionId(): ?string
-    {
-        /** @var ServerRequestInterface $request */
-        $request = resolve('fof-reactions.request');
-        $session = $request->getAttribute('session');
-
-        return $session ? $session->getId() : null;
     }
 }

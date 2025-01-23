@@ -4,7 +4,6 @@ import Forum from 'flarum/common/models/Forum';
 import Discussion from 'flarum/common/models/Discussion';
 import Post from 'flarum/common/models/Post';
 import Model from 'flarum/common/Model';
-import NotificationGrid from 'flarum/forum/components/NotificationGrid';
 
 import PostReactedNotification from './components/PostReactedNotification';
 import Reaction from '../common/models/Reaction';
@@ -38,7 +37,7 @@ app.initializers.add('fof/reactions', () => {
   addReactionAction();
   addPusher();
 
-  extend(NotificationGrid.prototype, 'notificationTypes', (items) => {
+  extend('flarum/forum/components/NotificationGrid', 'notificationTypes', (items) => {
     items.add('postReacted', {
       name: 'postReacted',
       icon: 'far fa-smile',
