@@ -63,7 +63,7 @@ class ReactionResource extends Resource\AbstractDatabaseResource
             Schema\Str::make('display')
                 ->maxLength(255)
                 ->nullable()
-                ->writableOnUpdate(),
+                ->writable(),
             Schema\Str::make('type')
                 ->requiredOnCreate()
                 ->maxLength(255)

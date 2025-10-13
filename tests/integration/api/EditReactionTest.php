@@ -76,7 +76,7 @@ class EditReactionTest extends TestCase
                 ],
             ])
         );
-
+print_r($response->getBody()->getContents());
         $this->assertEquals(200, $response->getStatusCode());
 
         $response = json_decode($response->getBody()->getContents(), true);
