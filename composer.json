@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "flarum/core": "^2.0.0"
+        "flarum/core": "^2.0.0@beta"
     },
     "replace": {
         "reflar/reactions": "*"
@@ -91,9 +91,8 @@
         "analyse:phpstan": "Run static analysis"
     },
     "require-dev": {
-        "flarum/testing": "^2.0.0",
-        "flarum/likes": "*",
-        "fof/gamification": "*",
-        "flarum/phpstan": "*"
+        "flarum/testing": "^2.0.0@beta",
+        "flarum/likes": "^2.0.0@beta",
+        "flarum/phpstan": "^2.0.0@beta"
     }
 }
