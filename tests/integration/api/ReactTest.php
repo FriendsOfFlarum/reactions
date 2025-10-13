@@ -77,7 +77,7 @@ class ReactTest extends TestCase
      *
      * @test
      */
-    public function can_react_to_a_post_if_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, bool $canReactOwnPost = null, bool $guestReactionsEnabled = null)
+    public function can_react_to_a_post_if_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, ?bool $canReactOwnPost = null, ?bool $guestReactionsEnabled = null)
     {
         if (!is_null($canReactOwnPost)) {
             $this->setting('fof-reactions.react_own_post', $canReactOwnPost);
@@ -122,7 +122,7 @@ class ReactTest extends TestCase
      *
      * @test
      */
-    public function cannot_react_to_a_post_if_not_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, bool $canReactOwnPost = null, bool $guestReactionsEnabled = null)
+    public function cannot_react_to_a_post_if_not_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, ?bool $canReactOwnPost = null, ?bool $guestReactionsEnabled = null)
     {
         if (!is_null($canReactOwnPost)) {
             $this->setting('fof-reactions.react_own_post', $canReactOwnPost);
