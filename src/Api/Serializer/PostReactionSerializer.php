@@ -17,6 +17,7 @@ use Flarum\Api\Serializer\BasicUserSerializer;
 use FoF\Reactions\PostReaction;
 use Illuminate\Support\Str;
 
+/** @TODO: Remove this in favor of the api resource class that was added. */
 class PostReactionSerializer extends AbstractSerializer
 {
     protected $type = 'post_reactions';

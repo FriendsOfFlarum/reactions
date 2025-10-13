@@ -14,6 +14,7 @@ namespace FoF\Reactions\tests\integration\api;
 use Carbon\Carbon;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class PostAttributesTest extends TestCase
 {
@@ -72,9 +73,7 @@ class PostAttributesTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_has_correct_post_attributes_when_anonymous_reactions_disabled()
     {
         $response = $this->send(
@@ -92,9 +91,7 @@ class PostAttributesTest extends TestCase
         $this->assertEquals(1, $body['data']['attributes']['userReactionIdentifier'], 'User has reacted with reaction id 1');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_has_correct_post_attributes_when_anonymous_reactions_disabled()
     {
         $response = $this->send(
@@ -111,9 +108,7 @@ class PostAttributesTest extends TestCase
         $this->assertEquals(null, $body['data']['attributes']['userReactionIdentifier'], 'User has reacted with reaction id 1');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_has_correct_post_attributes_when_anonymous_reactions_enabled()
     {
         $this->setting('fof-reactions.anonymousReactions', true);
@@ -133,9 +128,7 @@ class PostAttributesTest extends TestCase
         $this->assertEquals(1, $body['data']['attributes']['userReactionIdentifier'], 'User has reacted with reaction id 1');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_has_correct_post_attributes_when_anonymous_reactions_enabled()
     {
         $this->setting('fof-reactions.anonymousReactions', true);

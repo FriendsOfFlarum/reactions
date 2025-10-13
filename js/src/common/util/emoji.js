@@ -24,7 +24,7 @@ const search = (query) => {
   };
 };
 
-export default (reactionOrIdentifier) => {
+export default function emoji(reactionOrIdentifier) {
   if (!reactionOrIdentifier) return {};
 
   let identifier = reactionOrIdentifier.identifier || reactionOrIdentifier;
@@ -56,4 +56,4 @@ export default (reactionOrIdentifier) => {
   emojiCache.set(reactionOrIdentifier, output);
 
   return output || {};
-};
+}
