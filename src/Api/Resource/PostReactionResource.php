@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/reactions.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Reactions\Api\Resource;
 
 use Flarum\Api\Context;
@@ -7,11 +16,9 @@ use Flarum\Api\Endpoint;
 use Flarum\Api\Resource;
 use Flarum\Api\Schema;
 use Flarum\Api\Sort\SortColumn;
-use Flarum\Http\RequestUtil;
 use Flarum\Post\Post;
 use FoF\Reactions\PostAnonymousReaction;
 use FoF\Reactions\PostReaction;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Tobyz\JsonApiServer\Context as OriginalContext;
@@ -46,7 +53,7 @@ class PostReactionResource extends Resource\AbstractDatabaseResource
 
                     $post = Post::whereVisibleTo($actor)->findOrFail($postId);
 
-                    if (! $isSpecific) {
+                    if (!$isSpecific) {
                         $reactionId = $reactionOrPostReactionId;
 
                         // Delete all post_reactions of a specific type (i.e. `reaction_id`)

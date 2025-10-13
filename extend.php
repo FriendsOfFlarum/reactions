@@ -12,14 +12,14 @@
 namespace FoF\Reactions;
 
 use Flarum\Api\Context;
+use Flarum\Api\Endpoint;
+use Flarum\Api\Resource;
+use Flarum\Api\Schema;
 use Flarum\Discussion\Discussion;
 use Flarum\Extend;
 use Flarum\Post\Post;
 use Flarum\Search\Database\DatabaseSearchDriver;
 use FoF\Reactions\Notification\PostReactedBlueprint;
-use Flarum\Api\Resource;
-use Flarum\Api\Endpoint;
-use Flarum\Api\Schema;
 use FoF\Reactions\Search\Filter\PostFilter;
 use FoF\Reactions\Search\PostReactionSearcher;
 
@@ -59,7 +59,7 @@ return [
     (new Extend\ApiResource(Resource\DiscussionResource::class))
         ->fields(fn (): array => [
             Schema\Boolean::make('canSeeReactions')
-                ->get(fn (Discussion $discussion, Context $context) => $context->getActor()->can('canSeeReactions', $discussion))
+                ->get(fn (Discussion $discussion, Context $context) => $context->getActor()->can('canSeeReactions', $discussion)),
         ]),
 
     (new Extend\SearchDriver(DatabaseSearchDriver::class))

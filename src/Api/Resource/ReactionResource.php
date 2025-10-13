@@ -1,8 +1,16 @@
 <?php
 
+/*
+ * This file is part of fof/reactions.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Reactions\Api\Resource;
 
-use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource;
 use Flarum\Api\Schema;
@@ -12,7 +20,6 @@ use FoF\Reactions\Event\Creating;
 use FoF\Reactions\Event\Deleted;
 use FoF\Reactions\Event\Deleting;
 use FoF\Reactions\Reaction;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Tobyz\JsonApiServer\Context as OriginalContext;
 

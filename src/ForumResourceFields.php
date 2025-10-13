@@ -18,7 +18,7 @@ class ForumResourceFields
 {
     public function __construct(
         protected SettingsRepositoryInterface $settings
-    ){
+    ) {
     }
 
     public function __invoke(): array

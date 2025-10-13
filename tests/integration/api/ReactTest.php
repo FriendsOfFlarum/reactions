@@ -18,9 +18,9 @@ use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use FoF\Reactions\PostAnonymousReaction;
 use FoF\Reactions\PostReaction;
-use Psr\Http\Message\ResponseInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
+use Psr\Http\Message\ResponseInterface;
 
 class ReactTest extends TestCase
 {
@@ -76,7 +76,7 @@ class ReactTest extends TestCase
 
     #[Test]
     #[DataProvider('allowedUsersToReact')]
-    public function can_react_to_a_post_if_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, bool $canReactOwnPost = null, bool $guestReactionsEnabled = null)
+    public function can_react_to_a_post_if_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, ?bool $canReactOwnPost = null, ?bool $guestReactionsEnabled = null)
     {
         if (!is_null($canReactOwnPost)) {
             $this->setting('fof-reactions.react_own_post', $canReactOwnPost);
@@ -118,7 +118,7 @@ class ReactTest extends TestCase
 
     #[Test]
     #[DataProvider('unallowedUsersToReact')]
-    public function cannot_react_to_a_post_if_not_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, bool $canReactOwnPost = null, bool $guestReactionsEnabled = null)
+    public function cannot_react_to_a_post_if_not_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, ?bool $canReactOwnPost = null, ?bool $guestReactionsEnabled = null)
     {
         if (!is_null($canReactOwnPost)) {
             $this->setting('fof-reactions.react_own_post', $canReactOwnPost);
