@@ -67,16 +67,18 @@ class EditReactionTest extends TestCase
             $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 1,
                 'json'            => [
-                    'attributes' => [
-                        'identifier' => 'test2',
-                        'type'       => 'icon',
-                        'enabled'    => true,
-                        'display'    => 'Test 2',
+                    'data' => [
+                        'attributes' => [
+                            'identifier' => 'test2',
+                            'type'       => 'icon',
+                            'enabled'    => true,
+                            'display'    => 'Test 2',
+                        ],
                     ],
                 ],
             ])
         );
-        print_r($response->getBody()->getContents());
+
         $this->assertEquals(200, $response->getStatusCode());
 
         $response = json_decode($response->getBody()->getContents(), true);
@@ -104,9 +106,11 @@ class EditReactionTest extends TestCase
             $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 2,
                 'json'            => [
-                    'attributes' => [
-                        'identifier' => 'test2',
-                        'type'       => 'emoji',
+                    'data' => [
+                        'attributes' => [
+                            'identifier' => 'test2',
+                            'type'       => 'emoji',
+                        ],
                     ],
                 ],
             ])
@@ -124,8 +128,10 @@ class EditReactionTest extends TestCase
             $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 1,
                 'json'            => [
-                    'attributes' => [
-                        'type' => 'invalid',
+                    'data' => [
+                        'attributes' => [
+                            'type' => 'invalid',
+                        ],
                     ],
                 ],
             ])
@@ -141,9 +147,11 @@ class EditReactionTest extends TestCase
             $this->request('PATCH', '/api/reactions/110', [
                 'authenticatedAs' => 1,
                 'json'            => [
-                    'attributes' => [
-                        'identifier' => 'test2',
-                        'type'       => 'emoji',
+                    'data' => [
+                        'attributes' => [
+                            'identifier' => 'test2',
+                            'type'       => 'emoji',
+                        ],
                     ],
                 ],
             ])

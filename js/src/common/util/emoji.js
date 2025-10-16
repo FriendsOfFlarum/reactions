@@ -43,12 +43,14 @@ export default function emoji(reactionOrIdentifier) {
   const emoji = getEmoji(identifier);
   const codePoint = emoji?.[0];
 
+  const cdnUrl = app.forum.attribute('fofReactionsCdnUrl') || 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/[codepoint].png';
+
   const output = codePoint
     ? {
         identifier,
         score,
         uc: toUnicodeEmoji(codePoint),
-        url: app.data['fof-reactions.cdnUrl'].replace('[codepoint]', codePoint.toLowerCase()),
+        url: cdnUrl.replace('[codepoint]', codePoint.toLowerCase()),
         type: 'emoji',
       }
     : {};

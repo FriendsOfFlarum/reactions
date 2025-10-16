@@ -48,7 +48,7 @@ class ReactTest extends TestCase
                 ['id' => 3, 'number' => 2, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 2, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
                 ['id' => 5, 'number' => 3, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 3, 'type' => 'discussionRenamed', 'content' => '<t><p>something</p></t>'],
                 ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
-                ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 5, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
+                ['id' => 7, 'number' => 5, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 5, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
             ],
             'groups' => [
                 ['id' => 5, 'name_singular' => 'Acme', 'name_plural' => 'Acme', 'is_hidden' => 0],
@@ -188,8 +188,10 @@ class ReactTest extends TestCase
             'cookiesFrom'     => $initial ?? null,
             'json'            => [
                 'data' => [
+                    'id' => (string) $postId,
+                    'type' => 'posts',
                     'attributes' => [
-                        'reaction' => $reactionId,
+                        'reaction' => (string) $reactionId,
                     ],
                 ],
             ],

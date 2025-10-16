@@ -16,6 +16,7 @@ use Flarum\Group\Group;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Psr\Http\Message\ResponseInterface;
 
 class ListPostReactionsTest extends TestCase
 {
@@ -43,7 +44,7 @@ class ListPostReactionsTest extends TestCase
                 ['id' => 3, 'number' => 2, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 2, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
                 ['id' => 5, 'number' => 3, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 3, 'type' => 'discussionRenamed', 'content' => '<t><p>something</p></t>'],
                 ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
-                ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 5, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
+                ['id' => 7, 'number' => 5, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 5, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
             ],
             'post_reactions' => [
                 ['id' => 1, 'post_id' => 1, 'reaction_id' => 1, 'user_id' => 2],
@@ -83,13 +84,29 @@ class ListPostReactionsTest extends TestCase
         ]);
     }
 
+    protected function getReactionsForPost(int $postId = 1, ?int $userId = null): ResponseInterface
+    {
+        $params = [
+            'include' => 'user,reaction',
+            'filter'  => [
+                'post_id' => $postId,
+            ],
+        ];
+
+        $response = $this->send(
+            $this->request('GET', '/api/post_reactions', [
+                'authenticatedAs' => $userId,
+            ])->withQueryParams($params)
+        );
+
+        return $response;
+    }
+
+
     #[Test]
     public function guest_cannot_see_reactions_when_permission_not_given_on_a_post_when_guest_reacting_is_off()
     {
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-            ])
-        );
+        $response = $this->getReactionsForPost();
 
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -99,10 +116,7 @@ class ListPostReactionsTest extends TestCase
     {
         $this->addGuestViewPermission();
 
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-            ])
-        );
+        $response = $this->getReactionsForPost();
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -142,10 +156,7 @@ class ListPostReactionsTest extends TestCase
         $this->setting('fof-reactions.anonymousReactions', true);
         $this->addGuestViewPermission();
 
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-            ])
-        );
+        $response = $this->getReactionsForPost();
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -157,11 +168,7 @@ class ListPostReactionsTest extends TestCase
     #[Test]
     public function user_with_view_permission_can_see_reactions_on_a_post_when_guest_reacting_is_off()
     {
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-                'authenticatedAs' => 2,
-            ])
-        );
+        $response = $this->getReactionsForPost(userId: 2);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -200,11 +207,7 @@ class ListPostReactionsTest extends TestCase
     {
         $this->setting('fof-reactions.anonymousReactions', true);
 
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions?include=user', [
-                'authenticatedAs' => 2,
-            ])
-        );
+        $response = $this->getReactionsForPost(userId: 2);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -216,11 +219,7 @@ class ListPostReactionsTest extends TestCase
     #[Test]
     public function user_without_view_permission_cannot_see_reactions_on_a_post_when_guest_reacting_is_off()
     {
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-                'authenticatedAs' => 6,
-            ])
-        );
+        $response = $this->getReactionsForPost(userId: 6);
 
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -230,11 +229,7 @@ class ListPostReactionsTest extends TestCase
     {
         $this->setting('fof-reactions.anonymousReactions', true);
 
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-                'authenticatedAs' => 6,
-            ])
-        );
+        $response = $this->getReactionsForPost(userId: 6);
 
         $this->assertEquals(403, $response->getStatusCode());
     }

@@ -305,9 +305,11 @@ export default class SettingsPage extends ExtensionPage {
       method: 'PATCH',
       url: `${app.forum.attribute('apiUrl')}/reactions/${reaction.id()}`,
       body: {
-        attributes: {
+        data: {
+          attributes: {
           [key]: value,
         },
+        }
       },
     });
 

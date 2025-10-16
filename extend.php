@@ -26,13 +26,11 @@ use FoF\Reactions\Search\PostReactionSearcher;
 return [
     (new Extend\Frontend('admin'))
         ->css(__DIR__.'/resources/less/admin.less')
-        ->js(__DIR__.'/js/dist/admin.js')
-        ->content(Content\AddReactionCdn::class),
+        ->js(__DIR__.'/js/dist/admin.js'),
 
     (new Extend\Frontend('forum'))
         ->css(__DIR__.'/resources/less/forum.less')
-        ->js(__DIR__.'/js/dist/forum.js')
-        ->content(Content\AddReactionCdn::class),
+        ->js(__DIR__.'/js/dist/forum.js'),
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
@@ -74,8 +72,5 @@ return [
         ->serializeToForum('fofReactionsCdnUrl', 'fof-reactions.cdnUrl', 'strval'),
 
     (new Extend\Policy())
-        ->modelPolicy(Post::class, Access\ReactPostPolicy::class),
-
-    (new Extend\Middleware('api'))
-        ->add(Middleware\BindRequestToContainer::class),
+        ->modelPolicy(Post::class, Access\ReactPostPolicy::class)
 ];
