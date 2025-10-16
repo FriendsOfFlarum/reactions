@@ -188,8 +188,8 @@ class ReactTest extends TestCase
             'cookiesFrom'     => $initial ?? null,
             'json'            => [
                 'data' => [
-                    'id' => (string) $postId,
-                    'type' => 'posts',
+                    'id'         => (string) $postId,
+                    'type'       => 'posts',
                     'attributes' => [
                         'reaction' => (string) $reactionId,
                     ],

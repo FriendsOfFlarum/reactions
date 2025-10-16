@@ -72,5 +72,5 @@ return [
         ->serializeToForum('fofReactionsCdnUrl', 'fof-reactions.cdnUrl', 'strval'),
 
     (new Extend\Policy())
-        ->modelPolicy(Post::class, Access\ReactPostPolicy::class)
+        ->modelPolicy(Post::class, Access\ReactPostPolicy::class),
 ];

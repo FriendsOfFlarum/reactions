@@ -102,7 +102,6 @@ class ListPostReactionsTest extends TestCase
         return $response;
     }
 
-
     #[Test]
     public function guest_cannot_see_reactions_when_permission_not_given_on_a_post_when_guest_reacting_is_off()
     {
