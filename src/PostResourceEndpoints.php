@@ -23,10 +23,12 @@ class PostResourceEndpoints
         return [
             Endpoint::make('reactions.specific.delete')
                 ->route('DELETE', '/{id}/reactions/specific/{postReactionId}')
+                ->visible(fn () => true)
                 ->action($this->action(...))
                 ->response(fn () => new EmptyResponse(204)),
             Endpoint::make('reactions.type.delete')
                 ->route('DELETE', '/{id}/reactions/type/{reactionId}')
+                ->visible(fn () => true)
                 ->action($this->action(...))
                 ->response(fn () => new EmptyResponse(204)),
         ];
@@ -39,8 +41,11 @@ class PostResourceEndpoints
         /** @var Post $post */
         $post = $context->model;
 
-        $postReactionId = $context->queryParam('postReactionId');
-        $reactionId = $context->queryParam('reactionId');
+        // Get route parameters - try both getAttribute and direct route params
+        $request = $context->request;
+        $routeParams = $request->getAttribute('routeParameters', []);
+        $postReactionId = $routeParams['postReactionId'] ?? $request->getAttribute('postReactionId');
+        $reactionId = $routeParams['reactionId'] ?? $request->getAttribute('reactionId');
 
         if ($reactionId) {
             // Delete all post_reactions of a specific type (i.e. `reaction_id`)

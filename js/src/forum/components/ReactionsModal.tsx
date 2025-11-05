@@ -158,14 +158,14 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
 
     loadingArr[id] = true;
 
+    // Use the new Flarum 2.0 RESTful endpoints
+    const endpoint = isSpecific
+      ? `posts/${this.attrs.post.id()}/reactions/specific/${id}`
+      : `posts/${this.attrs.post.id()}/reactions/type/${id}`;
+
     await app.request({
       method: 'DELETE',
-      url: `${app.forum.attribute('apiUrl')}/post_reactions/delete`,
-      body: {
-        postId: this.attrs.post.id(),
-        specific: isSpecific,
-        reactionOrPostReactionId: id,
-      },
+      url: `${app.forum.attribute('apiUrl')}/${endpoint}`,
     });
 
     // Filter out the deleted reaction type

@@ -271,23 +271,9 @@ class ReactTest extends TestCase
             $token = $initial->getHeaderLine('X-CSRF-Token');
         }
 
-        // $request = $this->request('DELETE', "/api/posts/1/reactions/specific/{$postReaction->id}", [
-        //     'authenticatedAs' => $authAs,
-        //     'cookiesFrom'     => $initial ?? null,
-        // ]);
-
-        $request = $this->request('DELETE', '/api/posts/1', [
+        $request = $this->request('DELETE', "/api/posts/1/reactions/specific/{$postReaction->id}", [
             'authenticatedAs' => $authAs,
             'cookiesFrom'     => $initial ?? null,
-            'json'            => [
-                'data' => [
-                    'id'         => (string) 1,
-                    'type'       => 'posts',
-                    'attributes' => [
-                        'reaction' => (string) $postReaction->id,
-                    ],
-                ],
-            ],
         ]);
 
         if (is_null($authAs)) {

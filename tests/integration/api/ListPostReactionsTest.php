@@ -107,7 +107,12 @@ class ListPostReactionsTest extends TestCase
     {
         $response = $this->getReactionsForPost();
 
-        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody()->getContents(), true);
+
+        // Guest without permission sees no reactions (filtered by scope)
+        $this->assertEquals(0, count($response['data']));
     }
 
     #[Test]
@@ -161,7 +166,9 @@ class ListPostReactionsTest extends TestCase
 
         $response = json_decode($response->getBody()->getContents(), true);
 
-        $this->assertEquals(8, count($response['data']));
+        // Only registered user reactions are returned in the API
+        // Anonymous reactions are aggregated in the post's reactionCounts attribute
+        $this->assertEquals(4, count($response['data']));
     }
 
     #[Test]
@@ -212,7 +219,9 @@ class ListPostReactionsTest extends TestCase
 
         $response = json_decode($response->getBody()->getContents(), true);
 
-        $this->assertEquals(8, count($response['data']));
+        // Only registered user reactions are returned in the API
+        // Anonymous reactions are aggregated in the post's reactionCounts attribute
+        $this->assertEquals(4, count($response['data']));
     }
 
     #[Test]
@@ -220,7 +229,12 @@ class ListPostReactionsTest extends TestCase
     {
         $response = $this->getReactionsForPost(userId: 6);
 
-        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody()->getContents(), true);
+
+        // User without permission sees no reactions (filtered by scope)
+        $this->assertEquals(0, count($response['data']));
     }
 
     #[Test]
@@ -230,6 +244,46 @@ class ListPostReactionsTest extends TestCase
 
         $response = $this->getReactionsForPost(userId: 6);
 
-        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody()->getContents(), true);
+
+        // User without permission sees no reactions (filtered by scope)
+        $this->assertEquals(0, count($response['data']));
+    }
+
+    #[Test]
+    public function anonymous_reactions_union_query_applies_visibility_scoping_correctly()
+    {
+        // This test specifically verifies the fix for the SQL error that occurred when
+        // PostReactionSearcher tried to call whereVisibleTo() on PostAnonymousReaction model.
+        // The fix manually applies visibility filtering for anonymous reactions.
+        $this->setting('fof-reactions.anonymousReactions', true);
+
+        // Test with a user who has permission - should get results without SQL errors
+        $response = $this->getReactionsForPost(userId: 2);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $responseData = json_decode($response->getBody()->getContents(), true);
+
+        // Should return registered user reactions (4 reactions, excluding the null one)
+        $this->assertEquals(4, count($responseData['data']));
+
+        // Verify no SQL errors occurred and response structure is correct
+        $this->assertArrayHasKey('data', $responseData);
+        $this->assertIsArray($responseData['data']);
+
+        // Test with a user without permission - should return empty results, not SQL error
+        $response = $this->getReactionsForPost(userId: 6);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $responseData = json_decode($response->getBody()->getContents(), true);
+
+        // User without permission sees no reactions due to visibility scoping
+        $this->assertEquals(0, count($responseData['data']));
+
+        // Verify the response is still valid JSON with correct structure (no SQL errors)
+        $this->assertArrayHasKey('data', $responseData);
+        $this->assertIsArray($responseData['data']);
     }
 }

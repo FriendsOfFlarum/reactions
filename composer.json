@@ -25,9 +25,6 @@
     "require": {
         "flarum/core": "^2.0.0@beta"
     },
-    "replace": {
-        "reflar/reactions": "*"
-    },
     "authors": [
         {
             "name": "David Sevilla Martín",
@@ -56,9 +53,6 @@
                 "backgroundColor": "#e74c3c",
                 "color": "#fff"
             }
-        },
-        "flagrow": {
-            "discuss": "https://discuss.flarum.org/d/20655"
         },
         "flarum-cli": {
             "modules": {

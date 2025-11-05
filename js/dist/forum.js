@@ -1560,14 +1560,12 @@ class ReactionsModal extends (flarum_common_components_Modal__WEBPACK_IMPORTED_M
     const loadingArr = isSpecific ? this.deletingSpecific : this.deletingType;
     const id = isSpecific ? postReactionId : reactionId;
     loadingArr[id] = true;
+
+    // Use the new Flarum 2.0 RESTful endpoints
+    const endpoint = isSpecific ? "posts/".concat(this.attrs.post.id(), "/reactions/specific/").concat(id) : "posts/".concat(this.attrs.post.id(), "/reactions/type/").concat(id);
     await flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().request({
       method: 'DELETE',
-      url: "".concat(flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().forum.attribute('apiUrl'), "/post_reactions/delete"),
-      body: {
-        postId: this.attrs.post.id(),
-        specific: isSpecific,
-        reactionOrPostReactionId: id
-      }
+      url: "".concat(flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().forum.attribute('apiUrl'), "/").concat(endpoint)
     });
 
     // Filter out the deleted reaction type

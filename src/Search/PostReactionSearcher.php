@@ -36,12 +36,21 @@ class PostReactionSearcher extends AbstractSearcher
             ->whereVisibleTo($actor);
 
         if ($this->settings->get('fof-reactions.anonymousReactions')) {
-            $query->unionAll(
-                PostAnonymousReaction::query()
-                    ->whereNotNull('reaction_id')
-                    ->whereVisibleTo($actor)
-                    ->toBase()
-            );
+            // For anonymous reactions, manually apply the same visibility scoping as PostReaction
+            $anonymousQuery = PostAnonymousReaction::query()
+                ->whereNotNull('reaction_id')
+                ->whereHas('post', function (Builder $query) use ($actor) {
+                    $query->whereVisibleTo($actor)
+                        ->whereHas('discussion', function (Builder $query) use ($actor) {
+                            $query->whereVisibleTo($actor);
+
+                            if (!$actor->hasPermission('discussion.canSeeReactions')) {
+                                $query->whereRaw('0 = 1');
+                            }
+                        });
+                });
+
+            $query->unionAll($anonymousQuery->toBase());
         }
 
         return $query;

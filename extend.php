@@ -52,7 +52,11 @@ return [
         ->endpoint(Endpoint\Show::class, fn (Endpoint\Show $show) => $show->addDefaultInclude(['reactions'])),
 
     (new Extend\ApiResource(Resource\PostResource::class))
-        ->fields(PostResourceFields::class),
+        ->fields(PostResourceFields::class)
+        ->endpoints(PostResourceEndpoints::class)
+        ->endpoint(Endpoint\Update::class, function (Endpoint\Update $endpoint) {
+            return $endpoint->authenticated(false);
+        }),
 
     (new Extend\ApiResource(Resource\DiscussionResource::class))
         ->fields(fn (): array => [
@@ -72,5 +76,6 @@ return [
         ->serializeToForum('fofReactionsCdnUrl', 'fof-reactions.cdnUrl', 'strval'),
 
     (new Extend\Policy())
-        ->modelPolicy(Post::class, Access\ReactPostPolicy::class),
+        ->modelPolicy(Post::class, Access\ReactPostPolicy::class)
+        ->modelPolicy(PostReaction::class, Access\PostReactionPolicy::class),
 ];
