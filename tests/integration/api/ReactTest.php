@@ -12,7 +12,6 @@
 namespace FoF\Reactions\tests\integration\api;
 
 use Carbon\Carbon;
-use Flarum\Extend;
 use Flarum\Group\Group;
 use Flarum\Post\Post;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
@@ -277,10 +276,10 @@ class ReactTest extends TestCase
         //     'cookiesFrom'     => $initial ?? null,
         // ]);
 
-        $request = $this->request('DELETE', "/api/posts/1", [
+        $request = $this->request('DELETE', '/api/posts/1', [
             'authenticatedAs' => $authAs,
             'cookiesFrom'     => $initial ?? null,
-            'json'          => [
+            'json'            => [
                 'data' => [
                     'id'         => (string) 1,
                     'type'       => 'posts',
@@ -288,7 +287,7 @@ class ReactTest extends TestCase
                         'reaction' => (string) $postReaction->id,
                     ],
                 ],
-            ],  
+            ],
         ]);
 
         if (is_null($authAs)) {
