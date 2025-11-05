@@ -16,31 +16,10 @@ use FoF\Reactions\Reaction;
 
 class Creating
 {
-    /**
-     * @var Reaction
-     */
-    public $reaction;
-
-    /**
-     * @var User
-     */
-    public $actor;
-
-    /**
-     * @var array
-     */
-    public array $data;
-
-    /**
-     * Creating constructor.
-     *
-     * @param Reaction $actor
-     * @param User     $actor
-     */
-    public function __construct(Reaction $reaction, User $actor, array $data)
-    {
-        $this->reaction = $reaction;
-        $this->actor = $actor;
-        $this->data = $data;
+    public function __construct(
+        public Reaction $reaction,
+        public User $actor,
+        public array $data
+    ) {
     }
 }

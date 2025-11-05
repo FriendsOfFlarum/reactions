@@ -17,6 +17,7 @@ use Flarum\Api\Resource;
 use Flarum\Api\Schema;
 use Flarum\Discussion\Discussion;
 use Flarum\Extend;
+use Flarum\Post\Event\Deleted;
 use Flarum\Post\Post;
 use Flarum\Search\Database\DatabaseSearchDriver;
 use FoF\Reactions\Notification\PostReactedBlueprint;
@@ -38,7 +39,12 @@ return [
         ->scope(Access\ScopePostReactionVisibility::class),
 
     (new Extend\Event())
-        ->subscribe(Listener\SendNotifications::class),
+        ->listen(Event\PostWasReacted::class, Listener\SendNotificationWhenPostIsReacted::class)
+        ->listen(Event\PostWasUnreacted::class, Listener\SendNotificationWhenPostIsUnreacted::class)
+        ->listen(Deleted::class, function (Deleted $event) {
+            PostReaction::where('post_id', $event->post->id)->delete();
+            PostAnonymousReaction::where('post_id', $event->post->id)->delete();
+        }),
 
     (new Extend\Notification())
         ->type(PostReactedBlueprint::class, ['alert']),

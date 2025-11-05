@@ -17,39 +17,11 @@ use FoF\Reactions\Reaction;
 
 class WillReactToPost
 {
-    /**
-     * @var Post
-     */
-    public $post;
-
-    /**
-     * @var User
-     */
-    public $actor;
-
-    /**
-     * @var Reaction
-     */
-    public $reaction;
-
-    /**
-     * @var bool
-     */
-    public $changed;
-
-    /**
-     * WillReactToPost constructor.
-     *
-     * @param Post $post
-     * @param User $user
-     * @param      $reaction
-     * @param bool $changed
-     */
-    public function __construct(Post $post, User $user, Reaction $reaction, $changed = false)
-    {
-        $this->post = $post;
-        $this->actor = $user;
-        $this->reaction = $reaction;
-        $this->changed = $changed;
+    public function __construct(
+        public Post $post,
+        public User $actor,
+        public Reaction $reaction,
+        public bool $changed = false
+    ) {
     }
 }

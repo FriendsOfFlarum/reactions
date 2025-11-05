@@ -17,12 +17,14 @@ use FoF\Reactions\PostReaction;
 
 class PostReactionPolicy extends AbstractPolicy
 {
-    public function canSeeReactions(User $actor, PostReaction $postReaction)
+    public function canSeeReactions(User $actor, PostReaction $postReaction): ?string
     {
         $discussion = $postReaction->post->discussion;
 
         if ($actor->can('canSeeReactions', $discussion)) {
             return $this->allow();
         }
+
+        return null;
     }
 }

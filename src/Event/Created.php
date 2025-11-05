@@ -16,25 +16,9 @@ use FoF\Reactions\Reaction;
 
 class Created
 {
-    /**
-     * @var Reaction
-     */
-    public $reaction;
-
-    /**
-     * @var User
-     */
-    public $actor;
-
-    /**
-     * Created constructor.
-     *
-     * @param Reaction $actor
-     * @param User     $actor
-     */
-    public function __construct(Reaction $reaction, User $actor)
-    {
-        $this->reaction = $reaction;
-        $this->actor = $actor;
+    public function __construct(
+        public Reaction $reaction,
+        public User $actor
+    ) {
     }
 }

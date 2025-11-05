@@ -19,46 +19,12 @@ use FoF\Reactions\Reaction;
 
 class PostWasReacted
 {
-    /**
-     * @var Post
-     */
-    public $post;
-
-    /**
-     * @var PostReaction|PostAnonymousReaction
-     */
-    public $postReaction;
-
-    /**
-     * @var User
-     */
-    public $user;
-
-    /**
-     * @var Reaction
-     */
-    public $reaction;
-
-    /**
-     * @var bool
-     */
-    public $changed;
-
-    /**
-     * PostWasReacted constructor.
-     *
-     * @param Post                               $post
-     * @param PostReaction|PostAnonymousReaction $postReaction
-     * @param User                               $user
-     * @param Reaction                           $reaction
-     * @param bool                               $changed
-     */
-    public function __construct(Post $post, $postReaction, User $user, Reaction $reaction, $changed = false)
-    {
-        $this->post = $post;
-        $this->postReaction = $postReaction;
-        $this->user = $user;
-        $this->reaction = $reaction;
-        $this->changed = $changed;
+    public function __construct(
+        public Post $post,
+        public PostReaction|PostAnonymousReaction $postReaction,
+        public User $user,
+        public Reaction $reaction,
+        public bool $changed = false
+    ) {
     }
 }
