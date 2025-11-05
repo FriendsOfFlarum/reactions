@@ -253,27 +253,30 @@ class ListPostReactionsTest extends TestCase
     }
 
     #[Test]
-    public function anonymous_reactions_union_query_applies_visibility_scoping_correctly()
+    public function post_reactions_api_only_returns_registered_user_reactions()
     {
-        // This test specifically verifies the fix for the SQL error that occurred when
-        // PostReactionSearcher tried to call whereVisibleTo() on PostAnonymousReaction model.
-        // The fix manually applies visibility filtering for anonymous reactions.
+        // The /api/post_reactions endpoint should only return registered user reactions,
+        // not anonymous reactions. Anonymous reactions are aggregated in the post's
+        // reactionCounts attribute for privacy and architectural consistency.
         $this->setting('fof-reactions.anonymousReactions', true);
 
-        // Test with a user who has permission - should get results without SQL errors
+        // Test with a user who has permission
         $response = $this->getReactionsForPost(userId: 2);
         $this->assertEquals(200, $response->getStatusCode());
 
         $responseData = json_decode($response->getBody()->getContents(), true);
 
-        // Should return registered user reactions (4 reactions, excluding the null one)
+        // Should return only registered user reactions (4 reactions)
+        // Anonymous reactions (from post_anonymous_reactions table) are NOT included
         $this->assertEquals(4, count($responseData['data']));
 
-        // Verify no SQL errors occurred and response structure is correct
-        $this->assertArrayHasKey('data', $responseData);
-        $this->assertIsArray($responseData['data']);
+        // Verify all returned reactions have user_id (not guest_id)
+        foreach ($responseData['data'] as $reaction) {
+            $this->assertArrayHasKey('userId', $reaction['attributes']);
+            $this->assertNotNull($reaction['attributes']['userId']);
+        }
 
-        // Test with a user without permission - should return empty results, not SQL error
+        // Test with a user without permission - should return empty results
         $response = $this->getReactionsForPost(userId: 6);
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -281,9 +284,5 @@ class ListPostReactionsTest extends TestCase
 
         // User without permission sees no reactions due to visibility scoping
         $this->assertEquals(0, count($responseData['data']));
-
-        // Verify the response is still valid JSON with correct structure (no SQL errors)
-        $this->assertArrayHasKey('data', $responseData);
-        $this->assertIsArray($responseData['data']);
     }
 }
