@@ -12,6 +12,7 @@
 namespace FoF\Reactions\tests\integration\api;
 
 use Carbon\Carbon;
+use Flarum\Extend;
 use Flarum\Group\Group;
 use Flarum\Post\Post;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
@@ -89,8 +90,15 @@ class ReactTest extends TestCase
         $this->rewriteDefaultPermissionsAfterBoot();
 
         $response = $this->sendReactRequest($postId, $reactionId, $authenticatedAs);
+        $statusCode = $response->getStatusCode();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        if ($statusCode !== 200) {
+            $body = json_decode((string) $response->getBody(), true);
+            print_r($message);
+            print_r($body);
+        }
+
+        $this->assertEquals(200, $statusCode);
 
         $body = json_decode((string) $response->getBody(), true);
 
@@ -248,7 +256,7 @@ class ReactTest extends TestCase
 
     #[Test]
     #[DataProvider('deleteSpecificPostReactionUsersData')]
-    public function user_can_delete_own_post_reaction_by_id($reactionAs, $authAs, $message, $statusCode)
+    public function user_can_delete_own_post_reaction_by_id(int $reactionAs, ?int $authAs, string $message, int $statusCode)
     {
         $this->sendReactRequest(1, 1, $reactionAs);
 
@@ -264,9 +272,23 @@ class ReactTest extends TestCase
             $token = $initial->getHeaderLine('X-CSRF-Token');
         }
 
-        $request = $this->request('DELETE', "/api/posts/1/reactions/specific/{$postReaction->id}", [
+        // $request = $this->request('DELETE', "/api/posts/1/reactions/specific/{$postReaction->id}", [
+        //     'authenticatedAs' => $authAs,
+        //     'cookiesFrom'     => $initial ?? null,
+        // ]);
+
+        $request = $this->request('DELETE', "/api/posts/1", [
             'authenticatedAs' => $authAs,
             'cookiesFrom'     => $initial ?? null,
+            'json'          => [
+                'data' => [
+                    'id'         => (string) 1,
+                    'type'       => 'posts',
+                    'attributes' => [
+                        'reaction' => (string) $postReaction->id,
+                    ],
+                ],
+            ],  
         ]);
 
         if (is_null($authAs)) {
