@@ -6,22 +6,27 @@ import Select from 'flarum/common/components/Select';
 import saveSettings from 'flarum/admin/utils/saveSettings';
 import Switch from 'flarum/common/components/Switch';
 import Stream from 'flarum/common/utils/Stream';
-import withAttr from 'flarum/common/utils/withAttr';
 import extractText from 'flarum/common/utils/extractText';
+import type Mithril from 'mithril';
+import type Reaction from '../../common/models/Reaction';
 
 export default class SettingsPage extends ExtensionPage {
-  oninit(vnode) {
+  fields: string[] = ['convertToUpvote', 'convertToDownvote', 'convertToLike', 'cdnUrl'];
+  switches: string[] = ['react_own_post', 'anonymousReactions'];
+  values: Record<string, Stream<string | boolean>> = {};
+  reactions!: Reaction[];
+  settingsPrefix: string = 'fof-reactions';
+  newReaction!: {
+    identifier: Stream<string>;
+    type: Stream<string>;
+  };
+  addLoading: boolean = false;
+  successAlert: any = null;
+
+  oninit(vnode: Mithril.Vnode) {
     super.oninit(vnode);
 
-    this.fields = ['convertToUpvote', 'convertToDownvote', 'convertToLike', 'cdnUrl'];
-
-    this.switches = ['react_own_post', 'anonymousReactions'];
-
-    this.values = {};
-
-    this.reactions = app.forum.reactions();
-
-    this.settingsPrefix = 'fof-reactions';
+    this.reactions = app.store.all<Reaction>('reactions').slice();
 
     const settings = app.data.settings;
 
@@ -30,13 +35,10 @@ export default class SettingsPage extends ExtensionPage {
       type: Stream('emoji'),
     };
 
-    this.fields.forEach((key) => (this.values[key] = Stream(settings[this.addPrefix(key)])));
+    this.fields.forEach((key) => (this.values[key] = Stream(settings[this.addPrefix(key)] || '')));
     this.switches.forEach((key) => (this.values[key] = Stream(!!Number(settings[this.addPrefix(key)]))));
   }
 
-  /**
-   * @returns {*}
-   */
   content() {
     return (
       <div className="SettingsPage--reactions">
@@ -53,25 +55,25 @@ export default class SettingsPage extends ExtensionPage {
               </p>
               <input
                 className="FormControl reactions-settings-input"
-                value={this.values.cdnUrl()}
-                oninput={withAttr('value', this.values.cdnUrl)}
+                value={this.values.cdnUrl() as string}
+                oninput={(e: InputEvent) => {
+                  const target = e.target as HTMLInputElement;
+                  this.values.cdnUrl(target.value);
+                }}
                 placeholder="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/[codepoint].png"
               />
               <legend>{app.translator.trans('fof-reactions.admin.page.reactions.title')}</legend>
               <label>{app.translator.trans('fof-reactions.admin.page.reactions.reactions')}</label>
-              <div style="margin-bottom: -10px" className="helpText">
-                {app.translator.trans('fof-reactions.admin.page.reactions.Helptext')}
-              </div>
-              <br />
+              <div className="helpText">{app.translator.trans('fof-reactions.admin.page.reactions.Helptext')}</div>
               <div className="Reactions--Container">
                 {this.reactions.map((reaction) => {
-                  const spanClass = reaction.type() === 'icon' && `fa fa-${reaction.identifier()} Reactions-demo`;
+                  const spanClass = reaction.type() === 'icon' && `fas fa-${reaction.identifier()} Reactions-demo`;
                   const data = emoji(reaction.identifier());
                   const demos = [];
 
                   if (reaction.type() === 'icon') {
                     demos.push(
-                      <i className={spanClass} aria-hidden>
+                      <i className={spanClass || ''} aria-hidden="true">
                         &nbsp;
                       </i>
                     );
@@ -82,11 +84,10 @@ export default class SettingsPage extends ExtensionPage {
                       <>
                         <img
                           alt={data.identifier}
-                          className="Reactions-demo"
-                          draggable="false"
-                          style={reaction.type() !== 'emoji' && 'opacity: 0.5;'}
+                          className={reaction.type() !== 'emoji' ? 'emoji-non-primary' : ''}
+                          draggable={false}
                           src={data.url}
-                          width="30px"
+                          width="30"
                         />
 
                         {data.score && reaction.type() === 'emoji' && (
@@ -104,31 +105,37 @@ export default class SettingsPage extends ExtensionPage {
                         className="FormControl Reactions-input"
                         value={reaction.display() || ''}
                         placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.display')}
-                        oninput={withAttr('value', (val) => this.update(reaction, 'display', val))}
+                        oninput={(e: InputEvent) => {
+                          const target = e.target as HTMLInputElement;
+                          this.update(reaction, 'display', target.value);
+                        }}
                       />
                       <input
                         className="FormControl Reactions-input"
                         type="text"
                         value={reaction.identifier()}
                         placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.identifier')}
-                        oninput={withAttr('value', (val) => this.update(reaction, 'identifier', val))}
+                        oninput={(e: InputEvent) => {
+                          const target = e.target as HTMLInputElement;
+                          this.update(reaction, 'identifier', target.value);
+                        }}
                       />
-                      {Select.component({
-                        options: { emoji: 'emoji', icon: 'icon' },
-                        value: reaction.type(),
-                        onchange: (val) => this.update(reaction, 'type', val),
-                      })}
-                      {Switch.component({
-                        className: 'Reactions-switch',
-                        state: reaction.enabled(),
-                        onchange: (val) => this.update(reaction, 'enabled', val),
-                      })}
-                      {Button.component({
-                        type: 'button',
-                        className: 'Button Button--warning Reactions-button',
-                        icon: 'fa fa-times',
-                        onclick: this.deleteReaction.bind(this, reaction),
-                      })}
+                      <Select
+                        options={{ emoji: 'emoji', icon: 'icon' }}
+                        value={reaction.type()}
+                        onchange={(val: string) => this.update(reaction, 'type', val)}
+                      />
+                      <Switch
+                        className="Reactions-switch"
+                        state={reaction.enabled()}
+                        onchange={(val: boolean) => this.update(reaction, 'enabled', val)}
+                      />
+                      <Button
+                        type="button"
+                        className="Button Button--warning Reactions-button"
+                        icon="fas fa-times"
+                        onclick={() => this.deleteReaction(reaction)}
+                      />
 
                       <div className="Reactions-demo">{demos}</div>
                     </div>,
@@ -139,25 +146,27 @@ export default class SettingsPage extends ExtensionPage {
                   <input
                     className="FormControl Reactions-input"
                     type="text"
-                    loading={this.addLoading}
                     placeholder={app.translator.trans('fof-reactions.admin.page.reactions.help.identifier')}
-                    oninput={withAttr('value', this.newReaction.identifier)}
+                    oninput={(e: InputEvent) => {
+                      const target = e.target as HTMLInputElement;
+                      this.newReaction.identifier(target.value);
+                    }}
                   />
-                  {Select.component({
-                    options: { emoji: 'emoji', icon: 'icon' },
-                    disabled: this.addLoading,
-                    value: this.newReaction.type(),
-                    onchange: this.newReaction.type,
-                  })}
-                  {Button.component({
-                    type: 'button',
-                    className: 'Button Button--warning Reactions-button',
-                    icon: this.addLoading ? '' : 'fa fa-plus',
-                    loading: this.addLoading,
-                    onclick: this.addReaction.bind(this),
-                  })}
+                  <Select
+                    options={{ emoji: 'emoji', icon: 'icon' }}
+                    disabled={this.addLoading}
+                    value={this.newReaction.type()}
+                    onchange={(val: string) => this.newReaction.type(val)}
+                  />
+                  <Button
+                    type="button"
+                    className="Button Button--warning Reactions-button"
+                    icon={this.addLoading ? '' : 'fas fa-plus'}
+                    loading={this.addLoading}
+                    onclick={() => this.addReaction()}
+                  />
                   {this.newReaction.type() === 'icon' ? (
-                    <i className={this.newReaction.type() === 'icon' && `fa fa-${this.newReaction.identifier()} Reactions-demo`} aria-hidden>
+                    <i className={`fas fa-${this.newReaction.identifier()} Reactions-demo`} aria-hidden="true">
                       &nbsp;
                     </i>
                   ) : (
@@ -167,11 +176,10 @@ export default class SettingsPage extends ExtensionPage {
                   {emoji(this.newReaction.identifier()).uc ? (
                     <img
                       alt={this.newReaction.identifier()}
-                      className="Reactions-demo"
-                      draggable="false"
-                      style={this.newReaction.type() !== 'emoji' && 'opacity: 0.5;'}
+                      className={this.newReaction.type() !== 'emoji' ? 'emoji-non-primary' : ''}
+                      draggable={false}
                       src={emoji(this.newReaction.identifier()).url}
-                      width="30px"
+                      width="30"
                     />
                   ) : (
                     ''
@@ -182,13 +190,21 @@ export default class SettingsPage extends ExtensionPage {
             <fieldset>
               <div className="Reaction-settings">
                 <div>
-                  <Switch state={this.values.react_own_post()} onchange={this.values.react_own_post} className="reactions-settings-switch">
+                  <Switch
+                    state={this.values.react_own_post() as boolean}
+                    onchange={(val: boolean) => this.values.react_own_post(val)}
+                    className="reactions-settings-switch"
+                  >
                     {app.translator.trans('fof-reactions.admin.page.settings.react_own_posts_label')}
                   </Switch>
                   <div className="helpText">{app.translator.trans('fof-reactions.admin.page.settings.react_own_posts_help')}</div>
                 </div>
                 <div>
-                  <Switch state={this.values.anonymousReactions()} onchange={this.values.anonymousReactions} className="reactions-settings-switch">
+                  <Switch
+                    state={this.values.anonymousReactions() as boolean}
+                    onchange={(val: boolean) => this.values.anonymousReactions(val)}
+                    className="reactions-settings-switch"
+                  >
                     {app.translator.trans('fof-reactions.admin.page.settings.allow-anonymous')}
                   </Switch>
                   <div className="helpText">{app.translator.trans('fof-reactions.admin.page.settings.allow-anonymous-help')}</div>
@@ -207,9 +223,12 @@ export default class SettingsPage extends ExtensionPage {
                     </div>
                     <input
                       className="FormControl reactions-settings-input"
-                      value={this.values.convertToUpvote() || ''}
+                      value={(this.values.convertToUpvote() as string) || ''}
                       placeholder="thumbsup"
-                      oninput={withAttr('value', this.values.convertToUpvote)}
+                      oninput={(e: InputEvent) => {
+                        const target = e.target as HTMLInputElement;
+                        this.values.convertToUpvote(target.value);
+                      }}
                     />
                     <label>{app.translator.trans('fof-reactions.admin.page.settings.integrations.gamification.downvoteLabel')}</label>
                     <div className="helpText">
@@ -217,9 +236,12 @@ export default class SettingsPage extends ExtensionPage {
                     </div>
                     <input
                       className="FormControl reactions-settings-input"
-                      value={this.values.convertToDownvote() || ''}
+                      value={(this.values.convertToDownvote() as string) || ''}
                       placeholder="thumbsdown"
-                      oninput={withAttr('value', this.values.convertToDownvote)}
+                      oninput={(e: InputEvent) => {
+                        const target = e.target as HTMLInputElement;
+                        this.values.convertToDownvote(target.value);
+                      }}
                     />
                   </div>
                 ) : (
@@ -232,9 +254,12 @@ export default class SettingsPage extends ExtensionPage {
                     <div className="helpText">{app.translator.trans('fof-reactions.admin.page.settings.integrations.likes.Helptext')}</div>
                     <input
                       className="FormControl reactions-settings-input"
-                      value={this.values.convertToLike() || ''}
+                      value={(this.values.convertToLike() as string) || ''}
                       placeholder="thumbsup"
-                      oninput={withAttr('value', this.values.convertToLike)}
+                      oninput={(e: InputEvent) => {
+                        const target = e.target as HTMLInputElement;
+                        this.values.convertToLike(target.value);
+                      }}
                     />
                   </div>
                 ) : (
@@ -246,17 +271,11 @@ export default class SettingsPage extends ExtensionPage {
               ) : (
                 ''
               )}
-              {Button.component(
-                {
-                  type: 'submit',
-                  className: 'Button Button--primary',
-                  loading: this.loading,
-                  disabled: !this.changed(),
-                },
-                app.translator.trans('fof-reactions.admin.page.settings.save_settings', {
+              <Button type="submit" className="Button Button--primary" loading={this.loading} disabled={!this.changed()}>
+                {app.translator.trans('fof-reactions.admin.page.settings.save_settings', {
                   strong: <strong />,
-                })
-              )}
+                })}
+              </Button>
             </fieldset>
           </form>
         </div>
@@ -264,17 +283,14 @@ export default class SettingsPage extends ExtensionPage {
     );
   }
 
-  /**
-   * @returns boolean
-   */
-  changed() {
-    var fieldsCheck = this.fields.some((key) => this.values[key]() !== app.data.settings[this.addPrefix(key)]);
-    var switchesCheck = this.switches.some((key) => this.values[key]() !== (app.data.settings[this.addPrefix(key)] == '1'));
+  changed(): boolean {
+    const fieldsCheck = this.fields.some((key) => this.values[key]() !== app.data.settings[this.addPrefix(key)]);
+    const switchesCheck = this.switches.some((key) => this.values[key]() !== (app.data.settings[this.addPrefix(key)] == '1'));
     return fieldsCheck || switchesCheck;
   }
 
-  addReaction() {
-    const reaction = app.store.createRecord('reactions');
+  addReaction(): void {
+    const reaction = app.store.createRecord<Reaction>('reactions');
 
     this.addLoading = true;
 
@@ -287,7 +303,7 @@ export default class SettingsPage extends ExtensionPage {
         this.reactions.push(savedReaction);
 
         this.newReaction.identifier('');
-        this.newReaction.type('icon');
+        this.newReaction.type('emoji');
 
         this.addLoading = false;
 
@@ -300,26 +316,28 @@ export default class SettingsPage extends ExtensionPage {
       });
   }
 
-  update(reaction, key, value) {
+  update(reaction: Reaction, key: string, value: string | boolean): void {
     app.request({
       method: 'PATCH',
       url: `${app.forum.attribute('apiUrl')}/reactions/${reaction.id()}`,
       body: {
-        attributes: {
-          [key]: value,
+        data: {
+          attributes: {
+            [key]: value,
+          },
         },
       },
     });
 
     this.reactions.some((r) => {
       if (r.id() === reaction.id()) {
-        reaction[key] = Stream(value);
+        reaction.pushAttributes({ [key]: value });
         return true;
       }
     });
   }
 
-  deleteReaction(reactionToDelete) {
+  deleteReaction(reactionToDelete: Reaction): void {
     if (!confirm(extractText(app.translator.trans('fof-reactions.admin.page.reactions.delete_confirmation')))) return;
 
     app.request({
@@ -334,23 +352,17 @@ export default class SettingsPage extends ExtensionPage {
     });
   }
 
-  onsubmit(e) {
-    // prevent the usual form submit behaviour
+  onsubmit(e: SubmitEvent): void {
     e.preventDefault();
 
-    // if the page is already saving, do nothing
     if (this.loading) return;
 
-    // prevents multiple savings
     this.loading = true;
 
-    // remove previous success popup
     app.alerts.dismiss(this.successAlert);
 
-    // actually saves everything in the database
     saveSettings(this.prepareSubmissionData())
       .then(() => {
-        // on success, show popup
         this.successAlert = app.alerts.show(
           {
             type: 'success',
@@ -360,30 +372,26 @@ export default class SettingsPage extends ExtensionPage {
       })
       .catch(() => {})
       .then(() => {
-        // return to the initial state and redraw the page
         this.loading = false;
         m.redraw();
       });
   }
 
-  isExtEnabled(name) {
+  isExtEnabled(name: string): boolean {
     const enabled = JSON.parse(app.data.settings.extensions_enabled);
 
     return enabled.indexOf(name) !== -1;
   }
 
-  /**
-   * @returns string
-   */
-  addPrefix(key) {
+  addPrefix(key: string): string {
     return `${this.settingsPrefix}.${key}`;
   }
 
-  prepareSubmissionData() {
-    const settings = {};
+  prepareSubmissionData(): Record<string, string | boolean> {
+    const settings: Record<string, string | boolean> = {};
 
-    this.switches.forEach((key) => (settings[this.addPrefix(key)] = this.values[key]()));
-    this.fields.forEach((key) => (settings[this.addPrefix(key)] = this.values[key]()));
+    this.switches.forEach((key) => (settings[this.addPrefix(key)] = this.values[key]() as boolean));
+    this.fields.forEach((key) => (settings[this.addPrefix(key)] = this.values[key]() as string));
 
     return settings;
   }

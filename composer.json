@@ -23,11 +23,7 @@
         }
     ],
     "require": {
-        "php": "^7.4 | ^8.0",
-        "flarum/core": "^1.2.0"
-    },
-    "replace": {
-        "reflar/reactions": "*"
+        "flarum/core": "^2.0.0@beta"
     },
     "authors": [
         {
@@ -57,9 +53,6 @@
                 "backgroundColor": "#e74c3c",
                 "color": "#fff"
             }
-        },
-        "flagrow": {
-            "discuss": "https://discuss.flarum.org/d/20655"
         },
         "flarum-cli": {
             "modules": {
@@ -92,9 +85,8 @@
         "analyse:phpstan": "Run static analysis"
     },
     "require-dev": {
-        "flarum/testing": "^1.0.0",
-        "flarum/likes": "*",
-        "fof/gamification": "*",
-        "flarum/phpstan": "*"
+        "flarum/testing": "^2.0.0@beta",
+        "flarum/likes": "^2.0.0@beta",
+        "flarum/phpstan": "^2.0.0@beta"
     }
 }

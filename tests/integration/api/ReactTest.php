@@ -18,6 +18,8 @@ use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use FoF\Reactions\PostAnonymousReaction;
 use FoF\Reactions\PostReaction;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Psr\Http\Message\ResponseInterface;
 
 class ReactTest extends TestCase
@@ -33,20 +35,20 @@ class ReactTest extends TestCase
         $this->prepareDatabase([
             'users' => [
                 $this->normalUser(),
-                ['id' => 3, 'username' => 'Acme', 'email' => 'acme@machine.local', 'is_email_confirmed' => 1],
-                ['id' => 4, 'username' => 'Acme2', 'email' => 'acme2@machine.local', 'is_email_confirmed' => 1],
-                ['id' => 5, 'username' => 'Acme3', 'email' => 'acme3@machine.local', 'is_email_confirmed' => 1],
-                ['id' => 6, 'username' => 'Acme4', 'email' => 'acme4@machine.local', 'is_email_confirmed' => 1],
+                ['id' => 3, 'username' => 'Acme', 'email' => 'acme@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
+                ['id' => 4, 'username' => 'Acme2', 'email' => 'acme2@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
+                ['id' => 5, 'username' => 'Acme3', 'email' => 'acme3@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
+                ['id' => 6, 'username' => 'Acme4', 'email' => 'acme4@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
             ],
             'discussions' => [
-                ['id' => 1, 'title' => __CLASS__, 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'comment_count' => 2],
+                ['id' => 1, 'title' => __CLASS__, 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'comment_count' => 2, 'slug' => 'fof-reactions-tests-integration-api-react-test'],
             ],
             'posts' => [
                 ['id' => 1, 'number' => 1, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
                 ['id' => 3, 'number' => 2, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 2, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
                 ['id' => 5, 'number' => 3, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 3, 'type' => 'discussionRenamed', 'content' => '<t><p>something</p></t>'],
                 ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
-                ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 5, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
+                ['id' => 7, 'number' => 5, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 5, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
             ],
             'groups' => [
                 ['id' => 5, 'name_singular' => 'Acme', 'name_plural' => 'Acme', 'is_hidden' => 0],
@@ -72,11 +74,8 @@ class ReactTest extends TestCase
         $this->database()->table('group_permission')->insert(['permission' => 'discussion.reactPosts', 'group_id' => 5]);
     }
 
-    /**
-     * @dataProvider allowedUsersToReact
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('allowedUsersToReact')]
     public function can_react_to_a_post_if_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, ?bool $canReactOwnPost = null, ?bool $guestReactionsEnabled = null)
     {
         if (!is_null($canReactOwnPost)) {
@@ -90,8 +89,15 @@ class ReactTest extends TestCase
         $this->rewriteDefaultPermissionsAfterBoot();
 
         $response = $this->sendReactRequest($postId, $reactionId, $authenticatedAs);
+        $statusCode = $response->getStatusCode();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        if ($statusCode !== 200) {
+            $body = json_decode((string) $response->getBody(), true);
+            print_r($message);
+            print_r($body);
+        }
+
+        $this->assertEquals(200, $statusCode);
 
         $body = json_decode((string) $response->getBody(), true);
 
@@ -117,11 +123,8 @@ class ReactTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider unallowedUsersToReact
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('unallowedUsersToReact')]
     public function cannot_react_to_a_post_if_not_allowed(int $postId, ?int $authenticatedAs, int $reactionId, string $message, ?bool $canReactOwnPost = null, ?bool $guestReactionsEnabled = null)
     {
         if (!is_null($canReactOwnPost)) {
@@ -147,7 +150,7 @@ class ReactTest extends TestCase
         }
     }
 
-    public function allowedUsersToReact(): array
+    public static function allowedUsersToReact(): array
     {
         return [
             // [$postId, $authAs, $reactionId, $message, $canReactOwnPost, $guestReactionsEnabled]
@@ -160,7 +163,7 @@ class ReactTest extends TestCase
         ];
     }
 
-    public function unallowedUsersToReact(): array
+    public static function unallowedUsersToReact(): array
     {
         return [
             // [$postId, $authAs, $reactionId, $message, $canReactOwnPost, $guestReactionsEnabled]
@@ -192,8 +195,10 @@ class ReactTest extends TestCase
             'cookiesFrom'     => $initial ?? null,
             'json'            => [
                 'data' => [
+                    'id'         => (string) $postId,
+                    'type'       => 'posts',
                     'attributes' => [
-                        'reaction' => $reactionId,
+                        'reaction' => (string) $reactionId,
                     ],
                 ],
             ],
@@ -211,9 +216,7 @@ class ReactTest extends TestCase
         $this->database()->table('reactions')->where('id', $reactionId)->update(['enabled' => false]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_cannot_react_to_a_post_if_reaction_disabled()
     {
         $this->disableReactionId(1);
@@ -231,9 +234,7 @@ class ReactTest extends TestCase
         $this->assertNull($postReaction, 'Reaction was saved to database');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_react_to_a_post_when_feature_is_enabled_but_reaction_disabled()
     {
         $this->setting('fof-reactions.anonymousReactions', true);
@@ -252,12 +253,9 @@ class ReactTest extends TestCase
         $this->assertNull($postReaction, 'Anonymous reaction was saved to database');
     }
 
-    /**
-     * @dataProvider deleteSpecificPostReactionUsersData
-     *
-     * @test
-     */
-    public function user_can_delete_own_post_reaction_by_id($reactionAs, $authAs, $message, $statusCode)
+    #[Test]
+    #[DataProvider('deleteSpecificPostReactionUsersData')]
+    public function user_can_delete_own_post_reaction_by_id(int $reactionAs, ?int $authAs, string $message, int $statusCode)
     {
         $this->sendReactRequest(1, 1, $reactionAs);
 
@@ -299,7 +297,7 @@ class ReactTest extends TestCase
         }
     }
 
-    public function deleteSpecificPostReactionUsersData()
+    public static function deleteSpecificPostReactionUsersData()
     {
         return [
             // [$reactionAs, $authAs, $message, $statusCode]
@@ -311,9 +309,7 @@ class ReactTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_can_react_and_is_converted_to_like_when_likes_is_enabled()
     {
         $this->extension('flarum-likes');
@@ -334,9 +330,7 @@ class ReactTest extends TestCase
         $this->assertTrue($likes->contains(3), 'User is in the collection of users who liked the post');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_can_react_and_not_have_it_converted_to_a_like()
     {
         $this->extension('flarum-likes');
@@ -355,9 +349,7 @@ class ReactTest extends TestCase
         $this->assertCount(0, $likes);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function empty_string_as_convert_like_setting_does_nothing()
     {
         $this->extension('flarum-likes');

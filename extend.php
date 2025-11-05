@@ -11,67 +11,68 @@
 
 namespace FoF\Reactions;
 
-use Flarum\Api\Controller as ApiController;
-use Flarum\Api\Serializer;
-use Flarum\Api\Serializer\BasicPostSerializer;
-use Flarum\Database\AbstractModel;
+use Flarum\Api\Context;
+use Flarum\Api\Endpoint;
+use Flarum\Api\Resource;
+use Flarum\Api\Schema;
+use Flarum\Discussion\Discussion;
 use Flarum\Extend;
-use Flarum\Post\Event\Saving;
+use Flarum\Post\Event\Deleted;
 use Flarum\Post\Post;
-use FoF\Reactions\Api\Controller;
-use FoF\Reactions\Api\Serializer\ReactionSerializer;
+use Flarum\Search\Database\DatabaseSearchDriver;
 use FoF\Reactions\Notification\PostReactedBlueprint;
+use FoF\Reactions\Search\Filter\PostFilter;
+use FoF\Reactions\Search\PostReactionSearcher;
 
 return [
     (new Extend\Frontend('admin'))
         ->css(__DIR__.'/resources/less/admin.less')
-        ->js(__DIR__.'/js/dist/admin.js')
-        ->content(Content\AddReactionCdn::class),
+        ->js(__DIR__.'/js/dist/admin.js'),
 
     (new Extend\Frontend('forum'))
         ->css(__DIR__.'/resources/less/forum.less')
-        ->js(__DIR__.'/js/dist/forum.js')
-        ->content(Content\AddReactionCdn::class),
+        ->js(__DIR__.'/js/dist/forum.js'),
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
-    (new Extend\Routes('api'))
-        ->get('/posts/{id}/reactions', 'post.reactions.index', Controller\ListPostReactionsController::class)
-        ->delete('/posts/{id}/reactions/specific/{postReactionId}', 'post.reactions.specific.delete', Controller\DeletePostReactionController::class)
-        ->delete('/posts/{id}/reactions/type/{reactionId}', 'post.reactions.type.delete', Controller\DeletePostReactionController::class)
-        ->get('/reactions', 'reactions.index', Controller\ListReactionsController::class)
-        ->post('/reactions', 'reactions.create', Controller\CreateReactionController::class)
-        ->patch('/reactions/{id}', 'reactions.update', Controller\UpdateReactionController::class)
-        ->delete('/reactions/{id}', 'reactions.delete', Controller\DeleteReactionController::class),
+    (new Extend\ModelVisibility(PostReaction::class))
+        ->scope(Access\ScopePostReactionVisibility::class),
 
     (new Extend\Event())
-        ->listen(Saving::class, Listener\SaveReactionsToDatabase::class)
-        ->subscribe(Listener\SendNotifications::class),
+        ->listen(Event\PostWasReacted::class, Listener\SendNotificationWhenPostIsReacted::class)
+        ->listen(Event\PostWasUnreacted::class, Listener\SendNotificationWhenPostIsUnreacted::class)
+        ->listen(Deleted::class, function (Deleted $event) {
+            PostReaction::where('post_id', $event->post->id)->delete();
+            PostAnonymousReaction::where('post_id', $event->post->id)->delete();
+        }),
 
     (new Extend\Notification())
-        ->type(PostReactedBlueprint::class, BasicPostSerializer::class, ['alert']),
+        ->type(PostReactedBlueprint::class, ['alert']),
 
-    (new Extend\ApiSerializer(Serializer\ForumSerializer::class))
-        ->hasMany('reactions', ReactionSerializer::class)
-        ->attributes(ReactionsForumAttributes::class),
+    new Extend\ApiResource(Api\Resource\PostReactionResource::class),
 
-    (new Extend\ApiSerializer(Serializer\PostSerializer::class))
-        ->attributes(PostAttributes::class),
+    new Extend\ApiResource(Api\Resource\ReactionResource::class),
 
-    (new Extend\ApiSerializer(Serializer\DiscussionSerializer::class))
-        ->attributes(function (Serializer\DiscussionSerializer $serializer, AbstractModel $discussion, array $attributes): array {
-            $attributes['canSeeReactions'] = (bool) $serializer->getActor()->can('canSeeReactions', $discussion);
+    (new Extend\ApiResource(Resource\ForumResource::class))
+        ->fields(ForumResourceFields::class)
+        ->endpoint(Endpoint\Show::class, fn (Endpoint\Show $show) => $show->addDefaultInclude(['reactions'])),
 
-            return $attributes;
+    (new Extend\ApiResource(Resource\PostResource::class))
+        ->fields(PostResourceFields::class)
+        ->endpoints(PostResourceEndpoints::class)
+        ->endpoint(Endpoint\Update::class, function (Endpoint\Update $endpoint) {
+            return $endpoint->authenticated(false);
         }),
 
-    (new Extend\ApiController(ApiController\ShowForumController::class))
-        ->prepareDataForSerialization(function (ApiController\ShowForumController $controller, &$data) {
-            $data['reactions'] = Reaction::get();
-        }),
+    (new Extend\ApiResource(Resource\DiscussionResource::class))
+        ->fields(fn (): array => [
+            Schema\Boolean::make('canSeeReactions')
+                ->get(fn (Discussion $discussion, Context $context) => $context->getActor()->can('canSeeReactions', $discussion)),
+        ]),
 
-    (new Extend\ApiController(ApiController\ShowForumController::class))
-        ->addInclude('reactions'),
+    (new Extend\SearchDriver(DatabaseSearchDriver::class))
+        ->addSearcher(PostReaction::class, PostReactionSearcher::class)
+        ->addFilter(PostReactionSearcher::class, PostFilter::class),
 
     (new Extend\Settings())
         ->default('fof-reactions.react_own_post', false)
@@ -81,8 +82,6 @@ return [
         ->serializeToForum('fofReactionsCdnUrl', 'fof-reactions.cdnUrl', 'strval'),
 
     (new Extend\Policy())
-        ->modelPolicy(Post::class, Access\ReactPostPolicy::class),
-
-    (new Extend\Middleware('api'))
-        ->add(Middleware\BindRequestToContainer::class),
+        ->modelPolicy(Post::class, Access\ReactPostPolicy::class)
+        ->modelPolicy(PostReaction::class, Access\PostReactionPolicy::class),
 ];

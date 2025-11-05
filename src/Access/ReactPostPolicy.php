@@ -18,17 +18,12 @@ use Flarum\User\User;
 
 class ReactPostPolicy extends AbstractPolicy
 {
-    /**
-     * @var SettingsRepositoryInterface
-     */
-    protected $settings;
-
-    public function __construct(SettingsRepositoryInterface $settings)
-    {
-        $this->settings = $settings;
+    public function __construct(
+        protected SettingsRepositoryInterface $settings
+    ) {
     }
 
-    public function react(User $actor, Post $post)
+    public function react(User $actor, Post $post): ?string
     {
         if ($actor->id === $post->user_id && !(bool) $this->settings->get('fof-reactions.react_own_post')) {
             return $this->deny();
@@ -37,5 +32,7 @@ class ReactPostPolicy extends AbstractPolicy
         if ($actor->isGuest() && (bool) $this->settings->get('fof-reactions.anonymousReactions')) {
             return $this->allow();
         }
+
+        return null;
     }
 }

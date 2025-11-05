@@ -1,2 +1,2170 @@
-(()=>{var e={172:(e,F,t)=>{e.exports=t(973)},976:(e,F,t)=>{var a=/^\s+|\s+$/g,n=/^[-+]0x[0-9a-f]+$/i,o=/^0b[01]+$/i,r=/^0o[0-7]+$/i,i=parseInt,s="object"==typeof t.g&&t.g&&t.g.Object===Object&&t.g,l="object"==typeof self&&self&&self.Object===Object&&self,c=s||l||Function("return this")(),_=Object.prototype.toString,u=Math.max,f=Math.min,g=function(){return c.Date.now()};function m(e){var F=typeof e;return!!e&&("object"==F||"function"==F)}function p(e){if("number"==typeof e)return e;if(function(e){return"symbol"==typeof e||function(e){return!!e&&"object"==typeof e}(e)&&"[object Symbol]"==_.call(e)}(e))return NaN;if(m(e)){var F="function"==typeof e.valueOf?e.valueOf():e;e=m(F)?F+"":F}if("string"!=typeof e)return 0===e?e:+e;e=e.replace(a,"");var t=o.test(e);return t||r.test(e)?i(e.slice(2),t?2:8):n.test(e)?NaN:+e}e.exports=function(e,F,t){var a,n,o,r,i,s,l=0,c=!1,_=!1,d=!0;if("function"!=typeof e)throw new TypeError("Expected a function");function h(F){var t=a,o=n;return a=n=void 0,l=F,r=e.apply(o,t)}function E(e){var t=e-s;return void 0===s||t>=F||t<0||_&&e-l>=o}function b(){var e=g();if(E(e))return D(e);i=setTimeout(b,function(e){var t=F-(e-s);return _?f(t,o-(e-l)):t}(e))}function D(e){return i=void 0,d&&a?h(e):(a=n=void 0,r)}function w(){var e=g(),t=E(e);if(a=arguments,n=this,s=e,t){if(void 0===i)return function(e){return l=e,i=setTimeout(b,F),c?h(e):r}(s);if(_)return i=setTimeout(b,F),h(s)}return void 0===i&&(i=setTimeout(b,F)),r}return F=p(F)||0,m(t)&&(c=!!t.leading,o=(_="maxWait"in t)?u(p(t.maxWait)||0,F):o,d="trailing"in t?!!t.trailing:d),w.cancel=function(){void 0!==i&&clearTimeout(i),l=0,a=s=n=i=void 0},w.flush=function(){return void 0===i?r:D(g())},w}},973:e=>{var F=function(e){"use strict";var F,t=Object.prototype,a=t.hasOwnProperty,n="function"==typeof Symbol?Symbol:{},o=n.iterator||"@@iterator",r=n.asyncIterator||"@@asyncIterator",i=n.toStringTag||"@@toStringTag";function s(e,F,t){return Object.defineProperty(e,F,{value:t,enumerable:!0,configurable:!0,writable:!0}),e[F]}try{s({},"")}catch(e){s=function(e,F,t){return e[F]=t}}function l(e,F,t,a){var n=F&&F.prototype instanceof p?F:p,o=Object.create(n.prototype),r=new B(a||[]);return o._invoke=function(e,F,t){var a=_;return function(n,o){if(a===f)throw new Error("Generator is already running");if(a===g){if("throw"===n)throw o;return j()}for(t.method=n,t.arg=o;;){var r=t.delegate;if(r){var i=A(r,t);if(i){if(i===m)continue;return i}}if("next"===t.method)t.sent=t._sent=t.arg;else if("throw"===t.method){if(a===_)throw a=g,t.arg;t.dispatchException(t.arg)}else"return"===t.method&&t.abrupt("return",t.arg);a=f;var s=c(e,F,t);if("normal"===s.type){if(a=t.done?g:u,s.arg===m)continue;return{value:s.arg,done:t.done}}"throw"===s.type&&(a=g,t.method="throw",t.arg=s.arg)}}}(e,t,r),o}function c(e,F,t){try{return{type:"normal",arg:e.call(F,t)}}catch(e){return{type:"throw",arg:e}}}e.wrap=l;var _="suspendedStart",u="suspendedYield",f="executing",g="completed",m={};function p(){}function d(){}function h(){}var E={};s(E,o,(function(){return this}));var b=Object.getPrototypeOf,D=b&&b(b(x([])));D&&D!==t&&a.call(D,o)&&(E=D);var w=h.prototype=p.prototype=Object.create(E);function y(e){["next","throw","return"].forEach((function(F){s(e,F,(function(e){return this._invoke(F,e)}))}))}function v(e,F){function t(n,o,r,i){var s=c(e[n],e,o);if("throw"!==s.type){var l=s.arg,_=l.value;return _&&"object"==typeof _&&a.call(_,"__await")?F.resolve(_.__await).then((function(e){t("next",e,r,i)}),(function(e){t("throw",e,r,i)})):F.resolve(_).then((function(e){l.value=e,r(l)}),(function(e){return t("throw",e,r,i)}))}i(s.arg)}var n;this._invoke=function(e,a){function o(){return new F((function(F,n){t(e,a,F,n)}))}return n=n?n.then(o,o):o()}}function A(e,t){var a=e.iterator[t.method];if(a===F){if(t.delegate=null,"throw"===t.method){if(e.iterator.return&&(t.method="return",t.arg=F,A(e,t),"throw"===t.method))return m;t.method="throw",t.arg=new TypeError("The iterator does not provide a 'throw' method")}return m}var n=c(a,e.iterator,t.arg);if("throw"===n.type)return t.method="throw",t.arg=n.arg,t.delegate=null,m;var o=n.arg;return o?o.done?(t[e.resultName]=o.value,t.next=e.nextLoc,"return"!==t.method&&(t.method="next",t.arg=F),t.delegate=null,m):o:(t.method="throw",t.arg=new TypeError("iterator result is not an object"),t.delegate=null,m)}function k(e){var F={tryLoc:e[0]};1 in e&&(F.catchLoc=e[1]),2 in e&&(F.finallyLoc=e[2],F.afterLoc=e[3]),this.tryEntries.push(F)}function C(e){var F=e.completion||{};F.type="normal",delete F.arg,e.completion=F}function B(e){this.tryEntries=[{tryLoc:"root"}],e.forEach(k,this),this.reset(!0)}function x(e){if(e){var t=e[o];if(t)return t.call(e);if("function"==typeof e.next)return e;if(!isNaN(e.length)){var n=-1,r=function t(){for(;++n<e.length;)if(a.call(e,n))return t.value=e[n],t.done=!1,t;return t.value=F,t.done=!0,t};return r.next=r}}return{next:j}}function j(){return{value:F,done:!0}}return d.prototype=h,s(w,"constructor",h),s(h,"constructor",d),d.displayName=s(h,i,"GeneratorFunction"),e.isGeneratorFunction=function(e){var F="function"==typeof e&&e.constructor;return!!F&&(F===d||"GeneratorFunction"===(F.displayName||F.name))},e.mark=function(e){return Object.setPrototypeOf?Object.setPrototypeOf(e,h):(e.__proto__=h,s(e,i,"GeneratorFunction")),e.prototype=Object.create(w),e},e.awrap=function(e){return{__await:e}},y(v.prototype),s(v.prototype,r,(function(){return this})),e.AsyncIterator=v,e.async=function(F,t,a,n,o){void 0===o&&(o=Promise);var r=new v(l(F,t,a,n),o);return e.isGeneratorFunction(t)?r:r.next().then((function(e){return e.done?e.value:r.next()}))},y(w),s(w,i,"Generator"),s(w,o,(function(){return this})),s(w,"toString",(function(){return"[object Generator]"})),e.keys=function(e){var F=[];for(var t in e)F.push(t);return F.reverse(),function t(){for(;F.length;){var a=F.pop();if(a in e)return t.value=a,t.done=!1,t}return t.done=!0,t}},e.values=x,B.prototype={constructor:B,reset:function(e){if(this.prev=0,this.next=0,this.sent=this._sent=F,this.done=!1,this.delegate=null,this.method="next",this.arg=F,this.tryEntries.forEach(C),!e)for(var t in this)"t"===t.charAt(0)&&a.call(this,t)&&!isNaN(+t.slice(1))&&(this[t]=F)},stop:function(){this.done=!0;var e=this.tryEntries[0].completion;if("throw"===e.type)throw e.arg;return this.rval},dispatchException:function(e){if(this.done)throw e;var t=this;function n(a,n){return i.type="throw",i.arg=e,t.next=a,n&&(t.method="next",t.arg=F),!!n}for(var o=this.tryEntries.length-1;o>=0;--o){var r=this.tryEntries[o],i=r.completion;if("root"===r.tryLoc)return n("end");if(r.tryLoc<=this.prev){var s=a.call(r,"catchLoc"),l=a.call(r,"finallyLoc");if(s&&l){if(this.prev<r.catchLoc)return n(r.catchLoc,!0);if(this.prev<r.finallyLoc)return n(r.finallyLoc)}else if(s){if(this.prev<r.catchLoc)return n(r.catchLoc,!0)}else{if(!l)throw new Error("try statement without catch or finally");if(this.prev<r.finallyLoc)return n(r.finallyLoc)}}}},abrupt:function(e,F){for(var t=this.tryEntries.length-1;t>=0;--t){var n=this.tryEntries[t];if(n.tryLoc<=this.prev&&a.call(n,"finallyLoc")&&this.prev<n.finallyLoc){var o=n;break}}o&&("break"===e||"continue"===e)&&o.tryLoc<=F&&F<=o.finallyLoc&&(o=null);var r=o?o.completion:{};return r.type=e,r.arg=F,o?(this.method="next",this.next=o.finallyLoc,m):this.complete(r)},complete:function(e,F){if("throw"===e.type)throw e.arg;return"break"===e.type||"continue"===e.type?this.next=e.arg:"return"===e.type?(this.rval=this.arg=e.arg,this.method="return",this.next="end"):"normal"===e.type&&F&&(this.next=F),m},finish:function(e){for(var F=this.tryEntries.length-1;F>=0;--F){var t=this.tryEntries[F];if(t.finallyLoc===e)return this.complete(t.completion,t.afterLoc),C(t),m}},catch:function(e){for(var F=this.tryEntries.length-1;F>=0;--F){var t=this.tryEntries[F];if(t.tryLoc===e){var a=t.completion;if("throw"===a.type){var n=a.arg;C(t)}return n}}throw new Error("illegal catch attempt")},delegateYield:function(e,t,a){return this.delegate={iterator:x(e),resultName:t,nextLoc:a},"next"===this.method&&(this.arg=F),m}},e}(e.exports);try{regeneratorRuntime=F}catch(e){"object"==typeof globalThis?globalThis.regeneratorRuntime=F:Function("r","regeneratorRuntime = r")(F)}},689:()=>{},917:(e,F,t)=>{"use strict";t.d(F,{s9:()=>Re,al:()=>ze,Eh:()=>Se,dK:()=>Be,Jn:()=>xe,Wp:()=>je});const a=flarum.core.compat["common/extend"],n=flarum.core.compat["forum/app"];var o=t.n(n);const r=flarum.core.compat["common/models/Forum"];var i=t.n(r);const s=flarum.core.compat["common/models/Discussion"];var l=t.n(s);const c=flarum.core.compat["common/models/Post"];var _=t.n(c);const u=flarum.core.compat["common/Model"];var f=t.n(u);const g=flarum.core.compat["forum/components/NotificationGrid"];var p=t.n(g);function d(e,F){return d=Object.setPrototypeOf||function(e,F){return e.__proto__=F,e},d(e,F)}function h(e,F){e.prototype=Object.create(F.prototype),e.prototype.constructor=e,d(e,F)}const E=flarum.core.compat["forum/components/Notification"];var b=t.n(E);const D=flarum.core.compat["common/helpers/icon"];var w=t.n(D);const y=flarum.core.compat["common/app"];var v=t.n(y);const A=JSON.parse('{"2049":["interrobang","exclamation_question"],"2122":["tm"],"2139":["info"],"2194":["arrow_left_right"],"2195":["arrow_up_down"],"2196":["arrow_upper_left"],"2197":["arrow_upper_right"],"2198":["arrow_lower_right"],"2199":["arrow_lower_left"],"2328":["keyboard"],"2600":["sun"],"2601":["cloud"],"2602":["umbrella"],"2603":["snowy_snowman"],"2604":["comet"],"2611":["checked_ballot"],"2614":["umbrella_rain"],"2615":["coffee"],"2618":["shamrock"],"2620":["crossbones"],"2622":["radioactive"],"2623":["biohazard"],"2626":["orthodox_cross"],"2638":["wheel_of_dharma"],"2639":["sad","frowning"],"2640":["female","female_sign"],"2642":["male","male_sign"],"2648":["aries"],"2649":["taurus"],"2650":["sagittarius"],"2651":["capricorn"],"2652":["aquarius"],"2653":["pisces"],"2660":["spades"],"2663":["clubs"],"2665":["hearts"],"2666":["diamonds"],"2668":["hotsprings"],"2692":["hammer_pick"],"2693":["anchor"],"2694":["crossed_swords"],"2695":["medical"],"2696":["scales"],"2697":["alembic"],"2699":["gear"],"2702":["scissors"],"2705":["white_check_mark"],"2708":["airplane"],"2709":["envelope"],"2712":["black_nib"],"2714":["check_mark"],"2716":["multiplication"],"2721":["star_of_david"],"2728":["sparkles"],"2733":["eight_spoked_asterisk"],"2734":["eight_pointed_star"],"2744":["snowflake"],"2747":["sparkle"],"2753":["question"],"2754":["white_question"],"2755":["white_exclamation"],"2757":["exclamation"],"2763":["heart_exclamation"],"2764":["heart"],"2795":["plus"],"2796":["minus"],"2797":["division"],"2934":["arrow_heading_up"],"2935":["arrow_heading_down"],"3030":["wavy_dash"],"3297":["ja_congratulations"],"3299":["ja_secret"],"1F1E6":["regional_indicator_a"],"1F1E7":["regional_indicator_b"],"1F1E8":["regional_indicator_c"],"1F1E9":["regional_indicator_d"],"1F1EA":["regional_indicator_e"],"1F1EB":["regional_indicator_f"],"1F1EC":["regional_indicator_g"],"1F1ED":["regional_indicator_h"],"1F1EE":["regional_indicator_i"],"1F1EF":["regional_indicator_j"],"1F1F0":["regional_indicator_k"],"1F1F1":["regional_indicator_l"],"1F1F2":["regional_indicator_m"],"1F1F3":["regional_indicator_n"],"1F1F4":["regional_indicator_o"],"1F1F5":["regional_indicator_p"],"1F1F6":["regional_indicator_q"],"1F1F7":["regional_indicator_r"],"1F1F8":["regional_indicator_s"],"1F1F9":["regional_indicator_t"],"1F1FA":["regional_indicator_u"],"1F1FB":["regional_indicator_v"],"1F1FC":["regional_indicator_w"],"1F1FD":["regional_indicator_x"],"1F1FE":["regional_indicator_y"],"1F1FF":["regional_indicator_z"],"1F600":["gleeful"],"1F603":["glad","smile"],"1F604":["happy"],"1F601":["blissful","grin"],"1F606":["amused","laugh","lol"],"1F605":["embarassed","sweat_smile"],"1F923":["entertained","rofl"],"1F602":["joyful","haha"],"1F642":["pleased","slight_smile"],"1F643":["ecstatic","upside_down"],"1FAE0":["melt","melting_face"],"1F609":["coy","wink"],"1F60A":["blush"],"1F607":["innocent","halo"],"1F970":["love"],"1F60D":["lovestruck"],"1F929":["starstruck"],"1F618":["flirty"],"1F617":["kiss"],"263A":["relaxed"],"1F61A":["loving_kiss"],"1F619":["happy_kiss"],"1F972":["tear_smile"],"1F60B":["yum","savour"],"1F61B":["playful","tongue_out"],"1F61C":["mischievous"],"1F92A":["crazy"],"1F61D":["facetious","lmao"],"1F911":["pretentious","money_mouth"],"1F917":["hugging"],"1F92D":["gasp"],"1FAE2":["face_with_open_eyes_hand_over_mouth","gasp"],"1FAE3":["face_with_peeking_eye","peek"],"1F92B":["shushing"],"1F914":["curious","thinking"],"1FAE1":["salute","saluting_face"],"1F910":["silenced","zipper_mouth"],"1F928":["contempt"],"1F610":["indifferent","neutral"],"1F611":["apathetic","expressionless"],"1F636":["vacant","no_mouth"],"1FAE5":["dotted_line_face"],"1F636-200D-1F32B-FE0F":["in_clouds"],"1F60F":["cocky","smirk"],"1F612":["unamused"],"1F644":["disbelief"],"1F62C":["grimaced"],"1F62E-200D-1F4A8":["exhale","exhaling"],"1F925":["lying"],"1F60C":["relieved"],"1F614":["pensive"],"1F62A":["sleepy"],"1F924":["drooling"],"1F634":["exhausted","sleeping"],"1F637":["ill","mask"],"1F912":["sick"],"1F915":["injured"],"1F922":["nauseated"],"1F92E":["vomiting"],"1F927":["sneezing"],"1F975":["overheating"],"1F976":["freezing"],"1F974":["woozy"],"1F635":["dizzy"],"1F635-200D-1F4AB":["dizzy_eyes"],"1F92F":["shocked","exploding_head"],"1F920":["cowboy"],"1F973":["partying","celebrating"],"1F978":["disguised_face"],"1F60E":["confident"],"1F913":["nerd"],"1F9D0":["monocle"],"1F615":["confused"],"1FAE4":["face_with_diagonal_mouth"],"1F61F":["worried"],"1F641":["cheerless","slight_frown"],"1F62E":["surprised"],"1F62F":["hushed"],"1F632":["astonished"],"1F633":["flushed"],"1F97A":["pleading"],"1F979":["face_holding_back_tears","watery_eyes"],"1F626":["bored"],"1F627":["anguished","wtf"],"1F628":["fearful"],"1F630":["cold_sweat","anxious","frustrated"],"1F625":["gloomy"],"1F622":["upset","cry"],"1F62D":["distressed","sob"],"1F631":["frightened","scream"],"1F616":["confounded"],"1F623":["persevered"],"1F61E":["disappointed"],"1F613":["shamed"],"1F629":["weary"],"1F62B":["tired"],"1F971":["yawn"],"1F624":["annoyed","hrmph"],"1F621":["enraged","pout"],"1F620":["angry"],"1F92C":["censored"],"1F608":["imp"],"1F47F":["angry_imp"],"1F480":["skull"],"1F4A9":["poop"],"1F921":["clown"],"1F479":["ogre"],"1F47A":["goblin"],"1F47B":["ghost"],"1F47D":["alien"],"1F47E":["alien_monster","space_invader"],"1F916":["robot"],"1F63A":["smiling_cat"],"1F638":["grinning_cat"],"1F639":["joyful_cat"],"1F63B":["lovestruck_cat"],"1F63C":["smirking_cat"],"1F63D":["kissing_cat"],"1F640":["weary_cat"],"1F63F":["crying_cat"],"1F63E":["pouting_cat"],"1F648":["see_no_evil"],"1F649":["hear_no_evil"],"1F64A":["speak_no_evil"],"1F48B":["kiss_lips"],"1F48C":["love_letter"],"1F498":["cupid"],"1F49D":["heart_ribbon"],"1F496":["sparkling_heart"],"1F497":["heartpulse"],"1F493":["heartbeat"],"1F49E":["revolving_hearts"],"1F495":["two_hearts"],"1F49F":["heart_decoration"],"1F494":["broken_heart"],"2764-FE0F-200D-1F525":["heart_on_fire"],"2764-FE0F-200D-1FA79":["mending_heart"],"1F9E1":["orange_heart"],"1F49B":["yellow_heart"],"1F49A":["green_heart"],"1F499":["blue_heart"],"1F49C":["purple_heart"],"1F90E":["brown_heart"],"1F5A4":["black_heart"],"1F90D":["white_heart"],"1F4AF":["100"],"1F4A2":["anger"],"1F4A5":["boom","collision"],"1F4AB":["dizzy_star"],"1F4A6":["sweat_drops"],"1F4A8":["dash"],"1F573":["hole"],"1F4A3":["bomb"],"1F4AC":["speech"],"1F441-FE0F-200D-1F5E8-FE0F":["eye_bubble"],"1F5E8":["left_speech"],"1F5EF":["right_anger_speech"],"1F4AD":["thought"],"1F4A4":["zzz"],"1F44B":["wave"],"1F91A":["raised_backhand"],"1F590":["splayed_hand"],"270B":["raised_hand"],"1F596":["vulcan"],"1FAF1":["rightwards_hand"],"1FAF2":["leftwards_hand"],"1FAF3":["palm_down"],"1FAF4":["palm_up"],"1F44C":["ok_hand"],"1F90C":["pinched_fingers"],"1F90F":["pinch"],"270C":["victory"],"1F91E":["fingers_crossed"],"1FAF0":["hand_with_index_finger_and_thumb_crossed"],"1F91F":["love_you_gesture"],"1F918":["metal"],"1F919":["call_me"],"1F448":["point_left"],"1F449":["point_right"],"1F446":["backhand_point_up"],"1F595":["middle_finger"],"1F447":["point_down"],"261D":["point_up"],"1FAF5":["point_forward"],"1F44D":["thumbsup","+1","y","yes"],"1F44E":["thumbsdown","-1","n","no"],"270A":["fist"],"1F44A":["punch"],"1F91B":["left_facing_fist"],"1F91C":["right_facing_fist"],"1F44F":["clap"],"1F64C":["raised_hands"],"1FAF6":["heart_hands"],"1F450":["open_hands"],"1F932":["palms_up"],"1F91D":["handshake"],"1F64F":["pray"],"270D":["writing_hand"],"1F485":["nail_care"],"1F933":["selfie"],"1F4AA":["muscle","right_bicep"],"1F9BE":["mech_arm"],"1F9BF":["mech_leg"],"1F9B5":["leg"],"1F9B6":["foot"],"1F442":["ear"],"1F9BB":["hearing_aid"],"1F443":["nose"],"1F9E0":["brain"],"1FAC0":["anatomical_heart"],"1FAC1":["lungs"],"1F9B7":["tooth"],"1F9B4":["bone"],"1F440":["eyes"],"1F441":["eye"],"1F445":["tongue"],"1F444":["lips"],"1FAE6":["biting_lip"],"1F476":["baby"],"1F9D2":["child"],"1F466":["boy"],"1F467":["girl"],"1F9D1":["adult"],"1F471":["blond_person"],"1F468":["man"],"1F9D4":["bearded_person"],"1F9D4-200D-2642-FE0F":["man_bearded"],"1F9D4-200D-2640-FE0F":["woman_bearded"],"1F468-200D-1F9B0":["red_haired_man"],"1F468-200D-1F9B1":["curly_haired_man"],"1F468-200D-1F9B3":["white_haired_man"],"1F468-200D-1F9B2":["bald_man"],"1F469":["woman"],"1F469-200D-1F9B0":["red_haired_woman"],"1F9D1-200D-1F9B0":["red_haired_person"],"1F469-200D-1F9B1":["curly_haired_woman"],"1F9D1-200D-1F9B1":["curly_haired_person"],"1F469-200D-1F9B3":["white_haired_woman"],"1F9D1-200D-1F9B3":["white_haired_person"],"1F469-200D-1F9B2":["bald_woman"],"1F9D1-200D-1F9B2":["bald_person"],"1F471-200D-2640-FE0F":["blond_woman"],"1F471-200D-2642-FE0F":["blond_man"],"1F9D3":["older_adult"],"1F474":["older_man"],"1F475":["older_woman"],"1F64D":["person_frowning"],"1F64D-200D-2642-FE0F":["man_frowning"],"1F64D-200D-2640-FE0F":["woman_frowning"],"1F64E":["person_pouting"],"1F64E-200D-2642-FE0F":["man_pouting"],"1F64E-200D-2640-FE0F":["woman_pouting"],"1F645":["person_gesturing_no"],"1F645-200D-2642-FE0F":["man_gesturing_no"],"1F645-200D-2640-FE0F":["woman_gesturing_no"],"1F646":["person_gesturing_ok"],"1F646-200D-2642-FE0F":["man_gesturing_ok"],"1F646-200D-2640-FE0F":["woman_gesturing_ok"],"1F481":["person_tipping_hand"],"1F481-200D-2642-FE0F":["man_tipping_hand"],"1F481-200D-2640-FE0F":["woman_tipping_hand"],"1F64B":["person_raising_hand"],"1F64B-200D-2642-FE0F":["man_raising_hand"],"1F64B-200D-2640-FE0F":["woman_raising_hand"],"1F9CF":["person_deaf"],"1F9CF-200D-2642-FE0F":["man_deaf"],"1F9CF-200D-2640-FE0F":["woman_deaf"],"1F647":["person_bowing"],"1F647-200D-2642-FE0F":["man_bowing"],"1F647-200D-2640-FE0F":["woman_bowing"],"1F926":["person_facepalming"],"1F926-200D-2642-FE0F":["man_facepalming"],"1F926-200D-2640-FE0F":["woman_facepalming"],"1F937":["person_shrugging"],"1F937-200D-2642-FE0F":["man_shrugging"],"1F937-200D-2640-FE0F":["woman_shrugging"],"1F9D1-200D-2695-FE0F":["person_health_worker"],"1F468-200D-2695-FE0F":["man_health_worker"],"1F469-200D-2695-FE0F":["woman_health_worker"],"1F9D1-200D-1F393":["person_student"],"1F468-200D-1F393":["man_student"],"1F469-200D-1F393":["woman_student"],"1F9D1-200D-1F3EB":["person_teacher"],"1F468-200D-1F3EB":["man_teacher"],"1F469-200D-1F3EB":["woman_teacher"],"1F9D1-200D-2696-FE0F":["person_judge"],"1F468-200D-2696-FE0F":["man_judge"],"1F469-200D-2696-FE0F":["woman_judge"],"1F9D1-200D-1F33E":["person_farmer"],"1F468-200D-1F33E":["man_farmer"],"1F469-200D-1F33E":["woman_farmer"],"1F9D1-200D-1F373":["person_cook"],"1F468-200D-1F373":["man_cook"],"1F469-200D-1F373":["woman_cook"],"1F9D1-200D-1F527":["person_mechanic"],"1F468-200D-1F527":["man_mechanic"],"1F469-200D-1F527":["woman_mechanic"],"1F9D1-200D-1F3ED":["person_factory_worker"],"1F468-200D-1F3ED":["man_factory_worker"],"1F469-200D-1F3ED":["woman_factory_worker"],"1F9D1-200D-1F4BC":["person_office_worker"],"1F468-200D-1F4BC":["man_office_worker"],"1F469-200D-1F4BC":["woman_office_worker"],"1F9D1-200D-1F52C":["person_scientist"],"1F468-200D-1F52C":["man_scientist"],"1F469-200D-1F52C":["woman_scientist"],"1F9D1-200D-1F4BB":["person_technologist"],"1F468-200D-1F4BB":["man_technologist"],"1F469-200D-1F4BB":["woman_technologist"],"1F9D1-200D-1F3A4":["person_singer"],"1F468-200D-1F3A4":["man_singer"],"1F469-200D-1F3A4":["woman_singer"],"1F9D1-200D-1F3A8":["person_artist"],"1F468-200D-1F3A8":["man_artist"],"1F469-200D-1F3A8":["woman_artist"],"1F9D1-200D-2708-FE0F":["person_pilot"],"1F468-200D-2708-FE0F":["man_pilot"],"1F469-200D-2708-FE0F":["woman_pilot"],"1F9D1-200D-1F680":["person_astronaut"],"1F468-200D-1F680":["man_astronaut"],"1F469-200D-1F680":["woman_astronaut"],"1F9D1-200D-1F692":["person_firefighter"],"1F468-200D-1F692":["man_firefighter"],"1F469-200D-1F692":["woman_firefighter"],"1F46E":["police_officer"],"1F46E-200D-2642-FE0F":["man_police_officer"],"1F46E-200D-2640-FE0F":["woman_police_officer"],"1F575":["detective"],"1F575-FE0F-200D-2642-FE0F":["man_detective"],"1F575-FE0F-200D-2640-FE0F":["woman_detective"],"1F482":["guard"],"1F482-200D-2642-FE0F":["man_guard"],"1F482-200D-2640-FE0F":["woman_guard"],"1F977":["ninja"],"1F477":["construction_worker"],"1F477-200D-2642-FE0F":["man_construction_worker"],"1F477-200D-2640-FE0F":["woman_construction_worker"],"1FAC5":["person_with_crown","royalty"],"1F934":["prince"],"1F478":["princess"],"1F473":["person_turban"],"1F473-200D-2642-FE0F":["man_turban"],"1F473-200D-2640-FE0F":["woman_turban"],"1F472":["man_chinese_cap"],"1F9D5":["woman_headscarf"],"1F935":["man_tuxedo"],"1F935-200D-2642-FE0F":["man_in_tuxedo"],"1F935-200D-2640-FE0F":["woman_in_tuxedo"],"1F470":["person_veiled_bride","bride_veil"],"1F470-200D-2642-FE0F":["man_veiled_bride"],"1F470-200D-2640-FE0F":["woman_veiled_bride"],"1F930":["pregnant_woman"],"1FAC3":["pregnant_man"],"1FAC4":["pregnant_person"],"1F931":["breast_feeding"],"1F469-200D-1F37C":["woman_feeding_baby"],"1F468-200D-1F37C":["man_feeding_baby"],"1F9D1-200D-1F37C":["person_feeding_baby"],"1F47C":["baby_angel"],"1F385":["santa"],"1F936":["mrs_claus"],"1F9D1-200D-1F384":["mx_claus"],"1F9B8":["hero","superhero"],"1F9B8-200D-2642-FE0F":["man_hero"],"1F9B8-200D-2640-FE0F":["woman_hero"],"1F9B9":["villain","supervillain"],"1F9B9-200D-2642-FE0F":["man_villain"],"1F9B9-200D-2640-FE0F":["woman_villain"],"1F9D9":["mage"],"1F9D9-200D-2642-FE0F":["man_mage"],"1F9D9-200D-2640-FE0F":["woman_mage"],"1F9DA":["fairy"],"1F9DA-200D-2642-FE0F":["man_fairy"],"1F9DA-200D-2640-FE0F":["woman_fairy"],"1F9DB":["vampire"],"1F9DB-200D-2642-FE0F":["man_vampire"],"1F9DB-200D-2640-FE0F":["woman_vampire"],"1F9DC":["merperson"],"1F9DC-200D-2642-FE0F":["merman"],"1F9DC-200D-2640-FE0F":["mermaid"],"1F9DD":["elf"],"1F9DD-200D-2642-FE0F":["man_elf"],"1F9DD-200D-2640-FE0F":["woman_elf"],"1F9DE":["genie"],"1F9DE-200D-2642-FE0F":["man_genie"],"1F9DE-200D-2640-FE0F":["woman_genie"],"1F9DF":["zombie"],"1F9DF-200D-2642-FE0F":["man_zombie"],"1F9DF-200D-2640-FE0F":["woman_zombie"],"1F9CC":["troll"],"1F486":["person_getting_massage"],"1F486-200D-2642-FE0F":["man_getting_face_massage"],"1F486-200D-2640-FE0F":["woman_getting_face_massage"],"1F487":["person_getting_haircut"],"1F487-200D-2642-FE0F":["man_getting_haircut"],"1F487-200D-2640-FE0F":["woman_getting_haircut"],"1F6B6":["person_walking"],"1F6B6-200D-2642-FE0F":["man_walking"],"1F6B6-200D-2640-FE0F":["woman_walking"],"1F9CD":["person_standing"],"1F9CD-200D-2642-FE0F":["man_standing"],"1F9CD-200D-2640-FE0F":["woman_standing"],"1F9CE":["person_kneeling"],"1F9CE-200D-2642-FE0F":["man_kneeling"],"1F9CE-200D-2640-FE0F":["woman_kneeling"],"1F9D1-200D-1F9AF":["person_probing_cane"],"1F468-200D-1F9AF":["man_probing_cane"],"1F469-200D-1F9AF":["woman_probing_cane"],"1F9D1-200D-1F9BC":["person_motor_wheelchair"],"1F468-200D-1F9BC":["man_motor_wheelchair"],"1F469-200D-1F9BC":["woman_motor_wheelchair"],"1F9D1-200D-1F9BD":["person_wheelchair"],"1F468-200D-1F9BD":["man_wheelchair"],"1F469-200D-1F9BD":["woman_wheelchair"],"1F3C3":["person_running"],"1F3C3-200D-2642-FE0F":["man_running"],"1F3C3-200D-2640-FE0F":["woman_running"],"1F483":["dancer","woman_dancing"],"1F57A":["man_dancing"],"1F574":["levitate"],"1F46F":["people_bunny_ears_partying"],"1F46F-200D-2642-FE0F":["men_bunny_ears_partying"],"1F46F-200D-2640-FE0F":["women_bunny_ears_partying"],"1F9D6":["person_steamy_room"],"1F9D6-200D-2642-FE0F":["man_steamy_room"],"1F9D6-200D-2640-FE0F":["woman_steamy_room"],"1F9D7":["person_climbing"],"1F9D7-200D-2642-FE0F":["man_climbing"],"1F9D7-200D-2640-FE0F":["woman_climbing"],"1F93A":["person_fencing"],"1F3C7":["horse_racing"],"26F7":["skier"],"1F3C2":["snowboarder"],"1F3CC":["person_golfing"],"1F3CC-FE0F-200D-2642-FE0F":["man_golfing"],"1F3CC-FE0F-200D-2640-FE0F":["woman_golfing"],"1F3C4":["person_surfing"],"1F3C4-200D-2642-FE0F":["man_surfing"],"1F3C4-200D-2640-FE0F":["woman_surfing"],"1F6A3":["person_rowing_boat"],"1F6A3-200D-2642-FE0F":["man_rowing_boat"],"1F6A3-200D-2640-FE0F":["woman_rowing_boat"],"1F3CA":["person_swimming"],"1F3CA-200D-2642-FE0F":["man_swimming"],"1F3CA-200D-2640-FE0F":["woman_swimming"],"26F9":["person_bouncing_ball"],"26F9-FE0F-200D-2642-FE0F":["man_bouncing_ball"],"26F9-FE0F-200D-2640-FE0F":["woman_bouncing_ball"],"1F3CB":["person_lifting_weights"],"1F3CB-FE0F-200D-2642-FE0F":["man_lifting_weights"],"1F3CB-FE0F-200D-2640-FE0F":["woman_lifting_weights"],"1F6B4":["person_biking"],"1F6B4-200D-2642-FE0F":["man_biking"],"1F6B4-200D-2640-FE0F":["woman_biking"],"1F6B5":["person_mountain_biking"],"1F6B5-200D-2642-FE0F":["man_mountain_biking"],"1F6B5-200D-2640-FE0F":["woman_mountain_biking"],"1F938":["person_cartwheel"],"1F938-200D-2642-FE0F":["man_cartwheeling"],"1F938-200D-2640-FE0F":["woman_cartwheeling"],"1F93C":["people_wrestling"],"1F93C-200D-2642-FE0F":["men_wrestling"],"1F93C-200D-2640-FE0F":["women_wrestling"],"1F93D":["person_water_polo"],"1F93D-200D-2642-FE0F":["man_water_polo"],"1F93D-200D-2640-FE0F":["woman_water_polo"],"1F93E":["person_handball"],"1F93E-200D-2642-FE0F":["man_handball"],"1F93E-200D-2640-FE0F":["woman_handball"],"1F939":["person_juggling"],"1F939-200D-2642-FE0F":["man_juggling"],"1F939-200D-2640-FE0F":["woman_juggling"],"1F9D8":["person_lotus_position"],"1F9D8-200D-2642-FE0F":["man_lotus_position"],"1F9D8-200D-2640-FE0F":["woman_lotus_position"],"1F6C0":["bath"],"1F6CC":["in_bed"],"1F9D1-200D-1F91D-200D-1F9D1":["holding_hands_people"],"1F46D":["holding_hands_ww"],"1F46B":["holding_hands_mw","holding_hands_wm"],"1F46C":["holding_hands_mm"],"1F48F":["couple"],"1F469-200D-2764-FE0F-200D-1F48B-200D-1F468":["kiss_mw","kiss_wm"],"1F468-200D-2764-FE0F-200D-1F48B-200D-1F468":["kiss_mm"],"1F469-200D-2764-FE0F-200D-1F48B-200D-1F469":["kiss_ww"],"1F491":["couple_heart"],"1F469-200D-2764-FE0F-200D-1F468":["couple_mw","couple_wm"],"1F468-200D-2764-FE0F-200D-1F468":["couple_mm"],"1F469-200D-2764-FE0F-200D-1F469":["couple_ww"],"1F46A":["family"],"1F468-200D-1F469-200D-1F466":["family_mwb"],"1F468-200D-1F469-200D-1F467":["family_mwg"],"1F468-200D-1F469-200D-1F467-200D-1F466":["family_mwgb"],"1F468-200D-1F469-200D-1F466-200D-1F466":["family_mwbb"],"1F468-200D-1F469-200D-1F467-200D-1F467":["family_mwgg"],"1F468-200D-1F468-200D-1F466":["family_mmb"],"1F468-200D-1F468-200D-1F467":["family_mmg"],"1F468-200D-1F468-200D-1F467-200D-1F466":["family_mmgb"],"1F468-200D-1F468-200D-1F466-200D-1F466":["family_mmbb"],"1F468-200D-1F468-200D-1F467-200D-1F467":["family_mmgg"],"1F469-200D-1F469-200D-1F466":["family_wwb"],"1F469-200D-1F469-200D-1F467":["family_wwg"],"1F469-200D-1F469-200D-1F467-200D-1F466":["family_wwgb"],"1F469-200D-1F469-200D-1F466-200D-1F466":["family_wwbb"],"1F469-200D-1F469-200D-1F467-200D-1F467":["family_wwgg"],"1F468-200D-1F466":["family_mb"],"1F468-200D-1F466-200D-1F466":["family_mbb"],"1F468-200D-1F467":["family_mg"],"1F468-200D-1F467-200D-1F466":["family_mgb"],"1F468-200D-1F467-200D-1F467":["family_mgg"],"1F469-200D-1F466":["family_wb"],"1F469-200D-1F466-200D-1F466":["family_wbb"],"1F469-200D-1F467":["family_wg"],"1F469-200D-1F467-200D-1F466":["family_wgb"],"1F469-200D-1F467-200D-1F467":["family_wgg"],"1F5E3":["speaking_head"],"1F464":["bust_silhouette"],"1F465":["busts_silhouette"],"1FAC2":["people_hugging"],"1F463":["footprints"],"1F3FB":["tone_light","tone1"],"1F3FC":["tone_medium_light","tone2"],"1F3FD":["tone_medium","tone3"],"1F3FE":["tone_medium_dark","tone4"],"1F3FF":["tone_dark","tone5"],"1F9B0":["red_hair"],"1F9B1":["curly_hair"],"1F9B3":["white_hair"],"1F9B2":["bald"],"1F435":["monkey_face"],"1F412":["monkey"],"1F98D":["gorilla"],"1F9A7":["orangutan"],"1F436":["dog_face"],"1F415":["dog"],"1F9AE":["guide_dog"],"1F415-200D-1F9BA":["service_dog"],"1F429":["poodle"],"1F43A":["wolf_face"],"1F98A":["fox_face"],"1F99D":["raccoon"],"1F431":["cat_face"],"1F408":["cat"],"1F408-200D-2B1B":["black_cat"],"1F981":["lion_face"],"1F42F":["tiger_face"],"1F405":["tiger"],"1F406":["leopard"],"1F434":["horse_face"],"1F40E":["horse"],"1F984":["unicorn_face"],"1F993":["zebra"],"1F98C":["deer"],"1F9AC":["bison"],"1F42E":["cow_face"],"1F402":["ox"],"1F403":["water_buffalo"],"1F404":["cow"],"1F437":["pig_face"],"1F416":["pig"],"1F417":["boar"],"1F43D":["pig_nose"],"1F40F":["ram"],"1F411":["sheep"],"1F410":["goat"],"1F42A":["camel"],"1F42B":["two_hump_camel"],"1F999":["llama"],"1F992":["giraffe"],"1F418":["elephant"],"1F9A3":["mammoth"],"1F98F":["rhino"],"1F99B":["hippo"],"1F42D":["mouse_face"],"1F401":["mouse"],"1F400":["rat"],"1F439":["hamster_face"],"1F430":["rabbit_face"],"1F407":["rabbit"],"1F43F":["chipmunk"],"1F9AB":["beaver"],"1F994":["hedgehog"],"1F987":["bat"],"1F43B":["bear_face"],"1F43B-200D-2744-FE0F":["polar_bear_face"],"1F428":["koala_face"],"1F43C":["panda_face"],"1F9A5":["sloth"],"1F9A6":["otter"],"1F9A8":["skunk"],"1F998":["kangaroo"],"1F9A1":["badger"],"1F43E":["feet"],"1F983":["turkey"],"1F414":["chicken"],"1F413":["rooster"],"1F423":["hatching_chick"],"1F424":["baby_chick"],"1F425":["hatched_chick"],"1F426":["bird"],"1F427":["penguin"],"1F54A":["dove"],"1F985":["eagle"],"1F986":["duck"],"1F9A2":["swan"],"1F989":["owl"],"1F9A4":["dodo"],"1FAB6":["feather"],"1F9A9":["flamingo"],"1F99A":["peacock"],"1F99C":["parrot"],"1F438":["frog_face"],"1F40A":["crocodile"],"1F422":["turtle"],"1F98E":["lizard"],"1F40D":["snake"],"1F432":["dragon_face"],"1F409":["dragon"],"1F995":["sauropod"],"1F996":["trex"],"1F433":["spouting_whale"],"1F40B":["whale"],"1F42C":["dolphin"],"1F9AD":["seal"],"1F41F":["fish"],"1F420":["tropical_fish"],"1F421":["blowfish"],"1F988":["shark"],"1F419":["octopus"],"1F41A":["shell"],"1FAB8":["coral"],"1F40C":["snail"],"1F98B":["butterfly"],"1F41B":["bug"],"1F41C":["ant"],"1F41D":["bee"],"1FAB2":["beetle"],"1F41E":["lady_bug"],"1F997":["cricket"],"1FAB3":["cockroach"],"1F577":["spider"],"1F578":["spider_web"],"1F982":["scorpion"],"1F99F":["mosquito"],"1FAB0":["fly"],"1FAB1":["worm"],"1F9A0":["microbe","germ"],"1F490":["bouquet"],"1F338":["cherry_blossom"],"1F4AE":["white_flower"],"1FAB7":["lotus"],"1F3F5":["rosette"],"1F339":["rose"],"1F940":["wilted_rose"],"1F33A":["hibiscus"],"1F33B":["sunflower"],"1F33C":["blossom"],"1F337":["tulip"],"1F331":["seedling"],"1FAB4":["potted_plant"],"1F332":["evergreen_tree"],"1F333":["deciduous_tree"],"1F334":["palm_tree"],"1F335":["cactus"],"1F33E":["ear_of_rice"],"1F33F":["herb"],"1F340":["four_leaf_clover"],"1F341":["maple_leaf"],"1F342":["fallen_leaf"],"1F343":["leaves"],"1FAB9":["empty_nest","nest"],"1FABA":["nest_with_eggs"],"1F347":["grapes"],"1F348":["melon"],"1F349":["watermelon"],"1F34A":["tangerine"],"1F34B":["lemon"],"1F34C":["banana"],"1F34D":["pineapple"],"1F96D":["mango"],"1F34E":["apple"],"1F34F":["green_apple"],"1F350":["pear"],"1F351":["peach"],"1F352":["cherries"],"1F353":["strawberry"],"1FAD0":["blueberry"],"1F95D":["kiwi"],"1F345":["tomato"],"1FAD2":["olive"],"1F965":["coconut"],"1F951":["avocado"],"1F346":["eggplant"],"1F954":["potato"],"1F955":["carrot"],"1F33D":["corn"],"1F336":["hot_pepper"],"1FAD1":["bell_pepper"],"1F952":["cucumber"],"1F96C":["leafy_green"],"1F966":["broccoli"],"1F9C4":["garlic"],"1F9C5":["onion"],"1F344":["mushroom"],"1F95C":["peanuts"],"1FAD8":["beans"],"1F330":["chestnut"],"1F35E":["bread"],"1F950":["croissant"],"1F956":["french_bread"],"1FAD3":["flatbread"],"1F968":["pretzel"],"1F96F":["bagel"],"1F95E":["pancakes"],"1F9C7":["waffle"],"1F9C0":["cheese"],"1F356":["meat_on_bone"],"1F357":["poultry_leg"],"1F969":["cut_of_meat"],"1F953":["bacon"],"1F354":["hamburger"],"1F35F":["fries"],"1F355":["pizza"],"1F32D":["hotdog"],"1F96A":["sandwich"],"1F32E":["taco"],"1F32F":["burrito"],"1FAD4":["tamale"],"1F959":["stuffed_flatbread"],"1F9C6":["falafel"],"1F95A":["egg"],"1F373":["cooking"],"1F958":["shallow_pan_of_food"],"1F372":["stew"],"1FAD5":["fondue"],"1F963":["bowl_spoon"],"1F957":["salad"],"1F37F":["popcorn"],"1F9C8":["butter"],"1F9C2":["salt"],"1F96B":["canned_food"],"1F371":["bento"],"1F358":["rice_cracker"],"1F359":["rice_ball"],"1F35A":["rice"],"1F35B":["curry"],"1F35C":["ramen"],"1F35D":["spaghetti"],"1F360":["sweet_potato"],"1F362":["oden"],"1F363":["sushi"],"1F364":["fried_shrimp"],"1F365":["fish_cake"],"1F96E":["moon_cake"],"1F361":["dango"],"1F95F":["dumpling"],"1F960":["fortune_cookie"],"1F961":["takeout_box"],"1F980":["crab"],"1F99E":["lobster"],"1F990":["shrimp"],"1F991":["squid"],"1F9AA":["oyster"],"1F366":["icecream"],"1F367":["shaved_ice"],"1F368":["ice_cream"],"1F369":["doughnut"],"1F36A":["cookie"],"1F382":["birthday"],"1F370":["cake"],"1F9C1":["cupcake"],"1F967":["pie"],"1F36B":["chocolate_bar"],"1F36C":["candy"],"1F36D":["lollipop"],"1F36E":["custard"],"1F36F":["honey_pot"],"1F37C":["baby_bottle"],"1F95B":["milk"],"1FAD6":["teapot"],"1F375":["tea"],"1F376":["sake"],"1F37E":["champagne"],"1F377":["wine_glass"],"1F378":["cocktail"],"1F379":["tropical_drink"],"1F37A":["beer"],"1F37B":["beers"],"1F942":["champagne_glass"],"1F943":["tumbler_glass"],"1FAD7":["pour","pouring_liquid"],"1F964":["cup_straw"],"1F9CB":["bubble_tea","boba_drink"],"1F9C3":["beverage_box","juice_box"],"1F9C9":["mate","yerba_mate"],"1F9CA":["ice"],"1F962":["chopsticks"],"1F37D":["fork_knife_plate"],"1F374":["utensils"],"1F944":["spoon"],"1F52A":["knife"],"1FAD9":["jar"],"1F3FA":["amphora"],"1F30D":["earth_africa"],"1F30E":["earth_americas"],"1F30F":["earth_asia"],"1F310":["globe"],"1F5FA":["map"],"1F5FE":["japan"],"1F9ED":["compass"],"1F3D4":["snowy_mountain"],"26F0":["mountain"],"1F30B":["volcano"],"1F5FB":["mount_fuji"],"1F3D5":["camping"],"1F3D6":["beach"],"1F3DC":["desert"],"1F3DD":["island"],"1F3DE":["park"],"1F3DF":["stadium"],"1F3DB":["classical_building"],"1F3D7":["construction_site"],"1F9F1":["brick"],"1FAA8":["rock"],"1FAB5":["wood"],"1F6D6":["hut"],"1F3D8":["homes"],"1F3DA":["house_abandoned"],"1F3E0":["house"],"1F3E1":["house_garden"],"1F3E2":["office"],"1F3E3":["ja_post_office"],"1F3E4":["post_office"],"1F3E5":["hospital"],"1F3E6":["bank"],"1F3E8":["hotel"],"1F3E9":["love_hotel"],"1F3EA":["convenience_store"],"1F3EB":["school"],"1F3EC":["department_store"],"1F3ED":["factory"],"1F3EF":["japanese_castle"],"1F3F0":["castle","european_castle"],"1F492":["wedding"],"1F5FC":["tokyo_tower"],"1F5FD":["statue_of_liberty"],"26EA":["church"],"1F54C":["mosque"],"1F6D5":["hindu_temple"],"1F54D":["synagogue"],"26E9":["shinto_shrine"],"1F54B":["kaaba"],"26F2":["fountain"],"26FA":["tent"],"1F301":["foggy"],"1F303":["night_stars"],"1F3D9":["cityscape"],"1F304":["sunrise_over_mountains"],"1F305":["sunrise"],"1F306":["dusk"],"1F307":["sunset"],"1F309":["bridge_at_night"],"1F3A0":["carousel_horse"],"1F6DD":["playground_slide","slide"],"1F3A1":["ferris_wheel"],"1F3A2":["roller_coaster"],"1F488":["barber"],"1F3AA":["circus_tent"],"1F682":["steam_locomotive"],"1F683":["railway_car"],"1F684":["bullettrain_side"],"1F685":["bullettrain"],"1F686":["train"],"1F687":["metro"],"1F688":["light_rail"],"1F689":["station"],"1F68A":["tram"],"1F69D":["monorail"],"1F69E":["mountain_railway"],"1F68B":["tram_car"],"1F68C":["bus"],"1F68D":["oncoming_bus"],"1F68E":["trolleybus"],"1F690":["minibus"],"1F691":["ambulance"],"1F692":["fire_engine"],"1F693":["police_car"],"1F694":["oncoming_police_car"],"1F695":["taxi"],"1F696":["oncoming_taxi"],"1F697":["red_car"],"1F698":["oncoming_automobile"],"1F699":["blue_car"],"1F6FB":["pickup_truck"],"1F69A":["truck"],"1F69B":["lorry"],"1F69C":["tractor"],"1F3CE":["race_car"],"1F3CD":["motorcycle"],"1F6F5":["motor_scooter"],"1F9BD":["wheelchair"],"1F9BC":["motor_wheelchair"],"1F6FA":["auto_rickshaw"],"1F6B2":["bike"],"1F6F4":["scooter"],"1F6F9":["skateboard"],"1F6FC":["roller_skate"],"1F68F":["bus_stop"],"1F6E3":["motorway"],"1F6E4":["railway_track"],"1F6E2":["oil_drum"],"26FD":["fuel_pump"],"1F6DE":["wheel"],"1F6A8":["rotating_light","police_light"],"1F6A5":["traffic_light"],"1F6A6":["vertical_traffic_light"],"1F6D1":["stop_sign","octagonal_sign"],"1F6A7":["construction"],"1F6DF":["lifebuoy","ring_buoy"],"26F5":["sailboat"],"1F6F6":["canoe"],"1F6A4":["speedboat"],"1F6F3":["cruise_ship"],"26F4":["ferry"],"1F6E5":["motorboat"],"1F6A2":["ship"],"1F6E9":["small_airplane"],"1F6EB":["airplane_departure"],"1F6EC":["airplane_arriving"],"1FA82":["parachute"],"1F4BA":["seat"],"1F681":["helicopter"],"1F69F":["suspension_railway"],"1F6A0":["mountain_cableway"],"1F6A1":["aerial_tramway"],"1F6F0":["satellite"],"1F680":["rocket"],"1F6F8":["flying_saucer"],"1F6CE":["bellhop"],"1F9F3":["luggage"],"231B":["hourglass"],"23F3":["hourglass_flowing"],"231A":["watch"],"23F0":["alarm_clock"],"23F1":["stopwatch"],"23F2":["timer"],"1F570":["clock"],"1F55B":["clock12"],"1F567":["clock1230"],"1F550":["clock1"],"1F55C":["clock130"],"1F551":["clock2"],"1F55D":["clock230"],"1F552":["clock3"],"1F55E":["clock330"],"1F553":["clock4"],"1F55F":["clock430"],"1F554":["clock5"],"1F560":["clock530"],"1F555":["clock6"],"1F561":["clock630"],"1F556":["clock7"],"1F562":["clock730"],"1F557":["clock8"],"1F563":["clock830"],"1F558":["clock9"],"1F564":["clock930"],"1F559":["clock10"],"1F565":["clock1030"],"1F55A":["clock11"],"1F566":["clock1130"],"1F311":["new_moon"],"1F312":["waxing_crescent_moon"],"1F313":["first_quarter_moon"],"1F314":["waxing_gibbous_moon"],"1F315":["full_moon"],"1F316":["waning_gibbous_moon"],"1F317":["last_quarter_moon"],"1F318":["waning_crescent_moon"],"1F319":["crescent_moon"],"1F31A":["new_moon_face"],"1F31B":["first_quarter_moon_face"],"1F31C":["last_quarter_moon_face"],"1F321":["thermometer"],"1F31D":["full_moon_face"],"1F31E":["sun_face"],"1FA90":["ringed_planet","saturn"],"2B50":["star"],"1F31F":["star2","glowing_star"],"1F320":["star3","shooting_star"],"1F30C":["milky_way"],"26C5":["partly_sunny"],"26C8":["storm"],"1F324":["overcast"],"1F325":["cloudy"],"1F326":["sunshower"],"1F327":["rain"],"1F328":["snow"],"1F329":["lightning"],"1F32A":["tornado"],"1F32B":["fog"],"1F32C":["wind_face"],"1F300":["cyclone"],"1F308":["rainbow"],"1F302":["closed_umbrella"],"26F1":["beach_umbrella"],"26A1":["zap","high_voltage"],"26C4":["snowman"],"1F525":["fire"],"1F4A7":["droplet"],"1F30A":["ocean"],"1F383":["jack_o_lantern"],"1F384":["christmas_tree","xmas_tree"],"1F386":["fireworks"],"1F387":["sparkler"],"1F9E8":["firecracker"],"1F388":["balloon"],"1F389":["tada","party"],"1F38A":["confetti_ball"],"1F38B":["tanabata_tree"],"1F38D":["bamboo","pine_decor"],"1F38E":["dolls"],"1F38F":["carp_streamer"],"1F390":["wind_chime"],"1F391":["moon_ceremony","rice_scene"],"1F9E7":["red_envelope"],"1F380":["ribbon"],"1F381":["gift"],"1F397":["reminder_ribbon"],"1F39F":["tickets","admission"],"1F3AB":["ticket"],"1F396":["military_medal"],"1F3C6":["trophy"],"1F3C5":["medal"],"1F947":["first_place"],"1F948":["second_place"],"1F949":["third_place"],"26BD":["soccer"],"26BE":["baseball"],"1F94E":["softball"],"1F3C0":["basketball"],"1F3D0":["volleyball"],"1F3C8":["football"],"1F3C9":["rugby"],"1F3BE":["tennis"],"1F94F":["flying_disc"],"1F3B3":["bowling"],"1F3CF":["cricket_game"],"1F3D1":["field_hockey"],"1F3D2":["hockey"],"1F94D":["lacrosse"],"1F3D3":["ping_pong"],"1F3F8":["badminton"],"1F94A":["boxing_glove"],"1F94B":["gi","martial_arts_uniform"],"1F945":["goal"],"26F3":["golf"],"26F8":["ice_skate"],"1F3A3":["fishing_pole"],"1F93F":["diving_mask","scuba_mask"],"1F3BD":["running_shirt"],"1F3BF":["ski"],"1F6F7":["sled"],"1F94C":["curling_stone"],"1F3AF":["dart"],"1FA80":["yoyo"],"1FA81":["kite"],"1F3B1":["8ball"],"1F52E":["crystal_ball"],"1FA84":["wand"],"1F9FF":["nazar_amulet"],"1FAAC":["hamsa"],"1F3AE":["video_game"],"1F579":["joystick"],"1F3B0":["slot_machine"],"1F3B2":["game_die"],"1F9E9":["jigsaw","puzzle_piece"],"1F9F8":["teddy_bear"],"1FA85":["pinata"],"1FAA9":["disco","disco_ball","mirror_ball"],"1FA86":["nesting_dolls"],"265F":["chess_pawn"],"1F0CF":["black_joker"],"1F004":["mahjong"],"1F3B4":["flower_cards"],"1F3AD":["performing_arts"],"1F5BC":["frame_photo"],"1F3A8":["art","palette"],"1F9F5":["spool"],"1FAA1":["sewing_needle"],"1F9F6":["yarn"],"1FAA2":["knot"],"1F453":["glasses"],"1F576":["sunglasses"],"1F97D":["goggles"],"1F97C":["lab_coat"],"1F9BA":["safety_vest"],"1F454":["necktie","tie"],"1F455":["shirt"],"1F456":["jeans"],"1F9E3":["scarf"],"1F9E4":["gloves"],"1F9E5":["coat"],"1F9E6":["socks"],"1F457":["dress"],"1F458":["kimono"],"1F97B":["sari"],"1FA71":["one_piece_swimsuit"],"1FA72":["briefs"],"1FA73":["shorts"],"1F459":["bikini"],"1F45A":["blouse","womans_clothes"],"1F45B":["purse"],"1F45C":["handbag"],"1F45D":["pouch","clutch_bag"],"1F6CD":["shopping_bags"],"1F392":["backpack"],"1FA74":["sandal"],"1F45E":["dress_shoe","mans_shoe"],"1F45F":["sneaker","athletic_shoe"],"1F97E":["hiking_boot"],"1F97F":["flat_shoe"],"1F460":["high_heel"],"1F461":["womans_sandal"],"1FA70":["ballet_shoes"],"1F462":["womans_boot"],"1F451":["crown"],"1F452":["womans_hat"],"1F3A9":["top_hat"],"1F393":["graduation_cap"],"1F9E2":["billed_cap"],"1FA96":["military_helmet"],"26D1":["helmet_cross"],"1F4FF":["prayer_beads"],"1F484":["lipstick"],"1F48D":["ring"],"1F48E":["gem"],"1F507":["mute","no_sound"],"1F508":["speaker","low_sound"],"1F509":["sound"],"1F50A":["loud_sound"],"1F4E2":["loudspeaker"],"1F4E3":["megaphone"],"1F4EF":["postal_horn"],"1F514":["bell"],"1F515":["no_bell"],"1F3BC":["musical_score"],"1F3B5":["musical_note"],"1F3B6":["musical_notes"],"1F399":["studio_microphone"],"1F39A":["level_slider"],"1F39B":["control_knobs"],"1F3A4":["microphone"],"1F3A7":["headphones"],"1F4FB":["radio"],"1F3B7":["saxophone"],"1FA97":["accordion"],"1F3B8":["guitar"],"1F3B9":["musical_keyboard"],"1F3BA":["trumpet"],"1F3BB":["violin"],"1FA95":["banjo"],"1F941":["drum"],"1FA98":["long_drum"],"1F4F1":["mobile","iphone","android"],"1F4F2":["mobile_calling"],"260E":["telephone"],"1F4DE":["telephone_receiver"],"1F4DF":["pager"],"1F4E0":["fax"],"1F50B":["battery"],"1FAAB":["low_battery"],"1F50C":["electric_plug"],"1F4BB":["laptop"],"1F5A5":["desktop","computer"],"1F5A8":["printer"],"1F5B1":["computer_mouse"],"1F5B2":["trackball"],"1F4BD":["minidisc"],"1F4BE":["floppy_disk"],"1F4BF":["cd","disk"],"1F4C0":["dvd"],"1F9EE":["abacus"],"1F3A5":["movie_camera"],"1F39E":["film_frames"],"1F4FD":["projector"],"1F3AC":["clapper"],"1F4FA":["tv"],"1F4F7":["camera"],"1F4F8":["camera_flash"],"1F4F9":["video_camera"],"1F4FC":["vhs"],"1F50D":["mag"],"1F50E":["mag_right"],"1F56F":["candle"],"1F4A1":["bulb","light_bulb"],"1F526":["flashlight"],"1F3EE":["red_lantern"],"1FA94":["diya_lamp"],"1F4D4":["decorative_notebook"],"1F4D5":["closed_book"],"1F4D6":["book"],"1F4D7":["green_book"],"1F4D8":["blue_book"],"1F4D9":["orange_book"],"1F4DA":["books"],"1F4D3":["notebook"],"1F4D2":["ledger"],"1F4C3":["page_curl"],"1F4DC":["scroll"],"1F4C4":["page_facing_up"],"1F4F0":["newspaper"],"1F5DE":["rolled_newspaper"],"1F4D1":["bookmark_tabs"],"1F516":["bookmark"],"1F3F7":["label"],"1F4B0":["moneybag"],"1FA99":["coin"],"1F4B4":["yen"],"1F4B5":["dollar"],"1F4B6":["euro"],"1F4B7":["pound"],"1F4B8":["money_wings"],"1F4B3":["credit_card"],"1F9FE":["receipt"],"1F4B9":["ja_chart"],"1F4E7":["email"],"1F4E8":["incoming_envelope"],"1F4E9":["envelope_arrow"],"1F4E4":["outbox_tray"],"1F4E5":["inbox_tray"],"1F4E6":["package"],"1F4EB":["mailbox"],"1F4EA":["mailbox_closed"],"1F4EC":["mailbox_mail"],"1F4ED":["mailbox_no_mail"],"1F4EE":["postbox"],"1F5F3":["ballot_box"],"270F":["pencil"],"1F58B":["fountain_pen"],"1F58A":["pen"],"1F58C":["paintbrush"],"1F58D":["crayon"],"1F4DD":["memo"],"1F4BC":["briefcase"],"1F4C1":["file_folder"],"1F4C2":["open_file_folder"],"1F5C2":["dividers"],"1F4C5":["date","calendar"],"1F4C6":["torn_calendar"],"1F5D2":["notepad_spiral"],"1F5D3":["calendar_spiral"],"1F4C7":["card_index"],"1F4C8":["chart_up"],"1F4C9":["chart_down"],"1F4CA":["bar_chart"],"1F4CB":["clipboard"],"1F4CC":["pushpin"],"1F4CD":["round_pushpin"],"1F4CE":["paperclip"],"1F587":["paperclips"],"1F4CF":["straight_ruler"],"1F4D0":["triangular_ruler"],"1F5C3":["card_box"],"1F5C4":["file_cabinet"],"1F5D1":["trashcan","wastebasket"],"1F512":["lock"],"1F513":["unlock"],"1F50F":["locked_pen"],"1F510":["locked_key"],"1F511":["key"],"1F5DD":["old_key"],"1F528":["hammer"],"1FA93":["axe"],"26CF":["pick"],"1F6E0":["tools","hammer_wrench"],"1F5E1":["dagger"],"1F52B":["gun","pistol"],"1FA83":["boomerang"],"1F3F9":["bow"],"1F6E1":["shield"],"1FA9A":["saw"],"1F527":["wrench"],"1FA9B":["screwdriver"],"1F529":["nut_and_bolt"],"1F5DC":["clamp","compression"],"1F9AF":["probing_cane"],"1F517":["link"],"26D3":["chains"],"1FA9D":["hook"],"1F9F0":["toolbox"],"1F9F2":["magnet"],"1FA9C":["ladder"],"1F9EA":["test_tube"],"1F9EB":["petri_dish"],"1F9EC":["dna","double_helix"],"1F52C":["microscope"],"1F52D":["telescope"],"1F4E1":["satellite_antenna"],"1F489":["syringe"],"1FA78":["blood_drop"],"1F48A":["pill"],"1FA79":["bandaid","adhesive_bandage"],"1FA7C":["crutch"],"1FA7A":["stethoscope"],"1FA7B":["x-ray","xray"],"1F6AA":["door"],"1F6D7":["elevator"],"1FA9E":["mirror"],"1FA9F":["window"],"1F6CF":["bed"],"1F6CB":["couch"],"1FA91":["chair"],"1F6BD":["toilet"],"1FAA0":["plunger"],"1F6BF":["shower"],"1F6C1":["bathtub"],"1FAA4":["mouse_trap"],"1FA92":["razor"],"1F9F4":["lotion"],"1F9F7":["safety_pin"],"1F9F9":["broom"],"1F9FA":["basket"],"1F9FB":["toilet_paper"],"1FAA3":["bucket"],"1F9FC":["soap"],"1FAE7":["bubbles"],"1FAA5":["toothbrush"],"1F9FD":["sponge"],"1F9EF":["fire_extinguisher"],"1F6D2":["shopping_cart"],"1F6AC":["cigarette","smoking"],"26B0":["coffin"],"1FAA6":["headstone"],"26B1":["urn"],"1F5FF":["moai"],"1FAA7":["placard"],"1FAAA":["id_card"],"1F3E7":["atm"],"1F6AE":["litter_bin"],"1F6B0":["potable_water"],"267F":["handicapped"],"1F6B9":["mens"],"1F6BA":["womens"],"1F6BB":["restroom","bathroom"],"1F6BC":["baby_symbol"],"1F6BE":["wc"],"1F6C2":["passport_control"],"1F6C3":["customs"],"1F6C4":["baggage_claim"],"1F6C5":["left_luggage"],"26A0":["warning"],"1F6B8":["children_crossing"],"26D4":["no_entry"],"1F6AB":["no_entry_sign"],"1F6B3":["no_bicycles"],"1F6AD":["no_smoking"],"1F6AF":["do_not_litter"],"1F6B1":["non_potable_water"],"1F6B7":["no_pedestrians"],"1F4F5":["no_mobile_phones"],"1F51E":["underage"],"2B06":["arrow_up"],"27A1":["arrow_right"],"2B07":["arrow_down"],"2B05":["arrow_left"],"21A9":["arrow_left_hook"],"21AA":["arrow_right_hook"],"1F503":["clockwise"],"1F504":["counter_clockwise"],"1F519":["back"],"1F51A":["end"],"1F51B":["on"],"1F51C":["soon"],"1F51D":["top"],"1F6D0":["place_of_worship"],"269B":["atom"],"1F549":["om_symbol"],"262F":["yin_yang"],"271D":["cross"],"262A":["star_and_crescent"],"262E":["peace"],"1F54E":["menorah"],"1F52F":["six_pointed_star"],"264A":["gemini"],"264B":["cancer"],"264C":["leo"],"264D":["virgo"],"264E":["libra"],"264F":["scorpius"],"26CE":["ophiuchus"],"1F500":["shuffle"],"1F501":["repeat"],"1F502":["repeat_single"],"25B6":["play"],"23E9":["fast_forward"],"23ED":["next_track"],"23EF":["play_pause"],"25C0":["reverse"],"23EA":["rewind"],"23EE":["previous_track"],"1F53C":["up_button"],"23EB":["fast_up_button"],"1F53D":["down_button"],"23EC":["fast_down_button"],"23F8":["pause"],"23F9":["stop"],"23FA":["record"],"23CF":["eject"],"1F3A6":["cinema"],"1F505":["dim","low_brightness"],"1F506":["bright","high_brightness"],"1F4F6":["signal_strength","antenna_bars"],"1F4F3":["vibration_mode"],"1F4F4":["mobile_phone_off"],"26A7":["trans"],"1F7F0":["heavy_equals_sign"],"267E":["infinity"],"203C":["bangbang","double_exclamation"],"1F4B1":["currency_exchange"],"1F4B2":["dollar_sign"],"267B":["recycle"],"269C":["fleur-de-lis"],"1F531":["trident"],"1F4DB":["name_badge"],"1F530":["ja_beginner"],"2B55":["o"],"274C":["x","cross_mark"],"274E":["cross_mark_button"],"27B0":["curly_loop"],"27BF":["double_curly_loop"],"303D":["part_alternation_mark"],"00A9":["copyright"],"00AE":["registered"],"0023-FE0F-20E3":["hash"],"002A-FE0F-20E3":["asterisk"],"0030-FE0F-20E3":["zero"],"0031-FE0F-20E3":["one"],"0032-FE0F-20E3":["two"],"0033-FE0F-20E3":["three"],"0034-FE0F-20E3":["four"],"0035-FE0F-20E3":["five"],"0036-FE0F-20E3":["six"],"0037-FE0F-20E3":["seven"],"0038-FE0F-20E3":["eight"],"0039-FE0F-20E3":["nine"],"1F51F":["ten"],"1F520":["upper_abcd"],"1F521":["abcd"],"1F522":["1234"],"1F523":["symbols"],"1F524":["abc"],"1F170":["a_blood"],"1F18E":["ab_blood"],"1F171":["b_blood"],"1F191":["cl"],"1F192":["cool"],"1F193":["free"],"1F194":["id"],"24C2":["m"],"1F195":["new"],"1F196":["ng"],"1F17E":["o_blood"],"1F197":["ok"],"1F17F":["p"],"1F198":["sos"],"1F199":["up"],"1F19A":["vs"],"1F201":["ja_here","koko"],"1F202":["ja_service_charge"],"1F237":["ja_monthly_amount"],"1F236":["ja_not_free_of_carge"],"1F22F":["ja_reserved"],"1F250":["ja_bargain"],"1F239":["ja_discount"],"1F21A":["ja_free_of_charge"],"1F232":["ja_prohibited"],"1F251":["ja_acceptable"],"1F238":["ja_application"],"1F234":["ja_passing_grade"],"1F233":["ja_vacancy"],"1F23A":["ja_open_for_business"],"1F235":["ja_no_vacancy"],"1F534":["red_circle"],"1F7E0":["orange_circle"],"1F7E1":["yellow_circle"],"1F7E2":["green_circle"],"1F535":["blue_circle"],"1F7E3":["purple_circle"],"1F7E4":["brown_circle"],"26AB":["black_circle"],"26AA":["white_circle"],"1F7E5":["red_square"],"1F7E7":["orange_square"],"1F7E8":["yellow_square"],"1F7E9":["green_square"],"1F7E6":["blue_square"],"1F7EA":["purple_square"],"1F7EB":["brown_square"],"2B1B":["large_black_square"],"2B1C":["large_white_square"],"25FC":["medium_black_square"],"25FB":["medium_white_square"],"25FE":["medium_small_black_square"],"25FD":["medium_small_white_square"],"25AA":["small_black_square"],"25AB":["small_white_square"],"1F536":["large_orange_diamond"],"1F537":["large_blue_diamond"],"1F538":["small_orange_diamond"],"1F539":["small_blue_diamond"],"1F53A":["up_red_triangle"],"1F53B":["down_red_triangle"],"1F4A0":["diamond_dot"],"1F518":["radio_button"],"1F533":["white_square_button"],"1F532":["black_square_button"],"1F3C1":["checkered_flag"],"1F6A9":["triangle_flag"],"1F38C":["crossed_flags"],"1F3F4":["black_flag"],"1F3F3":["white_flag"],"1F3F3-FE0F-200D-1F308":["rainbow_flag"],"1F3F3-FE0F-200D-26A7-FE0F":["trans_flag"],"1F3F4-200D-2620-FE0F":["pirate_flag","jolly_roger"],"1F1E6-1F1E8":["flag_ac"],"1F1E6-1F1E9":["flag_ad"],"1F1E6-1F1EA":["flag_ae"],"1F1E6-1F1EB":["flag_af"],"1F1E6-1F1EC":["flag_ag"],"1F1E6-1F1EE":["flag_ai"],"1F1E6-1F1F1":["flag_al"],"1F1E6-1F1F2":["flag_am"],"1F1E6-1F1F4":["flag_ao"],"1F1E6-1F1F6":["flag_aq"],"1F1E6-1F1F7":["flag_ar"],"1F1E6-1F1F8":["flag_as"],"1F1E6-1F1F9":["flag_at"],"1F1E6-1F1FA":["flag_au"],"1F1E6-1F1FC":["flag_aw"],"1F1E6-1F1FD":["flag_ax"],"1F1E6-1F1FF":["flag_az"],"1F1E7-1F1E6":["flag_ba"],"1F1E7-1F1E7":["flag_bb"],"1F1E7-1F1E9":["flag_bd"],"1F1E7-1F1EA":["flag_be"],"1F1E7-1F1EB":["flag_bf"],"1F1E7-1F1EC":["flag_bg"],"1F1E7-1F1ED":["flag_bh"],"1F1E7-1F1EE":["flag_bi"],"1F1E7-1F1EF":["flag_bj"],"1F1E7-1F1F1":["flag_bl"],"1F1E7-1F1F2":["flag_bm"],"1F1E7-1F1F3":["flag_bn"],"1F1E7-1F1F4":["flag_bo"],"1F1E7-1F1F6":["flag_bq"],"1F1E7-1F1F7":["flag_br"],"1F1E7-1F1F8":["flag_bs"],"1F1E7-1F1F9":["flag_bt"],"1F1E7-1F1FB":["flag_bv"],"1F1E7-1F1FC":["flag_bw"],"1F1E7-1F1FE":["flag_by"],"1F1E7-1F1FF":["flag_bz"],"1F1E8-1F1E6":["flag_ca"],"1F1E8-1F1E8":["flag_cc"],"1F1E8-1F1E9":["flag_cd"],"1F1E8-1F1EB":["flag_cf"],"1F1E8-1F1EC":["flag_cg"],"1F1E8-1F1ED":["flag_ch"],"1F1E8-1F1EE":["flag_ci"],"1F1E8-1F1F0":["flag_ck"],"1F1E8-1F1F1":["flag_cl"],"1F1E8-1F1F2":["flag_cm"],"1F1E8-1F1F3":["flag_cn"],"1F1E8-1F1F4":["flag_co"],"1F1E8-1F1F5":["flag_cp"],"1F1E8-1F1F7":["flag_cr"],"1F1E8-1F1FA":["flag_cu"],"1F1E8-1F1FB":["flag_cv"],"1F1E8-1F1FC":["flag_cw"],"1F1E8-1F1FD":["flag_cx"],"1F1E8-1F1FE":["flag_cy"],"1F1E8-1F1FF":["flag_cz"],"1F1E9-1F1EA":["flag_de"],"1F1E9-1F1EC":["flag_dg"],"1F1E9-1F1EF":["flag_dj"],"1F1E9-1F1F0":["flag_dk"],"1F1E9-1F1F2":["flag_dm"],"1F1E9-1F1F4":["flag_do"],"1F1E9-1F1FF":["flag_dz"],"1F1EA-1F1E6":["flag_ea"],"1F1EA-1F1E8":["flag_ec"],"1F1EA-1F1EA":["flag_ee"],"1F1EA-1F1EC":["flag_eg"],"1F1EA-1F1ED":["flag_eh"],"1F1EA-1F1F7":["flag_er"],"1F1EA-1F1F8":["flag_es"],"1F1EA-1F1F9":["flag_et"],"1F1EA-1F1FA":["flag_eu"],"1F1EB-1F1EE":["flag_fi"],"1F1EB-1F1EF":["flag_fj"],"1F1EB-1F1F0":["flag_fk"],"1F1EB-1F1F2":["flag_fm"],"1F1EB-1F1F4":["flag_fo"],"1F1EB-1F1F7":["flag_fr"],"1F1EC-1F1E6":["flag_ga"],"1F1EC-1F1E7":["flag_gb"],"1F1EC-1F1E9":["flag_gd"],"1F1EC-1F1EA":["flag_ge"],"1F1EC-1F1EB":["flag_gf"],"1F1EC-1F1EC":["flag_gg"],"1F1EC-1F1ED":["flag_gh"],"1F1EC-1F1EE":["flag_gi"],"1F1EC-1F1F1":["flag_gl"],"1F1EC-1F1F2":["flag_gm"],"1F1EC-1F1F3":["flag_gn"],"1F1EC-1F1F5":["flag_gp"],"1F1EC-1F1F6":["flag_gq"],"1F1EC-1F1F7":["flag_gr"],"1F1EC-1F1F8":["flag_gs"],"1F1EC-1F1F9":["flag_gt"],"1F1EC-1F1FA":["flag_gu"],"1F1EC-1F1FC":["flag_gw"],"1F1EC-1F1FE":["flag_gy"],"1F1ED-1F1F0":["flag_hk"],"1F1ED-1F1F2":["flag_hm"],"1F1ED-1F1F3":["flag_hn"],"1F1ED-1F1F7":["flag_hr"],"1F1ED-1F1F9":["flag_ht"],"1F1ED-1F1FA":["flag_hu"],"1F1EE-1F1E8":["flag_ic"],"1F1EE-1F1E9":["flag_id"],"1F1EE-1F1EA":["flag_ie"],"1F1EE-1F1F1":["flag_il"],"1F1EE-1F1F2":["flag_im"],"1F1EE-1F1F3":["flag_in"],"1F1EE-1F1F4":["flag_io"],"1F1EE-1F1F6":["flag_iq"],"1F1EE-1F1F7":["flag_ir"],"1F1EE-1F1F8":["flag_is"],"1F1EE-1F1F9":["flag_it"],"1F1EF-1F1EA":["flag_je"],"1F1EF-1F1F2":["flag_jm"],"1F1EF-1F1F4":["flag_jo"],"1F1EF-1F1F5":["flag_jp"],"1F1F0-1F1EA":["flag_ke"],"1F1F0-1F1EC":["flag_kg"],"1F1F0-1F1ED":["flag_kh"],"1F1F0-1F1EE":["flag_ki"],"1F1F0-1F1F2":["flag_km"],"1F1F0-1F1F3":["flag_kn"],"1F1F0-1F1F5":["flag_kp"],"1F1F0-1F1F7":["flag_kr"],"1F1F0-1F1FC":["flag_kw"],"1F1F0-1F1FE":["flag_ky"],"1F1F0-1F1FF":["flag_kz"],"1F1F1-1F1E6":["flag_la"],"1F1F1-1F1E7":["flag_lb"],"1F1F1-1F1E8":["flag_lc"],"1F1F1-1F1EE":["flag_li"],"1F1F1-1F1F0":["flag_lk"],"1F1F1-1F1F7":["flag_lr"],"1F1F1-1F1F8":["flag_ls"],"1F1F1-1F1F9":["flag_lt"],"1F1F1-1F1FA":["flag_lu"],"1F1F1-1F1FB":["flag_lv"],"1F1F1-1F1FE":["flag_ly"],"1F1F2-1F1E6":["flag_ma"],"1F1F2-1F1E8":["flag_mc"],"1F1F2-1F1E9":["flag_md"],"1F1F2-1F1EA":["flag_me"],"1F1F2-1F1EB":["flag_mf"],"1F1F2-1F1EC":["flag_mg"],"1F1F2-1F1ED":["flag_mh"],"1F1F2-1F1F0":["flag_mk"],"1F1F2-1F1F1":["flag_ml"],"1F1F2-1F1F2":["flag_mm"],"1F1F2-1F1F3":["flag_mn"],"1F1F2-1F1F4":["flag_mo"],"1F1F2-1F1F5":["flag_mp"],"1F1F2-1F1F6":["flag_mq"],"1F1F2-1F1F7":["flag_mr"],"1F1F2-1F1F8":["flag_ms"],"1F1F2-1F1F9":["flag_mt"],"1F1F2-1F1FA":["flag_mu"],"1F1F2-1F1FB":["flag_mv"],"1F1F2-1F1FC":["flag_mw"],"1F1F2-1F1FD":["flag_mx"],"1F1F2-1F1FE":["flag_my"],"1F1F2-1F1FF":["flag_mz"],"1F1F3-1F1E6":["flag_na"],"1F1F3-1F1E8":["flag_nc"],"1F1F3-1F1EA":["flag_ne"],"1F1F3-1F1EB":["flag_nf"],"1F1F3-1F1EC":["flag_ng"],"1F1F3-1F1EE":["flag_ni"],"1F1F3-1F1F1":["flag_nl"],"1F1F3-1F1F4":["flag_no"],"1F1F3-1F1F5":["flag_np"],"1F1F3-1F1F7":["flag_nr"],"1F1F3-1F1FA":["flag_nu"],"1F1F3-1F1FF":["flag_nz"],"1F1F4-1F1F2":["flag_om"],"1F1F5-1F1E6":["flag_pa"],"1F1F5-1F1EA":["flag_pe"],"1F1F5-1F1EB":["flag_pf"],"1F1F5-1F1EC":["flag_pg"],"1F1F5-1F1ED":["flag_ph"],"1F1F5-1F1F0":["flag_pk"],"1F1F5-1F1F1":["flag_pl"],"1F1F5-1F1F2":["flag_pm"],"1F1F5-1F1F3":["flag_pn"],"1F1F5-1F1F7":["flag_pr"],"1F1F5-1F1F8":["flag_ps"],"1F1F5-1F1F9":["flag_pt"],"1F1F5-1F1FC":["flag_pw"],"1F1F5-1F1FE":["flag_py"],"1F1F6-1F1E6":["flag_qa"],"1F1F7-1F1EA":["flag_re"],"1F1F7-1F1F4":["flag_ro"],"1F1F7-1F1F8":["flag_rs"],"1F1F7-1F1FA":["flag_ru"],"1F1F7-1F1FC":["flag_rw"],"1F1F8-1F1E6":["flag_sa"],"1F1F8-1F1E7":["flag_sb"],"1F1F8-1F1E8":["flag_sc"],"1F1F8-1F1E9":["flag_sd"],"1F1F8-1F1EA":["flag_se"],"1F1F8-1F1EC":["flag_sg"],"1F1F8-1F1ED":["flag_sh"],"1F1F8-1F1EE":["flag_si"],"1F1F8-1F1EF":["flag_sj"],"1F1F8-1F1F0":["flag_sk"],"1F1F8-1F1F1":["flag_sl"],"1F1F8-1F1F2":["flag_sm"],"1F1F8-1F1F3":["flag_sn"],"1F1F8-1F1F4":["flag_so"],"1F1F8-1F1F7":["flag_sr"],"1F1F8-1F1F8":["flag_ss"],"1F1F8-1F1F9":["flag_st"],"1F1F8-1F1FB":["flag_sv"],"1F1F8-1F1FD":["flag_sx"],"1F1F8-1F1FE":["flag_sy"],"1F1F8-1F1FF":["flag_sz"],"1F1F9-1F1E6":["flag_ta"],"1F1F9-1F1E8":["flag_tc"],"1F1F9-1F1E9":["flag_td"],"1F1F9-1F1EB":["flag_tf"],"1F1F9-1F1EC":["flag_tg"],"1F1F9-1F1ED":["flag_th"],"1F1F9-1F1EF":["flag_tj"],"1F1F9-1F1F0":["flag_tk"],"1F1F9-1F1F1":["flag_tl"],"1F1F9-1F1F2":["flag_tm"],"1F1F9-1F1F3":["flag_tn"],"1F1F9-1F1F4":["flag_to"],"1F1F9-1F1F7":["flag_tr"],"1F1F9-1F1F9":["flag_tt"],"1F1F9-1F1FB":["flag_tv"],"1F1F9-1F1FC":["flag_tw"],"1F1F9-1F1FF":["flag_tz"],"1F1FA-1F1E6":["flag_ua"],"1F1FA-1F1EC":["flag_ug"],"1F1FA-1F1F2":["flag_um"],"1F1FA-1F1F3":["flag_un"],"1F1FA-1F1F8":["flag_us","usa"],"1F1FA-1F1FE":["flag_uy"],"1F1FA-1F1FF":["flag_uz"],"1F1FB-1F1E6":["flag_va"],"1F1FB-1F1E8":["flag_vc"],"1F1FB-1F1EA":["flag_ve"],"1F1FB-1F1EC":["flag_vg"],"1F1FB-1F1EE":["flag_vi"],"1F1FB-1F1F3":["flag_vn"],"1F1FB-1F1FA":["flag_vu"],"1F1FC-1F1EB":["flag_wf"],"1F1FC-1F1F8":["flag_ws"],"1F1FD-1F1F0":["flag_xk"],"1F1FE-1F1EA":["flag_ye"],"1F1FE-1F1F9":["flag_yt"],"1F1FF-1F1E6":["flag_za"],"1F1FF-1F1F2":["flag_zm"],"1F1FF-1F1FC":["flag_zw"],"1F3F4-E0067-E0062-E0065-E006E-E0067-E007F":["flag_gbeng","england"],"1F3F4-E0067-E0062-E0073-E0063-E0074-E007F":["flag_gbsct","scotland"],"1F3F4-E0067-E0062-E0077-E006C-E0073-E007F":["flag_gbwls","wales"]}');var k=function e(F,t){return void 0===t&&(t=1),F.reduce((function(F,a){return F.concat(t>1&&Array.isArray(a)?e(a,t-1):a)}),[])}(Object.values(A)),C=Object.entries(A),B=function(e){return String.fromCodePoint.apply(String,e.split("-").map((function(e){return"0x"+e})))},x=new Map,j=new function(e,F,t,a){var n={};e=e||[],n.gramSizeLower=t||2,n.gramSizeUpper=a||3,n.useLevenshtein="boolean"!=typeof F||F,n.exactSet={},n.matchDict={},n.items={};var o=function(e,F){if(null===e&&null===F)throw"Trying to compare two null values";if(null===e||null===F)return 0;var t=function(e,F){for(var t,a,n=[],o=0;o<=F.length;o++)for(var r=0;r<=e.length;r++)a=o&&r?e.charAt(r-1)===F.charAt(o-1)?t:Math.min(n[r],n[r-1],t)+1:o+r,t=n[r],n[r]=a;return n.pop()}(e=String(e),F=String(F));return e.length>F.length?1-t/e.length:1-t/F.length},r=/[^a-zA-Z0-9\u00C0-\u00FF\u0621-\u064A\u0660-\u0669, ]+/g,i=function(e,F){for(var t={},a=function(e,F){F=F||2;var t="-"+e.toLowerCase().replace(r,"")+"-",a=F-t.length,n=[];if(a>0)for(var o=0;o<a;++o)t+="-";for(o=0;o<t.length-F+1;++o)n.push(t.slice(o,o+F));return n}(e,F=F||2),n=0;n<a.length;++n)a[n]in t?t[a[n]]+=1:t[a[n]]=1;return t};n.get=function(e,F,t){void 0===t&&(t=.33);var a=this._get(e,t);return a||void 0===F?a:F},n._get=function(e,F){for(var t=[],a=this.gramSizeUpper;a>=this.gramSizeLower;--a)if((t=this.__get(e,a,F))&&t.length>0)return t;return null},n.__get=function(e,F,t){var a,n,r,s,l=this._normalizeStr(e),c={},_=i(l,F),u=this.items[F],f=0;for(a in _)if(n=_[a],f+=Math.pow(n,2),a in this.matchDict)for(D=0;D<this.matchDict[a].length;++D)r=this.matchDict[a][D][0],s=this.matchDict[a][D][1],r in c?c[r]+=n*s:c[r]=n*s;if(function(e){for(var F in e)if(e.hasOwnProperty(F))return!1;return!0}(c))return null;var g,m=Math.sqrt(f),p=[];for(var d in c)g=c[d],p.push([g/(m*u[d][0]),u[d][1]]);var h=function(e,F){return e[0]<F[0]?1:e[0]>F[0]?-1:0};if(p.sort(h),this.useLevenshtein){for(var E=[],b=Math.min(50,p.length),D=0;D<b;++D)E.push([o(p[D][1],l),p[D][1]]);(p=E).sort(h)}return E=[],p.forEach(function(e){e[0]>=t&&E.push([e[0],this.exactSet[e[1]]])}.bind(this)),E},n.add=function(e){if(this._normalizeStr(e)in this.exactSet)return!1;for(var F=this.gramSizeLower;F<this.gramSizeUpper+1;++F)this._add(e,F)},n._add=function(e,F){var t=this._normalizeStr(e),a=this.items[F]||[],n=a.length;a.push(0);var o,r,s=i(t,F),l=0;for(o in s)r=s[o],l+=Math.pow(r,2),o in this.matchDict?this.matchDict[o].push([n,r]):this.matchDict[o]=[[n,r]];var c=Math.sqrt(l);a[n]=[c,t],this.items[F]=a,this.exactSet[t]=e},n._normalizeStr=function(e){if("[object String]"!==Object.prototype.toString.call(e))throw"Must use a string as argument to FuzzySet functions";return e.toLowerCase()},n.length=function(){var e,F=0;for(e in this.exactSet)this.exactSet.hasOwnProperty(e)&&(F+=1);return F},n.isEmpty=function(){for(var e in this.exactSet)if(this.exactSet.hasOwnProperty(e))return!1;return!0},n.values=function(){var e,F=[];for(e in this.exactSet)this.exactSet.hasOwnProperty(e)&&F.push(this.exactSet[e]);return F};for(var s=n.gramSizeLower;s<n.gramSizeUpper+1;++s)n.items[s]=[];for(s=0;s<e.length;++s)n.add(e[s]);return n}(k);const R=function(e){if(!e)return{};var F,t=e.identifier||e;if(x.has(t))return x.get(t);if(!k.includes(t)){var a=function(e){var F=j.get(e);if(!F)return null;var t=F[0];return{score:t[0],item:t[1]}}(t);t=null==a?void 0:a.item,F=null==a?void 0:a.score}var n=function(e){return C.find((function(F){return F[1].includes(e)}))}(t),o=null==n?void 0:n[0],r=o?{identifier:t,score:F,uc:B(o),url:v().data["fof-reactions.cdnUrl"].replace("[codepoint]",o.toLowerCase()),type:"emoji"}:{};return x.set(e,r),r||{}};var z=function(e){function F(){return e.apply(this,arguments)||this}h(F,e);var t=F.prototype;return t.icon=function(){return"fas fa-heart"},t.href=function(){return o().route.post(this.attrs.notification.subject())},t.content=function(){var e=this.attrs.notification,F=JSON.parse(e.content()),t=F.identifier,a=F.type,n=e.fromUser(),r="emoji"===a?m("img",{src:R(t).url,loading:"lazy",height:"14px"}):w()(t);return o().translator.trans("fof-reactions.forum.notification",{user:n,reaction:r})},t.excerpt=function(){return this.attrs.notification.subject().contentPlain()},F}(b()),S=function(e){function F(){return e.apply(this,arguments)||this}h(F,e);var t=F.prototype;return t.identifier=function(){return f().attribute("identifier").call(this)},t.display=function(){return f().attribute("display").call(this)},t.type=function(){return f().attribute("type").call(this)},t.enabled=function(){return f().attribute("enabled").call(this)},t.user_id=function(){return f().attribute("user_id").call(this)},t.post_id=function(){return f().attribute("post_id").call(this)},t.reaction_id=function(){return f().attribute("reaction_id").call(this)},F}(f()),O=function(e){function F(){return e.apply(this,arguments)||this}h(F,e);var t=F.prototype;return t.reaction=function(){return f().attribute("reaction").call(this)},t.userId=function(){return f().attribute("userId").call(this)},t.postId=function(){return f().attribute("postId").call(this)},t.reactionId=function(){return f().attribute("reactionId").call(this)},t.user=function(){return f().hasOne("user")},t.post=function(){return f().hasOne("post")},F}(f()),L=t(976),N=t.n(L);const q=flarum.core.compat["forum/components/DiscussionPage"];var P=t.n(q),I=function(e){return o().store.find("posts",e,{include:"reactions"}).then((function(){return m.redraw()}))},M=[],T=function(e){var F=M[e];return F?F(e):(F=M[e]=N()(I,1500))(e)};const G=flarum.core.compat["forum/components/CommentPost"];var U=t.n(G);const Z=flarum.core.compat["common/Component"];var J=t.n(Z);const W=flarum.core.compat["common/utils/ItemList"];var K=t.n(W);const Y=flarum.core.compat["common/components/Button"];var H=t.n(Y);const Q=flarum.core.compat["common/helpers/listItems"];var V=t.n(Q);const X=flarum.core.compat["forum/components/LogInModal"];var ee=t.n(X);function Fe(){return Fe=Object.assign||function(e){for(var F=1;F<arguments.length;F++){var t=arguments[F];for(var a in t)Object.prototype.hasOwnProperty.call(t,a)&&(e[a]=t[a])}return e},Fe.apply(this,arguments)}const te=flarum.core.compat["common/utils/extract"];var ae=t.n(te);const ne=flarum.core.compat["common/utils/classList"];var oe=t.n(ne),re=function(e){function F(){return e.apply(this,arguments)||this}return h(F,e),F.prototype.view=function(){var e=Fe({},this.attrs),F=ae()(e,"reaction"),t=ae()(e,"className");if(!F)return m("span",null);var a=F.display()||F.identifier();if(e.title||(e.title=a),"emoji"===F.type()){var n=R(F.identifier()).url;return m("img",Object.assign({className:oe()(t,"emoji"),src:n,loading:"lazy",draggable:"false",alt:a},e))}return m("i",Object.assign({className:oe()(t,F.identifier(),"icon"),"aria-hidden":!0},e))},F}(J()),ie=function(e){function F(){return e.apply(this,arguments)||this}h(F,e);var t=F.prototype;return t.oninit=function(F){e.prototype.oninit.call(this,F),this.post=this.attrs.post,this.loading={},this.updateChosenReaction()},t.oncreate=function(F){e.prototype.oncreate.call(this,F),"ontouchstart"in window&&($(".Reactions").unbind().on("touchend",(function(){$(this).find(".CommentPost--Reactions").toggleClass("mobile-show")})),$(document).click((function(e){var F=e.target;$(F).is(".Reactions")||$(F).parents().is(".Reactions")||$(".CommentPost--Reactions").removeClass("mobile-show")})))},t.getReactions=function(){var e=this,F=new(K());return o().forum.reactions().forEach((function(t){t.enabled()&&F.add(t.identifier().replace(/fa.? fa-/,""),m(H(),{className:"Button Button--link",type:"button",title:t.display()||t.identifier(),onclick:e.react.bind(e,t),"data-reaction":t.identifier(),loading:e.loading[t.id()]},m(re,{className:t.type(),reaction:t})))})),F},t.view=function(){var e=this,F=this.post.reactionCounts(),t=this.post.canReact(),a=this.post.userReaction()&&F[this.post.userReaction()]>0;return m("div",{style:"margin-right: 7px",className:"Reactions"},m("div",{className:"Reactions--reactions"},Object.keys(F).map((function(a){var n=o().store.getById("reactions",a),r=F[a];if(0!==r){var i="icon"===n.type()?n.identifier()+" emoji button-emoji reaction-icon":"",s=m(re,{reaction:n,className:i,"data-reaction":n.identifier()});return H().component({className:"Button Button--flat Button-emoji-parent "+(e.post.userReaction()==n.id()&&"active"),onclick:t?e.react.bind(e,n):"","data-reaction":n.identifier(),disabled:!t,loading:e.loading[n.id()]},m("span",null,s," ",r>1?m("span",{className:"count"},r):""))}}))),(!Object.keys(this.loading).length||this.loading.null)&&!a&&t&&m("div",{className:"Reactions--react"},this.reactButton(),m("div",{className:"CommentPost--Reactions",style:1===this.post.number()?"":"left: -28%;"},m("ul",{className:"Reactions--Ul"},V()(this.getReactions().toArray())))))},t.reactButton=function(){return m(H(),{className:"Button Button--link Reactions--ShowReactions",type:"Button",title:o().translator.trans("fof-reactions.forum.react_button_label"),loading:this.loading.null},m("span",{className:"Button-label"},m("svg",{class:"button-react",width:"20px",height:"20px",viewBox:"0 0 18 18"},m("g",{id:"Reaction",stroke:"none","stroke-width":"1",fill:"none","fill-rule":"evenodd"},m("g",{id:"ic_reactions_grey"},m("g",{id:"Group-2"},m("g",{id:"0:0:0:0"},m("rect",{id:"Rectangle-5",x:"0",y:"0",width:"18",height:"18"}),m("g",{id:"emoticon"}),m("path",{d:"M14.6332705,7.33333333 C14.6554304,7.55389388 14.6666667,7.77636769 14.6666667,8 C14.6666667,11.6818983 11.6818983,14.6666667 8,14.6666667 C6.23189007,14.6666667 4.53619732,13.9642877 3.28595479,12.7140452 C2.03571227,11.4638027 1.33333333,9.76810993 1.33333333,8 C1.33333333,4.33333333 4.31333333,1.33333333 8,1.33333333 L8,1.33333333 C8.22363231,1.33333333 8.44610612,1.3445696 8.66666667,1.36672949 L8.66666667,2.70847693 C8.44668912,2.68076722 8.22407146,2.66666667 8,2.66666667 C5.05448133,2.66666667 2.66666667,5.05448133 2.66666667,8 C2.66666667,10.9455187 5.05448133,13.3333333 8,13.3333333 C10.9455187,13.3333333 13.3333333,10.9455187 13.3333333,8 C13.3333333,7.77592854 13.3192328,7.55331088 13.2915231,7.33333333 L14.6332705,7.33333333 Z M8,11.6666667 C9.55333333,11.6666667 10.8666667,10.6933333 11.4066667,9.33333333 L4.59333333,9.33333333 C5.12666667,10.6933333 6.44666667,11.6666667 8,11.6666667 Z M10.3333333,7.33333333 C10.8856181,7.33333333 11.3333333,6.88561808 11.3333333,6.33333333 C11.3333333,5.78104858 10.8856181,5.33333333 10.3333333,5.33333333 C9.78104858,5.33333333 9.33333333,5.78104858 9.33333333,6.33333333 C9.33333333,6.88561808 9.78104858,7.33333333 10.3333333,7.33333333 L10.3333333,7.33333333 Z M5.66666667,7.33333333 C6.21895142,7.33333333 6.66666667,6.88561808 6.66666667,6.33333333 C6.66666667,5.78104858 6.21895142,5.33333333 5.66666667,5.33333333 C5.11438192,5.33333333 4.66666667,5.78104858 4.66666667,6.33333333 C4.66666667,6.88561808 5.11438192,7.33333333 5.66666667,7.33333333 Z",id:"Combined-Shape",fill:"#667c99"})),m("g",{id:"Group-15",transform:"translate(10.666667, 0.000000)",fill:"#667c99"},m("polygon",{id:"Path",points:"3.33333333 2 3.33333333 0 2 0 2 2 0 2 0 3.33333333 2 3.33333333 2 5.33333333 3.33333333 5.33333333 3.33333333 3.33333333 5.33333333 3.33333333 5.33333333 2"}))))))))},t.react=function(e,F){var t=this;F.target.blur();var a=o().forum.attribute("fofReactionsAllowAnonymous");if(o().session.user||a){if(!this.post.canReact())return o().alerts.show({type:"error"},o().translator.trans("core.lib.error.permission_denied_message"));var n=e?e.id():null,r=this.post.reactionCounts();return this.loading[n]=!0,this.post.save({reaction:n}).then((function(F){for(var a in delete t.loading[n],r)F.reactionCounts().hasOwnProperty(a)||o().store.remove(o().store.getById("reactions",a));t.updateChosenReaction(),(void 0!==o().forum.data.relationships.ranks&&(o().forum.attribute("ReactionConverts")[0]===e||o().forum.attribute("ReactionConverts")[1]===e)||void 0!==t.post.data.relationships.likes&&o().forum.attribute("ReactionConverts")[2]===e)&&o().alerts.show({type:"warning"},o().translator.trans("fof-reactions.forum.warning",{reaction:e})),m.redraw()})).catch((function(e){delete t.loading[n],$("body").append(e),m.redraw()}))}o().modal.show(ee())},t.updateChosenReaction=function(){return this.reaction=this.post.userReaction()},F}(J());const se=flarum.core.compat["forum/utils/PostControls"];var le=t.n(se);function ce(e,F,t,a,n,o,r){try{var i=e[o](r),s=i.value}catch(e){return void t(e)}i.done?F(s):Promise.resolve(s).then(a,n)}function _e(e){return function(){var F=this,t=arguments;return new Promise((function(a,n){var o=e.apply(F,t);function r(e){ce(o,a,n,r,i,"next",e)}function i(e){ce(o,a,n,r,i,"throw",e)}r(void 0)}))}}var ue=t(172),fe=t.n(ue);const ge=flarum.core.compat["common/components/Modal"];var me=t.n(ge);const pe=flarum.core.compat["common/components/LoadingIndicator"];var de=t.n(pe);const he=flarum.core.compat["common/helpers/avatar"];var Ee=t.n(he);const be=flarum.core.compat["common/helpers/username"];var De=t.n(be);const we=flarum.core.compat["common/components/Link"];var ye=t.n(we);const ve=function(e,F){return e.map("function"==typeof F?F:function(e){return e[F]}).reduce((function(F,t,a){return F[t]=(F[t]||[]).concat(e[a]),F}),{})};function Ae(e,F){var t="undefined"!=typeof Symbol&&e[Symbol.iterator]||e["@@iterator"];if(t)return(t=t.call(e)).next.bind(t);if(Array.isArray(e)||(t=function(e,F){if(e){if("string"==typeof e)return ke(e,F);var t=Object.prototype.toString.call(e).slice(8,-1);return"Object"===t&&e.constructor&&(t=e.constructor.name),"Map"===t||"Set"===t?Array.from(e):"Arguments"===t||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t)?ke(e,F):void 0}}(e))||F&&e&&"number"==typeof e.length){t&&(e=t);var a=0;return function(){return a>=e.length?{done:!0}:{done:!1,value:e[a++]}}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}function ke(e,F){(null==F||F>e.length)&&(F=e.length);for(var t=0,a=new Array(F);t<F;t++)a[t]=e[t];return a}var Ce=function(e){function F(){for(var F,t=arguments.length,a=new Array(t),n=0;n<t;n++)a[n]=arguments[n];return(F=e.call.apply(e,[this].concat(a))||this).reactions=[],F.loading=!1,F.deletingSpecific={},F.deletingType={},F}h(F,e);var t=F.prototype;return t.className=function(){return"ReactionsModal Modal--small"},t.title=function(){return o().translator.trans("fof-reactions.forum.modal.title")},t.oninit=function(F){e.prototype.oninit.call(this,F),this.load()},t.content=function(){var e=this;return this.loading?m("div",{className:"Modal-body"},m(de(),null)):m("div",{className:"Modal-body"},m("ul",{className:"ReactionsModal-list"},this.reactions.map((function(F){var t=F.reaction,a=F.users,n=F.anonymousCount;return e.buildReactionSection(t,a,n)})),!this.reactions.length&&m("p",null,o().translator.trans("fof-reactions.forum.modal.no_reactions"))))},t.buildReactionSection=function(e,F,t){var a=this,n=this.attrs.post;return m("div",{className:"ReactionsModal-group"},m("legend",null,m(re,{reaction:e,className:"ReactionModal-reaction"}),m("label",{className:"ReactionsModal-display"},e.display()||e.identifier()),n.canDeletePostReactions()&&m(H(),{icon:"fas fa-minus-circle",className:"Button Button--icon Button--link",loading:this.deletingType[e.id()],onclick:this.deletePostReaction.bind(this,!1,e.id())})),m("hr",{className:"ReactionsModal-delimiter"}),Object.entries(F).map((function(F,t){var r=F[0],i=F[1];return m("li",{key:i.id(),"data-post-reaction-id":r,"data-user-id":i.id()},m(ye(),{className:"ReactionsModal-user",href:o().route.user(i)},Ee()(i,{loading:"lazy"}),De()(i)),function(e){return n.canDeletePostReactions()||n.canReact()&&e===o().session.user}(i)&&m(H(),{icon:"fas fa-minus-circle",className:"Button Button--icon Button--link",loading:a.deletingSpecific[r],onclick:a.deletePostReaction.bind(a,r,e.id())}))})),t>0&&m("li",null,o().translator.trans("fof-reactions.forum.modal.anonymous_count",{count:t})))},t.load=function(){var e=_e(fe().mark((function e(){var F,t,a,n,r,i,s,l,c,_,u,f;return fe().wrap((function(e){for(;;)switch(e.prev=e.next){case 0:return this.loading=!0,e.next=3,o().store.find("/posts/"+this.attrs.post.id()+"/reactions",{include:"user,reaction"});case 3:F=e.sent,t=ve(F,(function(e){return e.reactionId()})),a=[],e.t0=fe().keys(t);case 7:if((e.t1=e.t0()).done){e.next=18;break}if(n=e.t1.value,r=o().store.getById("reactions",n)){e.next=12;break}return e.abrupt("continue",7);case 12:for(i={},s=0,l=Ae(t[n]);!(c=l()).done;)_=c.value,null===(u=_.userId())?s++:(f=o().store.getById("users",u))&&(i[_.id()]=f);a.push({reaction:r,users:i,anonymousCount:s}),e.next=7;break;case 18:this.reactions=a,this.loading=!1,m.redraw();case 21:case"end":return e.stop()}}),e,this)})));return function(){return e.apply(this,arguments)}}(),t.deletePostReaction=function(){var e=_e(fe().mark((function e(F,t){var a,n,r,i,s,l,c;return fe().wrap((function(e){for(;;)switch(e.prev=e.next){case 0:return(n=(a=!1!==F)?this.deletingSpecific:this.deletingType)[r=a?F:t]=!0,e.next=6,o().request({method:"DELETE",url:o().forum.attribute("apiUrl")+"/posts/"+this.attrs.post.id()+"/reactions/"+(a?"specific":"type")+"/"+r});case 6:if(i=this.reactions.find((function(e){return e.reaction.id()===t})),a)s=o().store.getById("post_reactions",F),i&&(delete i.users[F],Object.keys(i.users).length||i.anonymousCount||(this.reactions=this.reactions.filter((function(e){return e.reaction.id()!==t})))),s&&o().store.remove(s),this.attrs.post.reactionCounts()[t]--;else{if(this.reactions=this.reactions.filter((function(e){return e.reaction.id()!==t})),i)for(l in i.users)(c=o().store.getById("post_reactions",l))&&o().store.remove(c);this.attrs.post.reactionCounts()[t]=0}delete n[r],m.redraw();case 10:case"end":return e.stop()}}),e,this)})));return function(F,t){return e.apply(this,arguments)}}(),F}(me()),Be={PostReactAction:ie,PostReactedNotification:z,ReactionsModal:Ce},xe={PostReaction:O},je={groupBy:ve},Re={ReactionComponent:re},ze={Reaction:S},Se={emoji:R};o().initializers.add("fof/reactions",(function(){o().store.models.reactions=S,o().store.models.post_reactions=O,o().notificationComponents.postReacted=z,_().prototype.canReact=f().attribute("canReact"),_().prototype.canDeletePostReactions=f().attribute("canDeletePostReactions"),_().prototype.reactionCounts=f().attribute("reactionCounts"),_().prototype.userReaction=f().attribute("userReactionIdentifier"),i().prototype.reactions=f().hasMany("reactions"),l().prototype.canSeeReactions=f().attribute("canSeeReactions"),(0,a.extend)(U().prototype,"actionItems",(function(e){var F=this.attrs.post;if(!F.isHidden()){var t=o().session.user&&null!==F.userReaction();e.add("react",ie.component({post:F,hasReacted:t}),5)}})),(0,a.extend)(le(),"moderationControls",(function(e,F){var t=F.reactionCounts(),a=t&&Object.keys(t).length>0;F.discussion().canSeeReactions()&&a&&e.add("viewReactions",m(H(),{icon:"fas fa-heart",onclick:function(){return o().modal.show(Ce,{post:F})}},o().translator.trans("fof-reactions.forum.mod_item")))})),(0,a.extend)(P().prototype,"config",(function(e,F,t){F||o().pusher&&o().pusher.then((function(e){e.main.bind("newReaction",(function(e){var F=e.postId,t=e.reactionId,a=o().store.getById("reactions",t),n=o().store.getById("posts",F);a&&n&&T(F)})),e.main.bind("removedReaction",(function(e){var F=e.userId,t=e.postId,a=e.reactionId,n=o().store.all("post_reactions").filter((function(e){return e.userId()==F&&e.postId()==t&&e.reactionId()==a}))[0];n&&(o().store.remove(n),T(t),m.redraw())})),(0,a.extend)(t,"onunload",(function(){return e.main.unbind("newReaction")})),(0,a.extend)(t,"onunload",(function(){return e.main.unbind("removedReaction")}))}))})),(0,a.extend)(p().prototype,"notificationTypes",(function(e){e.add("postReacted",{name:"postReacted",icon:"far fa-smile",label:o().translator.trans("fof-reactions.forum.settings.notify_post_reacted_label")})}))}))}},F={};function t(a){var n=F[a];if(void 0!==n)return n.exports;var o=F[a]={exports:{}};return e[a](o,o.exports,t),o.exports}t.n=e=>{var F=e&&e.__esModule?()=>e.default:()=>e;return t.d(F,{a:F}),F},t.d=(e,F)=>{for(var a in F)t.o(F,a)&&!t.o(e,a)&&Object.defineProperty(e,a,{enumerable:!0,get:F[a]})},t.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),t.o=(e,F)=>Object.prototype.hasOwnProperty.call(e,F),t.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})};var a={};(()=>{"use strict";t.r(a),t.d(a,{commonComponents:()=>n.s9,commonModels:()=>n.al,commonUtil:()=>n.Eh,components:()=>n.dK,models:()=>n.Jn,utils:()=>n.Wp});var e=t(689),F={};for(const t in e)"default"!==t&&(F[t]=()=>e[t]);t.d(a,F);var n=t(917)})(),module.exports=a})();
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/defineProperty.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _defineProperty)
+/* harmony export */ });
+/* harmony import */ var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toPropertyKey.js */ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js");
+
+function _defineProperty(e, r, t) {
+  return (r = (0,_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["default"])(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : e[r] = t, e;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/toPrimitive.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toPrimitive.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ toPrimitive)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
+
+function toPrimitive(t, r) {
+  if ("object" != (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(t) || !t) return t;
+  var e = t[Symbol.toPrimitive];
+  if (void 0 !== e) {
+    var i = e.call(t, r || "default");
+    if ("object" != (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(i)) return i;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r ? String : Number)(t);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ toPropertyKey)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
+/* harmony import */ var _toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./toPrimitive.js */ "./node_modules/@babel/runtime/helpers/esm/toPrimitive.js");
+
+
+function toPropertyKey(t) {
+  var i = (0,_toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__["default"])(t, "string");
+  return "symbol" == (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(i) ? i : i + "";
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/typeof.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/typeof.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _typeof)
+/* harmony export */ });
+function _typeof(o) {
+  "@babel/helpers - typeof";
+
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+    return typeof o;
+  } : function (o) {
+    return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+  }, _typeof(o);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/fuzzyset/dist/fuzzyset.esm.js":
+/*!****************************************************!*\
+  !*** ./node_modules/fuzzyset/dist/fuzzyset.esm.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const FuzzySet = function (arr, useLevenshtein, gramSizeLower, gramSizeUpper) {
+  var fuzzyset = {};
+
+  // default options
+  arr = arr || [];
+  fuzzyset.gramSizeLower = gramSizeLower || 2;
+  fuzzyset.gramSizeUpper = gramSizeUpper || 3;
+  fuzzyset.useLevenshtein = typeof useLevenshtein !== 'boolean' ? true : useLevenshtein;
+
+  // define all the object functions and attributes
+  fuzzyset.exactSet = {};
+  fuzzyset.matchDict = {};
+  fuzzyset.items = {};
+
+  // helper functions
+  var levenshtein = function (str1, str2) {
+    var current = [],
+      prev,
+      value;
+    for (var i = 0; i <= str2.length; i++) for (var j = 0; j <= str1.length; j++) {
+      if (i && j) {
+        if (str1.charAt(j - 1) === str2.charAt(i - 1)) value = prev;else value = Math.min(current[j], current[j - 1], prev) + 1;
+      } else value = i + j;
+      prev = current[j];
+      current[j] = value;
+    }
+    return current.pop();
+  };
+
+  // return an edit distance from 0 to 1
+  var _distance = function (str1, str2) {
+    if (str1 === null && str2 === null) throw 'Trying to compare two null values';
+    if (str1 === null || str2 === null) return 0;
+    str1 = String(str1);
+    str2 = String(str2);
+    var distance = levenshtein(str1, str2);
+    if (str1.length > str2.length) {
+      return 1 - distance / str1.length;
+    } else {
+      return 1 - distance / str2.length;
+    }
+  };
+
+  // u00C0-u00FF is latin characters
+  // u0621-u064a is arabic letters
+  // u0660-u0669 is arabic numerals
+  // TODO: figure out way to do this for more languages
+  var _nonWordRe = /[^a-zA-Z0-9\u00C0-\u00FF\u0621-\u064A\u0660-\u0669, ]+/g;
+  var _iterateGrams = function (value, gramSize) {
+    gramSize = gramSize || 2;
+    var simplified = '-' + value.toLowerCase().replace(_nonWordRe, '') + '-',
+      lenDiff = gramSize - simplified.length,
+      results = [];
+    if (lenDiff > 0) {
+      for (var i = 0; i < lenDiff; ++i) {
+        simplified += '-';
+      }
+    }
+    for (var i = 0; i < simplified.length - gramSize + 1; ++i) {
+      results.push(simplified.slice(i, i + gramSize));
+    }
+    return results;
+  };
+  var _gramCounter = function (value, gramSize) {
+    // return an object where key=gram, value=number of occurrences
+    gramSize = gramSize || 2;
+    var result = {},
+      grams = _iterateGrams(value, gramSize),
+      i = 0;
+    for (i; i < grams.length; ++i) {
+      if (grams[i] in result) {
+        result[grams[i]] += 1;
+      } else {
+        result[grams[i]] = 1;
+      }
+    }
+    return result;
+  };
+
+  // the main functions
+  fuzzyset.get = function (value, defaultValue, minMatchScore) {
+    // check for value in set, returning defaultValue or null if none found
+    if (minMatchScore === undefined) {
+      minMatchScore = .33;
+    }
+    var result = this._get(value, minMatchScore);
+    if (!result && typeof defaultValue !== 'undefined') {
+      return defaultValue;
+    }
+    return result;
+  };
+  fuzzyset._get = function (value, minMatchScore) {
+    var results = [];
+    // start with high gram size and if there are no results, go to lower gram sizes
+    for (var gramSize = this.gramSizeUpper; gramSize >= this.gramSizeLower; --gramSize) {
+      results = this.__get(value, gramSize, minMatchScore);
+      if (results && results.length > 0) {
+        return results;
+      }
+    }
+    return null;
+  };
+  fuzzyset.__get = function (value, gramSize, minMatchScore) {
+    var normalizedValue = this._normalizeStr(value),
+      matches = {},
+      gramCounts = _gramCounter(normalizedValue, gramSize),
+      items = this.items[gramSize],
+      sumOfSquareGramCounts = 0,
+      gram,
+      gramCount,
+      i,
+      index,
+      otherGramCount;
+    for (gram in gramCounts) {
+      gramCount = gramCounts[gram];
+      sumOfSquareGramCounts += Math.pow(gramCount, 2);
+      if (gram in this.matchDict) {
+        for (i = 0; i < this.matchDict[gram].length; ++i) {
+          index = this.matchDict[gram][i][0];
+          otherGramCount = this.matchDict[gram][i][1];
+          if (index in matches) {
+            matches[index] += gramCount * otherGramCount;
+          } else {
+            matches[index] = gramCount * otherGramCount;
+          }
+        }
+      }
+    }
+    function isEmptyObject(obj) {
+      for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) return false;
+      }
+      return true;
+    }
+    if (isEmptyObject(matches)) {
+      return null;
+    }
+    var vectorNormal = Math.sqrt(sumOfSquareGramCounts),
+      results = [],
+      matchScore;
+    // build a results list of [score, str]
+    for (var matchIndex in matches) {
+      matchScore = matches[matchIndex];
+      results.push([matchScore / (vectorNormal * items[matchIndex][0]), items[matchIndex][1]]);
+    }
+    var sortDescending = function (a, b) {
+      if (a[0] < b[0]) {
+        return 1;
+      } else if (a[0] > b[0]) {
+        return -1;
+      } else {
+        return 0;
+      }
+    };
+    results.sort(sortDescending);
+    if (this.useLevenshtein) {
+      var newResults = [],
+        endIndex = Math.min(50, results.length);
+      // truncate somewhat arbitrarily to 50
+      for (var i = 0; i < endIndex; ++i) {
+        newResults.push([_distance(results[i][1], normalizedValue), results[i][1]]);
+      }
+      results = newResults;
+      results.sort(sortDescending);
+    }
+    newResults = [];
+    results.forEach(function (scoreWordPair) {
+      if (scoreWordPair[0] >= minMatchScore) {
+        newResults.push([scoreWordPair[0], this.exactSet[scoreWordPair[1]]]);
+      }
+    }.bind(this));
+    return newResults;
+  };
+  fuzzyset.add = function (value) {
+    var normalizedValue = this._normalizeStr(value);
+    if (normalizedValue in this.exactSet) {
+      return false;
+    }
+    var i = this.gramSizeLower;
+    for (i; i < this.gramSizeUpper + 1; ++i) {
+      this._add(value, i);
+    }
+  };
+  fuzzyset._add = function (value, gramSize) {
+    var normalizedValue = this._normalizeStr(value),
+      items = this.items[gramSize] || [],
+      index = items.length;
+    items.push(0);
+    var gramCounts = _gramCounter(normalizedValue, gramSize),
+      sumOfSquareGramCounts = 0,
+      gram,
+      gramCount;
+    for (gram in gramCounts) {
+      gramCount = gramCounts[gram];
+      sumOfSquareGramCounts += Math.pow(gramCount, 2);
+      if (gram in this.matchDict) {
+        this.matchDict[gram].push([index, gramCount]);
+      } else {
+        this.matchDict[gram] = [[index, gramCount]];
+      }
+    }
+    var vectorNormal = Math.sqrt(sumOfSquareGramCounts);
+    items[index] = [vectorNormal, normalizedValue];
+    this.items[gramSize] = items;
+    this.exactSet[normalizedValue] = value;
+  };
+  fuzzyset._normalizeStr = function (str) {
+    if (Object.prototype.toString.call(str) !== '[object String]') throw 'Must use a string as argument to FuzzySet functions';
+    return str.toLowerCase();
+  };
+
+  // return length of items in set
+  fuzzyset.length = function () {
+    var count = 0,
+      prop;
+    for (prop in this.exactSet) {
+      if (this.exactSet.hasOwnProperty(prop)) {
+        count += 1;
+      }
+    }
+    return count;
+  };
+
+  // return is set is empty
+  fuzzyset.isEmpty = function () {
+    for (var prop in this.exactSet) {
+      if (this.exactSet.hasOwnProperty(prop)) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  // return list of values loaded into set
+  fuzzyset.values = function () {
+    var values = [],
+      prop;
+    for (prop in this.exactSet) {
+      if (this.exactSet.hasOwnProperty(prop)) {
+        values.push(this.exactSet[prop]);
+      }
+    }
+    return values;
+  };
+
+  // initialization
+  var i = fuzzyset.gramSizeLower;
+  for (i; i < fuzzyset.gramSizeUpper + 1; ++i) {
+    fuzzyset.items[i] = [];
+  }
+  // add all the items to the set
+  for (i = 0; i < arr.length; ++i) {
+    fuzzyset.add(arr[i]);
+  }
+  return fuzzyset;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FuzzySet);
+
+/***/ }),
+
+/***/ "./node_modules/lodash.debounce/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/lodash.debounce/index.js ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof __webpack_require__.g == 'object' && __webpack_require__.g && __webpack_require__.g.Object === Object && __webpack_require__.g;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+  nativeMin = Math.min;
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function () {
+  return root.Date.now();
+};
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+    lastThis,
+    maxWait,
+    result,
+    timerId,
+    lastCallTime,
+    lastInvokeTime = 0,
+    leading = false,
+    maxing = false,
+    trailing = true;
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+  function invokeFunc(time) {
+    var args = lastArgs,
+      thisArg = lastThis;
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+      timeSinceLastInvoke = time - lastInvokeTime,
+      result = wait - timeSinceLastCall;
+    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+  }
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+      timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return lastCallTime === undefined || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
+  }
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+  function debounced() {
+    var time = now(),
+      isInvoking = shouldInvoke(time);
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' || isObjectLike(value) && objectToString.call(value) == symbolTag;
+}
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? other + '' : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
+}
+module.exports = debounce;
+
+/***/ }),
+
+/***/ "./node_modules/simple-emoji-map/generated/emojis.json":
+/*!*************************************************************!*\
+  !*** ./node_modules/simple-emoji-map/generated/emojis.json ***!
+  \*************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"2049":["interrobang","exclamation_question"],"2122":["tm"],"2139":["info"],"2194":["arrow_left_right"],"2195":["arrow_up_down"],"2196":["arrow_upper_left"],"2197":["arrow_upper_right"],"2198":["arrow_lower_right"],"2199":["arrow_lower_left"],"2328":["keyboard"],"2600":["sun"],"2601":["cloud"],"2602":["umbrella"],"2603":["snowy_snowman"],"2604":["comet"],"2611":["checked_ballot"],"2614":["umbrella_rain"],"2615":["coffee"],"2618":["shamrock"],"2620":["crossbones"],"2622":["radioactive"],"2623":["biohazard"],"2626":["orthodox_cross"],"2638":["wheel_of_dharma"],"2639":["sad","frowning"],"2640":["female","female_sign"],"2642":["male","male_sign"],"2648":["aries"],"2649":["taurus"],"2650":["sagittarius"],"2651":["capricorn"],"2652":["aquarius"],"2653":["pisces"],"2660":["spades"],"2663":["clubs"],"2665":["hearts"],"2666":["diamonds"],"2668":["hotsprings"],"2692":["hammer_pick"],"2693":["anchor"],"2694":["crossed_swords"],"2695":["medical"],"2696":["scales"],"2697":["alembic"],"2699":["gear"],"2702":["scissors"],"2705":["white_check_mark"],"2708":["airplane"],"2709":["envelope"],"2712":["black_nib"],"2714":["check_mark"],"2716":["multiplication"],"2721":["star_of_david"],"2728":["sparkles"],"2733":["eight_spoked_asterisk"],"2734":["eight_pointed_star"],"2744":["snowflake"],"2747":["sparkle"],"2753":["question"],"2754":["white_question"],"2755":["white_exclamation"],"2757":["exclamation"],"2763":["heart_exclamation"],"2764":["heart"],"2795":["plus"],"2796":["minus"],"2797":["division"],"2934":["arrow_heading_up"],"2935":["arrow_heading_down"],"3030":["wavy_dash"],"3297":["ja_congratulations"],"3299":["ja_secret"],"1F1E6":["regional_indicator_a"],"1F1E7":["regional_indicator_b"],"1F1E8":["regional_indicator_c"],"1F1E9":["regional_indicator_d"],"1F1EA":["regional_indicator_e"],"1F1EB":["regional_indicator_f"],"1F1EC":["regional_indicator_g"],"1F1ED":["regional_indicator_h"],"1F1EE":["regional_indicator_i"],"1F1EF":["regional_indicator_j"],"1F1F0":["regional_indicator_k"],"1F1F1":["regional_indicator_l"],"1F1F2":["regional_indicator_m"],"1F1F3":["regional_indicator_n"],"1F1F4":["regional_indicator_o"],"1F1F5":["regional_indicator_p"],"1F1F6":["regional_indicator_q"],"1F1F7":["regional_indicator_r"],"1F1F8":["regional_indicator_s"],"1F1F9":["regional_indicator_t"],"1F1FA":["regional_indicator_u"],"1F1FB":["regional_indicator_v"],"1F1FC":["regional_indicator_w"],"1F1FD":["regional_indicator_x"],"1F1FE":["regional_indicator_y"],"1F1FF":["regional_indicator_z"],"1F600":["gleeful"],"1F603":["glad","smile"],"1F604":["happy"],"1F601":["blissful","grin"],"1F606":["amused","laugh","lol"],"1F605":["embarassed","sweat_smile"],"1F923":["entertained","rofl"],"1F602":["joyful","haha"],"1F642":["pleased","slight_smile"],"1F643":["ecstatic","upside_down"],"1FAE0":["melt","melting_face"],"1F609":["coy","wink"],"1F60A":["blush"],"1F607":["innocent","halo"],"1F970":["love"],"1F60D":["lovestruck"],"1F929":["starstruck"],"1F618":["flirty"],"1F617":["kiss"],"263A":["relaxed"],"1F61A":["loving_kiss"],"1F619":["happy_kiss"],"1F972":["tear_smile"],"1F60B":["yum","savour"],"1F61B":["playful","tongue_out"],"1F61C":["mischievous"],"1F92A":["crazy"],"1F61D":["facetious","lmao"],"1F911":["pretentious","money_mouth"],"1F917":["hugging"],"1F92D":["gasp"],"1FAE2":["face_with_open_eyes_hand_over_mouth","gasp"],"1FAE3":["face_with_peeking_eye","peek"],"1F92B":["shushing"],"1F914":["curious","thinking"],"1FAE1":["salute","saluting_face"],"1F910":["silenced","zipper_mouth"],"1F928":["contempt"],"1F610":["indifferent","neutral"],"1F611":["apathetic","expressionless"],"1F636":["vacant","no_mouth"],"1FAE5":["dotted_line_face"],"1F636-200D-1F32B-FE0F":["in_clouds"],"1F60F":["cocky","smirk"],"1F612":["unamused"],"1F644":["disbelief"],"1F62C":["grimaced"],"1F62E-200D-1F4A8":["exhale","exhaling"],"1F925":["lying"],"1F60C":["relieved"],"1F614":["pensive"],"1F62A":["sleepy"],"1F924":["drooling"],"1F634":["exhausted","sleeping"],"1F637":["ill","mask"],"1F912":["sick"],"1F915":["injured"],"1F922":["nauseated"],"1F92E":["vomiting"],"1F927":["sneezing"],"1F975":["overheating"],"1F976":["freezing"],"1F974":["woozy"],"1F635":["dizzy"],"1F635-200D-1F4AB":["dizzy_eyes"],"1F92F":["shocked","exploding_head"],"1F920":["cowboy"],"1F973":["partying","celebrating"],"1F978":["disguised_face"],"1F60E":["confident"],"1F913":["nerd"],"1F9D0":["monocle"],"1F615":["confused"],"1FAE4":["face_with_diagonal_mouth"],"1F61F":["worried"],"1F641":["cheerless","slight_frown"],"1F62E":["surprised"],"1F62F":["hushed"],"1F632":["astonished"],"1F633":["flushed"],"1F97A":["pleading"],"1F979":["face_holding_back_tears","watery_eyes"],"1F626":["bored"],"1F627":["anguished","wtf"],"1F628":["fearful"],"1F630":["cold_sweat","anxious","frustrated"],"1F625":["gloomy"],"1F622":["upset","cry"],"1F62D":["distressed","sob"],"1F631":["frightened","scream"],"1F616":["confounded"],"1F623":["persevered"],"1F61E":["disappointed"],"1F613":["shamed"],"1F629":["weary"],"1F62B":["tired"],"1F971":["yawn"],"1F624":["annoyed","hrmph"],"1F621":["enraged","pout"],"1F620":["angry"],"1F92C":["censored"],"1F608":["imp"],"1F47F":["angry_imp"],"1F480":["skull"],"1F4A9":["poop"],"1F921":["clown"],"1F479":["ogre"],"1F47A":["goblin"],"1F47B":["ghost"],"1F47D":["alien"],"1F47E":["alien_monster","space_invader"],"1F916":["robot"],"1F63A":["smiling_cat"],"1F638":["grinning_cat"],"1F639":["joyful_cat"],"1F63B":["lovestruck_cat"],"1F63C":["smirking_cat"],"1F63D":["kissing_cat"],"1F640":["weary_cat"],"1F63F":["crying_cat"],"1F63E":["pouting_cat"],"1F648":["see_no_evil"],"1F649":["hear_no_evil"],"1F64A":["speak_no_evil"],"1F48B":["kiss_lips"],"1F48C":["love_letter"],"1F498":["cupid"],"1F49D":["heart_ribbon"],"1F496":["sparkling_heart"],"1F497":["heartpulse"],"1F493":["heartbeat"],"1F49E":["revolving_hearts"],"1F495":["two_hearts"],"1F49F":["heart_decoration"],"1F494":["broken_heart"],"2764-FE0F-200D-1F525":["heart_on_fire"],"2764-FE0F-200D-1FA79":["mending_heart"],"1F9E1":["orange_heart"],"1F49B":["yellow_heart"],"1F49A":["green_heart"],"1F499":["blue_heart"],"1F49C":["purple_heart"],"1F90E":["brown_heart"],"1F5A4":["black_heart"],"1F90D":["white_heart"],"1F4AF":["100"],"1F4A2":["anger"],"1F4A5":["boom","collision"],"1F4AB":["dizzy_star"],"1F4A6":["sweat_drops"],"1F4A8":["dash"],"1F573":["hole"],"1F4A3":["bomb"],"1F4AC":["speech"],"1F441-FE0F-200D-1F5E8-FE0F":["eye_bubble"],"1F5E8":["left_speech"],"1F5EF":["right_anger_speech"],"1F4AD":["thought"],"1F4A4":["zzz"],"1F44B":["wave"],"1F91A":["raised_backhand"],"1F590":["splayed_hand"],"270B":["raised_hand"],"1F596":["vulcan"],"1FAF1":["rightwards_hand"],"1FAF2":["leftwards_hand"],"1FAF3":["palm_down"],"1FAF4":["palm_up"],"1F44C":["ok_hand"],"1F90C":["pinched_fingers"],"1F90F":["pinch"],"270C":["victory"],"1F91E":["fingers_crossed"],"1FAF0":["hand_with_index_finger_and_thumb_crossed"],"1F91F":["love_you_gesture"],"1F918":["metal"],"1F919":["call_me"],"1F448":["point_left"],"1F449":["point_right"],"1F446":["backhand_point_up"],"1F595":["middle_finger"],"1F447":["point_down"],"261D":["point_up"],"1FAF5":["point_forward"],"1F44D":["thumbsup","+1","y","yes"],"1F44E":["thumbsdown","-1","n","no"],"270A":["fist"],"1F44A":["punch"],"1F91B":["left_facing_fist"],"1F91C":["right_facing_fist"],"1F44F":["clap"],"1F64C":["raised_hands"],"1FAF6":["heart_hands"],"1F450":["open_hands"],"1F932":["palms_up"],"1F91D":["handshake"],"1F64F":["pray"],"270D":["writing_hand"],"1F485":["nail_care"],"1F933":["selfie"],"1F4AA":["muscle","right_bicep"],"1F9BE":["mech_arm"],"1F9BF":["mech_leg"],"1F9B5":["leg"],"1F9B6":["foot"],"1F442":["ear"],"1F9BB":["hearing_aid"],"1F443":["nose"],"1F9E0":["brain"],"1FAC0":["anatomical_heart"],"1FAC1":["lungs"],"1F9B7":["tooth"],"1F9B4":["bone"],"1F440":["eyes"],"1F441":["eye"],"1F445":["tongue"],"1F444":["lips"],"1FAE6":["biting_lip"],"1F476":["baby"],"1F9D2":["child"],"1F466":["boy"],"1F467":["girl"],"1F9D1":["adult"],"1F471":["blond_person"],"1F468":["man"],"1F9D4":["bearded_person"],"1F9D4-200D-2642-FE0F":["man_bearded"],"1F9D4-200D-2640-FE0F":["woman_bearded"],"1F468-200D-1F9B0":["red_haired_man"],"1F468-200D-1F9B1":["curly_haired_man"],"1F468-200D-1F9B3":["white_haired_man"],"1F468-200D-1F9B2":["bald_man"],"1F469":["woman"],"1F469-200D-1F9B0":["red_haired_woman"],"1F9D1-200D-1F9B0":["red_haired_person"],"1F469-200D-1F9B1":["curly_haired_woman"],"1F9D1-200D-1F9B1":["curly_haired_person"],"1F469-200D-1F9B3":["white_haired_woman"],"1F9D1-200D-1F9B3":["white_haired_person"],"1F469-200D-1F9B2":["bald_woman"],"1F9D1-200D-1F9B2":["bald_person"],"1F471-200D-2640-FE0F":["blond_woman"],"1F471-200D-2642-FE0F":["blond_man"],"1F9D3":["older_adult"],"1F474":["older_man"],"1F475":["older_woman"],"1F64D":["person_frowning"],"1F64D-200D-2642-FE0F":["man_frowning"],"1F64D-200D-2640-FE0F":["woman_frowning"],"1F64E":["person_pouting"],"1F64E-200D-2642-FE0F":["man_pouting"],"1F64E-200D-2640-FE0F":["woman_pouting"],"1F645":["person_gesturing_no"],"1F645-200D-2642-FE0F":["man_gesturing_no"],"1F645-200D-2640-FE0F":["woman_gesturing_no"],"1F646":["person_gesturing_ok"],"1F646-200D-2642-FE0F":["man_gesturing_ok"],"1F646-200D-2640-FE0F":["woman_gesturing_ok"],"1F481":["person_tipping_hand"],"1F481-200D-2642-FE0F":["man_tipping_hand"],"1F481-200D-2640-FE0F":["woman_tipping_hand"],"1F64B":["person_raising_hand"],"1F64B-200D-2642-FE0F":["man_raising_hand"],"1F64B-200D-2640-FE0F":["woman_raising_hand"],"1F9CF":["person_deaf"],"1F9CF-200D-2642-FE0F":["man_deaf"],"1F9CF-200D-2640-FE0F":["woman_deaf"],"1F647":["person_bowing"],"1F647-200D-2642-FE0F":["man_bowing"],"1F647-200D-2640-FE0F":["woman_bowing"],"1F926":["person_facepalming"],"1F926-200D-2642-FE0F":["man_facepalming"],"1F926-200D-2640-FE0F":["woman_facepalming"],"1F937":["person_shrugging"],"1F937-200D-2642-FE0F":["man_shrugging"],"1F937-200D-2640-FE0F":["woman_shrugging"],"1F9D1-200D-2695-FE0F":["person_health_worker"],"1F468-200D-2695-FE0F":["man_health_worker"],"1F469-200D-2695-FE0F":["woman_health_worker"],"1F9D1-200D-1F393":["person_student"],"1F468-200D-1F393":["man_student"],"1F469-200D-1F393":["woman_student"],"1F9D1-200D-1F3EB":["person_teacher"],"1F468-200D-1F3EB":["man_teacher"],"1F469-200D-1F3EB":["woman_teacher"],"1F9D1-200D-2696-FE0F":["person_judge"],"1F468-200D-2696-FE0F":["man_judge"],"1F469-200D-2696-FE0F":["woman_judge"],"1F9D1-200D-1F33E":["person_farmer"],"1F468-200D-1F33E":["man_farmer"],"1F469-200D-1F33E":["woman_farmer"],"1F9D1-200D-1F373":["person_cook"],"1F468-200D-1F373":["man_cook"],"1F469-200D-1F373":["woman_cook"],"1F9D1-200D-1F527":["person_mechanic"],"1F468-200D-1F527":["man_mechanic"],"1F469-200D-1F527":["woman_mechanic"],"1F9D1-200D-1F3ED":["person_factory_worker"],"1F468-200D-1F3ED":["man_factory_worker"],"1F469-200D-1F3ED":["woman_factory_worker"],"1F9D1-200D-1F4BC":["person_office_worker"],"1F468-200D-1F4BC":["man_office_worker"],"1F469-200D-1F4BC":["woman_office_worker"],"1F9D1-200D-1F52C":["person_scientist"],"1F468-200D-1F52C":["man_scientist"],"1F469-200D-1F52C":["woman_scientist"],"1F9D1-200D-1F4BB":["person_technologist"],"1F468-200D-1F4BB":["man_technologist"],"1F469-200D-1F4BB":["woman_technologist"],"1F9D1-200D-1F3A4":["person_singer"],"1F468-200D-1F3A4":["man_singer"],"1F469-200D-1F3A4":["woman_singer"],"1F9D1-200D-1F3A8":["person_artist"],"1F468-200D-1F3A8":["man_artist"],"1F469-200D-1F3A8":["woman_artist"],"1F9D1-200D-2708-FE0F":["person_pilot"],"1F468-200D-2708-FE0F":["man_pilot"],"1F469-200D-2708-FE0F":["woman_pilot"],"1F9D1-200D-1F680":["person_astronaut"],"1F468-200D-1F680":["man_astronaut"],"1F469-200D-1F680":["woman_astronaut"],"1F9D1-200D-1F692":["person_firefighter"],"1F468-200D-1F692":["man_firefighter"],"1F469-200D-1F692":["woman_firefighter"],"1F46E":["police_officer"],"1F46E-200D-2642-FE0F":["man_police_officer"],"1F46E-200D-2640-FE0F":["woman_police_officer"],"1F575":["detective"],"1F575-FE0F-200D-2642-FE0F":["man_detective"],"1F575-FE0F-200D-2640-FE0F":["woman_detective"],"1F482":["guard"],"1F482-200D-2642-FE0F":["man_guard"],"1F482-200D-2640-FE0F":["woman_guard"],"1F977":["ninja"],"1F477":["construction_worker"],"1F477-200D-2642-FE0F":["man_construction_worker"],"1F477-200D-2640-FE0F":["woman_construction_worker"],"1FAC5":["person_with_crown","royalty"],"1F934":["prince"],"1F478":["princess"],"1F473":["person_turban"],"1F473-200D-2642-FE0F":["man_turban"],"1F473-200D-2640-FE0F":["woman_turban"],"1F472":["man_chinese_cap"],"1F9D5":["woman_headscarf"],"1F935":["man_tuxedo"],"1F935-200D-2642-FE0F":["man_in_tuxedo"],"1F935-200D-2640-FE0F":["woman_in_tuxedo"],"1F470":["person_veiled_bride","bride_veil"],"1F470-200D-2642-FE0F":["man_veiled_bride"],"1F470-200D-2640-FE0F":["woman_veiled_bride"],"1F930":["pregnant_woman"],"1FAC3":["pregnant_man"],"1FAC4":["pregnant_person"],"1F931":["breast_feeding"],"1F469-200D-1F37C":["woman_feeding_baby"],"1F468-200D-1F37C":["man_feeding_baby"],"1F9D1-200D-1F37C":["person_feeding_baby"],"1F47C":["baby_angel"],"1F385":["santa"],"1F936":["mrs_claus"],"1F9D1-200D-1F384":["mx_claus"],"1F9B8":["hero","superhero"],"1F9B8-200D-2642-FE0F":["man_hero"],"1F9B8-200D-2640-FE0F":["woman_hero"],"1F9B9":["villain","supervillain"],"1F9B9-200D-2642-FE0F":["man_villain"],"1F9B9-200D-2640-FE0F":["woman_villain"],"1F9D9":["mage"],"1F9D9-200D-2642-FE0F":["man_mage"],"1F9D9-200D-2640-FE0F":["woman_mage"],"1F9DA":["fairy"],"1F9DA-200D-2642-FE0F":["man_fairy"],"1F9DA-200D-2640-FE0F":["woman_fairy"],"1F9DB":["vampire"],"1F9DB-200D-2642-FE0F":["man_vampire"],"1F9DB-200D-2640-FE0F":["woman_vampire"],"1F9DC":["merperson"],"1F9DC-200D-2642-FE0F":["merman"],"1F9DC-200D-2640-FE0F":["mermaid"],"1F9DD":["elf"],"1F9DD-200D-2642-FE0F":["man_elf"],"1F9DD-200D-2640-FE0F":["woman_elf"],"1F9DE":["genie"],"1F9DE-200D-2642-FE0F":["man_genie"],"1F9DE-200D-2640-FE0F":["woman_genie"],"1F9DF":["zombie"],"1F9DF-200D-2642-FE0F":["man_zombie"],"1F9DF-200D-2640-FE0F":["woman_zombie"],"1F9CC":["troll"],"1F486":["person_getting_massage"],"1F486-200D-2642-FE0F":["man_getting_face_massage"],"1F486-200D-2640-FE0F":["woman_getting_face_massage"],"1F487":["person_getting_haircut"],"1F487-200D-2642-FE0F":["man_getting_haircut"],"1F487-200D-2640-FE0F":["woman_getting_haircut"],"1F6B6":["person_walking"],"1F6B6-200D-2642-FE0F":["man_walking"],"1F6B6-200D-2640-FE0F":["woman_walking"],"1F9CD":["person_standing"],"1F9CD-200D-2642-FE0F":["man_standing"],"1F9CD-200D-2640-FE0F":["woman_standing"],"1F9CE":["person_kneeling"],"1F9CE-200D-2642-FE0F":["man_kneeling"],"1F9CE-200D-2640-FE0F":["woman_kneeling"],"1F9D1-200D-1F9AF":["person_probing_cane"],"1F468-200D-1F9AF":["man_probing_cane"],"1F469-200D-1F9AF":["woman_probing_cane"],"1F9D1-200D-1F9BC":["person_motor_wheelchair"],"1F468-200D-1F9BC":["man_motor_wheelchair"],"1F469-200D-1F9BC":["woman_motor_wheelchair"],"1F9D1-200D-1F9BD":["person_wheelchair"],"1F468-200D-1F9BD":["man_wheelchair"],"1F469-200D-1F9BD":["woman_wheelchair"],"1F3C3":["person_running"],"1F3C3-200D-2642-FE0F":["man_running"],"1F3C3-200D-2640-FE0F":["woman_running"],"1F483":["dancer","woman_dancing"],"1F57A":["man_dancing"],"1F574":["levitate"],"1F46F":["people_bunny_ears_partying"],"1F46F-200D-2642-FE0F":["men_bunny_ears_partying"],"1F46F-200D-2640-FE0F":["women_bunny_ears_partying"],"1F9D6":["person_steamy_room"],"1F9D6-200D-2642-FE0F":["man_steamy_room"],"1F9D6-200D-2640-FE0F":["woman_steamy_room"],"1F9D7":["person_climbing"],"1F9D7-200D-2642-FE0F":["man_climbing"],"1F9D7-200D-2640-FE0F":["woman_climbing"],"1F93A":["person_fencing"],"1F3C7":["horse_racing"],"26F7":["skier"],"1F3C2":["snowboarder"],"1F3CC":["person_golfing"],"1F3CC-FE0F-200D-2642-FE0F":["man_golfing"],"1F3CC-FE0F-200D-2640-FE0F":["woman_golfing"],"1F3C4":["person_surfing"],"1F3C4-200D-2642-FE0F":["man_surfing"],"1F3C4-200D-2640-FE0F":["woman_surfing"],"1F6A3":["person_rowing_boat"],"1F6A3-200D-2642-FE0F":["man_rowing_boat"],"1F6A3-200D-2640-FE0F":["woman_rowing_boat"],"1F3CA":["person_swimming"],"1F3CA-200D-2642-FE0F":["man_swimming"],"1F3CA-200D-2640-FE0F":["woman_swimming"],"26F9":["person_bouncing_ball"],"26F9-FE0F-200D-2642-FE0F":["man_bouncing_ball"],"26F9-FE0F-200D-2640-FE0F":["woman_bouncing_ball"],"1F3CB":["person_lifting_weights"],"1F3CB-FE0F-200D-2642-FE0F":["man_lifting_weights"],"1F3CB-FE0F-200D-2640-FE0F":["woman_lifting_weights"],"1F6B4":["person_biking"],"1F6B4-200D-2642-FE0F":["man_biking"],"1F6B4-200D-2640-FE0F":["woman_biking"],"1F6B5":["person_mountain_biking"],"1F6B5-200D-2642-FE0F":["man_mountain_biking"],"1F6B5-200D-2640-FE0F":["woman_mountain_biking"],"1F938":["person_cartwheel"],"1F938-200D-2642-FE0F":["man_cartwheeling"],"1F938-200D-2640-FE0F":["woman_cartwheeling"],"1F93C":["people_wrestling"],"1F93C-200D-2642-FE0F":["men_wrestling"],"1F93C-200D-2640-FE0F":["women_wrestling"],"1F93D":["person_water_polo"],"1F93D-200D-2642-FE0F":["man_water_polo"],"1F93D-200D-2640-FE0F":["woman_water_polo"],"1F93E":["person_handball"],"1F93E-200D-2642-FE0F":["man_handball"],"1F93E-200D-2640-FE0F":["woman_handball"],"1F939":["person_juggling"],"1F939-200D-2642-FE0F":["man_juggling"],"1F939-200D-2640-FE0F":["woman_juggling"],"1F9D8":["person_lotus_position"],"1F9D8-200D-2642-FE0F":["man_lotus_position"],"1F9D8-200D-2640-FE0F":["woman_lotus_position"],"1F6C0":["bath"],"1F6CC":["in_bed"],"1F9D1-200D-1F91D-200D-1F9D1":["holding_hands_people"],"1F46D":["holding_hands_ww"],"1F46B":["holding_hands_mw","holding_hands_wm"],"1F46C":["holding_hands_mm"],"1F48F":["couple"],"1F469-200D-2764-FE0F-200D-1F48B-200D-1F468":["kiss_mw","kiss_wm"],"1F468-200D-2764-FE0F-200D-1F48B-200D-1F468":["kiss_mm"],"1F469-200D-2764-FE0F-200D-1F48B-200D-1F469":["kiss_ww"],"1F491":["couple_heart"],"1F469-200D-2764-FE0F-200D-1F468":["couple_mw","couple_wm"],"1F468-200D-2764-FE0F-200D-1F468":["couple_mm"],"1F469-200D-2764-FE0F-200D-1F469":["couple_ww"],"1F46A":["family"],"1F468-200D-1F469-200D-1F466":["family_mwb"],"1F468-200D-1F469-200D-1F467":["family_mwg"],"1F468-200D-1F469-200D-1F467-200D-1F466":["family_mwgb"],"1F468-200D-1F469-200D-1F466-200D-1F466":["family_mwbb"],"1F468-200D-1F469-200D-1F467-200D-1F467":["family_mwgg"],"1F468-200D-1F468-200D-1F466":["family_mmb"],"1F468-200D-1F468-200D-1F467":["family_mmg"],"1F468-200D-1F468-200D-1F467-200D-1F466":["family_mmgb"],"1F468-200D-1F468-200D-1F466-200D-1F466":["family_mmbb"],"1F468-200D-1F468-200D-1F467-200D-1F467":["family_mmgg"],"1F469-200D-1F469-200D-1F466":["family_wwb"],"1F469-200D-1F469-200D-1F467":["family_wwg"],"1F469-200D-1F469-200D-1F467-200D-1F466":["family_wwgb"],"1F469-200D-1F469-200D-1F466-200D-1F466":["family_wwbb"],"1F469-200D-1F469-200D-1F467-200D-1F467":["family_wwgg"],"1F468-200D-1F466":["family_mb"],"1F468-200D-1F466-200D-1F466":["family_mbb"],"1F468-200D-1F467":["family_mg"],"1F468-200D-1F467-200D-1F466":["family_mgb"],"1F468-200D-1F467-200D-1F467":["family_mgg"],"1F469-200D-1F466":["family_wb"],"1F469-200D-1F466-200D-1F466":["family_wbb"],"1F469-200D-1F467":["family_wg"],"1F469-200D-1F467-200D-1F466":["family_wgb"],"1F469-200D-1F467-200D-1F467":["family_wgg"],"1F5E3":["speaking_head"],"1F464":["bust_silhouette"],"1F465":["busts_silhouette"],"1FAC2":["people_hugging"],"1F463":["footprints"],"1F3FB":["tone_light","tone1"],"1F3FC":["tone_medium_light","tone2"],"1F3FD":["tone_medium","tone3"],"1F3FE":["tone_medium_dark","tone4"],"1F3FF":["tone_dark","tone5"],"1F9B0":["red_hair"],"1F9B1":["curly_hair"],"1F9B3":["white_hair"],"1F9B2":["bald"],"1F435":["monkey_face"],"1F412":["monkey"],"1F98D":["gorilla"],"1F9A7":["orangutan"],"1F436":["dog_face"],"1F415":["dog"],"1F9AE":["guide_dog"],"1F415-200D-1F9BA":["service_dog"],"1F429":["poodle"],"1F43A":["wolf_face"],"1F98A":["fox_face"],"1F99D":["raccoon"],"1F431":["cat_face"],"1F408":["cat"],"1F408-200D-2B1B":["black_cat"],"1F981":["lion_face"],"1F42F":["tiger_face"],"1F405":["tiger"],"1F406":["leopard"],"1F434":["horse_face"],"1F40E":["horse"],"1F984":["unicorn_face"],"1F993":["zebra"],"1F98C":["deer"],"1F9AC":["bison"],"1F42E":["cow_face"],"1F402":["ox"],"1F403":["water_buffalo"],"1F404":["cow"],"1F437":["pig_face"],"1F416":["pig"],"1F417":["boar"],"1F43D":["pig_nose"],"1F40F":["ram"],"1F411":["sheep"],"1F410":["goat"],"1F42A":["camel"],"1F42B":["two_hump_camel"],"1F999":["llama"],"1F992":["giraffe"],"1F418":["elephant"],"1F9A3":["mammoth"],"1F98F":["rhino"],"1F99B":["hippo"],"1F42D":["mouse_face"],"1F401":["mouse"],"1F400":["rat"],"1F439":["hamster_face"],"1F430":["rabbit_face"],"1F407":["rabbit"],"1F43F":["chipmunk"],"1F9AB":["beaver"],"1F994":["hedgehog"],"1F987":["bat"],"1F43B":["bear_face"],"1F43B-200D-2744-FE0F":["polar_bear_face"],"1F428":["koala_face"],"1F43C":["panda_face"],"1F9A5":["sloth"],"1F9A6":["otter"],"1F9A8":["skunk"],"1F998":["kangaroo"],"1F9A1":["badger"],"1F43E":["feet"],"1F983":["turkey"],"1F414":["chicken"],"1F413":["rooster"],"1F423":["hatching_chick"],"1F424":["baby_chick"],"1F425":["hatched_chick"],"1F426":["bird"],"1F427":["penguin"],"1F54A":["dove"],"1F985":["eagle"],"1F986":["duck"],"1F9A2":["swan"],"1F989":["owl"],"1F9A4":["dodo"],"1FAB6":["feather"],"1F9A9":["flamingo"],"1F99A":["peacock"],"1F99C":["parrot"],"1F438":["frog_face"],"1F40A":["crocodile"],"1F422":["turtle"],"1F98E":["lizard"],"1F40D":["snake"],"1F432":["dragon_face"],"1F409":["dragon"],"1F995":["sauropod"],"1F996":["trex"],"1F433":["spouting_whale"],"1F40B":["whale"],"1F42C":["dolphin"],"1F9AD":["seal"],"1F41F":["fish"],"1F420":["tropical_fish"],"1F421":["blowfish"],"1F988":["shark"],"1F419":["octopus"],"1F41A":["shell"],"1FAB8":["coral"],"1F40C":["snail"],"1F98B":["butterfly"],"1F41B":["bug"],"1F41C":["ant"],"1F41D":["bee"],"1FAB2":["beetle"],"1F41E":["lady_bug"],"1F997":["cricket"],"1FAB3":["cockroach"],"1F577":["spider"],"1F578":["spider_web"],"1F982":["scorpion"],"1F99F":["mosquito"],"1FAB0":["fly"],"1FAB1":["worm"],"1F9A0":["microbe","germ"],"1F490":["bouquet"],"1F338":["cherry_blossom"],"1F4AE":["white_flower"],"1FAB7":["lotus"],"1F3F5":["rosette"],"1F339":["rose"],"1F940":["wilted_rose"],"1F33A":["hibiscus"],"1F33B":["sunflower"],"1F33C":["blossom"],"1F337":["tulip"],"1F331":["seedling"],"1FAB4":["potted_plant"],"1F332":["evergreen_tree"],"1F333":["deciduous_tree"],"1F334":["palm_tree"],"1F335":["cactus"],"1F33E":["ear_of_rice"],"1F33F":["herb"],"1F340":["four_leaf_clover"],"1F341":["maple_leaf"],"1F342":["fallen_leaf"],"1F343":["leaves"],"1FAB9":["empty_nest","nest"],"1FABA":["nest_with_eggs"],"1F347":["grapes"],"1F348":["melon"],"1F349":["watermelon"],"1F34A":["tangerine"],"1F34B":["lemon"],"1F34C":["banana"],"1F34D":["pineapple"],"1F96D":["mango"],"1F34E":["apple"],"1F34F":["green_apple"],"1F350":["pear"],"1F351":["peach"],"1F352":["cherries"],"1F353":["strawberry"],"1FAD0":["blueberry"],"1F95D":["kiwi"],"1F345":["tomato"],"1FAD2":["olive"],"1F965":["coconut"],"1F951":["avocado"],"1F346":["eggplant"],"1F954":["potato"],"1F955":["carrot"],"1F33D":["corn"],"1F336":["hot_pepper"],"1FAD1":["bell_pepper"],"1F952":["cucumber"],"1F96C":["leafy_green"],"1F966":["broccoli"],"1F9C4":["garlic"],"1F9C5":["onion"],"1F344":["mushroom"],"1F95C":["peanuts"],"1FAD8":["beans"],"1F330":["chestnut"],"1F35E":["bread"],"1F950":["croissant"],"1F956":["french_bread"],"1FAD3":["flatbread"],"1F968":["pretzel"],"1F96F":["bagel"],"1F95E":["pancakes"],"1F9C7":["waffle"],"1F9C0":["cheese"],"1F356":["meat_on_bone"],"1F357":["poultry_leg"],"1F969":["cut_of_meat"],"1F953":["bacon"],"1F354":["hamburger"],"1F35F":["fries"],"1F355":["pizza"],"1F32D":["hotdog"],"1F96A":["sandwich"],"1F32E":["taco"],"1F32F":["burrito"],"1FAD4":["tamale"],"1F959":["stuffed_flatbread"],"1F9C6":["falafel"],"1F95A":["egg"],"1F373":["cooking"],"1F958":["shallow_pan_of_food"],"1F372":["stew"],"1FAD5":["fondue"],"1F963":["bowl_spoon"],"1F957":["salad"],"1F37F":["popcorn"],"1F9C8":["butter"],"1F9C2":["salt"],"1F96B":["canned_food"],"1F371":["bento"],"1F358":["rice_cracker"],"1F359":["rice_ball"],"1F35A":["rice"],"1F35B":["curry"],"1F35C":["ramen"],"1F35D":["spaghetti"],"1F360":["sweet_potato"],"1F362":["oden"],"1F363":["sushi"],"1F364":["fried_shrimp"],"1F365":["fish_cake"],"1F96E":["moon_cake"],"1F361":["dango"],"1F95F":["dumpling"],"1F960":["fortune_cookie"],"1F961":["takeout_box"],"1F980":["crab"],"1F99E":["lobster"],"1F990":["shrimp"],"1F991":["squid"],"1F9AA":["oyster"],"1F366":["icecream"],"1F367":["shaved_ice"],"1F368":["ice_cream"],"1F369":["doughnut"],"1F36A":["cookie"],"1F382":["birthday"],"1F370":["cake"],"1F9C1":["cupcake"],"1F967":["pie"],"1F36B":["chocolate_bar"],"1F36C":["candy"],"1F36D":["lollipop"],"1F36E":["custard"],"1F36F":["honey_pot"],"1F37C":["baby_bottle"],"1F95B":["milk"],"1FAD6":["teapot"],"1F375":["tea"],"1F376":["sake"],"1F37E":["champagne"],"1F377":["wine_glass"],"1F378":["cocktail"],"1F379":["tropical_drink"],"1F37A":["beer"],"1F37B":["beers"],"1F942":["champagne_glass"],"1F943":["tumbler_glass"],"1FAD7":["pour","pouring_liquid"],"1F964":["cup_straw"],"1F9CB":["bubble_tea","boba_drink"],"1F9C3":["beverage_box","juice_box"],"1F9C9":["mate","yerba_mate"],"1F9CA":["ice"],"1F962":["chopsticks"],"1F37D":["fork_knife_plate"],"1F374":["utensils"],"1F944":["spoon"],"1F52A":["knife"],"1FAD9":["jar"],"1F3FA":["amphora"],"1F30D":["earth_africa"],"1F30E":["earth_americas"],"1F30F":["earth_asia"],"1F310":["globe"],"1F5FA":["map"],"1F5FE":["japan"],"1F9ED":["compass"],"1F3D4":["snowy_mountain"],"26F0":["mountain"],"1F30B":["volcano"],"1F5FB":["mount_fuji"],"1F3D5":["camping"],"1F3D6":["beach"],"1F3DC":["desert"],"1F3DD":["island"],"1F3DE":["park"],"1F3DF":["stadium"],"1F3DB":["classical_building"],"1F3D7":["construction_site"],"1F9F1":["brick"],"1FAA8":["rock"],"1FAB5":["wood"],"1F6D6":["hut"],"1F3D8":["homes"],"1F3DA":["house_abandoned"],"1F3E0":["house"],"1F3E1":["house_garden"],"1F3E2":["office"],"1F3E3":["ja_post_office"],"1F3E4":["post_office"],"1F3E5":["hospital"],"1F3E6":["bank"],"1F3E8":["hotel"],"1F3E9":["love_hotel"],"1F3EA":["convenience_store"],"1F3EB":["school"],"1F3EC":["department_store"],"1F3ED":["factory"],"1F3EF":["japanese_castle"],"1F3F0":["castle","european_castle"],"1F492":["wedding"],"1F5FC":["tokyo_tower"],"1F5FD":["statue_of_liberty"],"26EA":["church"],"1F54C":["mosque"],"1F6D5":["hindu_temple"],"1F54D":["synagogue"],"26E9":["shinto_shrine"],"1F54B":["kaaba"],"26F2":["fountain"],"26FA":["tent"],"1F301":["foggy"],"1F303":["night_stars"],"1F3D9":["cityscape"],"1F304":["sunrise_over_mountains"],"1F305":["sunrise"],"1F306":["dusk"],"1F307":["sunset"],"1F309":["bridge_at_night"],"1F3A0":["carousel_horse"],"1F6DD":["playground_slide","slide"],"1F3A1":["ferris_wheel"],"1F3A2":["roller_coaster"],"1F488":["barber"],"1F3AA":["circus_tent"],"1F682":["steam_locomotive"],"1F683":["railway_car"],"1F684":["bullettrain_side"],"1F685":["bullettrain"],"1F686":["train"],"1F687":["metro"],"1F688":["light_rail"],"1F689":["station"],"1F68A":["tram"],"1F69D":["monorail"],"1F69E":["mountain_railway"],"1F68B":["tram_car"],"1F68C":["bus"],"1F68D":["oncoming_bus"],"1F68E":["trolleybus"],"1F690":["minibus"],"1F691":["ambulance"],"1F692":["fire_engine"],"1F693":["police_car"],"1F694":["oncoming_police_car"],"1F695":["taxi"],"1F696":["oncoming_taxi"],"1F697":["red_car"],"1F698":["oncoming_automobile"],"1F699":["blue_car"],"1F6FB":["pickup_truck"],"1F69A":["truck"],"1F69B":["lorry"],"1F69C":["tractor"],"1F3CE":["race_car"],"1F3CD":["motorcycle"],"1F6F5":["motor_scooter"],"1F9BD":["wheelchair"],"1F9BC":["motor_wheelchair"],"1F6FA":["auto_rickshaw"],"1F6B2":["bike"],"1F6F4":["scooter"],"1F6F9":["skateboard"],"1F6FC":["roller_skate"],"1F68F":["bus_stop"],"1F6E3":["motorway"],"1F6E4":["railway_track"],"1F6E2":["oil_drum"],"26FD":["fuel_pump"],"1F6DE":["wheel"],"1F6A8":["rotating_light","police_light"],"1F6A5":["traffic_light"],"1F6A6":["vertical_traffic_light"],"1F6D1":["stop_sign","octagonal_sign"],"1F6A7":["construction"],"1F6DF":["lifebuoy","ring_buoy"],"26F5":["sailboat"],"1F6F6":["canoe"],"1F6A4":["speedboat"],"1F6F3":["cruise_ship"],"26F4":["ferry"],"1F6E5":["motorboat"],"1F6A2":["ship"],"1F6E9":["small_airplane"],"1F6EB":["airplane_departure"],"1F6EC":["airplane_arriving"],"1FA82":["parachute"],"1F4BA":["seat"],"1F681":["helicopter"],"1F69F":["suspension_railway"],"1F6A0":["mountain_cableway"],"1F6A1":["aerial_tramway"],"1F6F0":["satellite"],"1F680":["rocket"],"1F6F8":["flying_saucer"],"1F6CE":["bellhop"],"1F9F3":["luggage"],"231B":["hourglass"],"23F3":["hourglass_flowing"],"231A":["watch"],"23F0":["alarm_clock"],"23F1":["stopwatch"],"23F2":["timer"],"1F570":["clock"],"1F55B":["clock12"],"1F567":["clock1230"],"1F550":["clock1"],"1F55C":["clock130"],"1F551":["clock2"],"1F55D":["clock230"],"1F552":["clock3"],"1F55E":["clock330"],"1F553":["clock4"],"1F55F":["clock430"],"1F554":["clock5"],"1F560":["clock530"],"1F555":["clock6"],"1F561":["clock630"],"1F556":["clock7"],"1F562":["clock730"],"1F557":["clock8"],"1F563":["clock830"],"1F558":["clock9"],"1F564":["clock930"],"1F559":["clock10"],"1F565":["clock1030"],"1F55A":["clock11"],"1F566":["clock1130"],"1F311":["new_moon"],"1F312":["waxing_crescent_moon"],"1F313":["first_quarter_moon"],"1F314":["waxing_gibbous_moon"],"1F315":["full_moon"],"1F316":["waning_gibbous_moon"],"1F317":["last_quarter_moon"],"1F318":["waning_crescent_moon"],"1F319":["crescent_moon"],"1F31A":["new_moon_face"],"1F31B":["first_quarter_moon_face"],"1F31C":["last_quarter_moon_face"],"1F321":["thermometer"],"1F31D":["full_moon_face"],"1F31E":["sun_face"],"1FA90":["ringed_planet","saturn"],"2B50":["star"],"1F31F":["star2","glowing_star"],"1F320":["star3","shooting_star"],"1F30C":["milky_way"],"26C5":["partly_sunny"],"26C8":["storm"],"1F324":["overcast"],"1F325":["cloudy"],"1F326":["sunshower"],"1F327":["rain"],"1F328":["snow"],"1F329":["lightning"],"1F32A":["tornado"],"1F32B":["fog"],"1F32C":["wind_face"],"1F300":["cyclone"],"1F308":["rainbow"],"1F302":["closed_umbrella"],"26F1":["beach_umbrella"],"26A1":["zap","high_voltage"],"26C4":["snowman"],"1F525":["fire"],"1F4A7":["droplet"],"1F30A":["ocean"],"1F383":["jack_o_lantern"],"1F384":["christmas_tree","xmas_tree"],"1F386":["fireworks"],"1F387":["sparkler"],"1F9E8":["firecracker"],"1F388":["balloon"],"1F389":["tada","party"],"1F38A":["confetti_ball"],"1F38B":["tanabata_tree"],"1F38D":["bamboo","pine_decor"],"1F38E":["dolls"],"1F38F":["carp_streamer"],"1F390":["wind_chime"],"1F391":["moon_ceremony","rice_scene"],"1F9E7":["red_envelope"],"1F380":["ribbon"],"1F381":["gift"],"1F397":["reminder_ribbon"],"1F39F":["tickets","admission"],"1F3AB":["ticket"],"1F396":["military_medal"],"1F3C6":["trophy"],"1F3C5":["medal"],"1F947":["first_place"],"1F948":["second_place"],"1F949":["third_place"],"26BD":["soccer"],"26BE":["baseball"],"1F94E":["softball"],"1F3C0":["basketball"],"1F3D0":["volleyball"],"1F3C8":["football"],"1F3C9":["rugby"],"1F3BE":["tennis"],"1F94F":["flying_disc"],"1F3B3":["bowling"],"1F3CF":["cricket_game"],"1F3D1":["field_hockey"],"1F3D2":["hockey"],"1F94D":["lacrosse"],"1F3D3":["ping_pong"],"1F3F8":["badminton"],"1F94A":["boxing_glove"],"1F94B":["gi","martial_arts_uniform"],"1F945":["goal"],"26F3":["golf"],"26F8":["ice_skate"],"1F3A3":["fishing_pole"],"1F93F":["diving_mask","scuba_mask"],"1F3BD":["running_shirt"],"1F3BF":["ski"],"1F6F7":["sled"],"1F94C":["curling_stone"],"1F3AF":["dart"],"1FA80":["yoyo"],"1FA81":["kite"],"1F3B1":["8ball"],"1F52E":["crystal_ball"],"1FA84":["wand"],"1F9FF":["nazar_amulet"],"1FAAC":["hamsa"],"1F3AE":["video_game"],"1F579":["joystick"],"1F3B0":["slot_machine"],"1F3B2":["game_die"],"1F9E9":["jigsaw","puzzle_piece"],"1F9F8":["teddy_bear"],"1FA85":["pinata"],"1FAA9":["disco","disco_ball","mirror_ball"],"1FA86":["nesting_dolls"],"265F":["chess_pawn"],"1F0CF":["black_joker"],"1F004":["mahjong"],"1F3B4":["flower_cards"],"1F3AD":["performing_arts"],"1F5BC":["frame_photo"],"1F3A8":["art","palette"],"1F9F5":["spool"],"1FAA1":["sewing_needle"],"1F9F6":["yarn"],"1FAA2":["knot"],"1F453":["glasses"],"1F576":["sunglasses"],"1F97D":["goggles"],"1F97C":["lab_coat"],"1F9BA":["safety_vest"],"1F454":["necktie","tie"],"1F455":["shirt"],"1F456":["jeans"],"1F9E3":["scarf"],"1F9E4":["gloves"],"1F9E5":["coat"],"1F9E6":["socks"],"1F457":["dress"],"1F458":["kimono"],"1F97B":["sari"],"1FA71":["one_piece_swimsuit"],"1FA72":["briefs"],"1FA73":["shorts"],"1F459":["bikini"],"1F45A":["blouse","womans_clothes"],"1F45B":["purse"],"1F45C":["handbag"],"1F45D":["pouch","clutch_bag"],"1F6CD":["shopping_bags"],"1F392":["backpack"],"1FA74":["sandal"],"1F45E":["dress_shoe","mans_shoe"],"1F45F":["sneaker","athletic_shoe"],"1F97E":["hiking_boot"],"1F97F":["flat_shoe"],"1F460":["high_heel"],"1F461":["womans_sandal"],"1FA70":["ballet_shoes"],"1F462":["womans_boot"],"1F451":["crown"],"1F452":["womans_hat"],"1F3A9":["top_hat"],"1F393":["graduation_cap"],"1F9E2":["billed_cap"],"1FA96":["military_helmet"],"26D1":["helmet_cross"],"1F4FF":["prayer_beads"],"1F484":["lipstick"],"1F48D":["ring"],"1F48E":["gem"],"1F507":["mute","no_sound"],"1F508":["speaker","low_sound"],"1F509":["sound"],"1F50A":["loud_sound"],"1F4E2":["loudspeaker"],"1F4E3":["megaphone"],"1F4EF":["postal_horn"],"1F514":["bell"],"1F515":["no_bell"],"1F3BC":["musical_score"],"1F3B5":["musical_note"],"1F3B6":["musical_notes"],"1F399":["studio_microphone"],"1F39A":["level_slider"],"1F39B":["control_knobs"],"1F3A4":["microphone"],"1F3A7":["headphones"],"1F4FB":["radio"],"1F3B7":["saxophone"],"1FA97":["accordion"],"1F3B8":["guitar"],"1F3B9":["musical_keyboard"],"1F3BA":["trumpet"],"1F3BB":["violin"],"1FA95":["banjo"],"1F941":["drum"],"1FA98":["long_drum"],"1F4F1":["mobile","iphone","android"],"1F4F2":["mobile_calling"],"260E":["telephone"],"1F4DE":["telephone_receiver"],"1F4DF":["pager"],"1F4E0":["fax"],"1F50B":["battery"],"1FAAB":["low_battery"],"1F50C":["electric_plug"],"1F4BB":["laptop"],"1F5A5":["desktop","computer"],"1F5A8":["printer"],"1F5B1":["computer_mouse"],"1F5B2":["trackball"],"1F4BD":["minidisc"],"1F4BE":["floppy_disk"],"1F4BF":["cd","disk"],"1F4C0":["dvd"],"1F9EE":["abacus"],"1F3A5":["movie_camera"],"1F39E":["film_frames"],"1F4FD":["projector"],"1F3AC":["clapper"],"1F4FA":["tv"],"1F4F7":["camera"],"1F4F8":["camera_flash"],"1F4F9":["video_camera"],"1F4FC":["vhs"],"1F50D":["mag"],"1F50E":["mag_right"],"1F56F":["candle"],"1F4A1":["bulb","light_bulb"],"1F526":["flashlight"],"1F3EE":["red_lantern"],"1FA94":["diya_lamp"],"1F4D4":["decorative_notebook"],"1F4D5":["closed_book"],"1F4D6":["book"],"1F4D7":["green_book"],"1F4D8":["blue_book"],"1F4D9":["orange_book"],"1F4DA":["books"],"1F4D3":["notebook"],"1F4D2":["ledger"],"1F4C3":["page_curl"],"1F4DC":["scroll"],"1F4C4":["page_facing_up"],"1F4F0":["newspaper"],"1F5DE":["rolled_newspaper"],"1F4D1":["bookmark_tabs"],"1F516":["bookmark"],"1F3F7":["label"],"1F4B0":["moneybag"],"1FA99":["coin"],"1F4B4":["yen"],"1F4B5":["dollar"],"1F4B6":["euro"],"1F4B7":["pound"],"1F4B8":["money_wings"],"1F4B3":["credit_card"],"1F9FE":["receipt"],"1F4B9":["ja_chart"],"1F4E7":["email"],"1F4E8":["incoming_envelope"],"1F4E9":["envelope_arrow"],"1F4E4":["outbox_tray"],"1F4E5":["inbox_tray"],"1F4E6":["package"],"1F4EB":["mailbox"],"1F4EA":["mailbox_closed"],"1F4EC":["mailbox_mail"],"1F4ED":["mailbox_no_mail"],"1F4EE":["postbox"],"1F5F3":["ballot_box"],"270F":["pencil"],"1F58B":["fountain_pen"],"1F58A":["pen"],"1F58C":["paintbrush"],"1F58D":["crayon"],"1F4DD":["memo"],"1F4BC":["briefcase"],"1F4C1":["file_folder"],"1F4C2":["open_file_folder"],"1F5C2":["dividers"],"1F4C5":["date","calendar"],"1F4C6":["torn_calendar"],"1F5D2":["notepad_spiral"],"1F5D3":["calendar_spiral"],"1F4C7":["card_index"],"1F4C8":["chart_up"],"1F4C9":["chart_down"],"1F4CA":["bar_chart"],"1F4CB":["clipboard"],"1F4CC":["pushpin"],"1F4CD":["round_pushpin"],"1F4CE":["paperclip"],"1F587":["paperclips"],"1F4CF":["straight_ruler"],"1F4D0":["triangular_ruler"],"1F5C3":["card_box"],"1F5C4":["file_cabinet"],"1F5D1":["trashcan","wastebasket"],"1F512":["lock"],"1F513":["unlock"],"1F50F":["locked_pen"],"1F510":["locked_key"],"1F511":["key"],"1F5DD":["old_key"],"1F528":["hammer"],"1FA93":["axe"],"26CF":["pick"],"1F6E0":["tools","hammer_wrench"],"1F5E1":["dagger"],"1F52B":["gun","pistol"],"1FA83":["boomerang"],"1F3F9":["bow"],"1F6E1":["shield"],"1FA9A":["saw"],"1F527":["wrench"],"1FA9B":["screwdriver"],"1F529":["nut_and_bolt"],"1F5DC":["clamp","compression"],"1F9AF":["probing_cane"],"1F517":["link"],"26D3":["chains"],"1FA9D":["hook"],"1F9F0":["toolbox"],"1F9F2":["magnet"],"1FA9C":["ladder"],"1F9EA":["test_tube"],"1F9EB":["petri_dish"],"1F9EC":["dna","double_helix"],"1F52C":["microscope"],"1F52D":["telescope"],"1F4E1":["satellite_antenna"],"1F489":["syringe"],"1FA78":["blood_drop"],"1F48A":["pill"],"1FA79":["bandaid","adhesive_bandage"],"1FA7C":["crutch"],"1FA7A":["stethoscope"],"1FA7B":["x-ray","xray"],"1F6AA":["door"],"1F6D7":["elevator"],"1FA9E":["mirror"],"1FA9F":["window"],"1F6CF":["bed"],"1F6CB":["couch"],"1FA91":["chair"],"1F6BD":["toilet"],"1FAA0":["plunger"],"1F6BF":["shower"],"1F6C1":["bathtub"],"1FAA4":["mouse_trap"],"1FA92":["razor"],"1F9F4":["lotion"],"1F9F7":["safety_pin"],"1F9F9":["broom"],"1F9FA":["basket"],"1F9FB":["toilet_paper"],"1FAA3":["bucket"],"1F9FC":["soap"],"1FAE7":["bubbles"],"1FAA5":["toothbrush"],"1F9FD":["sponge"],"1F9EF":["fire_extinguisher"],"1F6D2":["shopping_cart"],"1F6AC":["cigarette","smoking"],"26B0":["coffin"],"1FAA6":["headstone"],"26B1":["urn"],"1F5FF":["moai"],"1FAA7":["placard"],"1FAAA":["id_card"],"1F3E7":["atm"],"1F6AE":["litter_bin"],"1F6B0":["potable_water"],"267F":["handicapped"],"1F6B9":["mens"],"1F6BA":["womens"],"1F6BB":["restroom","bathroom"],"1F6BC":["baby_symbol"],"1F6BE":["wc"],"1F6C2":["passport_control"],"1F6C3":["customs"],"1F6C4":["baggage_claim"],"1F6C5":["left_luggage"],"26A0":["warning"],"1F6B8":["children_crossing"],"26D4":["no_entry"],"1F6AB":["no_entry_sign"],"1F6B3":["no_bicycles"],"1F6AD":["no_smoking"],"1F6AF":["do_not_litter"],"1F6B1":["non_potable_water"],"1F6B7":["no_pedestrians"],"1F4F5":["no_mobile_phones"],"1F51E":["underage"],"2B06":["arrow_up"],"27A1":["arrow_right"],"2B07":["arrow_down"],"2B05":["arrow_left"],"21A9":["arrow_left_hook"],"21AA":["arrow_right_hook"],"1F503":["clockwise"],"1F504":["counter_clockwise"],"1F519":["back"],"1F51A":["end"],"1F51B":["on"],"1F51C":["soon"],"1F51D":["top"],"1F6D0":["place_of_worship"],"269B":["atom"],"1F549":["om_symbol"],"262F":["yin_yang"],"271D":["cross"],"262A":["star_and_crescent"],"262E":["peace"],"1F54E":["menorah"],"1F52F":["six_pointed_star"],"264A":["gemini"],"264B":["cancer"],"264C":["leo"],"264D":["virgo"],"264E":["libra"],"264F":["scorpius"],"26CE":["ophiuchus"],"1F500":["shuffle"],"1F501":["repeat"],"1F502":["repeat_single"],"25B6":["play"],"23E9":["fast_forward"],"23ED":["next_track"],"23EF":["play_pause"],"25C0":["reverse"],"23EA":["rewind"],"23EE":["previous_track"],"1F53C":["up_button"],"23EB":["fast_up_button"],"1F53D":["down_button"],"23EC":["fast_down_button"],"23F8":["pause"],"23F9":["stop"],"23FA":["record"],"23CF":["eject"],"1F3A6":["cinema"],"1F505":["dim","low_brightness"],"1F506":["bright","high_brightness"],"1F4F6":["signal_strength","antenna_bars"],"1F4F3":["vibration_mode"],"1F4F4":["mobile_phone_off"],"26A7":["trans"],"1F7F0":["heavy_equals_sign"],"267E":["infinity"],"203C":["bangbang","double_exclamation"],"1F4B1":["currency_exchange"],"1F4B2":["dollar_sign"],"267B":["recycle"],"269C":["fleur-de-lis"],"1F531":["trident"],"1F4DB":["name_badge"],"1F530":["ja_beginner"],"2B55":["o"],"274C":["x","cross_mark"],"274E":["cross_mark_button"],"27B0":["curly_loop"],"27BF":["double_curly_loop"],"303D":["part_alternation_mark"],"00A9":["copyright"],"00AE":["registered"],"0023-FE0F-20E3":["hash"],"002A-FE0F-20E3":["asterisk"],"0030-FE0F-20E3":["zero"],"0031-FE0F-20E3":["one"],"0032-FE0F-20E3":["two"],"0033-FE0F-20E3":["three"],"0034-FE0F-20E3":["four"],"0035-FE0F-20E3":["five"],"0036-FE0F-20E3":["six"],"0037-FE0F-20E3":["seven"],"0038-FE0F-20E3":["eight"],"0039-FE0F-20E3":["nine"],"1F51F":["ten"],"1F520":["upper_abcd"],"1F521":["abcd"],"1F522":["1234"],"1F523":["symbols"],"1F524":["abc"],"1F170":["a_blood"],"1F18E":["ab_blood"],"1F171":["b_blood"],"1F191":["cl"],"1F192":["cool"],"1F193":["free"],"1F194":["id"],"24C2":["m"],"1F195":["new"],"1F196":["ng"],"1F17E":["o_blood"],"1F197":["ok"],"1F17F":["p"],"1F198":["sos"],"1F199":["up"],"1F19A":["vs"],"1F201":["ja_here","koko"],"1F202":["ja_service_charge"],"1F237":["ja_monthly_amount"],"1F236":["ja_not_free_of_carge"],"1F22F":["ja_reserved"],"1F250":["ja_bargain"],"1F239":["ja_discount"],"1F21A":["ja_free_of_charge"],"1F232":["ja_prohibited"],"1F251":["ja_acceptable"],"1F238":["ja_application"],"1F234":["ja_passing_grade"],"1F233":["ja_vacancy"],"1F23A":["ja_open_for_business"],"1F235":["ja_no_vacancy"],"1F534":["red_circle"],"1F7E0":["orange_circle"],"1F7E1":["yellow_circle"],"1F7E2":["green_circle"],"1F535":["blue_circle"],"1F7E3":["purple_circle"],"1F7E4":["brown_circle"],"26AB":["black_circle"],"26AA":["white_circle"],"1F7E5":["red_square"],"1F7E7":["orange_square"],"1F7E8":["yellow_square"],"1F7E9":["green_square"],"1F7E6":["blue_square"],"1F7EA":["purple_square"],"1F7EB":["brown_square"],"2B1B":["large_black_square"],"2B1C":["large_white_square"],"25FC":["medium_black_square"],"25FB":["medium_white_square"],"25FE":["medium_small_black_square"],"25FD":["medium_small_white_square"],"25AA":["small_black_square"],"25AB":["small_white_square"],"1F536":["large_orange_diamond"],"1F537":["large_blue_diamond"],"1F538":["small_orange_diamond"],"1F539":["small_blue_diamond"],"1F53A":["up_red_triangle"],"1F53B":["down_red_triangle"],"1F4A0":["diamond_dot"],"1F518":["radio_button"],"1F533":["white_square_button"],"1F532":["black_square_button"],"1F3C1":["checkered_flag"],"1F6A9":["triangle_flag"],"1F38C":["crossed_flags"],"1F3F4":["black_flag"],"1F3F3":["white_flag"],"1F3F3-FE0F-200D-1F308":["rainbow_flag"],"1F3F3-FE0F-200D-26A7-FE0F":["trans_flag"],"1F3F4-200D-2620-FE0F":["pirate_flag","jolly_roger"],"1F1E6-1F1E8":["flag_ac"],"1F1E6-1F1E9":["flag_ad"],"1F1E6-1F1EA":["flag_ae"],"1F1E6-1F1EB":["flag_af"],"1F1E6-1F1EC":["flag_ag"],"1F1E6-1F1EE":["flag_ai"],"1F1E6-1F1F1":["flag_al"],"1F1E6-1F1F2":["flag_am"],"1F1E6-1F1F4":["flag_ao"],"1F1E6-1F1F6":["flag_aq"],"1F1E6-1F1F7":["flag_ar"],"1F1E6-1F1F8":["flag_as"],"1F1E6-1F1F9":["flag_at"],"1F1E6-1F1FA":["flag_au"],"1F1E6-1F1FC":["flag_aw"],"1F1E6-1F1FD":["flag_ax"],"1F1E6-1F1FF":["flag_az"],"1F1E7-1F1E6":["flag_ba"],"1F1E7-1F1E7":["flag_bb"],"1F1E7-1F1E9":["flag_bd"],"1F1E7-1F1EA":["flag_be"],"1F1E7-1F1EB":["flag_bf"],"1F1E7-1F1EC":["flag_bg"],"1F1E7-1F1ED":["flag_bh"],"1F1E7-1F1EE":["flag_bi"],"1F1E7-1F1EF":["flag_bj"],"1F1E7-1F1F1":["flag_bl"],"1F1E7-1F1F2":["flag_bm"],"1F1E7-1F1F3":["flag_bn"],"1F1E7-1F1F4":["flag_bo"],"1F1E7-1F1F6":["flag_bq"],"1F1E7-1F1F7":["flag_br"],"1F1E7-1F1F8":["flag_bs"],"1F1E7-1F1F9":["flag_bt"],"1F1E7-1F1FB":["flag_bv"],"1F1E7-1F1FC":["flag_bw"],"1F1E7-1F1FE":["flag_by"],"1F1E7-1F1FF":["flag_bz"],"1F1E8-1F1E6":["flag_ca"],"1F1E8-1F1E8":["flag_cc"],"1F1E8-1F1E9":["flag_cd"],"1F1E8-1F1EB":["flag_cf"],"1F1E8-1F1EC":["flag_cg"],"1F1E8-1F1ED":["flag_ch"],"1F1E8-1F1EE":["flag_ci"],"1F1E8-1F1F0":["flag_ck"],"1F1E8-1F1F1":["flag_cl"],"1F1E8-1F1F2":["flag_cm"],"1F1E8-1F1F3":["flag_cn"],"1F1E8-1F1F4":["flag_co"],"1F1E8-1F1F5":["flag_cp"],"1F1E8-1F1F7":["flag_cr"],"1F1E8-1F1FA":["flag_cu"],"1F1E8-1F1FB":["flag_cv"],"1F1E8-1F1FC":["flag_cw"],"1F1E8-1F1FD":["flag_cx"],"1F1E8-1F1FE":["flag_cy"],"1F1E8-1F1FF":["flag_cz"],"1F1E9-1F1EA":["flag_de"],"1F1E9-1F1EC":["flag_dg"],"1F1E9-1F1EF":["flag_dj"],"1F1E9-1F1F0":["flag_dk"],"1F1E9-1F1F2":["flag_dm"],"1F1E9-1F1F4":["flag_do"],"1F1E9-1F1FF":["flag_dz"],"1F1EA-1F1E6":["flag_ea"],"1F1EA-1F1E8":["flag_ec"],"1F1EA-1F1EA":["flag_ee"],"1F1EA-1F1EC":["flag_eg"],"1F1EA-1F1ED":["flag_eh"],"1F1EA-1F1F7":["flag_er"],"1F1EA-1F1F8":["flag_es"],"1F1EA-1F1F9":["flag_et"],"1F1EA-1F1FA":["flag_eu"],"1F1EB-1F1EE":["flag_fi"],"1F1EB-1F1EF":["flag_fj"],"1F1EB-1F1F0":["flag_fk"],"1F1EB-1F1F2":["flag_fm"],"1F1EB-1F1F4":["flag_fo"],"1F1EB-1F1F7":["flag_fr"],"1F1EC-1F1E6":["flag_ga"],"1F1EC-1F1E7":["flag_gb"],"1F1EC-1F1E9":["flag_gd"],"1F1EC-1F1EA":["flag_ge"],"1F1EC-1F1EB":["flag_gf"],"1F1EC-1F1EC":["flag_gg"],"1F1EC-1F1ED":["flag_gh"],"1F1EC-1F1EE":["flag_gi"],"1F1EC-1F1F1":["flag_gl"],"1F1EC-1F1F2":["flag_gm"],"1F1EC-1F1F3":["flag_gn"],"1F1EC-1F1F5":["flag_gp"],"1F1EC-1F1F6":["flag_gq"],"1F1EC-1F1F7":["flag_gr"],"1F1EC-1F1F8":["flag_gs"],"1F1EC-1F1F9":["flag_gt"],"1F1EC-1F1FA":["flag_gu"],"1F1EC-1F1FC":["flag_gw"],"1F1EC-1F1FE":["flag_gy"],"1F1ED-1F1F0":["flag_hk"],"1F1ED-1F1F2":["flag_hm"],"1F1ED-1F1F3":["flag_hn"],"1F1ED-1F1F7":["flag_hr"],"1F1ED-1F1F9":["flag_ht"],"1F1ED-1F1FA":["flag_hu"],"1F1EE-1F1E8":["flag_ic"],"1F1EE-1F1E9":["flag_id"],"1F1EE-1F1EA":["flag_ie"],"1F1EE-1F1F1":["flag_il"],"1F1EE-1F1F2":["flag_im"],"1F1EE-1F1F3":["flag_in"],"1F1EE-1F1F4":["flag_io"],"1F1EE-1F1F6":["flag_iq"],"1F1EE-1F1F7":["flag_ir"],"1F1EE-1F1F8":["flag_is"],"1F1EE-1F1F9":["flag_it"],"1F1EF-1F1EA":["flag_je"],"1F1EF-1F1F2":["flag_jm"],"1F1EF-1F1F4":["flag_jo"],"1F1EF-1F1F5":["flag_jp"],"1F1F0-1F1EA":["flag_ke"],"1F1F0-1F1EC":["flag_kg"],"1F1F0-1F1ED":["flag_kh"],"1F1F0-1F1EE":["flag_ki"],"1F1F0-1F1F2":["flag_km"],"1F1F0-1F1F3":["flag_kn"],"1F1F0-1F1F5":["flag_kp"],"1F1F0-1F1F7":["flag_kr"],"1F1F0-1F1FC":["flag_kw"],"1F1F0-1F1FE":["flag_ky"],"1F1F0-1F1FF":["flag_kz"],"1F1F1-1F1E6":["flag_la"],"1F1F1-1F1E7":["flag_lb"],"1F1F1-1F1E8":["flag_lc"],"1F1F1-1F1EE":["flag_li"],"1F1F1-1F1F0":["flag_lk"],"1F1F1-1F1F7":["flag_lr"],"1F1F1-1F1F8":["flag_ls"],"1F1F1-1F1F9":["flag_lt"],"1F1F1-1F1FA":["flag_lu"],"1F1F1-1F1FB":["flag_lv"],"1F1F1-1F1FE":["flag_ly"],"1F1F2-1F1E6":["flag_ma"],"1F1F2-1F1E8":["flag_mc"],"1F1F2-1F1E9":["flag_md"],"1F1F2-1F1EA":["flag_me"],"1F1F2-1F1EB":["flag_mf"],"1F1F2-1F1EC":["flag_mg"],"1F1F2-1F1ED":["flag_mh"],"1F1F2-1F1F0":["flag_mk"],"1F1F2-1F1F1":["flag_ml"],"1F1F2-1F1F2":["flag_mm"],"1F1F2-1F1F3":["flag_mn"],"1F1F2-1F1F4":["flag_mo"],"1F1F2-1F1F5":["flag_mp"],"1F1F2-1F1F6":["flag_mq"],"1F1F2-1F1F7":["flag_mr"],"1F1F2-1F1F8":["flag_ms"],"1F1F2-1F1F9":["flag_mt"],"1F1F2-1F1FA":["flag_mu"],"1F1F2-1F1FB":["flag_mv"],"1F1F2-1F1FC":["flag_mw"],"1F1F2-1F1FD":["flag_mx"],"1F1F2-1F1FE":["flag_my"],"1F1F2-1F1FF":["flag_mz"],"1F1F3-1F1E6":["flag_na"],"1F1F3-1F1E8":["flag_nc"],"1F1F3-1F1EA":["flag_ne"],"1F1F3-1F1EB":["flag_nf"],"1F1F3-1F1EC":["flag_ng"],"1F1F3-1F1EE":["flag_ni"],"1F1F3-1F1F1":["flag_nl"],"1F1F3-1F1F4":["flag_no"],"1F1F3-1F1F5":["flag_np"],"1F1F3-1F1F7":["flag_nr"],"1F1F3-1F1FA":["flag_nu"],"1F1F3-1F1FF":["flag_nz"],"1F1F4-1F1F2":["flag_om"],"1F1F5-1F1E6":["flag_pa"],"1F1F5-1F1EA":["flag_pe"],"1F1F5-1F1EB":["flag_pf"],"1F1F5-1F1EC":["flag_pg"],"1F1F5-1F1ED":["flag_ph"],"1F1F5-1F1F0":["flag_pk"],"1F1F5-1F1F1":["flag_pl"],"1F1F5-1F1F2":["flag_pm"],"1F1F5-1F1F3":["flag_pn"],"1F1F5-1F1F7":["flag_pr"],"1F1F5-1F1F8":["flag_ps"],"1F1F5-1F1F9":["flag_pt"],"1F1F5-1F1FC":["flag_pw"],"1F1F5-1F1FE":["flag_py"],"1F1F6-1F1E6":["flag_qa"],"1F1F7-1F1EA":["flag_re"],"1F1F7-1F1F4":["flag_ro"],"1F1F7-1F1F8":["flag_rs"],"1F1F7-1F1FA":["flag_ru"],"1F1F7-1F1FC":["flag_rw"],"1F1F8-1F1E6":["flag_sa"],"1F1F8-1F1E7":["flag_sb"],"1F1F8-1F1E8":["flag_sc"],"1F1F8-1F1E9":["flag_sd"],"1F1F8-1F1EA":["flag_se"],"1F1F8-1F1EC":["flag_sg"],"1F1F8-1F1ED":["flag_sh"],"1F1F8-1F1EE":["flag_si"],"1F1F8-1F1EF":["flag_sj"],"1F1F8-1F1F0":["flag_sk"],"1F1F8-1F1F1":["flag_sl"],"1F1F8-1F1F2":["flag_sm"],"1F1F8-1F1F3":["flag_sn"],"1F1F8-1F1F4":["flag_so"],"1F1F8-1F1F7":["flag_sr"],"1F1F8-1F1F8":["flag_ss"],"1F1F8-1F1F9":["flag_st"],"1F1F8-1F1FB":["flag_sv"],"1F1F8-1F1FD":["flag_sx"],"1F1F8-1F1FE":["flag_sy"],"1F1F8-1F1FF":["flag_sz"],"1F1F9-1F1E6":["flag_ta"],"1F1F9-1F1E8":["flag_tc"],"1F1F9-1F1E9":["flag_td"],"1F1F9-1F1EB":["flag_tf"],"1F1F9-1F1EC":["flag_tg"],"1F1F9-1F1ED":["flag_th"],"1F1F9-1F1EF":["flag_tj"],"1F1F9-1F1F0":["flag_tk"],"1F1F9-1F1F1":["flag_tl"],"1F1F9-1F1F2":["flag_tm"],"1F1F9-1F1F3":["flag_tn"],"1F1F9-1F1F4":["flag_to"],"1F1F9-1F1F7":["flag_tr"],"1F1F9-1F1F9":["flag_tt"],"1F1F9-1F1FB":["flag_tv"],"1F1F9-1F1FC":["flag_tw"],"1F1F9-1F1FF":["flag_tz"],"1F1FA-1F1E6":["flag_ua"],"1F1FA-1F1EC":["flag_ug"],"1F1FA-1F1F2":["flag_um"],"1F1FA-1F1F3":["flag_un"],"1F1FA-1F1F8":["flag_us","usa"],"1F1FA-1F1FE":["flag_uy"],"1F1FA-1F1FF":["flag_uz"],"1F1FB-1F1E6":["flag_va"],"1F1FB-1F1E8":["flag_vc"],"1F1FB-1F1EA":["flag_ve"],"1F1FB-1F1EC":["flag_vg"],"1F1FB-1F1EE":["flag_vi"],"1F1FB-1F1F3":["flag_vn"],"1F1FB-1F1FA":["flag_vu"],"1F1FC-1F1EB":["flag_wf"],"1F1FC-1F1F8":["flag_ws"],"1F1FD-1F1F0":["flag_xk"],"1F1FE-1F1EA":["flag_ye"],"1F1FE-1F1F9":["flag_yt"],"1F1FF-1F1E6":["flag_za"],"1F1FF-1F1F2":["flag_zm"],"1F1FF-1F1FC":["flag_zw"],"1F3F4-E0067-E0062-E0065-E006E-E0067-E007F":["flag_gbeng","england"],"1F3F4-E0067-E0062-E0073-E0063-E0074-E007F":["flag_gbsct","scotland"],"1F3F4-E0067-E0062-E0077-E006C-E0073-E007F":["flag_gbwls","wales"]}');
+
+/***/ }),
+
+/***/ "./node_modules/simple-emoji-map/generated/variants.json":
+/*!***************************************************************!*\
+  !*** ./node_modules/simple-emoji-map/generated/variants.json ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"1F44B-1F3FB":["wave_tone1"],"1F44B-1F3FC":["wave_tone2"],"1F44B-1F3FD":["wave_tone3"],"1F44B-1F3FE":["wave_tone4"],"1F44B-1F3FF":["wave_tone5"],"1F91A-1F3FB":["raised_backhand_tone1"],"1F91A-1F3FC":["raised_backhand_tone2"],"1F91A-1F3FD":["raised_backhand_tone3"],"1F91A-1F3FE":["raised_backhand_tone4"],"1F91A-1F3FF":["raised_backhand_tone5"],"1F590-1F3FB":["splayed_hand_tone1"],"1F590-1F3FC":["splayed_hand_tone2"],"1F590-1F3FD":["splayed_hand_tone3"],"1F590-1F3FE":["splayed_hand_tone4"],"1F590-1F3FF":["splayed_hand_tone5"],"270B-1F3FB":["raised_hand_tone1"],"270B-1F3FC":["raised_hand_tone2"],"270B-1F3FD":["raised_hand_tone3"],"270B-1F3FE":["raised_hand_tone4"],"270B-1F3FF":["raised_hand_tone5"],"1F596-1F3FB":["vulcan_tone1"],"1F596-1F3FC":["vulcan_tone2"],"1F596-1F3FD":["vulcan_tone3"],"1F596-1F3FE":["vulcan_tone4"],"1F596-1F3FF":["vulcan_tone5"],"1FAF1-1F3FB":["rightwards_hand_tone1"],"1FAF1-1F3FC":["rightwards_hand_tone2"],"1FAF1-1F3FD":["rightwards_hand_tone3"],"1FAF1-1F3FE":["rightwards_hand_tone4"],"1FAF1-1F3FF":["rightwards_hand_tone5"],"1FAF2-1F3FB":["leftwards_hand_tone1"],"1FAF2-1F3FC":["leftwards_hand_tone2"],"1FAF2-1F3FD":["leftwards_hand_tone3"],"1FAF2-1F3FE":["leftwards_hand_tone4"],"1FAF2-1F3FF":["leftwards_hand_tone5"],"1FAF3-1F3FB":["palm_down_tone1"],"1FAF3-1F3FC":["palm_down_tone2"],"1FAF3-1F3FD":["palm_down_tone3"],"1FAF3-1F3FE":["palm_down_tone4"],"1FAF3-1F3FF":["palm_down_tone5"],"1FAF4-1F3FB":["palm_up_tone1"],"1FAF4-1F3FC":["palm_up_tone2"],"1FAF4-1F3FD":["palm_up_tone3"],"1FAF4-1F3FE":["palm_up_tone4"],"1FAF4-1F3FF":["palm_up_tone5"],"1F44C-1F3FB":["ok_hand_tone1"],"1F44C-1F3FC":["ok_hand_tone2"],"1F44C-1F3FD":["ok_hand_tone3"],"1F44C-1F3FE":["ok_hand_tone4"],"1F44C-1F3FF":["ok_hand_tone5"],"1F90C-1F3FB":["pinched_fingers_tone1"],"1F90C-1F3FC":["pinched_fingers_tone2"],"1F90C-1F3FD":["pinched_fingers_tone3"],"1F90C-1F3FE":["pinched_fingers_tone4"],"1F90C-1F3FF":["pinched_fingers_tone5"],"1F90F-1F3FB":["pinch_tone1"],"1F90F-1F3FC":["pinch_tone2"],"1F90F-1F3FD":["pinch_tone3"],"1F90F-1F3FE":["pinch_tone4"],"1F90F-1F3FF":["pinch_tone5"],"270C-1F3FB":["victory_tone1"],"270C-1F3FC":["victory_tone2"],"270C-1F3FD":["victory_tone3"],"270C-1F3FE":["victory_tone4"],"270C-1F3FF":["victory_tone5"],"1F91E-1F3FB":["fingers_crossed_tone1"],"1F91E-1F3FC":["fingers_crossed_tone2"],"1F91E-1F3FD":["fingers_crossed_tone3"],"1F91E-1F3FE":["fingers_crossed_tone4"],"1F91E-1F3FF":["fingers_crossed_tone5"],"1FAF0-1F3FB":["hand_with_index_finger_and_thumb_crossed_tone1"],"1FAF0-1F3FC":["hand_with_index_finger_and_thumb_crossed_tone2"],"1FAF0-1F3FD":["hand_with_index_finger_and_thumb_crossed_tone3"],"1FAF0-1F3FE":["hand_with_index_finger_and_thumb_crossed_tone4"],"1FAF0-1F3FF":["hand_with_index_finger_and_thumb_crossed_tone5"],"1F91F-1F3FB":["love_you_gesture_tone1"],"1F91F-1F3FC":["love_you_gesture_tone2"],"1F91F-1F3FD":["love_you_gesture_tone3"],"1F91F-1F3FE":["love_you_gesture_tone4"],"1F91F-1F3FF":["love_you_gesture_tone5"],"1F918-1F3FB":["metal_tone1"],"1F918-1F3FC":["metal_tone2"],"1F918-1F3FD":["metal_tone3"],"1F918-1F3FE":["metal_tone4"],"1F918-1F3FF":["metal_tone5"],"1F919-1F3FB":["call_me_tone1"],"1F919-1F3FC":["call_me_tone2"],"1F919-1F3FD":["call_me_tone3"],"1F919-1F3FE":["call_me_tone4"],"1F919-1F3FF":["call_me_tone5"],"1F448-1F3FB":["point_left_tone1"],"1F448-1F3FC":["point_left_tone2"],"1F448-1F3FD":["point_left_tone3"],"1F448-1F3FE":["point_left_tone4"],"1F448-1F3FF":["point_left_tone5"],"1F449-1F3FB":["point_right_tone1"],"1F449-1F3FC":["point_right_tone2"],"1F449-1F3FD":["point_right_tone3"],"1F449-1F3FE":["point_right_tone4"],"1F449-1F3FF":["point_right_tone5"],"1F446-1F3FB":["backhand_point_up_tone1"],"1F446-1F3FC":["backhand_point_up_tone2"],"1F446-1F3FD":["backhand_point_up_tone3"],"1F446-1F3FE":["backhand_point_up_tone4"],"1F446-1F3FF":["backhand_point_up_tone5"],"1F595-1F3FB":["middle_finger_tone1"],"1F595-1F3FC":["middle_finger_tone2"],"1F595-1F3FD":["middle_finger_tone3"],"1F595-1F3FE":["middle_finger_tone4"],"1F595-1F3FF":["middle_finger_tone5"],"1F447-1F3FB":["point_down_tone1"],"1F447-1F3FC":["point_down_tone2"],"1F447-1F3FD":["point_down_tone3"],"1F447-1F3FE":["point_down_tone4"],"1F447-1F3FF":["point_down_tone5"],"261D-1F3FB":["point_up_tone1"],"261D-1F3FC":["point_up_tone2"],"261D-1F3FD":["point_up_tone3"],"261D-1F3FE":["point_up_tone4"],"261D-1F3FF":["point_up_tone5"],"1FAF5-1F3FB":["point_forward_tone1"],"1FAF5-1F3FC":["point_forward_tone2"],"1FAF5-1F3FD":["point_forward_tone3"],"1FAF5-1F3FE":["point_forward_tone4"],"1FAF5-1F3FF":["point_forward_tone5"],"1F44D-1F3FB":["thumbsup_tone1","+1_tone1","y_tone1","yes_tone1"],"1F44D-1F3FC":["thumbsup_tone2","+1_tone2","y_tone2","yes_tone2"],"1F44D-1F3FD":["thumbsup_tone3","+1_tone3","y_tone3","yes_tone3"],"1F44D-1F3FE":["thumbsup_tone4","+1_tone4","y_tone4","yes_tone4"],"1F44D-1F3FF":["thumbsup_tone5","+1_tone5","y_tone5","yes_tone5"],"1F44E-1F3FB":["thumbsdown_tone1","-1_tone1","n_tone1","no_tone1"],"1F44E-1F3FC":["thumbsdown_tone2","-1_tone2","n_tone2","no_tone2"],"1F44E-1F3FD":["thumbsdown_tone3","-1_tone3","n_tone3","no_tone3"],"1F44E-1F3FE":["thumbsdown_tone4","-1_tone4","n_tone4","no_tone4"],"1F44E-1F3FF":["thumbsdown_tone5","-1_tone5","n_tone5","no_tone5"],"270A-1F3FB":["fist_tone1"],"270A-1F3FC":["fist_tone2"],"270A-1F3FD":["fist_tone3"],"270A-1F3FE":["fist_tone4"],"270A-1F3FF":["fist_tone5"],"1F44A-1F3FB":["punch_tone1"],"1F44A-1F3FC":["punch_tone2"],"1F44A-1F3FD":["punch_tone3"],"1F44A-1F3FE":["punch_tone4"],"1F44A-1F3FF":["punch_tone5"],"1F91B-1F3FB":["left_facing_fist_tone1"],"1F91B-1F3FC":["left_facing_fist_tone2"],"1F91B-1F3FD":["left_facing_fist_tone3"],"1F91B-1F3FE":["left_facing_fist_tone4"],"1F91B-1F3FF":["left_facing_fist_tone5"],"1F91C-1F3FB":["right_facing_fist_tone1"],"1F91C-1F3FC":["right_facing_fist_tone2"],"1F91C-1F3FD":["right_facing_fist_tone3"],"1F91C-1F3FE":["right_facing_fist_tone4"],"1F91C-1F3FF":["right_facing_fist_tone5"],"1F44F-1F3FB":["clap_tone1"],"1F44F-1F3FC":["clap_tone2"],"1F44F-1F3FD":["clap_tone3"],"1F44F-1F3FE":["clap_tone4"],"1F44F-1F3FF":["clap_tone5"],"1F64C-1F3FB":["raised_hands_tone1"],"1F64C-1F3FC":["raised_hands_tone2"],"1F64C-1F3FD":["raised_hands_tone3"],"1F64C-1F3FE":["raised_hands_tone4"],"1F64C-1F3FF":["raised_hands_tone5"],"1FAF6-1F3FB":["heart_hands_tone1"],"1FAF6-1F3FC":["heart_hands_tone2"],"1FAF6-1F3FD":["heart_hands_tone3"],"1FAF6-1F3FE":["heart_hands_tone4"],"1FAF6-1F3FF":["heart_hands_tone5"],"1F450-1F3FB":["open_hands_tone1"],"1F450-1F3FC":["open_hands_tone2"],"1F450-1F3FD":["open_hands_tone3"],"1F450-1F3FE":["open_hands_tone4"],"1F450-1F3FF":["open_hands_tone5"],"1F932-1F3FB":["palms_up_tone1"],"1F932-1F3FC":["palms_up_tone2"],"1F932-1F3FD":["palms_up_tone3"],"1F932-1F3FE":["palms_up_tone4"],"1F932-1F3FF":["palms_up_tone5"],"1F91D-1F3FB":["handshake_tone1"],"1F91D-1F3FC":["handshake_tone2"],"1F91D-1F3FD":["handshake_tone3"],"1F91D-1F3FE":["handshake_tone4"],"1F91D-1F3FF":["handshake_tone5"],"1FAF1-1F3FB-200D-1FAF2-1F3FC":["handshake_tone1-2"],"1FAF1-1F3FB-200D-1FAF2-1F3FD":["handshake_tone1-3"],"1FAF1-1F3FB-200D-1FAF2-1F3FE":["handshake_tone1-4"],"1FAF1-1F3FB-200D-1FAF2-1F3FF":["handshake_tone1-5"],"1FAF1-1F3FC-200D-1FAF2-1F3FB":["handshake_tone2-1"],"1FAF1-1F3FC-200D-1FAF2-1F3FD":["handshake_tone2-3"],"1FAF1-1F3FC-200D-1FAF2-1F3FE":["handshake_tone2-4"],"1FAF1-1F3FC-200D-1FAF2-1F3FF":["handshake_tone2-5"],"1FAF1-1F3FD-200D-1FAF2-1F3FB":["handshake_tone3-1"],"1FAF1-1F3FD-200D-1FAF2-1F3FC":["handshake_tone3-2"],"1FAF1-1F3FD-200D-1FAF2-1F3FE":["handshake_tone3-4"],"1FAF1-1F3FD-200D-1FAF2-1F3FF":["handshake_tone3-5"],"1FAF1-1F3FE-200D-1FAF2-1F3FB":["handshake_tone4-1"],"1FAF1-1F3FE-200D-1FAF2-1F3FC":["handshake_tone4-2"],"1FAF1-1F3FE-200D-1FAF2-1F3FD":["handshake_tone4-3"],"1FAF1-1F3FE-200D-1FAF2-1F3FF":["handshake_tone4-5"],"1FAF1-1F3FF-200D-1FAF2-1F3FB":["handshake_tone5-1"],"1FAF1-1F3FF-200D-1FAF2-1F3FC":["handshake_tone5-2"],"1FAF1-1F3FF-200D-1FAF2-1F3FD":["handshake_tone5-3"],"1FAF1-1F3FF-200D-1FAF2-1F3FE":["handshake_tone5-4"],"1F64F-1F3FB":["pray_tone1"],"1F64F-1F3FC":["pray_tone2"],"1F64F-1F3FD":["pray_tone3"],"1F64F-1F3FE":["pray_tone4"],"1F64F-1F3FF":["pray_tone5"],"270D-1F3FB":["writing_hand_tone1"],"270D-1F3FC":["writing_hand_tone2"],"270D-1F3FD":["writing_hand_tone3"],"270D-1F3FE":["writing_hand_tone4"],"270D-1F3FF":["writing_hand_tone5"],"1F485-1F3FB":["nail_care_tone1"],"1F485-1F3FC":["nail_care_tone2"],"1F485-1F3FD":["nail_care_tone3"],"1F485-1F3FE":["nail_care_tone4"],"1F485-1F3FF":["nail_care_tone5"],"1F933-1F3FB":["selfie_tone1"],"1F933-1F3FC":["selfie_tone2"],"1F933-1F3FD":["selfie_tone3"],"1F933-1F3FE":["selfie_tone4"],"1F933-1F3FF":["selfie_tone5"],"1F4AA-1F3FB":["muscle_tone1","right_bicep_tone1"],"1F4AA-1F3FC":["muscle_tone2","right_bicep_tone2"],"1F4AA-1F3FD":["muscle_tone3","right_bicep_tone3"],"1F4AA-1F3FE":["muscle_tone4","right_bicep_tone4"],"1F4AA-1F3FF":["muscle_tone5","right_bicep_tone5"],"1F9B5-1F3FB":["leg_tone1"],"1F9B5-1F3FC":["leg_tone2"],"1F9B5-1F3FD":["leg_tone3"],"1F9B5-1F3FE":["leg_tone4"],"1F9B5-1F3FF":["leg_tone5"],"1F9B6-1F3FB":["foot_tone1"],"1F9B6-1F3FC":["foot_tone2"],"1F9B6-1F3FD":["foot_tone3"],"1F9B6-1F3FE":["foot_tone4"],"1F9B6-1F3FF":["foot_tone5"],"1F442-1F3FB":["ear_tone1"],"1F442-1F3FC":["ear_tone2"],"1F442-1F3FD":["ear_tone3"],"1F442-1F3FE":["ear_tone4"],"1F442-1F3FF":["ear_tone5"],"1F9BB-1F3FB":["hearing_aid_tone1"],"1F9BB-1F3FC":["hearing_aid_tone2"],"1F9BB-1F3FD":["hearing_aid_tone3"],"1F9BB-1F3FE":["hearing_aid_tone4"],"1F9BB-1F3FF":["hearing_aid_tone5"],"1F443-1F3FB":["nose_tone1"],"1F443-1F3FC":["nose_tone2"],"1F443-1F3FD":["nose_tone3"],"1F443-1F3FE":["nose_tone4"],"1F443-1F3FF":["nose_tone5"],"1F476-1F3FB":["baby_tone1"],"1F476-1F3FC":["baby_tone2"],"1F476-1F3FD":["baby_tone3"],"1F476-1F3FE":["baby_tone4"],"1F476-1F3FF":["baby_tone5"],"1F9D2-1F3FB":["child_tone1"],"1F9D2-1F3FC":["child_tone2"],"1F9D2-1F3FD":["child_tone3"],"1F9D2-1F3FE":["child_tone4"],"1F9D2-1F3FF":["child_tone5"],"1F466-1F3FB":["boy_tone1"],"1F466-1F3FC":["boy_tone2"],"1F466-1F3FD":["boy_tone3"],"1F466-1F3FE":["boy_tone4"],"1F466-1F3FF":["boy_tone5"],"1F467-1F3FB":["girl_tone1"],"1F467-1F3FC":["girl_tone2"],"1F467-1F3FD":["girl_tone3"],"1F467-1F3FE":["girl_tone4"],"1F467-1F3FF":["girl_tone5"],"1F9D1-1F3FB":["adult_tone1"],"1F9D1-1F3FC":["adult_tone2"],"1F9D1-1F3FD":["adult_tone3"],"1F9D1-1F3FE":["adult_tone4"],"1F9D1-1F3FF":["adult_tone5"],"1F471-1F3FB":["blond_person_tone1"],"1F471-1F3FC":["blond_person_tone2"],"1F471-1F3FD":["blond_person_tone3"],"1F471-1F3FE":["blond_person_tone4"],"1F471-1F3FF":["blond_person_tone5"],"1F468-1F3FB":["man_tone1"],"1F468-1F3FC":["man_tone2"],"1F468-1F3FD":["man_tone3"],"1F468-1F3FE":["man_tone4"],"1F468-1F3FF":["man_tone5"],"1F9D4-1F3FB":["bearded_person_tone1"],"1F9D4-1F3FC":["bearded_person_tone2"],"1F9D4-1F3FD":["bearded_person_tone3"],"1F9D4-1F3FE":["bearded_person_tone4"],"1F9D4-1F3FF":["bearded_person_tone5"],"1F9D4-1F3FB-200D-2642-FE0F":["man_bearded_tone1"],"1F9D4-1F3FC-200D-2642-FE0F":["man_bearded_tone2"],"1F9D4-1F3FD-200D-2642-FE0F":["man_bearded_tone3"],"1F9D4-1F3FE-200D-2642-FE0F":["man_bearded_tone4"],"1F9D4-1F3FF-200D-2642-FE0F":["man_bearded_tone5"],"1F9D4-1F3FB-200D-2640-FE0F":["woman_bearded_tone1"],"1F9D4-1F3FC-200D-2640-FE0F":["woman_bearded_tone2"],"1F9D4-1F3FD-200D-2640-FE0F":["woman_bearded_tone3"],"1F9D4-1F3FE-200D-2640-FE0F":["woman_bearded_tone4"],"1F9D4-1F3FF-200D-2640-FE0F":["woman_bearded_tone5"],"1F468-1F3FB-200D-1F9B0":["red_haired_man_tone1"],"1F468-1F3FC-200D-1F9B0":["red_haired_man_tone2"],"1F468-1F3FD-200D-1F9B0":["red_haired_man_tone3"],"1F468-1F3FE-200D-1F9B0":["red_haired_man_tone4"],"1F468-1F3FF-200D-1F9B0":["red_haired_man_tone5"],"1F468-1F3FB-200D-1F9B1":["curly_haired_man_tone1"],"1F468-1F3FC-200D-1F9B1":["curly_haired_man_tone2"],"1F468-1F3FD-200D-1F9B1":["curly_haired_man_tone3"],"1F468-1F3FE-200D-1F9B1":["curly_haired_man_tone4"],"1F468-1F3FF-200D-1F9B1":["curly_haired_man_tone5"],"1F468-1F3FB-200D-1F9B3":["white_haired_man_tone1"],"1F468-1F3FC-200D-1F9B3":["white_haired_man_tone2"],"1F468-1F3FD-200D-1F9B3":["white_haired_man_tone3"],"1F468-1F3FE-200D-1F9B3":["white_haired_man_tone4"],"1F468-1F3FF-200D-1F9B3":["white_haired_man_tone5"],"1F468-1F3FB-200D-1F9B2":["bald_man_tone1"],"1F468-1F3FC-200D-1F9B2":["bald_man_tone2"],"1F468-1F3FD-200D-1F9B2":["bald_man_tone3"],"1F468-1F3FE-200D-1F9B2":["bald_man_tone4"],"1F468-1F3FF-200D-1F9B2":["bald_man_tone5"],"1F469-1F3FB":["woman_tone1"],"1F469-1F3FC":["woman_tone2"],"1F469-1F3FD":["woman_tone3"],"1F469-1F3FE":["woman_tone4"],"1F469-1F3FF":["woman_tone5"],"1F469-1F3FB-200D-1F9B0":["red_haired_woman_tone1"],"1F469-1F3FC-200D-1F9B0":["red_haired_woman_tone2"],"1F469-1F3FD-200D-1F9B0":["red_haired_woman_tone3"],"1F469-1F3FE-200D-1F9B0":["red_haired_woman_tone4"],"1F469-1F3FF-200D-1F9B0":["red_haired_woman_tone5"],"1F9D1-1F3FB-200D-1F9B0":["red_haired_person_tone1"],"1F9D1-1F3FC-200D-1F9B0":["red_haired_person_tone2"],"1F9D1-1F3FD-200D-1F9B0":["red_haired_person_tone3"],"1F9D1-1F3FE-200D-1F9B0":["red_haired_person_tone4"],"1F9D1-1F3FF-200D-1F9B0":["red_haired_person_tone5"],"1F469-1F3FB-200D-1F9B1":["curly_haired_woman_tone1"],"1F469-1F3FC-200D-1F9B1":["curly_haired_woman_tone2"],"1F469-1F3FD-200D-1F9B1":["curly_haired_woman_tone3"],"1F469-1F3FE-200D-1F9B1":["curly_haired_woman_tone4"],"1F469-1F3FF-200D-1F9B1":["curly_haired_woman_tone5"],"1F9D1-1F3FB-200D-1F9B1":["curly_haired_person_tone1"],"1F9D1-1F3FC-200D-1F9B1":["curly_haired_person_tone2"],"1F9D1-1F3FD-200D-1F9B1":["curly_haired_person_tone3"],"1F9D1-1F3FE-200D-1F9B1":["curly_haired_person_tone4"],"1F9D1-1F3FF-200D-1F9B1":["curly_haired_person_tone5"],"1F469-1F3FB-200D-1F9B3":["white_haired_woman_tone1"],"1F469-1F3FC-200D-1F9B3":["white_haired_woman_tone2"],"1F469-1F3FD-200D-1F9B3":["white_haired_woman_tone3"],"1F469-1F3FE-200D-1F9B3":["white_haired_woman_tone4"],"1F469-1F3FF-200D-1F9B3":["white_haired_woman_tone5"],"1F9D1-1F3FB-200D-1F9B3":["white_haired_person_tone1"],"1F9D1-1F3FC-200D-1F9B3":["white_haired_person_tone2"],"1F9D1-1F3FD-200D-1F9B3":["white_haired_person_tone3"],"1F9D1-1F3FE-200D-1F9B3":["white_haired_person_tone4"],"1F9D1-1F3FF-200D-1F9B3":["white_haired_person_tone5"],"1F469-1F3FB-200D-1F9B2":["bald_woman_tone1"],"1F469-1F3FC-200D-1F9B2":["bald_woman_tone2"],"1F469-1F3FD-200D-1F9B2":["bald_woman_tone3"],"1F469-1F3FE-200D-1F9B2":["bald_woman_tone4"],"1F469-1F3FF-200D-1F9B2":["bald_woman_tone5"],"1F9D1-1F3FB-200D-1F9B2":["bald_person_tone1"],"1F9D1-1F3FC-200D-1F9B2":["bald_person_tone2"],"1F9D1-1F3FD-200D-1F9B2":["bald_person_tone3"],"1F9D1-1F3FE-200D-1F9B2":["bald_person_tone4"],"1F9D1-1F3FF-200D-1F9B2":["bald_person_tone5"],"1F471-1F3FB-200D-2640-FE0F":["blond_woman_tone1"],"1F471-1F3FC-200D-2640-FE0F":["blond_woman_tone2"],"1F471-1F3FD-200D-2640-FE0F":["blond_woman_tone3"],"1F471-1F3FE-200D-2640-FE0F":["blond_woman_tone4"],"1F471-1F3FF-200D-2640-FE0F":["blond_woman_tone5"],"1F471-1F3FB-200D-2642-FE0F":["blond_man_tone1"],"1F471-1F3FC-200D-2642-FE0F":["blond_man_tone2"],"1F471-1F3FD-200D-2642-FE0F":["blond_man_tone3"],"1F471-1F3FE-200D-2642-FE0F":["blond_man_tone4"],"1F471-1F3FF-200D-2642-FE0F":["blond_man_tone5"],"1F9D3-1F3FB":["older_adult_tone1"],"1F9D3-1F3FC":["older_adult_tone2"],"1F9D3-1F3FD":["older_adult_tone3"],"1F9D3-1F3FE":["older_adult_tone4"],"1F9D3-1F3FF":["older_adult_tone5"],"1F474-1F3FB":["older_man_tone1"],"1F474-1F3FC":["older_man_tone2"],"1F474-1F3FD":["older_man_tone3"],"1F474-1F3FE":["older_man_tone4"],"1F474-1F3FF":["older_man_tone5"],"1F475-1F3FB":["older_woman_tone1"],"1F475-1F3FC":["older_woman_tone2"],"1F475-1F3FD":["older_woman_tone3"],"1F475-1F3FE":["older_woman_tone4"],"1F475-1F3FF":["older_woman_tone5"],"1F64D-1F3FB":["person_frowning_tone1"],"1F64D-1F3FC":["person_frowning_tone2"],"1F64D-1F3FD":["person_frowning_tone3"],"1F64D-1F3FE":["person_frowning_tone4"],"1F64D-1F3FF":["person_frowning_tone5"],"1F64D-1F3FB-200D-2642-FE0F":["man_frowning_tone1"],"1F64D-1F3FC-200D-2642-FE0F":["man_frowning_tone2"],"1F64D-1F3FD-200D-2642-FE0F":["man_frowning_tone3"],"1F64D-1F3FE-200D-2642-FE0F":["man_frowning_tone4"],"1F64D-1F3FF-200D-2642-FE0F":["man_frowning_tone5"],"1F64D-1F3FB-200D-2640-FE0F":["woman_frowning_tone1"],"1F64D-1F3FC-200D-2640-FE0F":["woman_frowning_tone2"],"1F64D-1F3FD-200D-2640-FE0F":["woman_frowning_tone3"],"1F64D-1F3FE-200D-2640-FE0F":["woman_frowning_tone4"],"1F64D-1F3FF-200D-2640-FE0F":["woman_frowning_tone5"],"1F64E-1F3FB":["person_pouting_tone1"],"1F64E-1F3FC":["person_pouting_tone2"],"1F64E-1F3FD":["person_pouting_tone3"],"1F64E-1F3FE":["person_pouting_tone4"],"1F64E-1F3FF":["person_pouting_tone5"],"1F64E-1F3FB-200D-2642-FE0F":["man_pouting_tone1"],"1F64E-1F3FC-200D-2642-FE0F":["man_pouting_tone2"],"1F64E-1F3FD-200D-2642-FE0F":["man_pouting_tone3"],"1F64E-1F3FE-200D-2642-FE0F":["man_pouting_tone4"],"1F64E-1F3FF-200D-2642-FE0F":["man_pouting_tone5"],"1F64E-1F3FB-200D-2640-FE0F":["woman_pouting_tone1"],"1F64E-1F3FC-200D-2640-FE0F":["woman_pouting_tone2"],"1F64E-1F3FD-200D-2640-FE0F":["woman_pouting_tone3"],"1F64E-1F3FE-200D-2640-FE0F":["woman_pouting_tone4"],"1F64E-1F3FF-200D-2640-FE0F":["woman_pouting_tone5"],"1F645-1F3FB":["person_gesturing_no_tone1"],"1F645-1F3FC":["person_gesturing_no_tone2"],"1F645-1F3FD":["person_gesturing_no_tone3"],"1F645-1F3FE":["person_gesturing_no_tone4"],"1F645-1F3FF":["person_gesturing_no_tone5"],"1F645-1F3FB-200D-2642-FE0F":["man_gesturing_no_tone1"],"1F645-1F3FC-200D-2642-FE0F":["man_gesturing_no_tone2"],"1F645-1F3FD-200D-2642-FE0F":["man_gesturing_no_tone3"],"1F645-1F3FE-200D-2642-FE0F":["man_gesturing_no_tone4"],"1F645-1F3FF-200D-2642-FE0F":["man_gesturing_no_tone5"],"1F645-1F3FB-200D-2640-FE0F":["woman_gesturing_no_tone1"],"1F645-1F3FC-200D-2640-FE0F":["woman_gesturing_no_tone2"],"1F645-1F3FD-200D-2640-FE0F":["woman_gesturing_no_tone3"],"1F645-1F3FE-200D-2640-FE0F":["woman_gesturing_no_tone4"],"1F645-1F3FF-200D-2640-FE0F":["woman_gesturing_no_tone5"],"1F646-1F3FB":["person_gesturing_ok_tone1"],"1F646-1F3FC":["person_gesturing_ok_tone2"],"1F646-1F3FD":["person_gesturing_ok_tone3"],"1F646-1F3FE":["person_gesturing_ok_tone4"],"1F646-1F3FF":["person_gesturing_ok_tone5"],"1F646-1F3FB-200D-2642-FE0F":["man_gesturing_ok_tone1"],"1F646-1F3FC-200D-2642-FE0F":["man_gesturing_ok_tone2"],"1F646-1F3FD-200D-2642-FE0F":["man_gesturing_ok_tone3"],"1F646-1F3FE-200D-2642-FE0F":["man_gesturing_ok_tone4"],"1F646-1F3FF-200D-2642-FE0F":["man_gesturing_ok_tone5"],"1F646-1F3FB-200D-2640-FE0F":["woman_gesturing_ok_tone1"],"1F646-1F3FC-200D-2640-FE0F":["woman_gesturing_ok_tone2"],"1F646-1F3FD-200D-2640-FE0F":["woman_gesturing_ok_tone3"],"1F646-1F3FE-200D-2640-FE0F":["woman_gesturing_ok_tone4"],"1F646-1F3FF-200D-2640-FE0F":["woman_gesturing_ok_tone5"],"1F481-1F3FB":["person_tipping_hand_tone1"],"1F481-1F3FC":["person_tipping_hand_tone2"],"1F481-1F3FD":["person_tipping_hand_tone3"],"1F481-1F3FE":["person_tipping_hand_tone4"],"1F481-1F3FF":["person_tipping_hand_tone5"],"1F481-1F3FB-200D-2642-FE0F":["man_tipping_hand_tone1"],"1F481-1F3FC-200D-2642-FE0F":["man_tipping_hand_tone2"],"1F481-1F3FD-200D-2642-FE0F":["man_tipping_hand_tone3"],"1F481-1F3FE-200D-2642-FE0F":["man_tipping_hand_tone4"],"1F481-1F3FF-200D-2642-FE0F":["man_tipping_hand_tone5"],"1F481-1F3FB-200D-2640-FE0F":["woman_tipping_hand_tone1"],"1F481-1F3FC-200D-2640-FE0F":["woman_tipping_hand_tone2"],"1F481-1F3FD-200D-2640-FE0F":["woman_tipping_hand_tone3"],"1F481-1F3FE-200D-2640-FE0F":["woman_tipping_hand_tone4"],"1F481-1F3FF-200D-2640-FE0F":["woman_tipping_hand_tone5"],"1F64B-1F3FB":["person_raising_hand_tone1"],"1F64B-1F3FC":["person_raising_hand_tone2"],"1F64B-1F3FD":["person_raising_hand_tone3"],"1F64B-1F3FE":["person_raising_hand_tone4"],"1F64B-1F3FF":["person_raising_hand_tone5"],"1F64B-1F3FB-200D-2642-FE0F":["man_raising_hand_tone1"],"1F64B-1F3FC-200D-2642-FE0F":["man_raising_hand_tone2"],"1F64B-1F3FD-200D-2642-FE0F":["man_raising_hand_tone3"],"1F64B-1F3FE-200D-2642-FE0F":["man_raising_hand_tone4"],"1F64B-1F3FF-200D-2642-FE0F":["man_raising_hand_tone5"],"1F64B-1F3FB-200D-2640-FE0F":["woman_raising_hand_tone1"],"1F64B-1F3FC-200D-2640-FE0F":["woman_raising_hand_tone2"],"1F64B-1F3FD-200D-2640-FE0F":["woman_raising_hand_tone3"],"1F64B-1F3FE-200D-2640-FE0F":["woman_raising_hand_tone4"],"1F64B-1F3FF-200D-2640-FE0F":["woman_raising_hand_tone5"],"1F9CF-1F3FB":["person_deaf_tone1"],"1F9CF-1F3FC":["person_deaf_tone2"],"1F9CF-1F3FD":["person_deaf_tone3"],"1F9CF-1F3FE":["person_deaf_tone4"],"1F9CF-1F3FF":["person_deaf_tone5"],"1F9CF-1F3FB-200D-2642-FE0F":["man_deaf_tone1"],"1F9CF-1F3FC-200D-2642-FE0F":["man_deaf_tone2"],"1F9CF-1F3FD-200D-2642-FE0F":["man_deaf_tone3"],"1F9CF-1F3FE-200D-2642-FE0F":["man_deaf_tone4"],"1F9CF-1F3FF-200D-2642-FE0F":["man_deaf_tone5"],"1F9CF-1F3FB-200D-2640-FE0F":["woman_deaf_tone1"],"1F9CF-1F3FC-200D-2640-FE0F":["woman_deaf_tone2"],"1F9CF-1F3FD-200D-2640-FE0F":["woman_deaf_tone3"],"1F9CF-1F3FE-200D-2640-FE0F":["woman_deaf_tone4"],"1F9CF-1F3FF-200D-2640-FE0F":["woman_deaf_tone5"],"1F647-1F3FB":["person_bowing_tone1"],"1F647-1F3FC":["person_bowing_tone2"],"1F647-1F3FD":["person_bowing_tone3"],"1F647-1F3FE":["person_bowing_tone4"],"1F647-1F3FF":["person_bowing_tone5"],"1F647-1F3FB-200D-2642-FE0F":["man_bowing_tone1"],"1F647-1F3FC-200D-2642-FE0F":["man_bowing_tone2"],"1F647-1F3FD-200D-2642-FE0F":["man_bowing_tone3"],"1F647-1F3FE-200D-2642-FE0F":["man_bowing_tone4"],"1F647-1F3FF-200D-2642-FE0F":["man_bowing_tone5"],"1F647-1F3FB-200D-2640-FE0F":["woman_bowing_tone1"],"1F647-1F3FC-200D-2640-FE0F":["woman_bowing_tone2"],"1F647-1F3FD-200D-2640-FE0F":["woman_bowing_tone3"],"1F647-1F3FE-200D-2640-FE0F":["woman_bowing_tone4"],"1F647-1F3FF-200D-2640-FE0F":["woman_bowing_tone5"],"1F926-1F3FB":["person_facepalming_tone1"],"1F926-1F3FC":["person_facepalming_tone2"],"1F926-1F3FD":["person_facepalming_tone3"],"1F926-1F3FE":["person_facepalming_tone4"],"1F926-1F3FF":["person_facepalming_tone5"],"1F926-1F3FB-200D-2642-FE0F":["man_facepalming_tone1"],"1F926-1F3FC-200D-2642-FE0F":["man_facepalming_tone2"],"1F926-1F3FD-200D-2642-FE0F":["man_facepalming_tone3"],"1F926-1F3FE-200D-2642-FE0F":["man_facepalming_tone4"],"1F926-1F3FF-200D-2642-FE0F":["man_facepalming_tone5"],"1F926-1F3FB-200D-2640-FE0F":["woman_facepalming_tone1"],"1F926-1F3FC-200D-2640-FE0F":["woman_facepalming_tone2"],"1F926-1F3FD-200D-2640-FE0F":["woman_facepalming_tone3"],"1F926-1F3FE-200D-2640-FE0F":["woman_facepalming_tone4"],"1F926-1F3FF-200D-2640-FE0F":["woman_facepalming_tone5"],"1F937-1F3FB":["person_shrugging_tone1"],"1F937-1F3FC":["person_shrugging_tone2"],"1F937-1F3FD":["person_shrugging_tone3"],"1F937-1F3FE":["person_shrugging_tone4"],"1F937-1F3FF":["person_shrugging_tone5"],"1F937-1F3FB-200D-2642-FE0F":["man_shrugging_tone1"],"1F937-1F3FC-200D-2642-FE0F":["man_shrugging_tone2"],"1F937-1F3FD-200D-2642-FE0F":["man_shrugging_tone3"],"1F937-1F3FE-200D-2642-FE0F":["man_shrugging_tone4"],"1F937-1F3FF-200D-2642-FE0F":["man_shrugging_tone5"],"1F937-1F3FB-200D-2640-FE0F":["woman_shrugging_tone1"],"1F937-1F3FC-200D-2640-FE0F":["woman_shrugging_tone2"],"1F937-1F3FD-200D-2640-FE0F":["woman_shrugging_tone3"],"1F937-1F3FE-200D-2640-FE0F":["woman_shrugging_tone4"],"1F937-1F3FF-200D-2640-FE0F":["woman_shrugging_tone5"],"1F9D1-1F3FB-200D-2695-FE0F":["person_health_worker_tone1"],"1F9D1-1F3FC-200D-2695-FE0F":["person_health_worker_tone2"],"1F9D1-1F3FD-200D-2695-FE0F":["person_health_worker_tone3"],"1F9D1-1F3FE-200D-2695-FE0F":["person_health_worker_tone4"],"1F9D1-1F3FF-200D-2695-FE0F":["person_health_worker_tone5"],"1F468-1F3FB-200D-2695-FE0F":["man_health_worker_tone1"],"1F468-1F3FC-200D-2695-FE0F":["man_health_worker_tone2"],"1F468-1F3FD-200D-2695-FE0F":["man_health_worker_tone3"],"1F468-1F3FE-200D-2695-FE0F":["man_health_worker_tone4"],"1F468-1F3FF-200D-2695-FE0F":["man_health_worker_tone5"],"1F469-1F3FB-200D-2695-FE0F":["woman_health_worker_tone1"],"1F469-1F3FC-200D-2695-FE0F":["woman_health_worker_tone2"],"1F469-1F3FD-200D-2695-FE0F":["woman_health_worker_tone3"],"1F469-1F3FE-200D-2695-FE0F":["woman_health_worker_tone4"],"1F469-1F3FF-200D-2695-FE0F":["woman_health_worker_tone5"],"1F9D1-1F3FB-200D-1F393":["person_student_tone1"],"1F9D1-1F3FC-200D-1F393":["person_student_tone2"],"1F9D1-1F3FD-200D-1F393":["person_student_tone3"],"1F9D1-1F3FE-200D-1F393":["person_student_tone4"],"1F9D1-1F3FF-200D-1F393":["person_student_tone5"],"1F468-1F3FB-200D-1F393":["man_student_tone1"],"1F468-1F3FC-200D-1F393":["man_student_tone2"],"1F468-1F3FD-200D-1F393":["man_student_tone3"],"1F468-1F3FE-200D-1F393":["man_student_tone4"],"1F468-1F3FF-200D-1F393":["man_student_tone5"],"1F469-1F3FB-200D-1F393":["woman_student_tone1"],"1F469-1F3FC-200D-1F393":["woman_student_tone2"],"1F469-1F3FD-200D-1F393":["woman_student_tone3"],"1F469-1F3FE-200D-1F393":["woman_student_tone4"],"1F469-1F3FF-200D-1F393":["woman_student_tone5"],"1F9D1-1F3FB-200D-1F3EB":["person_teacher_tone1"],"1F9D1-1F3FC-200D-1F3EB":["person_teacher_tone2"],"1F9D1-1F3FD-200D-1F3EB":["person_teacher_tone3"],"1F9D1-1F3FE-200D-1F3EB":["person_teacher_tone4"],"1F9D1-1F3FF-200D-1F3EB":["person_teacher_tone5"],"1F468-1F3FB-200D-1F3EB":["man_teacher_tone1"],"1F468-1F3FC-200D-1F3EB":["man_teacher_tone2"],"1F468-1F3FD-200D-1F3EB":["man_teacher_tone3"],"1F468-1F3FE-200D-1F3EB":["man_teacher_tone4"],"1F468-1F3FF-200D-1F3EB":["man_teacher_tone5"],"1F469-1F3FB-200D-1F3EB":["woman_teacher_tone1"],"1F469-1F3FC-200D-1F3EB":["woman_teacher_tone2"],"1F469-1F3FD-200D-1F3EB":["woman_teacher_tone3"],"1F469-1F3FE-200D-1F3EB":["woman_teacher_tone4"],"1F469-1F3FF-200D-1F3EB":["woman_teacher_tone5"],"1F9D1-1F3FB-200D-2696-FE0F":["person_judge_tone1"],"1F9D1-1F3FC-200D-2696-FE0F":["person_judge_tone2"],"1F9D1-1F3FD-200D-2696-FE0F":["person_judge_tone3"],"1F9D1-1F3FE-200D-2696-FE0F":["person_judge_tone4"],"1F9D1-1F3FF-200D-2696-FE0F":["person_judge_tone5"],"1F468-1F3FB-200D-2696-FE0F":["man_judge_tone1"],"1F468-1F3FC-200D-2696-FE0F":["man_judge_tone2"],"1F468-1F3FD-200D-2696-FE0F":["man_judge_tone3"],"1F468-1F3FE-200D-2696-FE0F":["man_judge_tone4"],"1F468-1F3FF-200D-2696-FE0F":["man_judge_tone5"],"1F469-1F3FB-200D-2696-FE0F":["woman_judge_tone1"],"1F469-1F3FC-200D-2696-FE0F":["woman_judge_tone2"],"1F469-1F3FD-200D-2696-FE0F":["woman_judge_tone3"],"1F469-1F3FE-200D-2696-FE0F":["woman_judge_tone4"],"1F469-1F3FF-200D-2696-FE0F":["woman_judge_tone5"],"1F9D1-1F3FB-200D-1F33E":["person_farmer_tone1"],"1F9D1-1F3FC-200D-1F33E":["person_farmer_tone2"],"1F9D1-1F3FD-200D-1F33E":["person_farmer_tone3"],"1F9D1-1F3FE-200D-1F33E":["person_farmer_tone4"],"1F9D1-1F3FF-200D-1F33E":["person_farmer_tone5"],"1F468-1F3FB-200D-1F33E":["man_farmer_tone1"],"1F468-1F3FC-200D-1F33E":["man_farmer_tone2"],"1F468-1F3FD-200D-1F33E":["man_farmer_tone3"],"1F468-1F3FE-200D-1F33E":["man_farmer_tone4"],"1F468-1F3FF-200D-1F33E":["man_farmer_tone5"],"1F469-1F3FB-200D-1F33E":["woman_farmer_tone1"],"1F469-1F3FC-200D-1F33E":["woman_farmer_tone2"],"1F469-1F3FD-200D-1F33E":["woman_farmer_tone3"],"1F469-1F3FE-200D-1F33E":["woman_farmer_tone4"],"1F469-1F3FF-200D-1F33E":["woman_farmer_tone5"],"1F9D1-1F3FB-200D-1F373":["person_cook_tone1"],"1F9D1-1F3FC-200D-1F373":["person_cook_tone2"],"1F9D1-1F3FD-200D-1F373":["person_cook_tone3"],"1F9D1-1F3FE-200D-1F373":["person_cook_tone4"],"1F9D1-1F3FF-200D-1F373":["person_cook_tone5"],"1F468-1F3FB-200D-1F373":["man_cook_tone1"],"1F468-1F3FC-200D-1F373":["man_cook_tone2"],"1F468-1F3FD-200D-1F373":["man_cook_tone3"],"1F468-1F3FE-200D-1F373":["man_cook_tone4"],"1F468-1F3FF-200D-1F373":["man_cook_tone5"],"1F469-1F3FB-200D-1F373":["woman_cook_tone1"],"1F469-1F3FC-200D-1F373":["woman_cook_tone2"],"1F469-1F3FD-200D-1F373":["woman_cook_tone3"],"1F469-1F3FE-200D-1F373":["woman_cook_tone4"],"1F469-1F3FF-200D-1F373":["woman_cook_tone5"],"1F9D1-1F3FB-200D-1F527":["person_mechanic_tone1"],"1F9D1-1F3FC-200D-1F527":["person_mechanic_tone2"],"1F9D1-1F3FD-200D-1F527":["person_mechanic_tone3"],"1F9D1-1F3FE-200D-1F527":["person_mechanic_tone4"],"1F9D1-1F3FF-200D-1F527":["person_mechanic_tone5"],"1F468-1F3FB-200D-1F527":["man_mechanic_tone1"],"1F468-1F3FC-200D-1F527":["man_mechanic_tone2"],"1F468-1F3FD-200D-1F527":["man_mechanic_tone3"],"1F468-1F3FE-200D-1F527":["man_mechanic_tone4"],"1F468-1F3FF-200D-1F527":["man_mechanic_tone5"],"1F469-1F3FB-200D-1F527":["woman_mechanic_tone1"],"1F469-1F3FC-200D-1F527":["woman_mechanic_tone2"],"1F469-1F3FD-200D-1F527":["woman_mechanic_tone3"],"1F469-1F3FE-200D-1F527":["woman_mechanic_tone4"],"1F469-1F3FF-200D-1F527":["woman_mechanic_tone5"],"1F9D1-1F3FB-200D-1F3ED":["person_factory_worker_tone1"],"1F9D1-1F3FC-200D-1F3ED":["person_factory_worker_tone2"],"1F9D1-1F3FD-200D-1F3ED":["person_factory_worker_tone3"],"1F9D1-1F3FE-200D-1F3ED":["person_factory_worker_tone4"],"1F9D1-1F3FF-200D-1F3ED":["person_factory_worker_tone5"],"1F468-1F3FB-200D-1F3ED":["man_factory_worker_tone1"],"1F468-1F3FC-200D-1F3ED":["man_factory_worker_tone2"],"1F468-1F3FD-200D-1F3ED":["man_factory_worker_tone3"],"1F468-1F3FE-200D-1F3ED":["man_factory_worker_tone4"],"1F468-1F3FF-200D-1F3ED":["man_factory_worker_tone5"],"1F469-1F3FB-200D-1F3ED":["woman_factory_worker_tone1"],"1F469-1F3FC-200D-1F3ED":["woman_factory_worker_tone2"],"1F469-1F3FD-200D-1F3ED":["woman_factory_worker_tone3"],"1F469-1F3FE-200D-1F3ED":["woman_factory_worker_tone4"],"1F469-1F3FF-200D-1F3ED":["woman_factory_worker_tone5"],"1F9D1-1F3FB-200D-1F4BC":["person_office_worker_tone1"],"1F9D1-1F3FC-200D-1F4BC":["person_office_worker_tone2"],"1F9D1-1F3FD-200D-1F4BC":["person_office_worker_tone3"],"1F9D1-1F3FE-200D-1F4BC":["person_office_worker_tone4"],"1F9D1-1F3FF-200D-1F4BC":["person_office_worker_tone5"],"1F468-1F3FB-200D-1F4BC":["man_office_worker_tone1"],"1F468-1F3FC-200D-1F4BC":["man_office_worker_tone2"],"1F468-1F3FD-200D-1F4BC":["man_office_worker_tone3"],"1F468-1F3FE-200D-1F4BC":["man_office_worker_tone4"],"1F468-1F3FF-200D-1F4BC":["man_office_worker_tone5"],"1F469-1F3FB-200D-1F4BC":["woman_office_worker_tone1"],"1F469-1F3FC-200D-1F4BC":["woman_office_worker_tone2"],"1F469-1F3FD-200D-1F4BC":["woman_office_worker_tone3"],"1F469-1F3FE-200D-1F4BC":["woman_office_worker_tone4"],"1F469-1F3FF-200D-1F4BC":["woman_office_worker_tone5"],"1F9D1-1F3FB-200D-1F52C":["person_scientist_tone1"],"1F9D1-1F3FC-200D-1F52C":["person_scientist_tone2"],"1F9D1-1F3FD-200D-1F52C":["person_scientist_tone3"],"1F9D1-1F3FE-200D-1F52C":["person_scientist_tone4"],"1F9D1-1F3FF-200D-1F52C":["person_scientist_tone5"],"1F468-1F3FB-200D-1F52C":["man_scientist_tone1"],"1F468-1F3FC-200D-1F52C":["man_scientist_tone2"],"1F468-1F3FD-200D-1F52C":["man_scientist_tone3"],"1F468-1F3FE-200D-1F52C":["man_scientist_tone4"],"1F468-1F3FF-200D-1F52C":["man_scientist_tone5"],"1F469-1F3FB-200D-1F52C":["woman_scientist_tone1"],"1F469-1F3FC-200D-1F52C":["woman_scientist_tone2"],"1F469-1F3FD-200D-1F52C":["woman_scientist_tone3"],"1F469-1F3FE-200D-1F52C":["woman_scientist_tone4"],"1F469-1F3FF-200D-1F52C":["woman_scientist_tone5"],"1F9D1-1F3FB-200D-1F4BB":["person_technologist_tone1"],"1F9D1-1F3FC-200D-1F4BB":["person_technologist_tone2"],"1F9D1-1F3FD-200D-1F4BB":["person_technologist_tone3"],"1F9D1-1F3FE-200D-1F4BB":["person_technologist_tone4"],"1F9D1-1F3FF-200D-1F4BB":["person_technologist_tone5"],"1F468-1F3FB-200D-1F4BB":["man_technologist_tone1"],"1F468-1F3FC-200D-1F4BB":["man_technologist_tone2"],"1F468-1F3FD-200D-1F4BB":["man_technologist_tone3"],"1F468-1F3FE-200D-1F4BB":["man_technologist_tone4"],"1F468-1F3FF-200D-1F4BB":["man_technologist_tone5"],"1F469-1F3FB-200D-1F4BB":["woman_technologist_tone1"],"1F469-1F3FC-200D-1F4BB":["woman_technologist_tone2"],"1F469-1F3FD-200D-1F4BB":["woman_technologist_tone3"],"1F469-1F3FE-200D-1F4BB":["woman_technologist_tone4"],"1F469-1F3FF-200D-1F4BB":["woman_technologist_tone5"],"1F9D1-1F3FB-200D-1F3A4":["person_singer_tone1"],"1F9D1-1F3FC-200D-1F3A4":["person_singer_tone2"],"1F9D1-1F3FD-200D-1F3A4":["person_singer_tone3"],"1F9D1-1F3FE-200D-1F3A4":["person_singer_tone4"],"1F9D1-1F3FF-200D-1F3A4":["person_singer_tone5"],"1F468-1F3FB-200D-1F3A4":["man_singer_tone1"],"1F468-1F3FC-200D-1F3A4":["man_singer_tone2"],"1F468-1F3FD-200D-1F3A4":["man_singer_tone3"],"1F468-1F3FE-200D-1F3A4":["man_singer_tone4"],"1F468-1F3FF-200D-1F3A4":["man_singer_tone5"],"1F469-1F3FB-200D-1F3A4":["woman_singer_tone1"],"1F469-1F3FC-200D-1F3A4":["woman_singer_tone2"],"1F469-1F3FD-200D-1F3A4":["woman_singer_tone3"],"1F469-1F3FE-200D-1F3A4":["woman_singer_tone4"],"1F469-1F3FF-200D-1F3A4":["woman_singer_tone5"],"1F9D1-1F3FB-200D-1F3A8":["person_artist_tone1"],"1F9D1-1F3FC-200D-1F3A8":["person_artist_tone2"],"1F9D1-1F3FD-200D-1F3A8":["person_artist_tone3"],"1F9D1-1F3FE-200D-1F3A8":["person_artist_tone4"],"1F9D1-1F3FF-200D-1F3A8":["person_artist_tone5"],"1F468-1F3FB-200D-1F3A8":["man_artist_tone1"],"1F468-1F3FC-200D-1F3A8":["man_artist_tone2"],"1F468-1F3FD-200D-1F3A8":["man_artist_tone3"],"1F468-1F3FE-200D-1F3A8":["man_artist_tone4"],"1F468-1F3FF-200D-1F3A8":["man_artist_tone5"],"1F469-1F3FB-200D-1F3A8":["woman_artist_tone1"],"1F469-1F3FC-200D-1F3A8":["woman_artist_tone2"],"1F469-1F3FD-200D-1F3A8":["woman_artist_tone3"],"1F469-1F3FE-200D-1F3A8":["woman_artist_tone4"],"1F469-1F3FF-200D-1F3A8":["woman_artist_tone5"],"1F9D1-1F3FB-200D-2708-FE0F":["person_pilot_tone1"],"1F9D1-1F3FC-200D-2708-FE0F":["person_pilot_tone2"],"1F9D1-1F3FD-200D-2708-FE0F":["person_pilot_tone3"],"1F9D1-1F3FE-200D-2708-FE0F":["person_pilot_tone4"],"1F9D1-1F3FF-200D-2708-FE0F":["person_pilot_tone5"],"1F468-1F3FB-200D-2708-FE0F":["man_pilot_tone1"],"1F468-1F3FC-200D-2708-FE0F":["man_pilot_tone2"],"1F468-1F3FD-200D-2708-FE0F":["man_pilot_tone3"],"1F468-1F3FE-200D-2708-FE0F":["man_pilot_tone4"],"1F468-1F3FF-200D-2708-FE0F":["man_pilot_tone5"],"1F469-1F3FB-200D-2708-FE0F":["woman_pilot_tone1"],"1F469-1F3FC-200D-2708-FE0F":["woman_pilot_tone2"],"1F469-1F3FD-200D-2708-FE0F":["woman_pilot_tone3"],"1F469-1F3FE-200D-2708-FE0F":["woman_pilot_tone4"],"1F469-1F3FF-200D-2708-FE0F":["woman_pilot_tone5"],"1F9D1-1F3FB-200D-1F680":["person_astronaut_tone1"],"1F9D1-1F3FC-200D-1F680":["person_astronaut_tone2"],"1F9D1-1F3FD-200D-1F680":["person_astronaut_tone3"],"1F9D1-1F3FE-200D-1F680":["person_astronaut_tone4"],"1F9D1-1F3FF-200D-1F680":["person_astronaut_tone5"],"1F468-1F3FB-200D-1F680":["man_astronaut_tone1"],"1F468-1F3FC-200D-1F680":["man_astronaut_tone2"],"1F468-1F3FD-200D-1F680":["man_astronaut_tone3"],"1F468-1F3FE-200D-1F680":["man_astronaut_tone4"],"1F468-1F3FF-200D-1F680":["man_astronaut_tone5"],"1F469-1F3FB-200D-1F680":["woman_astronaut_tone1"],"1F469-1F3FC-200D-1F680":["woman_astronaut_tone2"],"1F469-1F3FD-200D-1F680":["woman_astronaut_tone3"],"1F469-1F3FE-200D-1F680":["woman_astronaut_tone4"],"1F469-1F3FF-200D-1F680":["woman_astronaut_tone5"],"1F9D1-1F3FB-200D-1F692":["person_firefighter_tone1"],"1F9D1-1F3FC-200D-1F692":["person_firefighter_tone2"],"1F9D1-1F3FD-200D-1F692":["person_firefighter_tone3"],"1F9D1-1F3FE-200D-1F692":["person_firefighter_tone4"],"1F9D1-1F3FF-200D-1F692":["person_firefighter_tone5"],"1F468-1F3FB-200D-1F692":["man_firefighter_tone1"],"1F468-1F3FC-200D-1F692":["man_firefighter_tone2"],"1F468-1F3FD-200D-1F692":["man_firefighter_tone3"],"1F468-1F3FE-200D-1F692":["man_firefighter_tone4"],"1F468-1F3FF-200D-1F692":["man_firefighter_tone5"],"1F469-1F3FB-200D-1F692":["woman_firefighter_tone1"],"1F469-1F3FC-200D-1F692":["woman_firefighter_tone2"],"1F469-1F3FD-200D-1F692":["woman_firefighter_tone3"],"1F469-1F3FE-200D-1F692":["woman_firefighter_tone4"],"1F469-1F3FF-200D-1F692":["woman_firefighter_tone5"],"1F46E-1F3FB":["police_officer_tone1"],"1F46E-1F3FC":["police_officer_tone2"],"1F46E-1F3FD":["police_officer_tone3"],"1F46E-1F3FE":["police_officer_tone4"],"1F46E-1F3FF":["police_officer_tone5"],"1F46E-1F3FB-200D-2642-FE0F":["man_police_officer_tone1"],"1F46E-1F3FC-200D-2642-FE0F":["man_police_officer_tone2"],"1F46E-1F3FD-200D-2642-FE0F":["man_police_officer_tone3"],"1F46E-1F3FE-200D-2642-FE0F":["man_police_officer_tone4"],"1F46E-1F3FF-200D-2642-FE0F":["man_police_officer_tone5"],"1F46E-1F3FB-200D-2640-FE0F":["woman_police_officer_tone1"],"1F46E-1F3FC-200D-2640-FE0F":["woman_police_officer_tone2"],"1F46E-1F3FD-200D-2640-FE0F":["woman_police_officer_tone3"],"1F46E-1F3FE-200D-2640-FE0F":["woman_police_officer_tone4"],"1F46E-1F3FF-200D-2640-FE0F":["woman_police_officer_tone5"],"1F575-1F3FB":["detective_tone1"],"1F575-1F3FC":["detective_tone2"],"1F575-1F3FD":["detective_tone3"],"1F575-1F3FE":["detective_tone4"],"1F575-1F3FF":["detective_tone5"],"1F575-1F3FB-200D-2642-FE0F":["man_detective_tone1"],"1F575-1F3FC-200D-2642-FE0F":["man_detective_tone2"],"1F575-1F3FD-200D-2642-FE0F":["man_detective_tone3"],"1F575-1F3FE-200D-2642-FE0F":["man_detective_tone4"],"1F575-1F3FF-200D-2642-FE0F":["man_detective_tone5"],"1F575-1F3FB-200D-2640-FE0F":["woman_detective_tone1"],"1F575-1F3FC-200D-2640-FE0F":["woman_detective_tone2"],"1F575-1F3FD-200D-2640-FE0F":["woman_detective_tone3"],"1F575-1F3FE-200D-2640-FE0F":["woman_detective_tone4"],"1F575-1F3FF-200D-2640-FE0F":["woman_detective_tone5"],"1F482-1F3FB":["guard_tone1"],"1F482-1F3FC":["guard_tone2"],"1F482-1F3FD":["guard_tone3"],"1F482-1F3FE":["guard_tone4"],"1F482-1F3FF":["guard_tone5"],"1F482-1F3FB-200D-2642-FE0F":["man_guard_tone1"],"1F482-1F3FC-200D-2642-FE0F":["man_guard_tone2"],"1F482-1F3FD-200D-2642-FE0F":["man_guard_tone3"],"1F482-1F3FE-200D-2642-FE0F":["man_guard_tone4"],"1F482-1F3FF-200D-2642-FE0F":["man_guard_tone5"],"1F482-1F3FB-200D-2640-FE0F":["woman_guard_tone1"],"1F482-1F3FC-200D-2640-FE0F":["woman_guard_tone2"],"1F482-1F3FD-200D-2640-FE0F":["woman_guard_tone3"],"1F482-1F3FE-200D-2640-FE0F":["woman_guard_tone4"],"1F482-1F3FF-200D-2640-FE0F":["woman_guard_tone5"],"1F977-1F3FB":["ninja_tone1"],"1F977-1F3FC":["ninja_tone2"],"1F977-1F3FD":["ninja_tone3"],"1F977-1F3FE":["ninja_tone4"],"1F977-1F3FF":["ninja_tone5"],"1F477-1F3FB":["construction_worker_tone1"],"1F477-1F3FC":["construction_worker_tone2"],"1F477-1F3FD":["construction_worker_tone3"],"1F477-1F3FE":["construction_worker_tone4"],"1F477-1F3FF":["construction_worker_tone5"],"1F477-1F3FB-200D-2642-FE0F":["man_construction_worker_tone1"],"1F477-1F3FC-200D-2642-FE0F":["man_construction_worker_tone2"],"1F477-1F3FD-200D-2642-FE0F":["man_construction_worker_tone3"],"1F477-1F3FE-200D-2642-FE0F":["man_construction_worker_tone4"],"1F477-1F3FF-200D-2642-FE0F":["man_construction_worker_tone5"],"1F477-1F3FB-200D-2640-FE0F":["woman_construction_worker_tone1"],"1F477-1F3FC-200D-2640-FE0F":["woman_construction_worker_tone2"],"1F477-1F3FD-200D-2640-FE0F":["woman_construction_worker_tone3"],"1F477-1F3FE-200D-2640-FE0F":["woman_construction_worker_tone4"],"1F477-1F3FF-200D-2640-FE0F":["woman_construction_worker_tone5"],"1FAC5-1F3FB":["person_with_crown_tone1","royalty_tone1"],"1FAC5-1F3FC":["person_with_crown_tone2","royalty_tone2"],"1FAC5-1F3FD":["person_with_crown_tone3","royalty_tone3"],"1FAC5-1F3FE":["person_with_crown_tone4","royalty_tone4"],"1FAC5-1F3FF":["person_with_crown_tone5","royalty_tone5"],"1F934-1F3FB":["prince_tone1"],"1F934-1F3FC":["prince_tone2"],"1F934-1F3FD":["prince_tone3"],"1F934-1F3FE":["prince_tone4"],"1F934-1F3FF":["prince_tone5"],"1F478-1F3FB":["princess_tone1"],"1F478-1F3FC":["princess_tone2"],"1F478-1F3FD":["princess_tone3"],"1F478-1F3FE":["princess_tone4"],"1F478-1F3FF":["princess_tone5"],"1F473-1F3FB":["person_turban_tone1"],"1F473-1F3FC":["person_turban_tone2"],"1F473-1F3FD":["person_turban_tone3"],"1F473-1F3FE":["person_turban_tone4"],"1F473-1F3FF":["person_turban_tone5"],"1F473-1F3FB-200D-2642-FE0F":["man_turban_tone1"],"1F473-1F3FC-200D-2642-FE0F":["man_turban_tone2"],"1F473-1F3FD-200D-2642-FE0F":["man_turban_tone3"],"1F473-1F3FE-200D-2642-FE0F":["man_turban_tone4"],"1F473-1F3FF-200D-2642-FE0F":["man_turban_tone5"],"1F473-1F3FB-200D-2640-FE0F":["woman_turban_tone1"],"1F473-1F3FC-200D-2640-FE0F":["woman_turban_tone2"],"1F473-1F3FD-200D-2640-FE0F":["woman_turban_tone3"],"1F473-1F3FE-200D-2640-FE0F":["woman_turban_tone4"],"1F473-1F3FF-200D-2640-FE0F":["woman_turban_tone5"],"1F472-1F3FB":["man_chinese_cap_tone1"],"1F472-1F3FC":["man_chinese_cap_tone2"],"1F472-1F3FD":["man_chinese_cap_tone3"],"1F472-1F3FE":["man_chinese_cap_tone4"],"1F472-1F3FF":["man_chinese_cap_tone5"],"1F9D5-1F3FB":["woman_headscarf_tone1"],"1F9D5-1F3FC":["woman_headscarf_tone2"],"1F9D5-1F3FD":["woman_headscarf_tone3"],"1F9D5-1F3FE":["woman_headscarf_tone4"],"1F9D5-1F3FF":["woman_headscarf_tone5"],"1F935-1F3FB":["man_tuxedo_tone1"],"1F935-1F3FC":["man_tuxedo_tone2"],"1F935-1F3FD":["man_tuxedo_tone3"],"1F935-1F3FE":["man_tuxedo_tone4"],"1F935-1F3FF":["man_tuxedo_tone5"],"1F935-1F3FB-200D-2642-FE0F":["man_in_tuxedo_tone1"],"1F935-1F3FC-200D-2642-FE0F":["man_in_tuxedo_tone2"],"1F935-1F3FD-200D-2642-FE0F":["man_in_tuxedo_tone3"],"1F935-1F3FE-200D-2642-FE0F":["man_in_tuxedo_tone4"],"1F935-1F3FF-200D-2642-FE0F":["man_in_tuxedo_tone5"],"1F935-1F3FB-200D-2640-FE0F":["woman_in_tuxedo_tone1"],"1F935-1F3FC-200D-2640-FE0F":["woman_in_tuxedo_tone2"],"1F935-1F3FD-200D-2640-FE0F":["woman_in_tuxedo_tone3"],"1F935-1F3FE-200D-2640-FE0F":["woman_in_tuxedo_tone4"],"1F935-1F3FF-200D-2640-FE0F":["woman_in_tuxedo_tone5"],"1F470-1F3FB":["person_veiled_bride_tone1","bride_veil_tone1"],"1F470-1F3FC":["person_veiled_bride_tone2","bride_veil_tone2"],"1F470-1F3FD":["person_veiled_bride_tone3","bride_veil_tone3"],"1F470-1F3FE":["person_veiled_bride_tone4","bride_veil_tone4"],"1F470-1F3FF":["person_veiled_bride_tone5","bride_veil_tone5"],"1F470-1F3FB-200D-2642-FE0F":["man_veiled_bride_tone1"],"1F470-1F3FC-200D-2642-FE0F":["man_veiled_bride_tone2"],"1F470-1F3FD-200D-2642-FE0F":["man_veiled_bride_tone3"],"1F470-1F3FE-200D-2642-FE0F":["man_veiled_bride_tone4"],"1F470-1F3FF-200D-2642-FE0F":["man_veiled_bride_tone5"],"1F470-1F3FB-200D-2640-FE0F":["woman_veiled_bride_tone1"],"1F470-1F3FC-200D-2640-FE0F":["woman_veiled_bride_tone2"],"1F470-1F3FD-200D-2640-FE0F":["woman_veiled_bride_tone3"],"1F470-1F3FE-200D-2640-FE0F":["woman_veiled_bride_tone4"],"1F470-1F3FF-200D-2640-FE0F":["woman_veiled_bride_tone5"],"1F930-1F3FB":["pregnant_woman_tone1"],"1F930-1F3FC":["pregnant_woman_tone2"],"1F930-1F3FD":["pregnant_woman_tone3"],"1F930-1F3FE":["pregnant_woman_tone4"],"1F930-1F3FF":["pregnant_woman_tone5"],"1FAC3-1F3FB":["pregnant_man_tone1"],"1FAC3-1F3FC":["pregnant_man_tone2"],"1FAC3-1F3FD":["pregnant_man_tone3"],"1FAC3-1F3FE":["pregnant_man_tone4"],"1FAC3-1F3FF":["pregnant_man_tone5"],"1FAC4-1F3FB":["pregnant_person_tone1"],"1FAC4-1F3FC":["pregnant_person_tone2"],"1FAC4-1F3FD":["pregnant_person_tone3"],"1FAC4-1F3FE":["pregnant_person_tone4"],"1FAC4-1F3FF":["pregnant_person_tone5"],"1F931-1F3FB":["breast_feeding_tone1"],"1F931-1F3FC":["breast_feeding_tone2"],"1F931-1F3FD":["breast_feeding_tone3"],"1F931-1F3FE":["breast_feeding_tone4"],"1F931-1F3FF":["breast_feeding_tone5"],"1F469-1F3FB-200D-1F37C":["woman_feeding_baby_tone1"],"1F469-1F3FC-200D-1F37C":["woman_feeding_baby_tone2"],"1F469-1F3FD-200D-1F37C":["woman_feeding_baby_tone3"],"1F469-1F3FE-200D-1F37C":["woman_feeding_baby_tone4"],"1F469-1F3FF-200D-1F37C":["woman_feeding_baby_tone5"],"1F468-1F3FB-200D-1F37C":["man_feeding_baby_tone1"],"1F468-1F3FC-200D-1F37C":["man_feeding_baby_tone2"],"1F468-1F3FD-200D-1F37C":["man_feeding_baby_tone3"],"1F468-1F3FE-200D-1F37C":["man_feeding_baby_tone4"],"1F468-1F3FF-200D-1F37C":["man_feeding_baby_tone5"],"1F9D1-1F3FB-200D-1F37C":["person_feeding_baby_tone1"],"1F9D1-1F3FC-200D-1F37C":["person_feeding_baby_tone2"],"1F9D1-1F3FD-200D-1F37C":["person_feeding_baby_tone3"],"1F9D1-1F3FE-200D-1F37C":["person_feeding_baby_tone4"],"1F9D1-1F3FF-200D-1F37C":["person_feeding_baby_tone5"],"1F47C-1F3FB":["baby_angel_tone1"],"1F47C-1F3FC":["baby_angel_tone2"],"1F47C-1F3FD":["baby_angel_tone3"],"1F47C-1F3FE":["baby_angel_tone4"],"1F47C-1F3FF":["baby_angel_tone5"],"1F385-1F3FB":["santa_tone1"],"1F385-1F3FC":["santa_tone2"],"1F385-1F3FD":["santa_tone3"],"1F385-1F3FE":["santa_tone4"],"1F385-1F3FF":["santa_tone5"],"1F936-1F3FB":["mrs_claus_tone1"],"1F936-1F3FC":["mrs_claus_tone2"],"1F936-1F3FD":["mrs_claus_tone3"],"1F936-1F3FE":["mrs_claus_tone4"],"1F936-1F3FF":["mrs_claus_tone5"],"1F9D1-1F3FB-200D-1F384":["mx_claus_tone1"],"1F9D1-1F3FC-200D-1F384":["mx_claus_tone2"],"1F9D1-1F3FD-200D-1F384":["mx_claus_tone3"],"1F9D1-1F3FE-200D-1F384":["mx_claus_tone4"],"1F9D1-1F3FF-200D-1F384":["mx_claus_tone5"],"1F9B8-1F3FB":["hero_tone1","superhero_tone1"],"1F9B8-1F3FC":["hero_tone2","superhero_tone2"],"1F9B8-1F3FD":["hero_tone3","superhero_tone3"],"1F9B8-1F3FE":["hero_tone4","superhero_tone4"],"1F9B8-1F3FF":["hero_tone5","superhero_tone5"],"1F9B8-1F3FB-200D-2642-FE0F":["man_hero_tone1"],"1F9B8-1F3FC-200D-2642-FE0F":["man_hero_tone2"],"1F9B8-1F3FD-200D-2642-FE0F":["man_hero_tone3"],"1F9B8-1F3FE-200D-2642-FE0F":["man_hero_tone4"],"1F9B8-1F3FF-200D-2642-FE0F":["man_hero_tone5"],"1F9B8-1F3FB-200D-2640-FE0F":["woman_hero_tone1"],"1F9B8-1F3FC-200D-2640-FE0F":["woman_hero_tone2"],"1F9B8-1F3FD-200D-2640-FE0F":["woman_hero_tone3"],"1F9B8-1F3FE-200D-2640-FE0F":["woman_hero_tone4"],"1F9B8-1F3FF-200D-2640-FE0F":["woman_hero_tone5"],"1F9B9-1F3FB":["villain_tone1","supervillain_tone1"],"1F9B9-1F3FC":["villain_tone2","supervillain_tone2"],"1F9B9-1F3FD":["villain_tone3","supervillain_tone3"],"1F9B9-1F3FE":["villain_tone4","supervillain_tone4"],"1F9B9-1F3FF":["villain_tone5","supervillain_tone5"],"1F9B9-1F3FB-200D-2642-FE0F":["man_villain_tone1"],"1F9B9-1F3FC-200D-2642-FE0F":["man_villain_tone2"],"1F9B9-1F3FD-200D-2642-FE0F":["man_villain_tone3"],"1F9B9-1F3FE-200D-2642-FE0F":["man_villain_tone4"],"1F9B9-1F3FF-200D-2642-FE0F":["man_villain_tone5"],"1F9B9-1F3FB-200D-2640-FE0F":["woman_villain_tone1"],"1F9B9-1F3FC-200D-2640-FE0F":["woman_villain_tone2"],"1F9B9-1F3FD-200D-2640-FE0F":["woman_villain_tone3"],"1F9B9-1F3FE-200D-2640-FE0F":["woman_villain_tone4"],"1F9B9-1F3FF-200D-2640-FE0F":["woman_villain_tone5"],"1F9D9-1F3FB":["mage_tone1"],"1F9D9-1F3FC":["mage_tone2"],"1F9D9-1F3FD":["mage_tone3"],"1F9D9-1F3FE":["mage_tone4"],"1F9D9-1F3FF":["mage_tone5"],"1F9D9-1F3FB-200D-2642-FE0F":["man_mage_tone1"],"1F9D9-1F3FC-200D-2642-FE0F":["man_mage_tone2"],"1F9D9-1F3FD-200D-2642-FE0F":["man_mage_tone3"],"1F9D9-1F3FE-200D-2642-FE0F":["man_mage_tone4"],"1F9D9-1F3FF-200D-2642-FE0F":["man_mage_tone5"],"1F9D9-1F3FB-200D-2640-FE0F":["woman_mage_tone1"],"1F9D9-1F3FC-200D-2640-FE0F":["woman_mage_tone2"],"1F9D9-1F3FD-200D-2640-FE0F":["woman_mage_tone3"],"1F9D9-1F3FE-200D-2640-FE0F":["woman_mage_tone4"],"1F9D9-1F3FF-200D-2640-FE0F":["woman_mage_tone5"],"1F9DA-1F3FB":["fairy_tone1"],"1F9DA-1F3FC":["fairy_tone2"],"1F9DA-1F3FD":["fairy_tone3"],"1F9DA-1F3FE":["fairy_tone4"],"1F9DA-1F3FF":["fairy_tone5"],"1F9DA-1F3FB-200D-2642-FE0F":["man_fairy_tone1"],"1F9DA-1F3FC-200D-2642-FE0F":["man_fairy_tone2"],"1F9DA-1F3FD-200D-2642-FE0F":["man_fairy_tone3"],"1F9DA-1F3FE-200D-2642-FE0F":["man_fairy_tone4"],"1F9DA-1F3FF-200D-2642-FE0F":["man_fairy_tone5"],"1F9DA-1F3FB-200D-2640-FE0F":["woman_fairy_tone1"],"1F9DA-1F3FC-200D-2640-FE0F":["woman_fairy_tone2"],"1F9DA-1F3FD-200D-2640-FE0F":["woman_fairy_tone3"],"1F9DA-1F3FE-200D-2640-FE0F":["woman_fairy_tone4"],"1F9DA-1F3FF-200D-2640-FE0F":["woman_fairy_tone5"],"1F9DB-1F3FB":["vampire_tone1"],"1F9DB-1F3FC":["vampire_tone2"],"1F9DB-1F3FD":["vampire_tone3"],"1F9DB-1F3FE":["vampire_tone4"],"1F9DB-1F3FF":["vampire_tone5"],"1F9DB-1F3FB-200D-2642-FE0F":["man_vampire_tone1"],"1F9DB-1F3FC-200D-2642-FE0F":["man_vampire_tone2"],"1F9DB-1F3FD-200D-2642-FE0F":["man_vampire_tone3"],"1F9DB-1F3FE-200D-2642-FE0F":["man_vampire_tone4"],"1F9DB-1F3FF-200D-2642-FE0F":["man_vampire_tone5"],"1F9DB-1F3FB-200D-2640-FE0F":["woman_vampire_tone1"],"1F9DB-1F3FC-200D-2640-FE0F":["woman_vampire_tone2"],"1F9DB-1F3FD-200D-2640-FE0F":["woman_vampire_tone3"],"1F9DB-1F3FE-200D-2640-FE0F":["woman_vampire_tone4"],"1F9DB-1F3FF-200D-2640-FE0F":["woman_vampire_tone5"],"1F9DC-1F3FB":["merperson_tone1"],"1F9DC-1F3FC":["merperson_tone2"],"1F9DC-1F3FD":["merperson_tone3"],"1F9DC-1F3FE":["merperson_tone4"],"1F9DC-1F3FF":["merperson_tone5"],"1F9DC-1F3FB-200D-2642-FE0F":["merman_tone1"],"1F9DC-1F3FC-200D-2642-FE0F":["merman_tone2"],"1F9DC-1F3FD-200D-2642-FE0F":["merman_tone3"],"1F9DC-1F3FE-200D-2642-FE0F":["merman_tone4"],"1F9DC-1F3FF-200D-2642-FE0F":["merman_tone5"],"1F9DC-1F3FB-200D-2640-FE0F":["mermaid_tone1"],"1F9DC-1F3FC-200D-2640-FE0F":["mermaid_tone2"],"1F9DC-1F3FD-200D-2640-FE0F":["mermaid_tone3"],"1F9DC-1F3FE-200D-2640-FE0F":["mermaid_tone4"],"1F9DC-1F3FF-200D-2640-FE0F":["mermaid_tone5"],"1F9DD-1F3FB":["elf_tone1"],"1F9DD-1F3FC":["elf_tone2"],"1F9DD-1F3FD":["elf_tone3"],"1F9DD-1F3FE":["elf_tone4"],"1F9DD-1F3FF":["elf_tone5"],"1F9DD-1F3FB-200D-2642-FE0F":["man_elf_tone1"],"1F9DD-1F3FC-200D-2642-FE0F":["man_elf_tone2"],"1F9DD-1F3FD-200D-2642-FE0F":["man_elf_tone3"],"1F9DD-1F3FE-200D-2642-FE0F":["man_elf_tone4"],"1F9DD-1F3FF-200D-2642-FE0F":["man_elf_tone5"],"1F9DD-1F3FB-200D-2640-FE0F":["woman_elf_tone1"],"1F9DD-1F3FC-200D-2640-FE0F":["woman_elf_tone2"],"1F9DD-1F3FD-200D-2640-FE0F":["woman_elf_tone3"],"1F9DD-1F3FE-200D-2640-FE0F":["woman_elf_tone4"],"1F9DD-1F3FF-200D-2640-FE0F":["woman_elf_tone5"],"1F486-1F3FB":["person_getting_massage_tone1"],"1F486-1F3FC":["person_getting_massage_tone2"],"1F486-1F3FD":["person_getting_massage_tone3"],"1F486-1F3FE":["person_getting_massage_tone4"],"1F486-1F3FF":["person_getting_massage_tone5"],"1F486-1F3FB-200D-2642-FE0F":["man_getting_face_massage_tone1"],"1F486-1F3FC-200D-2642-FE0F":["man_getting_face_massage_tone2"],"1F486-1F3FD-200D-2642-FE0F":["man_getting_face_massage_tone3"],"1F486-1F3FE-200D-2642-FE0F":["man_getting_face_massage_tone4"],"1F486-1F3FF-200D-2642-FE0F":["man_getting_face_massage_tone5"],"1F486-1F3FB-200D-2640-FE0F":["woman_getting_face_massage_tone1"],"1F486-1F3FC-200D-2640-FE0F":["woman_getting_face_massage_tone2"],"1F486-1F3FD-200D-2640-FE0F":["woman_getting_face_massage_tone3"],"1F486-1F3FE-200D-2640-FE0F":["woman_getting_face_massage_tone4"],"1F486-1F3FF-200D-2640-FE0F":["woman_getting_face_massage_tone5"],"1F487-1F3FB":["person_getting_haircut_tone1"],"1F487-1F3FC":["person_getting_haircut_tone2"],"1F487-1F3FD":["person_getting_haircut_tone3"],"1F487-1F3FE":["person_getting_haircut_tone4"],"1F487-1F3FF":["person_getting_haircut_tone5"],"1F487-1F3FB-200D-2642-FE0F":["man_getting_haircut_tone1"],"1F487-1F3FC-200D-2642-FE0F":["man_getting_haircut_tone2"],"1F487-1F3FD-200D-2642-FE0F":["man_getting_haircut_tone3"],"1F487-1F3FE-200D-2642-FE0F":["man_getting_haircut_tone4"],"1F487-1F3FF-200D-2642-FE0F":["man_getting_haircut_tone5"],"1F487-1F3FB-200D-2640-FE0F":["woman_getting_haircut_tone1"],"1F487-1F3FC-200D-2640-FE0F":["woman_getting_haircut_tone2"],"1F487-1F3FD-200D-2640-FE0F":["woman_getting_haircut_tone3"],"1F487-1F3FE-200D-2640-FE0F":["woman_getting_haircut_tone4"],"1F487-1F3FF-200D-2640-FE0F":["woman_getting_haircut_tone5"],"1F6B6-1F3FB":["person_walking_tone1"],"1F6B6-1F3FC":["person_walking_tone2"],"1F6B6-1F3FD":["person_walking_tone3"],"1F6B6-1F3FE":["person_walking_tone4"],"1F6B6-1F3FF":["person_walking_tone5"],"1F6B6-1F3FB-200D-2642-FE0F":["man_walking_tone1"],"1F6B6-1F3FC-200D-2642-FE0F":["man_walking_tone2"],"1F6B6-1F3FD-200D-2642-FE0F":["man_walking_tone3"],"1F6B6-1F3FE-200D-2642-FE0F":["man_walking_tone4"],"1F6B6-1F3FF-200D-2642-FE0F":["man_walking_tone5"],"1F6B6-1F3FB-200D-2640-FE0F":["woman_walking_tone1"],"1F6B6-1F3FC-200D-2640-FE0F":["woman_walking_tone2"],"1F6B6-1F3FD-200D-2640-FE0F":["woman_walking_tone3"],"1F6B6-1F3FE-200D-2640-FE0F":["woman_walking_tone4"],"1F6B6-1F3FF-200D-2640-FE0F":["woman_walking_tone5"],"1F9CD-1F3FB":["person_standing_tone1"],"1F9CD-1F3FC":["person_standing_tone2"],"1F9CD-1F3FD":["person_standing_tone3"],"1F9CD-1F3FE":["person_standing_tone4"],"1F9CD-1F3FF":["person_standing_tone5"],"1F9CD-1F3FB-200D-2642-FE0F":["man_standing_tone1"],"1F9CD-1F3FC-200D-2642-FE0F":["man_standing_tone2"],"1F9CD-1F3FD-200D-2642-FE0F":["man_standing_tone3"],"1F9CD-1F3FE-200D-2642-FE0F":["man_standing_tone4"],"1F9CD-1F3FF-200D-2642-FE0F":["man_standing_tone5"],"1F9CD-1F3FB-200D-2640-FE0F":["woman_standing_tone1"],"1F9CD-1F3FC-200D-2640-FE0F":["woman_standing_tone2"],"1F9CD-1F3FD-200D-2640-FE0F":["woman_standing_tone3"],"1F9CD-1F3FE-200D-2640-FE0F":["woman_standing_tone4"],"1F9CD-1F3FF-200D-2640-FE0F":["woman_standing_tone5"],"1F9CE-1F3FB":["person_kneeling_tone1"],"1F9CE-1F3FC":["person_kneeling_tone2"],"1F9CE-1F3FD":["person_kneeling_tone3"],"1F9CE-1F3FE":["person_kneeling_tone4"],"1F9CE-1F3FF":["person_kneeling_tone5"],"1F9CE-1F3FB-200D-2642-FE0F":["man_kneeling_tone1"],"1F9CE-1F3FC-200D-2642-FE0F":["man_kneeling_tone2"],"1F9CE-1F3FD-200D-2642-FE0F":["man_kneeling_tone3"],"1F9CE-1F3FE-200D-2642-FE0F":["man_kneeling_tone4"],"1F9CE-1F3FF-200D-2642-FE0F":["man_kneeling_tone5"],"1F9CE-1F3FB-200D-2640-FE0F":["woman_kneeling_tone1"],"1F9CE-1F3FC-200D-2640-FE0F":["woman_kneeling_tone2"],"1F9CE-1F3FD-200D-2640-FE0F":["woman_kneeling_tone3"],"1F9CE-1F3FE-200D-2640-FE0F":["woman_kneeling_tone4"],"1F9CE-1F3FF-200D-2640-FE0F":["woman_kneeling_tone5"],"1F9D1-1F3FB-200D-1F9AF":["person_probing_cane_tone1"],"1F9D1-1F3FC-200D-1F9AF":["person_probing_cane_tone2"],"1F9D1-1F3FD-200D-1F9AF":["person_probing_cane_tone3"],"1F9D1-1F3FE-200D-1F9AF":["person_probing_cane_tone4"],"1F9D1-1F3FF-200D-1F9AF":["person_probing_cane_tone5"],"1F468-1F3FB-200D-1F9AF":["man_probing_cane_tone1"],"1F468-1F3FC-200D-1F9AF":["man_probing_cane_tone2"],"1F468-1F3FD-200D-1F9AF":["man_probing_cane_tone3"],"1F468-1F3FE-200D-1F9AF":["man_probing_cane_tone4"],"1F468-1F3FF-200D-1F9AF":["man_probing_cane_tone5"],"1F469-1F3FB-200D-1F9AF":["woman_probing_cane_tone1"],"1F469-1F3FC-200D-1F9AF":["woman_probing_cane_tone2"],"1F469-1F3FD-200D-1F9AF":["woman_probing_cane_tone3"],"1F469-1F3FE-200D-1F9AF":["woman_probing_cane_tone4"],"1F469-1F3FF-200D-1F9AF":["woman_probing_cane_tone5"],"1F9D1-1F3FB-200D-1F9BC":["person_motor_wheelchair_tone1"],"1F9D1-1F3FC-200D-1F9BC":["person_motor_wheelchair_tone2"],"1F9D1-1F3FD-200D-1F9BC":["person_motor_wheelchair_tone3"],"1F9D1-1F3FE-200D-1F9BC":["person_motor_wheelchair_tone4"],"1F9D1-1F3FF-200D-1F9BC":["person_motor_wheelchair_tone5"],"1F468-1F3FB-200D-1F9BC":["man_motor_wheelchair_tone1"],"1F468-1F3FC-200D-1F9BC":["man_motor_wheelchair_tone2"],"1F468-1F3FD-200D-1F9BC":["man_motor_wheelchair_tone3"],"1F468-1F3FE-200D-1F9BC":["man_motor_wheelchair_tone4"],"1F468-1F3FF-200D-1F9BC":["man_motor_wheelchair_tone5"],"1F469-1F3FB-200D-1F9BC":["woman_motor_wheelchair_tone1"],"1F469-1F3FC-200D-1F9BC":["woman_motor_wheelchair_tone2"],"1F469-1F3FD-200D-1F9BC":["woman_motor_wheelchair_tone3"],"1F469-1F3FE-200D-1F9BC":["woman_motor_wheelchair_tone4"],"1F469-1F3FF-200D-1F9BC":["woman_motor_wheelchair_tone5"],"1F9D1-1F3FB-200D-1F9BD":["person_wheelchair_tone1"],"1F9D1-1F3FC-200D-1F9BD":["person_wheelchair_tone2"],"1F9D1-1F3FD-200D-1F9BD":["person_wheelchair_tone3"],"1F9D1-1F3FE-200D-1F9BD":["person_wheelchair_tone4"],"1F9D1-1F3FF-200D-1F9BD":["person_wheelchair_tone5"],"1F468-1F3FB-200D-1F9BD":["man_wheelchair_tone1"],"1F468-1F3FC-200D-1F9BD":["man_wheelchair_tone2"],"1F468-1F3FD-200D-1F9BD":["man_wheelchair_tone3"],"1F468-1F3FE-200D-1F9BD":["man_wheelchair_tone4"],"1F468-1F3FF-200D-1F9BD":["man_wheelchair_tone5"],"1F469-1F3FB-200D-1F9BD":["woman_wheelchair_tone1"],"1F469-1F3FC-200D-1F9BD":["woman_wheelchair_tone2"],"1F469-1F3FD-200D-1F9BD":["woman_wheelchair_tone3"],"1F469-1F3FE-200D-1F9BD":["woman_wheelchair_tone4"],"1F469-1F3FF-200D-1F9BD":["woman_wheelchair_tone5"],"1F3C3-1F3FB":["person_running_tone1"],"1F3C3-1F3FC":["person_running_tone2"],"1F3C3-1F3FD":["person_running_tone3"],"1F3C3-1F3FE":["person_running_tone4"],"1F3C3-1F3FF":["person_running_tone5"],"1F3C3-1F3FB-200D-2642-FE0F":["man_running_tone1"],"1F3C3-1F3FC-200D-2642-FE0F":["man_running_tone2"],"1F3C3-1F3FD-200D-2642-FE0F":["man_running_tone3"],"1F3C3-1F3FE-200D-2642-FE0F":["man_running_tone4"],"1F3C3-1F3FF-200D-2642-FE0F":["man_running_tone5"],"1F3C3-1F3FB-200D-2640-FE0F":["woman_running_tone1"],"1F3C3-1F3FC-200D-2640-FE0F":["woman_running_tone2"],"1F3C3-1F3FD-200D-2640-FE0F":["woman_running_tone3"],"1F3C3-1F3FE-200D-2640-FE0F":["woman_running_tone4"],"1F3C3-1F3FF-200D-2640-FE0F":["woman_running_tone5"],"1F483-1F3FB":["dancer_tone1","woman_dancing_tone1"],"1F483-1F3FC":["dancer_tone2","woman_dancing_tone2"],"1F483-1F3FD":["dancer_tone3","woman_dancing_tone3"],"1F483-1F3FE":["dancer_tone4","woman_dancing_tone4"],"1F483-1F3FF":["dancer_tone5","woman_dancing_tone5"],"1F57A-1F3FB":["man_dancing_tone1"],"1F57A-1F3FC":["man_dancing_tone2"],"1F57A-1F3FD":["man_dancing_tone3"],"1F57A-1F3FE":["man_dancing_tone4"],"1F57A-1F3FF":["man_dancing_tone5"],"1F574-1F3FB":["levitate_tone1"],"1F574-1F3FC":["levitate_tone2"],"1F574-1F3FD":["levitate_tone3"],"1F574-1F3FE":["levitate_tone4"],"1F574-1F3FF":["levitate_tone5"],"1F9D6-1F3FB":["person_steamy_room_tone1"],"1F9D6-1F3FC":["person_steamy_room_tone2"],"1F9D6-1F3FD":["person_steamy_room_tone3"],"1F9D6-1F3FE":["person_steamy_room_tone4"],"1F9D6-1F3FF":["person_steamy_room_tone5"],"1F9D6-1F3FB-200D-2642-FE0F":["man_steamy_room_tone1"],"1F9D6-1F3FC-200D-2642-FE0F":["man_steamy_room_tone2"],"1F9D6-1F3FD-200D-2642-FE0F":["man_steamy_room_tone3"],"1F9D6-1F3FE-200D-2642-FE0F":["man_steamy_room_tone4"],"1F9D6-1F3FF-200D-2642-FE0F":["man_steamy_room_tone5"],"1F9D6-1F3FB-200D-2640-FE0F":["woman_steamy_room_tone1"],"1F9D6-1F3FC-200D-2640-FE0F":["woman_steamy_room_tone2"],"1F9D6-1F3FD-200D-2640-FE0F":["woman_steamy_room_tone3"],"1F9D6-1F3FE-200D-2640-FE0F":["woman_steamy_room_tone4"],"1F9D6-1F3FF-200D-2640-FE0F":["woman_steamy_room_tone5"],"1F9D7-1F3FB":["person_climbing_tone1"],"1F9D7-1F3FC":["person_climbing_tone2"],"1F9D7-1F3FD":["person_climbing_tone3"],"1F9D7-1F3FE":["person_climbing_tone4"],"1F9D7-1F3FF":["person_climbing_tone5"],"1F9D7-1F3FB-200D-2642-FE0F":["man_climbing_tone1"],"1F9D7-1F3FC-200D-2642-FE0F":["man_climbing_tone2"],"1F9D7-1F3FD-200D-2642-FE0F":["man_climbing_tone3"],"1F9D7-1F3FE-200D-2642-FE0F":["man_climbing_tone4"],"1F9D7-1F3FF-200D-2642-FE0F":["man_climbing_tone5"],"1F9D7-1F3FB-200D-2640-FE0F":["woman_climbing_tone1"],"1F9D7-1F3FC-200D-2640-FE0F":["woman_climbing_tone2"],"1F9D7-1F3FD-200D-2640-FE0F":["woman_climbing_tone3"],"1F9D7-1F3FE-200D-2640-FE0F":["woman_climbing_tone4"],"1F9D7-1F3FF-200D-2640-FE0F":["woman_climbing_tone5"],"1F3C7-1F3FB":["horse_racing_tone1"],"1F3C7-1F3FC":["horse_racing_tone2"],"1F3C7-1F3FD":["horse_racing_tone3"],"1F3C7-1F3FE":["horse_racing_tone4"],"1F3C7-1F3FF":["horse_racing_tone5"],"1F3C2-1F3FB":["snowboarder_tone1"],"1F3C2-1F3FC":["snowboarder_tone2"],"1F3C2-1F3FD":["snowboarder_tone3"],"1F3C2-1F3FE":["snowboarder_tone4"],"1F3C2-1F3FF":["snowboarder_tone5"],"1F3CC-1F3FB":["person_golfing_tone1"],"1F3CC-1F3FC":["person_golfing_tone2"],"1F3CC-1F3FD":["person_golfing_tone3"],"1F3CC-1F3FE":["person_golfing_tone4"],"1F3CC-1F3FF":["person_golfing_tone5"],"1F3CC-1F3FB-200D-2642-FE0F":["man_golfing_tone1"],"1F3CC-1F3FC-200D-2642-FE0F":["man_golfing_tone2"],"1F3CC-1F3FD-200D-2642-FE0F":["man_golfing_tone3"],"1F3CC-1F3FE-200D-2642-FE0F":["man_golfing_tone4"],"1F3CC-1F3FF-200D-2642-FE0F":["man_golfing_tone5"],"1F3CC-1F3FB-200D-2640-FE0F":["woman_golfing_tone1"],"1F3CC-1F3FC-200D-2640-FE0F":["woman_golfing_tone2"],"1F3CC-1F3FD-200D-2640-FE0F":["woman_golfing_tone3"],"1F3CC-1F3FE-200D-2640-FE0F":["woman_golfing_tone4"],"1F3CC-1F3FF-200D-2640-FE0F":["woman_golfing_tone5"],"1F3C4-1F3FB":["person_surfing_tone1"],"1F3C4-1F3FC":["person_surfing_tone2"],"1F3C4-1F3FD":["person_surfing_tone3"],"1F3C4-1F3FE":["person_surfing_tone4"],"1F3C4-1F3FF":["person_surfing_tone5"],"1F3C4-1F3FB-200D-2642-FE0F":["man_surfing_tone1"],"1F3C4-1F3FC-200D-2642-FE0F":["man_surfing_tone2"],"1F3C4-1F3FD-200D-2642-FE0F":["man_surfing_tone3"],"1F3C4-1F3FE-200D-2642-FE0F":["man_surfing_tone4"],"1F3C4-1F3FF-200D-2642-FE0F":["man_surfing_tone5"],"1F3C4-1F3FB-200D-2640-FE0F":["woman_surfing_tone1"],"1F3C4-1F3FC-200D-2640-FE0F":["woman_surfing_tone2"],"1F3C4-1F3FD-200D-2640-FE0F":["woman_surfing_tone3"],"1F3C4-1F3FE-200D-2640-FE0F":["woman_surfing_tone4"],"1F3C4-1F3FF-200D-2640-FE0F":["woman_surfing_tone5"],"1F6A3-1F3FB":["person_rowing_boat_tone1"],"1F6A3-1F3FC":["person_rowing_boat_tone2"],"1F6A3-1F3FD":["person_rowing_boat_tone3"],"1F6A3-1F3FE":["person_rowing_boat_tone4"],"1F6A3-1F3FF":["person_rowing_boat_tone5"],"1F6A3-1F3FB-200D-2642-FE0F":["man_rowing_boat_tone1"],"1F6A3-1F3FC-200D-2642-FE0F":["man_rowing_boat_tone2"],"1F6A3-1F3FD-200D-2642-FE0F":["man_rowing_boat_tone3"],"1F6A3-1F3FE-200D-2642-FE0F":["man_rowing_boat_tone4"],"1F6A3-1F3FF-200D-2642-FE0F":["man_rowing_boat_tone5"],"1F6A3-1F3FB-200D-2640-FE0F":["woman_rowing_boat_tone1"],"1F6A3-1F3FC-200D-2640-FE0F":["woman_rowing_boat_tone2"],"1F6A3-1F3FD-200D-2640-FE0F":["woman_rowing_boat_tone3"],"1F6A3-1F3FE-200D-2640-FE0F":["woman_rowing_boat_tone4"],"1F6A3-1F3FF-200D-2640-FE0F":["woman_rowing_boat_tone5"],"1F3CA-1F3FB":["person_swimming_tone1"],"1F3CA-1F3FC":["person_swimming_tone2"],"1F3CA-1F3FD":["person_swimming_tone3"],"1F3CA-1F3FE":["person_swimming_tone4"],"1F3CA-1F3FF":["person_swimming_tone5"],"1F3CA-1F3FB-200D-2642-FE0F":["man_swimming_tone1"],"1F3CA-1F3FC-200D-2642-FE0F":["man_swimming_tone2"],"1F3CA-1F3FD-200D-2642-FE0F":["man_swimming_tone3"],"1F3CA-1F3FE-200D-2642-FE0F":["man_swimming_tone4"],"1F3CA-1F3FF-200D-2642-FE0F":["man_swimming_tone5"],"1F3CA-1F3FB-200D-2640-FE0F":["woman_swimming_tone1"],"1F3CA-1F3FC-200D-2640-FE0F":["woman_swimming_tone2"],"1F3CA-1F3FD-200D-2640-FE0F":["woman_swimming_tone3"],"1F3CA-1F3FE-200D-2640-FE0F":["woman_swimming_tone4"],"1F3CA-1F3FF-200D-2640-FE0F":["woman_swimming_tone5"],"26F9-1F3FB":["person_bouncing_ball_tone1"],"26F9-1F3FC":["person_bouncing_ball_tone2"],"26F9-1F3FD":["person_bouncing_ball_tone3"],"26F9-1F3FE":["person_bouncing_ball_tone4"],"26F9-1F3FF":["person_bouncing_ball_tone5"],"26F9-1F3FB-200D-2642-FE0F":["man_bouncing_ball_tone1"],"26F9-1F3FC-200D-2642-FE0F":["man_bouncing_ball_tone2"],"26F9-1F3FD-200D-2642-FE0F":["man_bouncing_ball_tone3"],"26F9-1F3FE-200D-2642-FE0F":["man_bouncing_ball_tone4"],"26F9-1F3FF-200D-2642-FE0F":["man_bouncing_ball_tone5"],"26F9-1F3FB-200D-2640-FE0F":["woman_bouncing_ball_tone1"],"26F9-1F3FC-200D-2640-FE0F":["woman_bouncing_ball_tone2"],"26F9-1F3FD-200D-2640-FE0F":["woman_bouncing_ball_tone3"],"26F9-1F3FE-200D-2640-FE0F":["woman_bouncing_ball_tone4"],"26F9-1F3FF-200D-2640-FE0F":["woman_bouncing_ball_tone5"],"1F3CB-1F3FB":["person_lifting_weights_tone1"],"1F3CB-1F3FC":["person_lifting_weights_tone2"],"1F3CB-1F3FD":["person_lifting_weights_tone3"],"1F3CB-1F3FE":["person_lifting_weights_tone4"],"1F3CB-1F3FF":["person_lifting_weights_tone5"],"1F3CB-1F3FB-200D-2642-FE0F":["man_lifting_weights_tone1"],"1F3CB-1F3FC-200D-2642-FE0F":["man_lifting_weights_tone2"],"1F3CB-1F3FD-200D-2642-FE0F":["man_lifting_weights_tone3"],"1F3CB-1F3FE-200D-2642-FE0F":["man_lifting_weights_tone4"],"1F3CB-1F3FF-200D-2642-FE0F":["man_lifting_weights_tone5"],"1F3CB-1F3FB-200D-2640-FE0F":["woman_lifting_weights_tone1"],"1F3CB-1F3FC-200D-2640-FE0F":["woman_lifting_weights_tone2"],"1F3CB-1F3FD-200D-2640-FE0F":["woman_lifting_weights_tone3"],"1F3CB-1F3FE-200D-2640-FE0F":["woman_lifting_weights_tone4"],"1F3CB-1F3FF-200D-2640-FE0F":["woman_lifting_weights_tone5"],"1F6B4-1F3FB":["person_biking_tone1"],"1F6B4-1F3FC":["person_biking_tone2"],"1F6B4-1F3FD":["person_biking_tone3"],"1F6B4-1F3FE":["person_biking_tone4"],"1F6B4-1F3FF":["person_biking_tone5"],"1F6B4-1F3FB-200D-2642-FE0F":["man_biking_tone1"],"1F6B4-1F3FC-200D-2642-FE0F":["man_biking_tone2"],"1F6B4-1F3FD-200D-2642-FE0F":["man_biking_tone3"],"1F6B4-1F3FE-200D-2642-FE0F":["man_biking_tone4"],"1F6B4-1F3FF-200D-2642-FE0F":["man_biking_tone5"],"1F6B4-1F3FB-200D-2640-FE0F":["woman_biking_tone1"],"1F6B4-1F3FC-200D-2640-FE0F":["woman_biking_tone2"],"1F6B4-1F3FD-200D-2640-FE0F":["woman_biking_tone3"],"1F6B4-1F3FE-200D-2640-FE0F":["woman_biking_tone4"],"1F6B4-1F3FF-200D-2640-FE0F":["woman_biking_tone5"],"1F6B5-1F3FB":["person_mountain_biking_tone1"],"1F6B5-1F3FC":["person_mountain_biking_tone2"],"1F6B5-1F3FD":["person_mountain_biking_tone3"],"1F6B5-1F3FE":["person_mountain_biking_tone4"],"1F6B5-1F3FF":["person_mountain_biking_tone5"],"1F6B5-1F3FB-200D-2642-FE0F":["man_mountain_biking_tone1"],"1F6B5-1F3FC-200D-2642-FE0F":["man_mountain_biking_tone2"],"1F6B5-1F3FD-200D-2642-FE0F":["man_mountain_biking_tone3"],"1F6B5-1F3FE-200D-2642-FE0F":["man_mountain_biking_tone4"],"1F6B5-1F3FF-200D-2642-FE0F":["man_mountain_biking_tone5"],"1F6B5-1F3FB-200D-2640-FE0F":["woman_mountain_biking_tone1"],"1F6B5-1F3FC-200D-2640-FE0F":["woman_mountain_biking_tone2"],"1F6B5-1F3FD-200D-2640-FE0F":["woman_mountain_biking_tone3"],"1F6B5-1F3FE-200D-2640-FE0F":["woman_mountain_biking_tone4"],"1F6B5-1F3FF-200D-2640-FE0F":["woman_mountain_biking_tone5"],"1F938-1F3FB":["person_cartwheel_tone1"],"1F938-1F3FC":["person_cartwheel_tone2"],"1F938-1F3FD":["person_cartwheel_tone3"],"1F938-1F3FE":["person_cartwheel_tone4"],"1F938-1F3FF":["person_cartwheel_tone5"],"1F938-1F3FB-200D-2642-FE0F":["man_cartwheeling_tone1"],"1F938-1F3FC-200D-2642-FE0F":["man_cartwheeling_tone2"],"1F938-1F3FD-200D-2642-FE0F":["man_cartwheeling_tone3"],"1F938-1F3FE-200D-2642-FE0F":["man_cartwheeling_tone4"],"1F938-1F3FF-200D-2642-FE0F":["man_cartwheeling_tone5"],"1F938-1F3FB-200D-2640-FE0F":["woman_cartwheeling_tone1"],"1F938-1F3FC-200D-2640-FE0F":["woman_cartwheeling_tone2"],"1F938-1F3FD-200D-2640-FE0F":["woman_cartwheeling_tone3"],"1F938-1F3FE-200D-2640-FE0F":["woman_cartwheeling_tone4"],"1F938-1F3FF-200D-2640-FE0F":["woman_cartwheeling_tone5"],"1F93D-1F3FB":["person_water_polo_tone1"],"1F93D-1F3FC":["person_water_polo_tone2"],"1F93D-1F3FD":["person_water_polo_tone3"],"1F93D-1F3FE":["person_water_polo_tone4"],"1F93D-1F3FF":["person_water_polo_tone5"],"1F93D-1F3FB-200D-2642-FE0F":["man_water_polo_tone1"],"1F93D-1F3FC-200D-2642-FE0F":["man_water_polo_tone2"],"1F93D-1F3FD-200D-2642-FE0F":["man_water_polo_tone3"],"1F93D-1F3FE-200D-2642-FE0F":["man_water_polo_tone4"],"1F93D-1F3FF-200D-2642-FE0F":["man_water_polo_tone5"],"1F93D-1F3FB-200D-2640-FE0F":["woman_water_polo_tone1"],"1F93D-1F3FC-200D-2640-FE0F":["woman_water_polo_tone2"],"1F93D-1F3FD-200D-2640-FE0F":["woman_water_polo_tone3"],"1F93D-1F3FE-200D-2640-FE0F":["woman_water_polo_tone4"],"1F93D-1F3FF-200D-2640-FE0F":["woman_water_polo_tone5"],"1F93E-1F3FB":["person_handball_tone1"],"1F93E-1F3FC":["person_handball_tone2"],"1F93E-1F3FD":["person_handball_tone3"],"1F93E-1F3FE":["person_handball_tone4"],"1F93E-1F3FF":["person_handball_tone5"],"1F93E-1F3FB-200D-2642-FE0F":["man_handball_tone1"],"1F93E-1F3FC-200D-2642-FE0F":["man_handball_tone2"],"1F93E-1F3FD-200D-2642-FE0F":["man_handball_tone3"],"1F93E-1F3FE-200D-2642-FE0F":["man_handball_tone4"],"1F93E-1F3FF-200D-2642-FE0F":["man_handball_tone5"],"1F93E-1F3FB-200D-2640-FE0F":["woman_handball_tone1"],"1F93E-1F3FC-200D-2640-FE0F":["woman_handball_tone2"],"1F93E-1F3FD-200D-2640-FE0F":["woman_handball_tone3"],"1F93E-1F3FE-200D-2640-FE0F":["woman_handball_tone4"],"1F93E-1F3FF-200D-2640-FE0F":["woman_handball_tone5"],"1F939-1F3FB":["person_juggling_tone1"],"1F939-1F3FC":["person_juggling_tone2"],"1F939-1F3FD":["person_juggling_tone3"],"1F939-1F3FE":["person_juggling_tone4"],"1F939-1F3FF":["person_juggling_tone5"],"1F939-1F3FB-200D-2642-FE0F":["man_juggling_tone1"],"1F939-1F3FC-200D-2642-FE0F":["man_juggling_tone2"],"1F939-1F3FD-200D-2642-FE0F":["man_juggling_tone3"],"1F939-1F3FE-200D-2642-FE0F":["man_juggling_tone4"],"1F939-1F3FF-200D-2642-FE0F":["man_juggling_tone5"],"1F939-1F3FB-200D-2640-FE0F":["woman_juggling_tone1"],"1F939-1F3FC-200D-2640-FE0F":["woman_juggling_tone2"],"1F939-1F3FD-200D-2640-FE0F":["woman_juggling_tone3"],"1F939-1F3FE-200D-2640-FE0F":["woman_juggling_tone4"],"1F939-1F3FF-200D-2640-FE0F":["woman_juggling_tone5"],"1F9D8-1F3FB":["person_lotus_position_tone1"],"1F9D8-1F3FC":["person_lotus_position_tone2"],"1F9D8-1F3FD":["person_lotus_position_tone3"],"1F9D8-1F3FE":["person_lotus_position_tone4"],"1F9D8-1F3FF":["person_lotus_position_tone5"],"1F9D8-1F3FB-200D-2642-FE0F":["man_lotus_position_tone1"],"1F9D8-1F3FC-200D-2642-FE0F":["man_lotus_position_tone2"],"1F9D8-1F3FD-200D-2642-FE0F":["man_lotus_position_tone3"],"1F9D8-1F3FE-200D-2642-FE0F":["man_lotus_position_tone4"],"1F9D8-1F3FF-200D-2642-FE0F":["man_lotus_position_tone5"],"1F9D8-1F3FB-200D-2640-FE0F":["woman_lotus_position_tone1"],"1F9D8-1F3FC-200D-2640-FE0F":["woman_lotus_position_tone2"],"1F9D8-1F3FD-200D-2640-FE0F":["woman_lotus_position_tone3"],"1F9D8-1F3FE-200D-2640-FE0F":["woman_lotus_position_tone4"],"1F9D8-1F3FF-200D-2640-FE0F":["woman_lotus_position_tone5"],"1F6C0-1F3FB":["bath_tone1"],"1F6C0-1F3FC":["bath_tone2"],"1F6C0-1F3FD":["bath_tone3"],"1F6C0-1F3FE":["bath_tone4"],"1F6C0-1F3FF":["bath_tone5"],"1F6CC-1F3FB":["in_bed_tone1"],"1F6CC-1F3FC":["in_bed_tone2"],"1F6CC-1F3FD":["in_bed_tone3"],"1F6CC-1F3FE":["in_bed_tone4"],"1F6CC-1F3FF":["in_bed_tone5"],"1F9D1-1F3FB-200D-1F91D-200D-1F9D1-1F3FB":["holding_hands_people_tone1"],"1F9D1-1F3FB-200D-1F91D-200D-1F9D1-1F3FC":["holding_hands_people_tone1-2"],"1F9D1-1F3FB-200D-1F91D-200D-1F9D1-1F3FD":["holding_hands_people_tone1-3"],"1F9D1-1F3FB-200D-1F91D-200D-1F9D1-1F3FE":["holding_hands_people_tone1-4"],"1F9D1-1F3FB-200D-1F91D-200D-1F9D1-1F3FF":["holding_hands_people_tone1-5"],"1F9D1-1F3FC-200D-1F91D-200D-1F9D1-1F3FB":["holding_hands_people_tone2-1"],"1F9D1-1F3FC-200D-1F91D-200D-1F9D1-1F3FC":["holding_hands_people_tone2"],"1F9D1-1F3FC-200D-1F91D-200D-1F9D1-1F3FD":["holding_hands_people_tone2-3"],"1F9D1-1F3FC-200D-1F91D-200D-1F9D1-1F3FE":["holding_hands_people_tone2-4"],"1F9D1-1F3FC-200D-1F91D-200D-1F9D1-1F3FF":["holding_hands_people_tone2-5"],"1F9D1-1F3FD-200D-1F91D-200D-1F9D1-1F3FB":["holding_hands_people_tone3-1"],"1F9D1-1F3FD-200D-1F91D-200D-1F9D1-1F3FC":["holding_hands_people_tone3-2"],"1F9D1-1F3FD-200D-1F91D-200D-1F9D1-1F3FD":["holding_hands_people_tone3"],"1F9D1-1F3FD-200D-1F91D-200D-1F9D1-1F3FE":["holding_hands_people_tone3-4"],"1F9D1-1F3FD-200D-1F91D-200D-1F9D1-1F3FF":["holding_hands_people_tone3-5"],"1F9D1-1F3FE-200D-1F91D-200D-1F9D1-1F3FB":["holding_hands_people_tone4-1"],"1F9D1-1F3FE-200D-1F91D-200D-1F9D1-1F3FC":["holding_hands_people_tone4-2"],"1F9D1-1F3FE-200D-1F91D-200D-1F9D1-1F3FD":["holding_hands_people_tone4-3"],"1F9D1-1F3FE-200D-1F91D-200D-1F9D1-1F3FE":["holding_hands_people_tone4"],"1F9D1-1F3FE-200D-1F91D-200D-1F9D1-1F3FF":["holding_hands_people_tone4-5"],"1F9D1-1F3FF-200D-1F91D-200D-1F9D1-1F3FB":["holding_hands_people_tone5-1"],"1F9D1-1F3FF-200D-1F91D-200D-1F9D1-1F3FC":["holding_hands_people_tone5-2"],"1F9D1-1F3FF-200D-1F91D-200D-1F9D1-1F3FD":["holding_hands_people_tone5-3"],"1F9D1-1F3FF-200D-1F91D-200D-1F9D1-1F3FE":["holding_hands_people_tone5-4"],"1F9D1-1F3FF-200D-1F91D-200D-1F9D1-1F3FF":["holding_hands_people_tone5"],"1F46D-1F3FB":["holding_hands_ww_tone1"],"1F46D-1F3FC":["holding_hands_ww_tone2"],"1F46D-1F3FD":["holding_hands_ww_tone3"],"1F46D-1F3FE":["holding_hands_ww_tone4"],"1F46D-1F3FF":["holding_hands_ww_tone5"],"1F469-1F3FB-200D-1F91D-200D-1F469-1F3FC":["holding_hands_ww_tone1-2"],"1F469-1F3FB-200D-1F91D-200D-1F469-1F3FD":["holding_hands_ww_tone1-3"],"1F469-1F3FB-200D-1F91D-200D-1F469-1F3FE":["holding_hands_ww_tone1-4"],"1F469-1F3FB-200D-1F91D-200D-1F469-1F3FF":["holding_hands_ww_tone1-5"],"1F469-1F3FC-200D-1F91D-200D-1F469-1F3FB":["holding_hands_ww_tone2-1"],"1F469-1F3FC-200D-1F91D-200D-1F469-1F3FD":["holding_hands_ww_tone2-3"],"1F469-1F3FC-200D-1F91D-200D-1F469-1F3FE":["holding_hands_ww_tone2-4"],"1F469-1F3FC-200D-1F91D-200D-1F469-1F3FF":["holding_hands_ww_tone2-5"],"1F469-1F3FD-200D-1F91D-200D-1F469-1F3FB":["holding_hands_ww_tone3-1"],"1F469-1F3FD-200D-1F91D-200D-1F469-1F3FC":["holding_hands_ww_tone3-2"],"1F469-1F3FD-200D-1F91D-200D-1F469-1F3FE":["holding_hands_ww_tone3-4"],"1F469-1F3FD-200D-1F91D-200D-1F469-1F3FF":["holding_hands_ww_tone3-5"],"1F469-1F3FE-200D-1F91D-200D-1F469-1F3FB":["holding_hands_ww_tone4-1"],"1F469-1F3FE-200D-1F91D-200D-1F469-1F3FC":["holding_hands_ww_tone4-2"],"1F469-1F3FE-200D-1F91D-200D-1F469-1F3FD":["holding_hands_ww_tone4-3"],"1F469-1F3FE-200D-1F91D-200D-1F469-1F3FF":["holding_hands_ww_tone4-5"],"1F469-1F3FF-200D-1F91D-200D-1F469-1F3FB":["holding_hands_ww_tone5-1"],"1F469-1F3FF-200D-1F91D-200D-1F469-1F3FC":["holding_hands_ww_tone5-2"],"1F469-1F3FF-200D-1F91D-200D-1F469-1F3FD":["holding_hands_ww_tone5-3"],"1F469-1F3FF-200D-1F91D-200D-1F469-1F3FE":["holding_hands_ww_tone5-4"],"1F46B-1F3FB":["holding_hands_mw_tone1","holding_hands_wm_tone1"],"1F46B-1F3FC":["holding_hands_mw_tone2","holding_hands_wm_tone2"],"1F46B-1F3FD":["holding_hands_mw_tone3","holding_hands_wm_tone3"],"1F46B-1F3FE":["holding_hands_mw_tone4","holding_hands_wm_tone4"],"1F46B-1F3FF":["holding_hands_mw_tone5","holding_hands_wm_tone5"],"1F469-1F3FB-200D-1F91D-200D-1F468-1F3FC":["holding_hands_mw_tone1-2","holding_hands_wm_tone1-2"],"1F469-1F3FB-200D-1F91D-200D-1F468-1F3FD":["holding_hands_mw_tone1-3","holding_hands_wm_tone1-3"],"1F469-1F3FB-200D-1F91D-200D-1F468-1F3FE":["holding_hands_mw_tone1-4","holding_hands_wm_tone1-4"],"1F469-1F3FB-200D-1F91D-200D-1F468-1F3FF":["holding_hands_mw_tone1-5","holding_hands_wm_tone1-5"],"1F469-1F3FC-200D-1F91D-200D-1F468-1F3FB":["holding_hands_mw_tone2-1","holding_hands_wm_tone2-1"],"1F469-1F3FC-200D-1F91D-200D-1F468-1F3FD":["holding_hands_mw_tone2-3","holding_hands_wm_tone2-3"],"1F469-1F3FC-200D-1F91D-200D-1F468-1F3FE":["holding_hands_mw_tone2-4","holding_hands_wm_tone2-4"],"1F469-1F3FC-200D-1F91D-200D-1F468-1F3FF":["holding_hands_mw_tone2-5","holding_hands_wm_tone2-5"],"1F469-1F3FD-200D-1F91D-200D-1F468-1F3FB":["holding_hands_mw_tone3-1","holding_hands_wm_tone3-1"],"1F469-1F3FD-200D-1F91D-200D-1F468-1F3FC":["holding_hands_mw_tone3-2","holding_hands_wm_tone3-2"],"1F469-1F3FD-200D-1F91D-200D-1F468-1F3FE":["holding_hands_mw_tone3-4","holding_hands_wm_tone3-4"],"1F469-1F3FD-200D-1F91D-200D-1F468-1F3FF":["holding_hands_mw_tone3-5","holding_hands_wm_tone3-5"],"1F469-1F3FE-200D-1F91D-200D-1F468-1F3FB":["holding_hands_mw_tone4-1","holding_hands_wm_tone4-1"],"1F469-1F3FE-200D-1F91D-200D-1F468-1F3FC":["holding_hands_mw_tone4-2","holding_hands_wm_tone4-2"],"1F469-1F3FE-200D-1F91D-200D-1F468-1F3FD":["holding_hands_mw_tone4-3","holding_hands_wm_tone4-3"],"1F469-1F3FE-200D-1F91D-200D-1F468-1F3FF":["holding_hands_mw_tone4-5","holding_hands_wm_tone4-5"],"1F469-1F3FF-200D-1F91D-200D-1F468-1F3FB":["holding_hands_mw_tone5-1","holding_hands_wm_tone5-1"],"1F469-1F3FF-200D-1F91D-200D-1F468-1F3FC":["holding_hands_mw_tone5-2","holding_hands_wm_tone5-2"],"1F469-1F3FF-200D-1F91D-200D-1F468-1F3FD":["holding_hands_mw_tone5-3","holding_hands_wm_tone5-3"],"1F469-1F3FF-200D-1F91D-200D-1F468-1F3FE":["holding_hands_mw_tone5-4","holding_hands_wm_tone5-4"],"1F46C-1F3FB":["holding_hands_mm_tone1"],"1F46C-1F3FC":["holding_hands_mm_tone2"],"1F46C-1F3FD":["holding_hands_mm_tone3"],"1F46C-1F3FE":["holding_hands_mm_tone4"],"1F46C-1F3FF":["holding_hands_mm_tone5"],"1F468-1F3FB-200D-1F91D-200D-1F468-1F3FC":["holding_hands_mm_tone1-2"],"1F468-1F3FB-200D-1F91D-200D-1F468-1F3FD":["holding_hands_mm_tone1-3"],"1F468-1F3FB-200D-1F91D-200D-1F468-1F3FE":["holding_hands_mm_tone1-4"],"1F468-1F3FB-200D-1F91D-200D-1F468-1F3FF":["holding_hands_mm_tone1-5"],"1F468-1F3FC-200D-1F91D-200D-1F468-1F3FB":["holding_hands_mm_tone2-1"],"1F468-1F3FC-200D-1F91D-200D-1F468-1F3FD":["holding_hands_mm_tone2-3"],"1F468-1F3FC-200D-1F91D-200D-1F468-1F3FE":["holding_hands_mm_tone2-4"],"1F468-1F3FC-200D-1F91D-200D-1F468-1F3FF":["holding_hands_mm_tone2-5"],"1F468-1F3FD-200D-1F91D-200D-1F468-1F3FB":["holding_hands_mm_tone3-1"],"1F468-1F3FD-200D-1F91D-200D-1F468-1F3FC":["holding_hands_mm_tone3-2"],"1F468-1F3FD-200D-1F91D-200D-1F468-1F3FE":["holding_hands_mm_tone3-4"],"1F468-1F3FD-200D-1F91D-200D-1F468-1F3FF":["holding_hands_mm_tone3-5"],"1F468-1F3FE-200D-1F91D-200D-1F468-1F3FB":["holding_hands_mm_tone4-1"],"1F468-1F3FE-200D-1F91D-200D-1F468-1F3FC":["holding_hands_mm_tone4-2"],"1F468-1F3FE-200D-1F91D-200D-1F468-1F3FD":["holding_hands_mm_tone4-3"],"1F468-1F3FE-200D-1F91D-200D-1F468-1F3FF":["holding_hands_mm_tone4-5"],"1F468-1F3FF-200D-1F91D-200D-1F468-1F3FB":["holding_hands_mm_tone5-1"],"1F468-1F3FF-200D-1F91D-200D-1F468-1F3FC":["holding_hands_mm_tone5-2"],"1F468-1F3FF-200D-1F91D-200D-1F468-1F3FD":["holding_hands_mm_tone5-3"],"1F468-1F3FF-200D-1F91D-200D-1F468-1F3FE":["holding_hands_mm_tone5-4"],"1F48F-1F3FB":["couple_tone1"],"1F48F-1F3FC":["couple_tone2"],"1F48F-1F3FD":["couple_tone3"],"1F48F-1F3FE":["couple_tone4"],"1F48F-1F3FF":["couple_tone5"],"1F9D1-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FC":["couple_tone1-2"],"1F9D1-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FD":["couple_tone1-3"],"1F9D1-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FE":["couple_tone1-4"],"1F9D1-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FF":["couple_tone1-5"],"1F9D1-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FB":["couple_tone2-1"],"1F9D1-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FD":["couple_tone2-3"],"1F9D1-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FE":["couple_tone2-4"],"1F9D1-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FF":["couple_tone2-5"],"1F9D1-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FB":["couple_tone3-1"],"1F9D1-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FC":["couple_tone3-2"],"1F9D1-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FE":["couple_tone3-4"],"1F9D1-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FF":["couple_tone3-5"],"1F9D1-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FB":["couple_tone4-1"],"1F9D1-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FC":["couple_tone4-2"],"1F9D1-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FD":["couple_tone4-3"],"1F9D1-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FF":["couple_tone4-5"],"1F9D1-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FB":["couple_tone5-1"],"1F9D1-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FC":["couple_tone5-2"],"1F9D1-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FD":["couple_tone5-3"],"1F9D1-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F9D1-1F3FE":["couple_tone5-4"],"1F469-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FB":["kiss_mw_tone1","kiss_wm_tone1"],"1F469-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FC":["kiss_mw_tone1-2","kiss_wm_tone1-2"],"1F469-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD":["kiss_mw_tone1-3","kiss_wm_tone1-3"],"1F469-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FE":["kiss_mw_tone1-4","kiss_wm_tone1-4"],"1F469-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FF":["kiss_mw_tone1-5","kiss_wm_tone1-5"],"1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FB":["kiss_mw_tone2-1","kiss_wm_tone2-1"],"1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FC":["kiss_mw_tone2","kiss_wm_tone2"],"1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD":["kiss_mw_tone2-3","kiss_wm_tone2-3"],"1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FE":["kiss_mw_tone2-4","kiss_wm_tone2-4"],"1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FF":["kiss_mw_tone2-5","kiss_wm_tone2-5"],"1F469-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FB":["kiss_mw_tone3-1","kiss_wm_tone3-1"],"1F469-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FC":["kiss_mw_tone3-2","kiss_wm_tone3-2"],"1F469-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD":["kiss_mw_tone3","kiss_wm_tone3"],"1F469-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FE":["kiss_mw_tone3-4","kiss_wm_tone3-4"],"1F469-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FF":["kiss_mw_tone3-5","kiss_wm_tone3-5"],"1F469-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FB":["kiss_mw_tone4-1","kiss_wm_tone4-1"],"1F469-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FC":["kiss_mw_tone4-2","kiss_wm_tone4-2"],"1F469-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD":["kiss_mw_tone4-3","kiss_wm_tone4-3"],"1F469-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FE":["kiss_mw_tone4","kiss_wm_tone4"],"1F469-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FF":["kiss_mw_tone4-5","kiss_wm_tone4-5"],"1F469-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FB":["kiss_mw_tone5-1","kiss_wm_tone5-1"],"1F469-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FC":["kiss_mw_tone5-2","kiss_wm_tone5-2"],"1F469-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD":["kiss_mw_tone5-3","kiss_wm_tone5-3"],"1F469-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FE":["kiss_mw_tone5-4","kiss_wm_tone5-4"],"1F469-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FF":["kiss_mw_tone5","kiss_wm_tone5"],"1F468-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FB":["kiss_mm_tone1"],"1F468-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FC":["kiss_mm_tone1-2"],"1F468-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD":["kiss_mm_tone1-3"],"1F468-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FE":["kiss_mm_tone1-4"],"1F468-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FF":["kiss_mm_tone1-5"],"1F468-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FB":["kiss_mm_tone2-1"],"1F468-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FC":["kiss_mm_tone2"],"1F468-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD":["kiss_mm_tone2-3"],"1F468-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FE":["kiss_mm_tone2-4"],"1F468-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FF":["kiss_mm_tone2-5"],"1F468-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FB":["kiss_mm_tone3-1"],"1F468-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FC":["kiss_mm_tone3-2"],"1F468-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD":["kiss_mm_tone3"],"1F468-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FE":["kiss_mm_tone3-4"],"1F468-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FF":["kiss_mm_tone3-5"],"1F468-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FB":["kiss_mm_tone4-1"],"1F468-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FC":["kiss_mm_tone4-2"],"1F468-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD":["kiss_mm_tone4-3"],"1F468-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FE":["kiss_mm_tone4"],"1F468-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FF":["kiss_mm_tone4-5"],"1F468-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FB":["kiss_mm_tone5-1"],"1F468-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FC":["kiss_mm_tone5-2"],"1F468-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FD":["kiss_mm_tone5-3"],"1F468-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FE":["kiss_mm_tone5-4"],"1F468-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F468-1F3FF":["kiss_mm_tone5"],"1F469-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FB":["kiss_ww_tone1"],"1F469-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FC":["kiss_ww_tone1-2"],"1F469-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FD":["kiss_ww_tone1-3"],"1F469-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FE":["kiss_ww_tone1-4"],"1F469-1F3FB-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FF":["kiss_ww_tone1-5"],"1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FB":["kiss_ww_tone2-1"],"1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FC":["kiss_ww_tone2"],"1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FD":["kiss_ww_tone2-3"],"1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FE":["kiss_ww_tone2-4"],"1F469-1F3FC-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FF":["kiss_ww_tone2-5"],"1F469-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FB":["kiss_ww_tone3-1"],"1F469-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FC":["kiss_ww_tone3-2"],"1F469-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FD":["kiss_ww_tone3"],"1F469-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FE":["kiss_ww_tone3-4"],"1F469-1F3FD-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FF":["kiss_ww_tone3-5"],"1F469-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FB":["kiss_ww_tone4-1"],"1F469-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FC":["kiss_ww_tone4-2"],"1F469-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FD":["kiss_ww_tone4-3"],"1F469-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FE":["kiss_ww_tone4"],"1F469-1F3FE-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FF":["kiss_ww_tone4-5"],"1F469-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FB":["kiss_ww_tone5-1"],"1F469-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FC":["kiss_ww_tone5-2"],"1F469-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FD":["kiss_ww_tone5-3"],"1F469-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FE":["kiss_ww_tone5-4"],"1F469-1F3FF-200D-2764-FE0F-200D-1F48B-200D-1F469-1F3FF":["kiss_ww_tone5"],"1F491-1F3FB":["couple_heart_tone1"],"1F491-1F3FC":["couple_heart_tone2"],"1F491-1F3FD":["couple_heart_tone3"],"1F491-1F3FE":["couple_heart_tone4"],"1F491-1F3FF":["couple_heart_tone5"],"1F9D1-1F3FB-200D-2764-FE0F-200D-1F9D1-1F3FC":["couple_heart_tone1-2"],"1F9D1-1F3FB-200D-2764-FE0F-200D-1F9D1-1F3FD":["couple_heart_tone1-3"],"1F9D1-1F3FB-200D-2764-FE0F-200D-1F9D1-1F3FE":["couple_heart_tone1-4"],"1F9D1-1F3FB-200D-2764-FE0F-200D-1F9D1-1F3FF":["couple_heart_tone1-5"],"1F9D1-1F3FC-200D-2764-FE0F-200D-1F9D1-1F3FB":["couple_heart_tone2-1"],"1F9D1-1F3FC-200D-2764-FE0F-200D-1F9D1-1F3FD":["couple_heart_tone2-3"],"1F9D1-1F3FC-200D-2764-FE0F-200D-1F9D1-1F3FE":["couple_heart_tone2-4"],"1F9D1-1F3FC-200D-2764-FE0F-200D-1F9D1-1F3FF":["couple_heart_tone2-5"],"1F9D1-1F3FD-200D-2764-FE0F-200D-1F9D1-1F3FB":["couple_heart_tone3-1"],"1F9D1-1F3FD-200D-2764-FE0F-200D-1F9D1-1F3FC":["couple_heart_tone3-2"],"1F9D1-1F3FD-200D-2764-FE0F-200D-1F9D1-1F3FE":["couple_heart_tone3-4"],"1F9D1-1F3FD-200D-2764-FE0F-200D-1F9D1-1F3FF":["couple_heart_tone3-5"],"1F9D1-1F3FE-200D-2764-FE0F-200D-1F9D1-1F3FB":["couple_heart_tone4-1"],"1F9D1-1F3FE-200D-2764-FE0F-200D-1F9D1-1F3FC":["couple_heart_tone4-2"],"1F9D1-1F3FE-200D-2764-FE0F-200D-1F9D1-1F3FD":["couple_heart_tone4-3"],"1F9D1-1F3FE-200D-2764-FE0F-200D-1F9D1-1F3FF":["couple_heart_tone4-5"],"1F9D1-1F3FF-200D-2764-FE0F-200D-1F9D1-1F3FB":["couple_heart_tone5-1"],"1F9D1-1F3FF-200D-2764-FE0F-200D-1F9D1-1F3FC":["couple_heart_tone5-2"],"1F9D1-1F3FF-200D-2764-FE0F-200D-1F9D1-1F3FD":["couple_heart_tone5-3"],"1F9D1-1F3FF-200D-2764-FE0F-200D-1F9D1-1F3FE":["couple_heart_tone5-4"],"1F469-1F3FB-200D-2764-FE0F-200D-1F468-1F3FB":["couple_mw_tone1","couple_wm_tone1"],"1F469-1F3FB-200D-2764-FE0F-200D-1F468-1F3FC":["couple_mw_tone1-2","couple_wm_tone1-2"],"1F469-1F3FB-200D-2764-FE0F-200D-1F468-1F3FD":["couple_mw_tone1-3","couple_wm_tone1-3"],"1F469-1F3FB-200D-2764-FE0F-200D-1F468-1F3FE":["couple_mw_tone1-4","couple_wm_tone1-4"],"1F469-1F3FB-200D-2764-FE0F-200D-1F468-1F3FF":["couple_mw_tone1-5","couple_wm_tone1-5"],"1F469-1F3FC-200D-2764-FE0F-200D-1F468-1F3FB":["couple_mw_tone2-1","couple_wm_tone2-1"],"1F469-1F3FC-200D-2764-FE0F-200D-1F468-1F3FC":["couple_mw_tone2","couple_wm_tone2"],"1F469-1F3FC-200D-2764-FE0F-200D-1F468-1F3FD":["couple_mw_tone2-3","couple_wm_tone2-3"],"1F469-1F3FC-200D-2764-FE0F-200D-1F468-1F3FE":["couple_mw_tone2-4","couple_wm_tone2-4"],"1F469-1F3FC-200D-2764-FE0F-200D-1F468-1F3FF":["couple_mw_tone2-5","couple_wm_tone2-5"],"1F469-1F3FD-200D-2764-FE0F-200D-1F468-1F3FB":["couple_mw_tone3-1","couple_wm_tone3-1"],"1F469-1F3FD-200D-2764-FE0F-200D-1F468-1F3FC":["couple_mw_tone3-2","couple_wm_tone3-2"],"1F469-1F3FD-200D-2764-FE0F-200D-1F468-1F3FD":["couple_mw_tone3","couple_wm_tone3"],"1F469-1F3FD-200D-2764-FE0F-200D-1F468-1F3FE":["couple_mw_tone3-4","couple_wm_tone3-4"],"1F469-1F3FD-200D-2764-FE0F-200D-1F468-1F3FF":["couple_mw_tone3-5","couple_wm_tone3-5"],"1F469-1F3FE-200D-2764-FE0F-200D-1F468-1F3FB":["couple_mw_tone4-1","couple_wm_tone4-1"],"1F469-1F3FE-200D-2764-FE0F-200D-1F468-1F3FC":["couple_mw_tone4-2","couple_wm_tone4-2"],"1F469-1F3FE-200D-2764-FE0F-200D-1F468-1F3FD":["couple_mw_tone4-3","couple_wm_tone4-3"],"1F469-1F3FE-200D-2764-FE0F-200D-1F468-1F3FE":["couple_mw_tone4","couple_wm_tone4"],"1F469-1F3FE-200D-2764-FE0F-200D-1F468-1F3FF":["couple_mw_tone4-5","couple_wm_tone4-5"],"1F469-1F3FF-200D-2764-FE0F-200D-1F468-1F3FB":["couple_mw_tone5-1","couple_wm_tone5-1"],"1F469-1F3FF-200D-2764-FE0F-200D-1F468-1F3FC":["couple_mw_tone5-2","couple_wm_tone5-2"],"1F469-1F3FF-200D-2764-FE0F-200D-1F468-1F3FD":["couple_mw_tone5-3","couple_wm_tone5-3"],"1F469-1F3FF-200D-2764-FE0F-200D-1F468-1F3FE":["couple_mw_tone5-4","couple_wm_tone5-4"],"1F469-1F3FF-200D-2764-FE0F-200D-1F468-1F3FF":["couple_mw_tone5","couple_wm_tone5"],"1F468-1F3FB-200D-2764-FE0F-200D-1F468-1F3FB":["couple_mm_tone1"],"1F468-1F3FB-200D-2764-FE0F-200D-1F468-1F3FC":["couple_mm_tone1-2"],"1F468-1F3FB-200D-2764-FE0F-200D-1F468-1F3FD":["couple_mm_tone1-3"],"1F468-1F3FB-200D-2764-FE0F-200D-1F468-1F3FE":["couple_mm_tone1-4"],"1F468-1F3FB-200D-2764-FE0F-200D-1F468-1F3FF":["couple_mm_tone1-5"],"1F468-1F3FC-200D-2764-FE0F-200D-1F468-1F3FB":["couple_mm_tone2-1"],"1F468-1F3FC-200D-2764-FE0F-200D-1F468-1F3FC":["couple_mm_tone2"],"1F468-1F3FC-200D-2764-FE0F-200D-1F468-1F3FD":["couple_mm_tone2-3"],"1F468-1F3FC-200D-2764-FE0F-200D-1F468-1F3FE":["couple_mm_tone2-4"],"1F468-1F3FC-200D-2764-FE0F-200D-1F468-1F3FF":["couple_mm_tone2-5"],"1F468-1F3FD-200D-2764-FE0F-200D-1F468-1F3FB":["couple_mm_tone3-1"],"1F468-1F3FD-200D-2764-FE0F-200D-1F468-1F3FC":["couple_mm_tone3-2"],"1F468-1F3FD-200D-2764-FE0F-200D-1F468-1F3FD":["couple_mm_tone3"],"1F468-1F3FD-200D-2764-FE0F-200D-1F468-1F3FE":["couple_mm_tone3-4"],"1F468-1F3FD-200D-2764-FE0F-200D-1F468-1F3FF":["couple_mm_tone3-5"],"1F468-1F3FE-200D-2764-FE0F-200D-1F468-1F3FB":["couple_mm_tone4-1"],"1F468-1F3FE-200D-2764-FE0F-200D-1F468-1F3FC":["couple_mm_tone4-2"],"1F468-1F3FE-200D-2764-FE0F-200D-1F468-1F3FD":["couple_mm_tone4-3"],"1F468-1F3FE-200D-2764-FE0F-200D-1F468-1F3FE":["couple_mm_tone4"],"1F468-1F3FE-200D-2764-FE0F-200D-1F468-1F3FF":["couple_mm_tone4-5"],"1F468-1F3FF-200D-2764-FE0F-200D-1F468-1F3FB":["couple_mm_tone5-1"],"1F468-1F3FF-200D-2764-FE0F-200D-1F468-1F3FC":["couple_mm_tone5-2"],"1F468-1F3FF-200D-2764-FE0F-200D-1F468-1F3FD":["couple_mm_tone5-3"],"1F468-1F3FF-200D-2764-FE0F-200D-1F468-1F3FE":["couple_mm_tone5-4"],"1F468-1F3FF-200D-2764-FE0F-200D-1F468-1F3FF":["couple_mm_tone5"],"1F469-1F3FB-200D-2764-FE0F-200D-1F469-1F3FB":["couple_ww_tone1"],"1F469-1F3FB-200D-2764-FE0F-200D-1F469-1F3FC":["couple_ww_tone1-2"],"1F469-1F3FB-200D-2764-FE0F-200D-1F469-1F3FD":["couple_ww_tone1-3"],"1F469-1F3FB-200D-2764-FE0F-200D-1F469-1F3FE":["couple_ww_tone1-4"],"1F469-1F3FB-200D-2764-FE0F-200D-1F469-1F3FF":["couple_ww_tone1-5"],"1F469-1F3FC-200D-2764-FE0F-200D-1F469-1F3FB":["couple_ww_tone2-1"],"1F469-1F3FC-200D-2764-FE0F-200D-1F469-1F3FC":["couple_ww_tone2"],"1F469-1F3FC-200D-2764-FE0F-200D-1F469-1F3FD":["couple_ww_tone2-3"],"1F469-1F3FC-200D-2764-FE0F-200D-1F469-1F3FE":["couple_ww_tone2-4"],"1F469-1F3FC-200D-2764-FE0F-200D-1F469-1F3FF":["couple_ww_tone2-5"],"1F469-1F3FD-200D-2764-FE0F-200D-1F469-1F3FB":["couple_ww_tone3-1"],"1F469-1F3FD-200D-2764-FE0F-200D-1F469-1F3FC":["couple_ww_tone3-2"],"1F469-1F3FD-200D-2764-FE0F-200D-1F469-1F3FD":["couple_ww_tone3"],"1F469-1F3FD-200D-2764-FE0F-200D-1F469-1F3FE":["couple_ww_tone3-4"],"1F469-1F3FD-200D-2764-FE0F-200D-1F469-1F3FF":["couple_ww_tone3-5"],"1F469-1F3FE-200D-2764-FE0F-200D-1F469-1F3FB":["couple_ww_tone4-1"],"1F469-1F3FE-200D-2764-FE0F-200D-1F469-1F3FC":["couple_ww_tone4-2"],"1F469-1F3FE-200D-2764-FE0F-200D-1F469-1F3FD":["couple_ww_tone4-3"],"1F469-1F3FE-200D-2764-FE0F-200D-1F469-1F3FE":["couple_ww_tone4"],"1F469-1F3FE-200D-2764-FE0F-200D-1F469-1F3FF":["couple_ww_tone4-5"],"1F469-1F3FF-200D-2764-FE0F-200D-1F469-1F3FB":["couple_ww_tone5-1"],"1F469-1F3FF-200D-2764-FE0F-200D-1F469-1F3FC":["couple_ww_tone5-2"],"1F469-1F3FF-200D-2764-FE0F-200D-1F469-1F3FD":["couple_ww_tone5-3"],"1F469-1F3FF-200D-2764-FE0F-200D-1F469-1F3FE":["couple_ww_tone5-4"],"1F469-1F3FF-200D-2764-FE0F-200D-1F469-1F3FF":["couple_ww_tone5"]}');
+
+/***/ }),
+
+/***/ "./node_modules/simple-emoji-map/index.mjs":
+/*!*************************************************!*\
+  !*** ./node_modules/simple-emoji-map/index.mjs ***!
+  \*************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport default export from named module */ _generated_emojis_json__WEBPACK_IMPORTED_MODULE_0__),
+/* harmony export */   variants: () => (/* reexport default export from named module */ _generated_variants_json__WEBPACK_IMPORTED_MODULE_1__)
+/* harmony export */ });
+/* harmony import */ var _generated_emojis_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./generated/emojis.json */ "./node_modules/simple-emoji-map/generated/emojis.json");
+/* harmony import */ var _generated_variants_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./generated/variants.json */ "./node_modules/simple-emoji-map/generated/variants.json");
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/common/components/ReactionComponent.js":
+/*!****************************************************!*\
+  !*** ./src/common/components/ReactionComponent.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ReactionComponent)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Component */ "flarum/common/Component");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_utils_extract__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/utils/extract */ "flarum/common/utils/extract");
+/* harmony import */ var flarum_common_utils_extract__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_utils_extract__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_utils_classList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/utils/classList */ "flarum/common/utils/classList");
+/* harmony import */ var flarum_common_utils_classList__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_utils_classList__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _util_emoji__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/emoji */ "./src/common/util/emoji.js");
+
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0,_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+
+
+
+
+class ReactionComponent extends (flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()) {
+  view() {
+    const attrs = _objectSpread({}, this.attrs);
+    const reaction = flarum_common_utils_extract__WEBPACK_IMPORTED_MODULE_2___default()(attrs, 'reaction');
+    const className = flarum_common_utils_extract__WEBPACK_IMPORTED_MODULE_2___default()(attrs, 'className');
+    if (!reaction) return m("span", null);
+    const display = reaction.display() || reaction.identifier();
+    if (!attrs.title) attrs.title = display;
+    if (reaction.type() === 'emoji') {
+      const {
+        url
+      } = (0,_util_emoji__WEBPACK_IMPORTED_MODULE_4__["default"])(reaction.identifier());
+      return m("img", Object.assign({
+        className: flarum_common_utils_classList__WEBPACK_IMPORTED_MODULE_3___default()(className, 'emoji'),
+        src: url,
+        loading: "lazy",
+        draggable: "false",
+        alt: display
+      }, attrs));
+    } else {
+      return m("i", Object.assign({
+        className: flarum_common_utils_classList__WEBPACK_IMPORTED_MODULE_3___default()(className, reaction.identifier(), 'icon'),
+        "aria-hidden": true
+      }, attrs));
+    }
+  }
+}
+flarum.reg.add('fof-reactions', 'common/components/ReactionComponent', ReactionComponent);
+
+/***/ }),
+
+/***/ "./src/common/components/index.ts":
+/*!****************************************!*\
+  !*** ./src/common/components/index.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   commonComponents: () => (/* binding */ commonComponents)
+/* harmony export */ });
+/* harmony import */ var _ReactionComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReactionComponent */ "./src/common/components/ReactionComponent.js");
+
+const commonComponents = {
+  ReactionComponent: _ReactionComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
+};
+flarum.reg.add('fof-reactions', 'common/components', null);
+
+/***/ }),
+
+/***/ "./src/common/index.js":
+/*!*****************************!*\
+  !*** ./src/common/index.js ***!
+  \*****************************/
+/***/ (() => {
+
+
+
+/***/ }),
+
+/***/ "./src/common/models/Reaction.ts":
+/*!***************************************!*\
+  !*** ./src/common/models/Reaction.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Reaction)
+/* harmony export */ });
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_0__);
+
+class Reaction extends (flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default()) {
+  identifier() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().attribute('identifier').call(this);
+  }
+  display() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().attribute('display').call(this);
+  }
+  type() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().attribute('type').call(this);
+  }
+  enabled() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().attribute('enabled').call(this);
+  }
+  user_id() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().attribute('user_id').call(this);
+  }
+  post_id() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().attribute('post_id').call(this);
+  }
+  reaction_id() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().attribute('reaction_id').call(this);
+  }
+}
+flarum.reg.add('fof-reactions', 'common/models/Reaction', Reaction);
+
+/***/ }),
+
+/***/ "./src/common/models/index.ts":
+/*!************************************!*\
+  !*** ./src/common/models/index.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   commonModels: () => (/* binding */ commonModels)
+/* harmony export */ });
+/* harmony import */ var _Reaction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Reaction */ "./src/common/models/Reaction.ts");
+
+const commonModels = {
+  Reaction: _Reaction__WEBPACK_IMPORTED_MODULE_0__["default"]
+};
+flarum.reg.add('fof-reactions', 'common/models', null);
+
+/***/ }),
+
+/***/ "./src/common/util/emoji.js":
+/*!**********************************!*\
+  !*** ./src/common/util/emoji.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ emoji)
+/* harmony export */ });
+/* harmony import */ var flarum_common_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/common/app */ "flarum/common/app");
+/* harmony import */ var flarum_common_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_common_app__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var simple_emoji_map__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! simple-emoji-map */ "./node_modules/simple-emoji-map/index.mjs");
+/* harmony import */ var fuzzyset__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! fuzzyset */ "./node_modules/fuzzyset/dist/fuzzyset.esm.js");
+
+
+
+const flatten = function (arr, depth) {
+  if (depth === void 0) {
+    depth = 1;
+  }
+  return arr.reduce((a, v) => a.concat(depth > 1 && Array.isArray(v) ? flatten(v, depth - 1) : v), []);
+};
+const shortnames = flatten(Object.values(simple_emoji_map__WEBPACK_IMPORTED_MODULE_1__["default"]));
+const entries = Object.entries(simple_emoji_map__WEBPACK_IMPORTED_MODULE_1__["default"]);
+const getEmoji = identifier => entries.find(_ref => {
+  let [, value] = _ref;
+  return value.includes(identifier);
+});
+const toUnicodeEmoji = codePoint => String.fromCodePoint(...codePoint.split('-').map(e => "0x".concat(e)));
+const emojiCache = new Map();
+const fuzzySet = new fuzzyset__WEBPACK_IMPORTED_MODULE_2__["default"](shortnames);
+const search = query => {
+  const results = fuzzySet.get(query);
+  if (!results) return null;
+  const [score, item] = results[0];
+  return {
+    score,
+    item
+  };
+};
+function emoji(reactionOrIdentifier) {
+  if (!reactionOrIdentifier) return {};
+  let identifier = reactionOrIdentifier.identifier || reactionOrIdentifier;
+  if (emojiCache.has(identifier)) return emojiCache.get(identifier);
+  let score;
+  if (!shortnames.includes(identifier)) {
+    const match = search(identifier);
+    identifier = match == null ? void 0 : match.item;
+    score = match == null ? void 0 : match.score;
+  }
+  const emoji = getEmoji(identifier);
+  const codePoint = emoji == null ? void 0 : emoji[0];
+  const cdnUrl = flarum_common_app__WEBPACK_IMPORTED_MODULE_0___default().forum.attribute('fofReactionsCdnUrl') || 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/[codepoint].png';
+  const output = codePoint ? {
+    identifier,
+    score,
+    uc: toUnicodeEmoji(codePoint),
+    url: cdnUrl.replace('[codepoint]', codePoint.toLowerCase()),
+    type: 'emoji'
+  } : {};
+  emojiCache.set(reactionOrIdentifier, output);
+  return output || {};
+}
+flarum.reg.add('fof-reactions', 'common/util/emoji', emoji);
+
+/***/ }),
+
+/***/ "./src/common/util/index.ts":
+/*!**********************************!*\
+  !*** ./src/common/util/index.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   commonUtil: () => (/* binding */ commonUtil)
+/* harmony export */ });
+/* harmony import */ var _emoji__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./emoji */ "./src/common/util/emoji.js");
+
+const commonUtil = {
+  emoji: _emoji__WEBPACK_IMPORTED_MODULE_0__["default"]
+};
+flarum.reg.add('fof-reactions', 'common/util', null);
+
+/***/ }),
+
+/***/ "./src/forum/addPusher.js":
+/*!********************************!*\
+  !*** ./src/forum/addPusher.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/forum/app */ "flarum/forum/app");
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/extend */ "flarum/common/extend");
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_extend__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_forum_components_DiscussionPage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/forum/components/DiscussionPage */ "flarum/forum/components/DiscussionPage");
+/* harmony import */ var flarum_forum_components_DiscussionPage__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_components_DiscussionPage__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+const fetch = postId => flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().store.find('posts', postId, {
+  include: 'reactions'
+}).then(() => m.redraw());
+const debounced = [];
+const update = postId => {
+  let func = debounced[postId];
+  if (func) return func(postId);
+  func = debounced[postId] = lodash_debounce__WEBPACK_IMPORTED_MODULE_1___default()(fetch, 1500);
+  return func(postId);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (() => {
+  (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_2__.extend)((flarum_forum_components_DiscussionPage__WEBPACK_IMPORTED_MODULE_3___default().prototype), 'config', function (x, isInitialized, context) {
+    if (isInitialized) return;
+    if ((flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().pusher)) {
+      flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().pusher.then(channels => {
+        channels.main.bind('newReaction', _ref => {
+          let {
+            postId,
+            reactionId
+          } = _ref;
+          const reaction = flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().store.getById('reactions', reactionId);
+          const post = flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().store.getById('posts', postId);
+          if (!reaction || !post) return;
+          update(postId);
+        });
+        channels.main.bind('removedReaction', _ref2 => {
+          let {
+            userId,
+            postId,
+            reactionId
+          } = _ref2;
+          const postReaction = flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().store.all('post_reactions').filter(r => r.userId() == userId && r.postId() == postId && r.reactionId() == reactionId)[0];
+          if (!postReaction) return;
+          flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().store.remove(postReaction);
+          update(postId);
+          m.redraw();
+        });
+        (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_2__.extend)(context, 'onunload', () => channels.main.unbind('newReaction'));
+        (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_2__.extend)(context, 'onunload', () => channels.main.unbind('removedReaction'));
+      });
+    }
+  });
+});
+
+/***/ }),
+
+/***/ "./src/forum/addReactionAction.js":
+/*!****************************************!*\
+  !*** ./src/forum/addReactionAction.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/common/extend */ "flarum/common/extend");
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_common_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/forum/app */ "flarum/forum/app");
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_app__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_forum_components_CommentPost__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/forum/components/CommentPost */ "flarum/forum/components/CommentPost");
+/* harmony import */ var flarum_forum_components_CommentPost__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_components_CommentPost__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_PostReactAction__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/PostReactAction */ "./src/forum/components/PostReactAction.js");
+/* harmony import */ var flarum_forum_utils_PostControls__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/forum/utils/PostControls */ "flarum/forum/utils/PostControls");
+/* harmony import */ var flarum_forum_utils_PostControls__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_utils_PostControls__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _components_ReactionsModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/ReactionsModal */ "./src/forum/components/ReactionsModal.tsx");
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (() => {
+  (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_0__.extend)((flarum_forum_components_CommentPost__WEBPACK_IMPORTED_MODULE_2___default().prototype), 'actionItems', function (items) {
+    const post = this.attrs.post;
+    if (post.isHidden()) return;
+    const hasReacted = (flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().session).user && post.userReaction() !== null;
+    items.add('react', _components_PostReactAction__WEBPACK_IMPORTED_MODULE_3__["default"].component({
+      post,
+      hasReacted
+    }), 5);
+  });
+  (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_0__.extend)((flarum_forum_utils_PostControls__WEBPACK_IMPORTED_MODULE_4___default()), 'moderationControls', function (items, post) {
+    const reactionCounts = post.reactionCounts();
+    const hasReactions = reactionCounts && Object.keys(reactionCounts).length > 0;
+    if (post.discussion().canSeeReactions() && hasReactions) {
+      items.add('viewReactions', m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_5___default()), {
+        icon: "fas fa-heart",
+        onclick: () => flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().modal.show(_components_ReactionsModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          post
+        })
+      }, flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans('fof-reactions.forum.mod_item')));
+    }
+  });
+});
+
+/***/ }),
+
+/***/ "./src/forum/components/PostReactAction.js":
+/*!*************************************************!*\
+  !*** ./src/forum/components/PostReactAction.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PostReactAction)
+/* harmony export */ });
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/forum/app */ "flarum/forum/app");
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/Component */ "flarum/common/Component");
+/* harmony import */ var flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Component__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_utils_ItemList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/utils/ItemList */ "flarum/common/utils/ItemList");
+/* harmony import */ var flarum_common_utils_ItemList__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_utils_ItemList__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_helpers_listItems__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/helpers/listItems */ "flarum/common/helpers/listItems");
+/* harmony import */ var flarum_common_helpers_listItems__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_helpers_listItems__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _common_components_ReactionComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../common/components/ReactionComponent */ "./src/common/components/ReactionComponent.js");
+
+
+
+
+
+
+class PostReactAction extends (flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()) {
+  oninit(vnode) {
+    super.oninit(vnode);
+    this.post = this.attrs.post;
+    this.loading = {};
+    this.updateChosenReaction();
+  }
+  oncreate(vnode) {
+    super.oncreate(vnode);
+    if ('ontouchstart' in window) {
+      $('.Reactions').unbind().on('touchend', function () {
+        $(this).find('.CommentPost--Reactions').toggleClass('mobile-show');
+      });
+      $(document).click(function (e) {
+        var target = e.target;
+        if (!$(target).is('.Reactions') && !$(target).parents().is('.Reactions')) {
+          $('.CommentPost--Reactions').removeClass('mobile-show');
+        }
+      });
+    }
+  }
+  getReactions() {
+    const items = new (flarum_common_utils_ItemList__WEBPACK_IMPORTED_MODULE_2___default())();
+    flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().forum.reactions().forEach(reaction => {
+      if (!reaction.enabled()) {
+        return;
+      }
+      items.add(reaction.identifier().replace(/fa.? fa-/, ''), m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_3___default()), {
+        className: "Button Button--link",
+        type: "button",
+        title: reaction.display() || reaction.identifier(),
+        onclick: this.react.bind(this, reaction),
+        "data-reaction": reaction.identifier(),
+        loading: this.loading[reaction.id()]
+      }, m(_common_components_ReactionComponent__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        className: reaction.type(),
+        reaction: reaction
+      })));
+    });
+    return items;
+  }
+  view() {
+    const reactionCounts = this.post.reactionCounts();
+    const canReact = this.post.canReact();
+    const hasReacted = this.post.userReaction() && reactionCounts[this.post.userReaction()] > 0;
+    return m("div", {
+      style: "margin-right: 7px",
+      className: "Reactions"
+    }, m("div", {
+      className: "Reactions--reactions"
+    }, Object.keys(reactionCounts).map(id => {
+      const reaction = flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().store.getById('reactions', id);
+      const count = reactionCounts[id];
+      if (count === 0) return;
+      const spanClass = reaction.type() === 'icon' ? "".concat(reaction.identifier(), " emoji button-emoji reaction-icon") : '';
+      const icon = m(_common_components_ReactionComponent__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        reaction: reaction,
+        className: spanClass,
+        "data-reaction": reaction.identifier()
+      });
+      return flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_3___default().component({
+        className: "Button Button--flat Button-emoji-parent ".concat(this.post.userReaction() == reaction.id() && 'active'),
+        onclick: canReact ? this.react.bind(this, reaction) : '',
+        'data-reaction': reaction.identifier(),
+        disabled: !canReact,
+        loading: this.loading[reaction.id()]
+      }, m("span", null, icon, " ", count > 1 ? m("span", {
+        className: "count"
+      }, count) : ''));
+    })), (!Object.keys(this.loading).length || this.loading[null]) && !hasReacted && canReact && m("div", {
+      className: "Reactions--react"
+    }, this.reactButton(), m("div", {
+      className: "CommentPost--Reactions",
+      style: this.post.number() === 1 ? '' : 'left: -28%;'
+    }, m("ul", {
+      className: "Reactions--Ul"
+    }, flarum_common_helpers_listItems__WEBPACK_IMPORTED_MODULE_4___default()(this.getReactions().toArray())))));
+  }
+  reactButton() {
+    return m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_3___default()), {
+      className: "Button Button--link Reactions--ShowReactions",
+      type: "Button",
+      title: flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-reactions.forum.react_button_label'),
+      loading: this.loading[null]
+    }, m("span", {
+      className: "Button-label"
+    }, m("svg", {
+      class: "button-react",
+      width: "20px",
+      height: "20px",
+      viewBox: "0 0 18 18"
+    }, m("g", {
+      id: "Reaction",
+      stroke: "none",
+      "stroke-width": "1",
+      fill: "none",
+      "fill-rule": "evenodd"
+    }, m("g", {
+      id: "ic_reactions_grey"
+    }, m("g", {
+      id: "Group-2"
+    }, m("g", {
+      id: "0:0:0:0"
+    }, m("rect", {
+      id: "Rectangle-5",
+      x: "0",
+      y: "0",
+      width: "18",
+      height: "18"
+    }), m("g", {
+      id: "emoticon"
+    }), m("path", {
+      d: "M14.6332705,7.33333333 C14.6554304,7.55389388 14.6666667,7.77636769 14.6666667,8 C14.6666667,11.6818983 11.6818983,14.6666667 8,14.6666667 C6.23189007,14.6666667 4.53619732,13.9642877 3.28595479,12.7140452 C2.03571227,11.4638027 1.33333333,9.76810993 1.33333333,8 C1.33333333,4.33333333 4.31333333,1.33333333 8,1.33333333 L8,1.33333333 C8.22363231,1.33333333 8.44610612,1.3445696 8.66666667,1.36672949 L8.66666667,2.70847693 C8.44668912,2.68076722 8.22407146,2.66666667 8,2.66666667 C5.05448133,2.66666667 2.66666667,5.05448133 2.66666667,8 C2.66666667,10.9455187 5.05448133,13.3333333 8,13.3333333 C10.9455187,13.3333333 13.3333333,10.9455187 13.3333333,8 C13.3333333,7.77592854 13.3192328,7.55331088 13.2915231,7.33333333 L14.6332705,7.33333333 Z M8,11.6666667 C9.55333333,11.6666667 10.8666667,10.6933333 11.4066667,9.33333333 L4.59333333,9.33333333 C5.12666667,10.6933333 6.44666667,11.6666667 8,11.6666667 Z M10.3333333,7.33333333 C10.8856181,7.33333333 11.3333333,6.88561808 11.3333333,6.33333333 C11.3333333,5.78104858 10.8856181,5.33333333 10.3333333,5.33333333 C9.78104858,5.33333333 9.33333333,5.78104858 9.33333333,6.33333333 C9.33333333,6.88561808 9.78104858,7.33333333 10.3333333,7.33333333 L10.3333333,7.33333333 Z M5.66666667,7.33333333 C6.21895142,7.33333333 6.66666667,6.88561808 6.66666667,6.33333333 C6.66666667,5.78104858 6.21895142,5.33333333 5.66666667,5.33333333 C5.11438192,5.33333333 4.66666667,5.78104858 4.66666667,6.33333333 C4.66666667,6.88561808 5.11438192,7.33333333 5.66666667,7.33333333 Z",
+      id: "Combined-Shape",
+      fill: "#667c99"
+    })), m("g", {
+      id: "Group-15",
+      transform: "translate(10.666667, 0.000000)",
+      fill: "#667c99"
+    }, m("polygon", {
+      id: "Path",
+      points: "3.33333333 2 3.33333333 0 2 0 2 2 0 2 0 3.33333333 2 3.33333333 2 5.33333333 3.33333333 5.33333333 3.33333333 3.33333333 5.33333333 3.33333333 5.33333333 2"
+    }))))))));
+  }
+  react(reaction, e) {
+    e.target.blur();
+    const allowAnonymous = flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().forum.attribute('fofReactionsAllowAnonymous');
+    if (!(flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().session).user && !allowAnonymous) {
+      flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().modal.show(() => flarum.reg.asyncModuleImport('flarum/forum/components/LogInModal'));
+      return;
+    }
+    if (!this.post.canReact()) {
+      return flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().alerts.show({
+        type: 'error'
+      }, flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('core.lib.error.permission_denied_message'));
+    }
+    const id = !reaction ? null : reaction.id();
+    const originalPostReactions = this.post.reactionCounts();
+    this.loading[id] = true;
+    return this.post.save({
+      reaction: id
+    }).then(post => {
+      delete this.loading[id];
+      for (const reactionId in originalPostReactions) {
+        if (!post.reactionCounts().hasOwnProperty(reactionId)) {
+          flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().store.remove(flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().store.getById('reactions', reactionId));
+        }
+      }
+      this.updateChosenReaction();
+      if ((flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().forum).data.relationships.ranks !== undefined && (flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().forum.attribute('ReactionConverts')[0] === reaction || flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().forum.attribute('ReactionConverts')[1] === reaction) || this.post.data.relationships.likes !== undefined && flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().forum.attribute('ReactionConverts')[2] === reaction) {
+        flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().alerts.show({
+          type: 'warning'
+        }, flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-reactions.forum.warning', {
+          reaction
+        }));
+      }
+      m.redraw();
+    }).catch(err => {
+      delete this.loading[id];
+      $('body').append(err);
+      m.redraw();
+    });
+  }
+  updateChosenReaction() {
+    return this.reaction = this.post.userReaction();
+  }
+}
+flarum.reg.add('fof-reactions', 'forum/components/PostReactAction', PostReactAction);
+
+/***/ }),
+
+/***/ "./src/forum/components/PostReactedNotification.js":
+/*!*********************************************************!*\
+  !*** ./src/forum/components/PostReactedNotification.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PostReactedNotification)
+/* harmony export */ });
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/forum/app */ "flarum/forum/app");
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var flarum_forum_components_Notification__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/forum/components/Notification */ "flarum/forum/components/Notification");
+/* harmony import */ var flarum_forum_components_Notification__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_components_Notification__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_components_Icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/components/Icon */ "flarum/common/components/Icon");
+/* harmony import */ var flarum_common_components_Icon__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Icon__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _common_util_emoji__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../common/util/emoji */ "./src/common/util/emoji.js");
+
+
+
+
+class PostReactedNotification extends (flarum_forum_components_Notification__WEBPACK_IMPORTED_MODULE_1___default()) {
+  icon() {
+    return 'fas fa-heart';
+  }
+  href() {
+    return flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().route.post(this.attrs.notification.subject());
+  }
+  content() {
+    const notification = this.attrs.notification;
+    const {
+      identifier,
+      type
+    } = JSON.parse(notification.content());
+    const user = notification.fromUser();
+    const reaction = type === 'emoji' ? m("img", {
+      src: (0,_common_util_emoji__WEBPACK_IMPORTED_MODULE_3__["default"])(identifier).url,
+      loading: "lazy",
+      height: "14px"
+    }) : m((flarum_common_components_Icon__WEBPACK_IMPORTED_MODULE_2___default()), {
+      name: identifier
+    });
+    return flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().translator.trans('fof-reactions.forum.notification', {
+      user,
+      reaction
+    });
+  }
+  excerpt() {
+    return this.attrs.notification.subject().contentPlain();
+  }
+}
+flarum.reg.add('fof-reactions', 'forum/components/PostReactedNotification', PostReactedNotification);
+
+/***/ }),
+
+/***/ "./src/forum/components/ReactionsModal.tsx":
+/*!*************************************************!*\
+  !*** ./src/forum/components/ReactionsModal.tsx ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ReactionsModal)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/forum/app */ "flarum/forum/app");
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_app__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/components/Modal */ "flarum/common/components/Modal");
+/* harmony import */ var flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/components/LoadingIndicator */ "flarum/common/components/LoadingIndicator");
+/* harmony import */ var flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_components_Avatar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/components/Avatar */ "flarum/common/components/Avatar");
+/* harmony import */ var flarum_common_components_Avatar__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Avatar__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var flarum_common_helpers_username__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/common/helpers/username */ "flarum/common/helpers/username");
+/* harmony import */ var flarum_common_helpers_username__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_common_helpers_username__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var flarum_common_components_Link__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! flarum/common/components/Link */ "flarum/common/components/Link");
+/* harmony import */ var flarum_common_components_Link__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Link__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _common_components_ReactionComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../common/components/ReactionComponent */ "./src/common/components/ReactionComponent.js");
+/* harmony import */ var _utils_groupBy__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/groupBy */ "./src/forum/utils/groupBy.ts");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! flarum/common/components/Button */ "flarum/common/components/Button");
+/* harmony import */ var flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_9__);
+
+
+
+
+
+
+
+
+
+
+class ReactionsModal extends (flarum_common_components_Modal__WEBPACK_IMPORTED_MODULE_2___default()) {
+  constructor() {
+    super(...arguments);
+    (0,_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "reactions", []);
+    (0,_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "loading", false);
+    (0,_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "deletingSpecific", {});
+    (0,_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "deletingType", {});
+  }
+  className() {
+    return 'ReactionsModal Modal--small';
+  }
+  title() {
+    return flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans('fof-reactions.forum.modal.title');
+  }
+  oninit(vnode) {
+    super.oninit(vnode);
+    this.load();
+  }
+  content() {
+    if (this.loading) {
+      return m("div", {
+        className: "Modal-body"
+      }, m((flarum_common_components_LoadingIndicator__WEBPACK_IMPORTED_MODULE_3___default()), null));
+    }
+    return m("div", {
+      className: "Modal-body"
+    }, m("ul", {
+      className: "ReactionsModal-list"
+    }, this.reactions.map(_ref => {
+      let {
+        reaction,
+        users,
+        anonymousCount
+      } = _ref;
+      return this.buildReactionSection(reaction, users, anonymousCount);
+    }), !this.reactions.length && m("p", null, flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans('fof-reactions.forum.modal.no_reactions'))));
+  }
+  buildReactionSection(reaction, users, anonymousCount) {
+    const post = this.attrs.post;
+
+    // The user can delete the reaction if they can delete reactions on the post, or
+    // if they can react (i.e. modify their reaction) and it's their own reaction
+    const canDeleteReaction = user => post.canDeletePostReactions() || post.canReact() && user === (flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().session).user;
+    return m("div", {
+      className: "ReactionsModal-group"
+    }, m("legend", null, m(_common_components_ReactionComponent__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      reaction: reaction,
+      className: 'ReactionModal-reaction'
+    }), m("label", {
+      className: "ReactionsModal-display"
+    }, reaction.display() || reaction.identifier()), post.canDeletePostReactions() && m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_9___default()), {
+      icon: "fas fa-minus-circle",
+      className: "Button Button--icon Button--link",
+      loading: this.deletingType[reaction.id()],
+      onclick: this.deletePostReaction.bind(this, false, reaction.id())
+    })), m("hr", {
+      className: "ReactionsModal-delimiter"
+    }), Object.entries(users).map((_ref2, index) => {
+      let [postReactionId, user] = _ref2;
+      return m("li", {
+        key: user.id(),
+        "data-post-reaction-id": postReactionId,
+        "data-user-id": user.id()
+      }, m((flarum_common_components_Link__WEBPACK_IMPORTED_MODULE_6___default()), {
+        className: "ReactionsModal-user",
+        href: flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().route.user(user)
+      }, m((flarum_common_components_Avatar__WEBPACK_IMPORTED_MODULE_4___default()), {
+        user: user,
+        loading: "lazy"
+      }), flarum_common_helpers_username__WEBPACK_IMPORTED_MODULE_5___default()(user)), canDeleteReaction(user) && m((flarum_common_components_Button__WEBPACK_IMPORTED_MODULE_9___default()), {
+        icon: "fas fa-minus-circle",
+        className: "Button Button--icon Button--link",
+        loading: this.deletingSpecific[postReactionId],
+        onclick: this.deletePostReaction.bind(this, postReactionId, reaction.id())
+      }));
+    }), anonymousCount > 0 && m("li", null, flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans('fof-reactions.forum.modal.anonymous_count', {
+      count: anonymousCount
+    })));
+  }
+  async load() {
+    this.loading = true;
+    const response = await flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().store.find("post_reactions", {
+      include: 'user,reaction',
+      filter: {
+        post: this.attrs.post.id()
+      }
+    });
+    const groupedReactions = (0,_utils_groupBy__WEBPACK_IMPORTED_MODULE_8__["default"])(response, r => r.reactionId());
+    const reactions = [];
+    for (let reactionId in groupedReactions) {
+      const reaction = flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().store.getById('reactions', reactionId);
+      if (!reaction) {
+        continue;
+      }
+      const users = {};
+      let anonymousCount = 0;
+      for (let reactionInstance of groupedReactions[reactionId]) {
+        const userId = reactionInstance.userId();
+        if (userId === null) {
+          // Check for null userId
+          anonymousCount++;
+        } else {
+          const user = flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().store.getById('users', userId);
+          if (user) {
+            // Check for null user
+            users[reactionInstance.id()] = user;
+          }
+        }
+      }
+      reactions.push({
+        reaction,
+        users,
+        anonymousCount
+      });
+    }
+    this.reactions = reactions;
+    this.loading = false;
+    m.redraw();
+  }
+  async deletePostReaction(postReactionId, reactionId) {
+    const isSpecific = postReactionId !== false;
+    const loadingArr = isSpecific ? this.deletingSpecific : this.deletingType;
+    const id = isSpecific ? postReactionId : reactionId;
+    loadingArr[id] = true;
+
+    // Use the new Flarum 2.0 RESTful endpoints
+    const endpoint = isSpecific ? "posts/".concat(this.attrs.post.id(), "/reactions/specific/").concat(id) : "posts/".concat(this.attrs.post.id(), "/reactions/type/").concat(id);
+    await flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().request({
+      method: 'DELETE',
+      url: "".concat(flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().forum.attribute('apiUrl'), "/").concat(endpoint)
+    });
+
+    // Filter out the deleted reaction type
+    const reaction = this.reactions.find(reaction => reaction.reaction.id() === reactionId);
+    if (isSpecific) {
+      // Remove only the specific post_reaction
+      const postReaction = flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().store.getById('post_reactions', postReactionId);
+      if (reaction) {
+        delete reaction.users[postReactionId];
+
+        // Remove reaction group if there are no more reactions of this type
+        if (!Object.keys(reaction.users).length && !reaction.anonymousCount) {
+          this.reactions = this.reactions.filter(r => r.reaction.id() !== reactionId);
+        }
+      }
+      if (postReaction) flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().store.remove(postReaction);
+      this.attrs.post.reactionCounts()[reactionId]--;
+    } else {
+      // Remove all reactions of this type
+      this.reactions = this.reactions.filter(r => r.reaction.id() !== reactionId);
+      if (reaction) {
+        for (const postReactionId in reaction.users) {
+          const postReaction = flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().store.getById('post_reactions', postReactionId);
+          if (postReaction) flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().store.remove(postReaction);
+        }
+      }
+      this.attrs.post.reactionCounts()[reactionId] = 0;
+    }
+    delete loadingArr[id];
+    m.redraw();
+  }
+}
+flarum.reg.add('fof-reactions', 'forum/components/ReactionsModal', ReactionsModal);
+
+/***/ }),
+
+/***/ "./src/forum/components/index.js":
+/*!***************************************!*\
+  !*** ./src/forum/components/index.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   components: () => (/* binding */ components)
+/* harmony export */ });
+/* harmony import */ var _PostReactAction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostReactAction */ "./src/forum/components/PostReactAction.js");
+/* harmony import */ var _PostReactedNotification__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostReactedNotification */ "./src/forum/components/PostReactedNotification.js");
+/* harmony import */ var _ReactionsModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ReactionsModal */ "./src/forum/components/ReactionsModal.tsx");
+
+
+
+const components = {
+  PostReactAction: _PostReactAction__WEBPACK_IMPORTED_MODULE_0__["default"],
+  PostReactedNotification: _PostReactedNotification__WEBPACK_IMPORTED_MODULE_1__["default"],
+  ReactionsModal: _ReactionsModal__WEBPACK_IMPORTED_MODULE_2__["default"]
+};
+flarum.reg.add('fof-reactions', 'forum/components', null);
+
+/***/ }),
+
+/***/ "./src/forum/index.js":
+/*!****************************!*\
+  !*** ./src/forum/index.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   commonComponents: () => (/* reexport safe */ _common_components__WEBPACK_IMPORTED_MODULE_14__.commonComponents),
+/* harmony export */   commonModels: () => (/* reexport safe */ _common_models__WEBPACK_IMPORTED_MODULE_15__.commonModels),
+/* harmony export */   commonUtil: () => (/* reexport safe */ _common_util__WEBPACK_IMPORTED_MODULE_16__.commonUtil),
+/* harmony export */   components: () => (/* reexport safe */ _components__WEBPACK_IMPORTED_MODULE_11__.components),
+/* harmony export */   models: () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_12__.models),
+/* harmony export */   utils: () => (/* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_13__.utils)
+/* harmony export */ });
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/common/extend */ "flarum/common/extend");
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_common_extend__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/forum/app */ "flarum/forum/app");
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_app__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_models_Forum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/models/Forum */ "flarum/common/models/Forum");
+/* harmony import */ var flarum_common_models_Forum__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_models_Forum__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_common_models_Discussion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/common/models/Discussion */ "flarum/common/models/Discussion");
+/* harmony import */ var flarum_common_models_Discussion__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_common_models_Discussion__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_common_models_Post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/common/models/Post */ "flarum/common/models/Post");
+/* harmony import */ var flarum_common_models_Post__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_common_models_Post__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _components_PostReactedNotification__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/PostReactedNotification */ "./src/forum/components/PostReactedNotification.js");
+/* harmony import */ var _common_models_Reaction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../common/models/Reaction */ "./src/common/models/Reaction.ts");
+/* harmony import */ var _models_PostReaction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./models/PostReaction */ "./src/forum/models/PostReaction.ts");
+/* harmony import */ var _addPusher__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./addPusher */ "./src/forum/addPusher.js");
+/* harmony import */ var _addReactionAction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./addReactionAction */ "./src/forum/addReactionAction.js");
+/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components */ "./src/forum/components/index.js");
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./models */ "./src/forum/models/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./utils */ "./src/forum/utils/index.js");
+/* harmony import */ var _common_components__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../common/components */ "./src/common/components/index.ts");
+/* harmony import */ var _common_models__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../common/models */ "./src/common/models/index.ts");
+/* harmony import */ var _common_util__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../common/util */ "./src/common/util/index.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().initializers.add('fof/reactions', () => {
+  (flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().store).models.reactions = _common_models_Reaction__WEBPACK_IMPORTED_MODULE_7__["default"];
+  (flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().store).models.post_reactions = _models_PostReaction__WEBPACK_IMPORTED_MODULE_8__["default"];
+  (flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().notificationComponents).postReacted = _components_PostReactedNotification__WEBPACK_IMPORTED_MODULE_6__["default"];
+  (flarum_common_models_Post__WEBPACK_IMPORTED_MODULE_4___default().prototype).canReact = flarum_common_Model__WEBPACK_IMPORTED_MODULE_5___default().attribute('canReact');
+  (flarum_common_models_Post__WEBPACK_IMPORTED_MODULE_4___default().prototype).canDeletePostReactions = flarum_common_Model__WEBPACK_IMPORTED_MODULE_5___default().attribute('canDeletePostReactions');
+  (flarum_common_models_Post__WEBPACK_IMPORTED_MODULE_4___default().prototype).reactionCounts = flarum_common_Model__WEBPACK_IMPORTED_MODULE_5___default().attribute('reactionCounts');
+  (flarum_common_models_Post__WEBPACK_IMPORTED_MODULE_4___default().prototype).userReaction = flarum_common_Model__WEBPACK_IMPORTED_MODULE_5___default().attribute('userReactionIdentifier');
+  (flarum_common_models_Forum__WEBPACK_IMPORTED_MODULE_2___default().prototype).reactions = flarum_common_Model__WEBPACK_IMPORTED_MODULE_5___default().hasMany('reactions');
+  (flarum_common_models_Discussion__WEBPACK_IMPORTED_MODULE_3___default().prototype).canSeeReactions = flarum_common_Model__WEBPACK_IMPORTED_MODULE_5___default().attribute('canSeeReactions');
+  (0,_addReactionAction__WEBPACK_IMPORTED_MODULE_10__["default"])();
+  (0,_addPusher__WEBPACK_IMPORTED_MODULE_9__["default"])();
+  (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_0__.extend)('flarum/forum/components/NotificationGrid', 'notificationTypes', items => {
+    items.add('postReacted', {
+      name: 'postReacted',
+      icon: 'far fa-smile',
+      label: flarum_forum_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans('fof-reactions.forum.settings.notify_post_reacted_label')
+    });
+  });
+});
+
+/***/ }),
+
+/***/ "./src/forum/models/PostReaction.ts":
+/*!******************************************!*\
+  !*** ./src/forum/models/PostReaction.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PostReaction)
+/* harmony export */ });
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/common/Model */ "flarum/common/Model");
+/* harmony import */ var flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_common_Model__WEBPACK_IMPORTED_MODULE_0__);
+
+class PostReaction extends (flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default()) {
+  reaction() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().attribute('reaction').call(this);
+  }
+  userId() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().attribute('userId').call(this);
+  }
+  postId() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().attribute('postId').call(this);
+  }
+  reactionId() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().attribute('reactionId').call(this);
+  }
+  user() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().hasOne('user');
+  }
+  post() {
+    return flarum_common_Model__WEBPACK_IMPORTED_MODULE_0___default().hasOne('post');
+  }
+}
+flarum.reg.add('fof-reactions', 'forum/models/PostReaction', PostReaction);
+
+/***/ }),
+
+/***/ "./src/forum/models/index.js":
+/*!***********************************!*\
+  !*** ./src/forum/models/index.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   models: () => (/* binding */ models)
+/* harmony export */ });
+/* harmony import */ var _PostReaction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostReaction */ "./src/forum/models/PostReaction.ts");
+
+const models = {
+  PostReaction: _PostReaction__WEBPACK_IMPORTED_MODULE_0__["default"]
+};
+flarum.reg.add('fof-reactions', 'forum/models', null);
+
+/***/ }),
+
+/***/ "./src/forum/utils/groupBy.ts":
+/*!************************************!*\
+  !*** ./src/forum/utils/groupBy.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const groupBy = (arr, fn) => arr.map(typeof fn === 'function' ? fn : val => val[fn]).reduce((acc, val, i) => {
+  acc[val] = (acc[val] || []).concat(arr[i]);
+  return acc;
+}, {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (groupBy);
+flarum.reg.add('fof-reactions', 'forum/utils/groupBy', groupBy);
+
+/***/ }),
+
+/***/ "./src/forum/utils/index.js":
+/*!**********************************!*\
+  !*** ./src/forum/utils/index.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   utils: () => (/* binding */ utils)
+/* harmony export */ });
+/* harmony import */ var _groupBy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./groupBy */ "./src/forum/utils/groupBy.ts");
+
+const utils = {
+  groupBy: _groupBy__WEBPACK_IMPORTED_MODULE_0__["default"]
+};
+flarum.reg.add('fof-reactions', 'forum/utils', null);
+
+/***/ }),
+
+/***/ "flarum/common/Component":
+/*!*************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/Component')" ***!
+  \*************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/Component');
+
+/***/ }),
+
+/***/ "flarum/common/Model":
+/*!*********************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/Model')" ***!
+  \*********************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/Model');
+
+/***/ }),
+
+/***/ "flarum/common/app":
+/*!*******************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/app')" ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/app');
+
+/***/ }),
+
+/***/ "flarum/common/components/Avatar":
+/*!*********************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/components/Avatar')" ***!
+  \*********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/components/Avatar');
+
+/***/ }),
+
+/***/ "flarum/common/components/Button":
+/*!*********************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/components/Button')" ***!
+  \*********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/components/Button');
+
+/***/ }),
+
+/***/ "flarum/common/components/Icon":
+/*!*******************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/components/Icon')" ***!
+  \*******************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/components/Icon');
+
+/***/ }),
+
+/***/ "flarum/common/components/Link":
+/*!*******************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/components/Link')" ***!
+  \*******************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/components/Link');
+
+/***/ }),
+
+/***/ "flarum/common/components/LoadingIndicator":
+/*!*******************************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/components/LoadingIndicator')" ***!
+  \*******************************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/components/LoadingIndicator');
+
+/***/ }),
+
+/***/ "flarum/common/components/Modal":
+/*!********************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/components/Modal')" ***!
+  \********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/components/Modal');
+
+/***/ }),
+
+/***/ "flarum/common/extend":
+/*!**********************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/extend')" ***!
+  \**********************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/extend');
+
+/***/ }),
+
+/***/ "flarum/common/helpers/listItems":
+/*!*********************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/helpers/listItems')" ***!
+  \*********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/helpers/listItems');
+
+/***/ }),
+
+/***/ "flarum/common/helpers/username":
+/*!********************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/helpers/username')" ***!
+  \********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/helpers/username');
+
+/***/ }),
+
+/***/ "flarum/common/models/Discussion":
+/*!*********************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/models/Discussion')" ***!
+  \*********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/models/Discussion');
+
+/***/ }),
+
+/***/ "flarum/common/models/Forum":
+/*!****************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/models/Forum')" ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/models/Forum');
+
+/***/ }),
+
+/***/ "flarum/common/models/Post":
+/*!***************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/models/Post')" ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/models/Post');
+
+/***/ }),
+
+/***/ "flarum/common/utils/ItemList":
+/*!******************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/utils/ItemList')" ***!
+  \******************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/utils/ItemList');
+
+/***/ }),
+
+/***/ "flarum/common/utils/classList":
+/*!*******************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/utils/classList')" ***!
+  \*******************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/utils/classList');
+
+/***/ }),
+
+/***/ "flarum/common/utils/extract":
+/*!*****************************************************************!*\
+  !*** external "flarum.reg.get('core', 'common/utils/extract')" ***!
+  \*****************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'common/utils/extract');
+
+/***/ }),
+
+/***/ "flarum/forum/app":
+/*!******************************************************!*\
+  !*** external "flarum.reg.get('core', 'forum/app')" ***!
+  \******************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'forum/app');
+
+/***/ }),
+
+/***/ "flarum/forum/components/CommentPost":
+/*!*************************************************************************!*\
+  !*** external "flarum.reg.get('core', 'forum/components/CommentPost')" ***!
+  \*************************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'forum/components/CommentPost');
+
+/***/ }),
+
+/***/ "flarum/forum/components/DiscussionPage":
+/*!****************************************************************************!*\
+  !*** external "flarum.reg.get('core', 'forum/components/DiscussionPage')" ***!
+  \****************************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'forum/components/DiscussionPage');
+
+/***/ }),
+
+/***/ "flarum/forum/components/Notification":
+/*!**************************************************************************!*\
+  !*** external "flarum.reg.get('core', 'forum/components/Notification')" ***!
+  \**************************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'forum/components/Notification');
+
+/***/ }),
+
+/***/ "flarum/forum/utils/PostControls":
+/*!*********************************************************************!*\
+  !*** external "flarum.reg.get('core', 'forum/utils/PostControls')" ***!
+  \*********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.reg.get('core', 'forum/utils/PostControls');
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		flarum.reg._webpack_runtimes["fof-reactions"] ||= __webpack_require__;// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
+(() => {
+"use strict";
+/*!******************!*\
+  !*** ./forum.js ***!
+  \******************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   commonComponents: () => (/* reexport safe */ _src_forum__WEBPACK_IMPORTED_MODULE_1__.commonComponents),
+/* harmony export */   commonModels: () => (/* reexport safe */ _src_forum__WEBPACK_IMPORTED_MODULE_1__.commonModels),
+/* harmony export */   commonUtil: () => (/* reexport safe */ _src_forum__WEBPACK_IMPORTED_MODULE_1__.commonUtil),
+/* harmony export */   components: () => (/* reexport safe */ _src_forum__WEBPACK_IMPORTED_MODULE_1__.components),
+/* harmony export */   models: () => (/* reexport safe */ _src_forum__WEBPACK_IMPORTED_MODULE_1__.models),
+/* harmony export */   utils: () => (/* reexport safe */ _src_forum__WEBPACK_IMPORTED_MODULE_1__.utils)
+/* harmony export */ });
+/* harmony import */ var _src_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/common */ "./src/common/index.js");
+/* harmony import */ var _src_common__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_src_common__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _src_common__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _src_common__WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+/* harmony import */ var _src_forum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/forum */ "./src/forum/index.js");
+
+
+})();
+
+module.exports = __webpack_exports__;
+/******/ })()
+;
 //# sourceMappingURL=forum.js.map

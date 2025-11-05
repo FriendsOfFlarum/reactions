@@ -11,84 +11,42 @@
 
 namespace FoF\Reactions\Notification;
 
+use Flarum\Database\AbstractModel;
+use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Post\Post;
 use Flarum\User\User;
 
-class PostReactedBlueprint implements BlueprintInterface
+class PostReactedBlueprint implements BlueprintInterface, AlertableInterface
 {
-    /**
-     * @var Post
-     */
-    public $post;
-
-    /**
-     * @var User
-     */
-    public $user;
-
-    /**
-     * @var string
-     */
-    public $reaction;
-
-    /**
-     * @param Post $post
-     * @param User $user
-     */
-    public function __construct(Post $post, User $user, string $reaction)
-    {
-        $this->post = $post;
-        $this->user = $user;
-        $this->reaction = $reaction;
+    public function __construct(
+        public Post $post,
+        public User $user,
+        public string $reaction
+    ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getType()
+    public static function getType(): string
     {
         return 'postReacted';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubjectModel()
+    public static function getSubjectModel(): string
     {
         return Post::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubject()
+    public function getSubject(): ?AbstractModel
     {
         return $this->post;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFromUser()
+    public function getFromUser(): ?User
     {
         return $this->user;
     }
 
-    /**
-     * Get reaction type.
-     *
-     * @return string
-     */
-    public function getReactionType()
-    {
-        return $this->reaction;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getData()
+    public function getData(): mixed
     {
         return $this->reaction;
     }

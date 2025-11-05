@@ -18,30 +18,10 @@ use FoF\Reactions\PostReaction;
 
 class PostWasUnreacted
 {
-    /**
-     * @var Post
-     */
-    public $post;
-
-    /**
-     * @var PostReaction|PostAnonymousReaction
-     */
-    public $postReaction;
-
-    /**
-     * @var User
-     */
-    public $user;
-
-    /**
-     * @param Post                               $post
-     * @param PostReaction|PostAnonymousReaction $postReaction
-     * @param User                               $user
-     */
-    public function __construct(Post $post, $postReaction, User $user)
-    {
-        $this->post = $post;
-        $this->postReaction = $postReaction;
-        $this->user = $user;
+    public function __construct(
+        public Post $post,
+        public PostReaction|PostAnonymousReaction $postReaction,
+        public User $user
+    ) {
     }
 }

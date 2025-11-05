@@ -15,6 +15,8 @@ use Carbon\Carbon;
 use Flarum\Group\Group;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use Psr\Http\Message\ResponseInterface;
 
 class ListPostReactionsTest extends TestCase
 {
@@ -29,20 +31,20 @@ class ListPostReactionsTest extends TestCase
         $this->prepareDatabase([
             'users' => [
                 $this->normalUser(),
-                ['id' => 3, 'username' => 'Acme', 'email' => 'acme@machine.local', 'is_email_confirmed' => 1],
-                ['id' => 4, 'username' => 'Acme2', 'email' => 'acme2@machine.local', 'is_email_confirmed' => 1],
-                ['id' => 5, 'username' => 'Acme3', 'email' => 'acme3@machine.local', 'is_email_confirmed' => 1],
-                ['id' => 6, 'username' => 'Acme4', 'email' => 'acme4@machine.local', 'is_email_confirmed' => 1],
+                ['id' => 3, 'username' => 'Acme', 'email' => 'acme@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
+                ['id' => 4, 'username' => 'Acme2', 'email' => 'acme2@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
+                ['id' => 5, 'username' => 'Acme3', 'email' => 'acme3@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
+                ['id' => 6, 'username' => 'Acme4', 'email' => 'acme4@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
             ],
             'discussions' => [
-                ['id' => 1, 'title' => __CLASS__, 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'comment_count' => 2],
+                ['id' => 1, 'title' => __CLASS__, 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'comment_count' => 2, 'slug' => 'fof-reactions-tests-integration-api-react-test'],
             ],
             'posts' => [
                 ['id' => 1, 'number' => 1, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
                 ['id' => 3, 'number' => 2, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 2, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
                 ['id' => 5, 'number' => 3, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 3, 'type' => 'discussionRenamed', 'content' => '<t><p>something</p></t>'],
                 ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
-                ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 5, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
+                ['id' => 7, 'number' => 5, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 5, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
             ],
             'post_reactions' => [
                 ['id' => 1, 'post_id' => 1, 'reaction_id' => 1, 'user_id' => 2],
@@ -82,30 +84,43 @@ class ListPostReactionsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
-    public function guest_cannot_see_reactions_when_permission_not_given_on_a_post_when_guest_reacting_is_off()
+    protected function getReactionsForPost(int $postId = 1, ?int $userId = null): ResponseInterface
     {
+        $params = [
+            'include' => 'user,reaction',
+            'filter'  => [
+                'post_id' => $postId,
+            ],
+        ];
+
         $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-            ])
+            $this->request('GET', '/api/post_reactions', [
+                'authenticatedAs' => $userId,
+            ])->withQueryParams($params)
         );
 
-        $this->assertEquals(403, $response->getStatusCode());
+        return $response;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
+    public function guest_cannot_see_reactions_when_permission_not_given_on_a_post_when_guest_reacting_is_off()
+    {
+        $response = $this->getReactionsForPost();
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody()->getContents(), true);
+
+        // Guest without permission sees no reactions (filtered by scope)
+        $this->assertEquals(0, count($response['data']));
+    }
+
+    #[Test]
     public function guest_can_see_reactions_when_permission_given_on_a_post_when_guest_reacting_is_off()
     {
         $this->addGuestViewPermission();
 
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-            ])
-        );
+        $response = $this->getReactionsForPost();
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -139,36 +154,27 @@ class ListPostReactionsTest extends TestCase
         $this->assertEquals('users', $response['data'][3]['relationships']['user']['data']['type']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_can_see_reactions_on_a_post_when_guest_reacting_is_on()
     {
         $this->setting('fof-reactions.anonymousReactions', true);
         $this->addGuestViewPermission();
 
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-            ])
-        );
+        $response = $this->getReactionsForPost();
 
         $this->assertEquals(200, $response->getStatusCode());
 
         $response = json_decode($response->getBody()->getContents(), true);
 
-        $this->assertEquals(8, count($response['data']));
+        // Only registered user reactions are returned in the API
+        // Anonymous reactions are aggregated in the post's reactionCounts attribute
+        $this->assertEquals(4, count($response['data']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_view_permission_can_see_reactions_on_a_post_when_guest_reacting_is_off()
     {
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-                'authenticatedAs' => 2,
-            ])
-        );
+        $response = $this->getReactionsForPost(userId: 2);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -202,53 +208,81 @@ class ListPostReactionsTest extends TestCase
         $this->assertEquals('users', $response['data'][3]['relationships']['user']['data']['type']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_view_permission_can_see_reactions_on_a_post_when_guest_reacting_is_on()
     {
         $this->setting('fof-reactions.anonymousReactions', true);
 
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions?include=user', [
-                'authenticatedAs' => 2,
-            ])
-        );
+        $response = $this->getReactionsForPost(userId: 2);
 
         $this->assertEquals(200, $response->getStatusCode());
 
         $response = json_decode($response->getBody()->getContents(), true);
 
-        $this->assertEquals(8, count($response['data']));
+        // Only registered user reactions are returned in the API
+        // Anonymous reactions are aggregated in the post's reactionCounts attribute
+        $this->assertEquals(4, count($response['data']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_without_view_permission_cannot_see_reactions_on_a_post_when_guest_reacting_is_off()
     {
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-                'authenticatedAs' => 6,
-            ])
-        );
+        $response = $this->getReactionsForPost(userId: 6);
 
-        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody()->getContents(), true);
+
+        // User without permission sees no reactions (filtered by scope)
+        $this->assertEquals(0, count($response['data']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_without_view_permission_cannot_see_reactions_on_a_post_when_guest_reacting_is_on()
     {
         $this->setting('fof-reactions.anonymousReactions', true);
 
-        $response = $this->send(
-            $this->request('GET', '/api/posts/1/reactions', [
-                'authenticatedAs' => 6,
-            ])
-        );
+        $response = $this->getReactionsForPost(userId: 6);
 
-        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody()->getContents(), true);
+
+        // User without permission sees no reactions (filtered by scope)
+        $this->assertEquals(0, count($response['data']));
+    }
+
+    #[Test]
+    public function post_reactions_api_only_returns_registered_user_reactions()
+    {
+        // The /api/post_reactions endpoint should only return registered user reactions,
+        // not anonymous reactions. Anonymous reactions are aggregated in the post's
+        // reactionCounts attribute for privacy and architectural consistency.
+        $this->setting('fof-reactions.anonymousReactions', true);
+
+        // Test with a user who has permission
+        $response = $this->getReactionsForPost(userId: 2);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $responseData = json_decode($response->getBody()->getContents(), true);
+
+        // Should return only registered user reactions (4 reactions)
+        // Anonymous reactions (from post_anonymous_reactions table) are NOT included
+        $this->assertEquals(4, count($responseData['data']));
+
+        // Verify all returned reactions have user_id (not guest_id)
+        foreach ($responseData['data'] as $reaction) {
+            $this->assertArrayHasKey('userId', $reaction['attributes']);
+            $this->assertNotNull($reaction['attributes']['userId']);
+        }
+
+        // Test with a user without permission - should return empty results
+        $response = $this->getReactionsForPost(userId: 6);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $responseData = json_decode($response->getBody()->getContents(), true);
+
+        // User without permission sees no reactions due to visibility scoping
+        $this->assertEquals(0, count($responseData['data']));
     }
 }

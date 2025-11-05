@@ -14,6 +14,7 @@ namespace FoF\Reactions\tests\integration\api;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use FoF\Reactions\Reaction;
+use PHPUnit\Framework\Attributes\Test;
 
 class EditReactionTest extends TestCase
 {
@@ -55,9 +56,7 @@ class EditReactionTest extends TestCase
         return $response['data']['id'];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function admin_can_edit_reaction()
     {
         $this->app();
@@ -68,11 +67,13 @@ class EditReactionTest extends TestCase
             $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 1,
                 'json'            => [
-                    'attributes' => [
-                        'identifier' => 'test2',
-                        'type'       => 'icon',
-                        'enabled'    => true,
-                        'display'    => 'Test 2',
+                    'data' => [
+                        'attributes' => [
+                            'identifier' => 'test2',
+                            'type'       => 'icon',
+                            'enabled'    => true,
+                            'display'    => 'Test 2',
+                        ],
                     ],
                 ],
             ])
@@ -96,9 +97,7 @@ class EditReactionTest extends TestCase
         $this->assertTrue($reaction->enabled);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function normal_user_cannot_edit_reaction()
     {
         $id = $this->addNewReaction();
@@ -107,9 +106,11 @@ class EditReactionTest extends TestCase
             $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 2,
                 'json'            => [
-                    'attributes' => [
-                        'identifier' => 'test2',
-                        'type'       => 'emoji',
+                    'data' => [
+                        'attributes' => [
+                            'identifier' => 'test2',
+                            'type'       => 'emoji',
+                        ],
                     ],
                 ],
             ])
@@ -118,9 +119,7 @@ class EditReactionTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function cannot_edit_reaction_with_invalid_type()
     {
         $id = $this->addNewReaction();
@@ -129,8 +128,10 @@ class EditReactionTest extends TestCase
             $this->request('PATCH', '/api/reactions/'.$id, [
                 'authenticatedAs' => 1,
                 'json'            => [
-                    'attributes' => [
-                        'type' => 'invalid',
+                    'data' => [
+                        'attributes' => [
+                            'type' => 'invalid',
+                        ],
                     ],
                 ],
             ])
@@ -139,18 +140,18 @@ class EditReactionTest extends TestCase
         $this->assertEquals(422, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function cannot_edit_non_existent_reaction()
     {
         $response = $this->send(
             $this->request('PATCH', '/api/reactions/110', [
                 'authenticatedAs' => 1,
                 'json'            => [
-                    'attributes' => [
-                        'identifier' => 'test2',
-                        'type'       => 'emoji',
+                    'data' => [
+                        'attributes' => [
+                            'identifier' => 'test2',
+                            'type'       => 'emoji',
+                        ],
                     ],
                 ],
             ])

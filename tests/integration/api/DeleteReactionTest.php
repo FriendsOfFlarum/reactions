@@ -14,6 +14,7 @@ namespace FoF\Reactions\tests\integration\api;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use FoF\Reactions\Reaction;
+use PHPUnit\Framework\Attributes\Test;
 
 class DeleteReactionTest extends TestCase
 {
@@ -32,9 +33,7 @@ class DeleteReactionTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function admin_can_delete_reaction()
     {
         $this->app();
@@ -52,9 +51,7 @@ class DeleteReactionTest extends TestCase
         $this->assertNull(Reaction::find(5));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function normal_user_cannot_delete_reaction()
     {
         $response = $this->send(

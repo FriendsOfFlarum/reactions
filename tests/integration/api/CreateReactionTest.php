@@ -14,6 +14,7 @@ namespace FoF\Reactions\tests\integration\api;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use FoF\Reactions\Reaction;
+use PHPUnit\Framework\Attributes\Test;
 
 class CreateReactionTest extends TestCase
 {
@@ -32,9 +33,7 @@ class CreateReactionTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function admin_can_create_reaction()
     {
         $response = $this->send(
@@ -75,9 +74,7 @@ class CreateReactionTest extends TestCase
         $this->assertEquals('emoji', $reaction->type);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function normal_user_cannot_create_reaction()
     {
         $response = $this->send(
@@ -99,9 +96,7 @@ class CreateReactionTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function cannot_create_reaction_without_identifier()
     {
         $response = $this->send(
@@ -127,9 +122,7 @@ class CreateReactionTest extends TestCase
         $this->assertEquals('/data/attributes/identifier', $json['errors'][0]['source']['pointer']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function cannot_create_reaction_without_type()
     {
         $response = $this->send(
@@ -155,9 +148,7 @@ class CreateReactionTest extends TestCase
         $this->assertEquals('/data/attributes/type', $json['errors'][0]['source']['pointer']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function cannot_create_reaction_with_invalid_type()
     {
         $response = $this->send(

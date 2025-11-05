@@ -14,6 +14,7 @@ namespace FoF\Reactions\tests\integration\api;
 use Carbon\Carbon;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class PostAttributesTest extends TestCase
 {
@@ -28,20 +29,20 @@ class PostAttributesTest extends TestCase
         $this->prepareDatabase([
             'users' => [
                 $this->normalUser(),
-                ['id' => 3, 'username' => 'Acme', 'email' => 'acme@machine.local', 'is_email_confirmed' => 1],
-                ['id' => 4, 'username' => 'Acme2', 'email' => 'acme2@machine.local', 'is_email_confirmed' => 1],
-                ['id' => 5, 'username' => 'Acme3', 'email' => 'acme3@machine.local', 'is_email_confirmed' => 1],
-                ['id' => 6, 'username' => 'Acme4', 'email' => 'acme4@machine.local', 'is_email_confirmed' => 1],
+                ['id' => 3, 'username' => 'Acme', 'email' => 'acme@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
+                ['id' => 4, 'username' => 'Acme2', 'email' => 'acme2@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
+                ['id' => 5, 'username' => 'Acme3', 'email' => 'acme3@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
+                ['id' => 6, 'username' => 'Acme4', 'email' => 'acme4@machine.local', 'is_email_confirmed' => 1, 'password' => '$2y$10$LO59tiT7uggl6Oe23o/O6.utnF6ipngYjvMvaxo1TciKqBttDNKim'],
             ],
             'discussions' => [
-                ['id' => 1, 'title' => __CLASS__, 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'comment_count' => 2],
+                ['id' => 1, 'title' => __CLASS__, 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'comment_count' => 2, 'slug' => 'fof-reactions-tests-integration-api-react-test'],
             ],
             'posts' => [
                 ['id' => 1, 'number' => 1, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
                 ['id' => 3, 'number' => 2, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 2, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
                 ['id' => 5, 'number' => 3, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 3, 'type' => 'discussionRenamed', 'content' => '<t><p>something</p></t>'],
                 ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
-                ['id' => 6, 'number' => 4, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 5, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
+                ['id' => 7, 'number' => 5, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 5, 'type' => 'comment', 'content' => '<t><p>something</p></t>'],
             ],
             'post_reactions' => [
                 ['id' => 1, 'post_id' => 1, 'reaction_id' => 1, 'user_id' => 2],
@@ -72,9 +73,7 @@ class PostAttributesTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_has_correct_post_attributes_when_anonymous_reactions_disabled()
     {
         $response = $this->send(
@@ -92,9 +91,7 @@ class PostAttributesTest extends TestCase
         $this->assertEquals(1, $body['data']['attributes']['userReactionIdentifier'], 'User has reacted with reaction id 1');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_has_correct_post_attributes_when_anonymous_reactions_disabled()
     {
         $response = $this->send(
@@ -111,9 +108,7 @@ class PostAttributesTest extends TestCase
         $this->assertEquals(null, $body['data']['attributes']['userReactionIdentifier'], 'User has reacted with reaction id 1');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_has_correct_post_attributes_when_anonymous_reactions_enabled()
     {
         $this->setting('fof-reactions.anonymousReactions', true);
@@ -133,9 +128,7 @@ class PostAttributesTest extends TestCase
         $this->assertEquals(1, $body['data']['attributes']['userReactionIdentifier'], 'User has reacted with reaction id 1');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_has_correct_post_attributes_when_anonymous_reactions_enabled()
     {
         $this->setting('fof-reactions.anonymousReactions', true);
