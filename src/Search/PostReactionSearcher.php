@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class PostReactionSearcher extends AbstractSearcher
 {
-
     public function getQuery(User $actor): Builder
     {
         // Only return registered user reactions via the API
