@@ -46,7 +46,7 @@ class PostResourceFields
                 ->get(fn (Post $post, Context $context) => $context->getActor()->can('deleteReactions', $post)),
             Schema\Arr::make('reactionCounts')
                 ->get(fn (Post $post) => $this->getReactionCountsForPost($post)),
-            Schema\Number::make('userReactionIdentifier')
+            Schema\Number::make('userReaction')
                 ->get(fn (Post $post, Context $context) => $this->getActorReactionForPost($context->getActor(), $post, $context->request)),
 
             Schema\Str::make('reaction')

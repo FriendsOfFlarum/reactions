@@ -82,6 +82,9 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
               className="Button Button--icon Button--link"
               loading={this.deletingType[reaction.id()!]}
               onclick={this.deletePostReaction.bind(this, false, reaction.id()!)}
+              aria-label={app.translator.trans('fof-reactions.forum.modal.remove_all_reaction_type', {
+                reaction: reaction.display() || reaction.identifier(),
+              })}
             />
           )}
         </legend>
@@ -98,6 +101,7 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs> {
                 className="Button Button--icon Button--link"
                 loading={this.deletingSpecific[postReactionId]}
                 onclick={this.deletePostReaction.bind(this, postReactionId, reaction.id()!)}
+                aria-label={app.translator.trans('fof-reactions.forum.modal.remove_user_reaction')}
               />
             )}
           </li>

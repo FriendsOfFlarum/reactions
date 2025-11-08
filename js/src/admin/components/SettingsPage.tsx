@@ -135,6 +135,7 @@ export default class SettingsPage extends ExtensionPage {
                         className="Button Button--warning Reactions-button"
                         icon="fas fa-times"
                         onclick={() => this.deleteReaction(reaction)}
+                        aria-label={app.translator.trans('fof-reactions.admin.page.reactions.delete_reaction_button')}
                       />
 
                       <div className="Reactions-demo">{demos}</div>
@@ -164,6 +165,7 @@ export default class SettingsPage extends ExtensionPage {
                     icon={this.addLoading ? '' : 'fas fa-plus'}
                     loading={this.addLoading}
                     onclick={() => this.addReaction()}
+                    aria-label={app.translator.trans('fof-reactions.admin.page.reactions.add_reaction_button')}
                   />
                   {this.newReaction.type() === 'icon' ? (
                     <i className={`fas fa-${this.newReaction.identifier()} Reactions-demo`} aria-hidden="true">
@@ -334,6 +336,7 @@ export default class SettingsPage extends ExtensionPage {
         reaction.pushAttributes({ [key]: value });
         return true;
       }
+      return false;
     });
   }
 
@@ -349,6 +352,7 @@ export default class SettingsPage extends ExtensionPage {
         this.reactions.splice(i, 1);
         return true;
       }
+      return false;
     });
   }
 

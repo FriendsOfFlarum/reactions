@@ -1,13 +1,10 @@
 import app from 'flarum/admin/app';
 import Extend from 'flarum/common/extenders';
 import SettingsPage from './components/SettingsPage';
-import Reaction from '../common/models/Reaction';
-import Forum from 'flarum/common/models/Forum';
+import commonExtend from '../common/extend';
 
 export default [
-  new Extend.Store().add('reactions', Reaction),
-
-  new Extend.Model(Forum).hasMany('reactions'),
+  ...commonExtend,
 
   new Extend.Admin()
     .permission(
