@@ -10,8 +10,12 @@ fof-reactions:
         title: Reactions
         anonymous_count: "{count, plural, one {# anonymous user} other {# anonymous users}}"
         no_reactions: No reactions yet
+        remove_all_reaction_type: Remove all {reaction} reactions
+        remove_user_reaction: Remove reaction
     mod_item: View Reactions
     react_button_label: React
+    reaction_button_label: "React with {reaction}"
+    reacted_with_label: "{count, plural, one {{reaction} (# reaction)} other {{reaction} (# reactions)}}"
 
   admin:
     permissions:
@@ -37,6 +41,8 @@ fof-reactions:
           display: Display
           identifier: Identifier
         delete_confirmation: Are you sure you want to delete this reaction? This action cannot be undone.
+        delete_reaction_button: Delete reaction
+        add_reaction_button: Add reaction
 
       convert:
         help: If you just updated your extension, your reactions will have to be converted. If you just installed this extension, you can saftely ignore this message.

@@ -49,6 +49,7 @@ export default class PostReactAction extends Component {
           onclick={this.react.bind(this, reaction)}
           data-reaction={reaction.identifier()}
           loading={this.loading[reaction.id()]}
+          aria-label={app.translator.trans('fof-reactions.forum.reaction_button_label', { reaction: reaction.display() || reaction.identifier() })}
         >
           <ReactionComponent className={reaction.type()} reaction={reaction} />
         </Button>
@@ -83,6 +84,10 @@ export default class PostReactAction extends Component {
                 'data-reaction': reaction.identifier(),
                 disabled: !canReact,
                 loading: this.loading[reaction.id()],
+                'aria-label': app.translator.trans('fof-reactions.forum.reacted_with_label', {
+                  reaction: reaction.display() || reaction.identifier(),
+                  count: count,
+                }),
               },
               <span>
                 {icon} {count > 1 ? <span className="count">{count}</span> : ''}
@@ -110,6 +115,7 @@ export default class PostReactAction extends Component {
         className="Button Button--link Reactions--ShowReactions"
         type="Button"
         title={app.translator.trans('fof-reactions.forum.react_button_label')}
+        aria-label={app.translator.trans('fof-reactions.forum.react_button_label')}
         loading={this.loading[null]}
       >
         <span className="Button-label">
