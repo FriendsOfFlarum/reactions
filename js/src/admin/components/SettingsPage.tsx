@@ -336,6 +336,7 @@ export default class SettingsPage extends ExtensionPage {
         reaction.pushAttributes({ [key]: value });
         return true;
       }
+      return false;
     });
   }
 
@@ -351,6 +352,7 @@ export default class SettingsPage extends ExtensionPage {
         this.reactions.splice(i, 1);
         return true;
       }
+      return false;
     });
   }
 
