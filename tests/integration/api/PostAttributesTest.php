@@ -88,7 +88,7 @@ class PostAttributesTest extends TestCase
 
         $this->assertTrue($body['data']['attributes']['canReact'], 'User can react');
         $this->assertEquals($this->arrayOfReactionCounts(), $body['data']['attributes']['reactionCounts']);
-        $this->assertEquals(1, $body['data']['attributes']['userReactionIdentifier'], 'User has reacted with reaction id 1');
+        $this->assertEquals(1, $body['data']['attributes']['userReaction'], 'User has reacted with reaction id 1');
     }
 
     #[Test]
@@ -105,7 +105,7 @@ class PostAttributesTest extends TestCase
 
         $this->assertFalse($body['data']['attributes']['canReact'], 'User can react');
         $this->assertEquals($this->arrayOfReactionCounts(), $body['data']['attributes']['reactionCounts']);
-        $this->assertEquals(null, $body['data']['attributes']['userReactionIdentifier'], 'User has reacted with reaction id 1');
+        $this->assertEquals(null, $body['data']['attributes']['userReaction'], 'User has reacted with reaction id 1');
     }
 
     #[Test]
@@ -125,7 +125,7 @@ class PostAttributesTest extends TestCase
 
         $this->assertTrue($body['data']['attributes']['canReact'], 'User can react');
         $this->assertEquals($this->arrayOfReactionCounts(4), $body['data']['attributes']['reactionCounts']);
-        $this->assertEquals(1, $body['data']['attributes']['userReactionIdentifier'], 'User has reacted with reaction id 1');
+        $this->assertEquals(1, $body['data']['attributes']['userReaction'], 'User has reacted with reaction id 1');
     }
 
     #[Test]
@@ -144,6 +144,6 @@ class PostAttributesTest extends TestCase
 
         $this->assertTrue($body['data']['attributes']['canReact'], 'User can react');
         $this->assertEquals($this->arrayOfReactionCounts(4), $body['data']['attributes']['reactionCounts']);
-        $this->assertEquals(null, $body['data']['attributes']['userReactionIdentifier'], 'User has reacted with reaction id 1');
+        $this->assertEquals(null, $body['data']['attributes']['userReaction'], 'User has reacted with reaction id 1');
     }
 }
