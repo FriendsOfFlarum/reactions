@@ -34,7 +34,7 @@ fof-reactions:
         label: URL
         default-url: "Default: {url}"
       reactions:
-        title: Custom Reactions
+        title: Reactions
         reactions: Current Reactions
         Helptext: Input the name (identifier) of the emoji or font-awesome icon and select which type you would like.
         help:
@@ -43,6 +43,15 @@ fof-reactions:
         delete_confirmation: Are you sure you want to delete this reaction? This action cannot be undone.
         delete_reaction_button: Delete reaction
         add_reaction_button: Add reaction
+        add_reaction_label: Add a new reaction
+
+        header:
+            display: Display Text
+            identifier: Icon/Emoji Identifier
+            type: Type
+            enabled: Enabled
+            action: Action
+            preview: Preview
 
       convert:
         help: If you just updated your extension, your reactions will have to be converted. If you just installed this extension, you can saftely ignore this message.
@@ -55,7 +64,6 @@ fof-reactions:
         react_own_posts_label: Users may react to their own posts,
         allow-anonymous: Allow anonymous(guest) reactions
         allow-anonymous-help: If enabled, guests and anonymous users will be able to react to posts. Note that anonymous reactions will not be linked to a user profile and will be aggregated in the reactions list.
-        save_settings: Save Settings
         integrations:
           legend: Integrations
           warning: The same reaction <strong>cannot</strong> be converted to a like <strong>and</strong> an upvote
