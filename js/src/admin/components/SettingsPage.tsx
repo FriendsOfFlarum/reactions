@@ -44,7 +44,7 @@ export default class SettingsPage extends ExtensionPage {
     return (
       <div className="SettingsPage--reactions">
         <div className="container">
-          <form onsubmit={this.onsubmit.bind(this)}>
+          <form>
             <fieldset>
               <legend>{app.translator.trans('fof-reactions.admin.page.reactions.title')}</legend>
               <label>{app.translator.trans('fof-reactions.admin.page.reactions.reactions')}</label>
@@ -369,7 +369,7 @@ export default class SettingsPage extends ExtensionPage {
     });
   }
 
-  onsubmit(e: SubmitEvent): void {
+  async saveSettings(e: SubmitEvent): Promise<void> {
     e.preventDefault();
 
     if (this.loading) return;
@@ -378,20 +378,17 @@ export default class SettingsPage extends ExtensionPage {
 
     app.alerts.dismiss(this.successAlert);
 
-    saveSettings(this.prepareSubmissionData())
-      .then(() => {
-        this.successAlert = app.alerts.show(
-          {
-            type: 'success',
-          },
-          app.translator.trans('core.admin.settings.saved_message')
-        );
-      })
-      .catch(() => {})
-      .then(() => {
-        this.loading = false;
-        m.redraw();
-      });
+    try {
+      await saveSettings(this.prepareSubmissionData());
+      this.successAlert = app.alerts.show(
+        {
+          type: 'success',
+        },
+        app.translator.trans('core.admin.settings.saved_message')
+      );
+    } catch {}
+    this.loading = false;
+    m.redraw();
   }
 
   isExtEnabled(name: string): boolean {
