@@ -30,9 +30,9 @@ fof-reactions:
           By default, we serve the reaction assets from Cloudflare's CDN. You also have the option to specify any other CDN address
           as required. <code>[codepoint]</code> will be substituted with the codepoint of the emoji.
 
-          For example, to switch to Noto Emoji via jsdelivr, you would enter <code>https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@v2.040/svg/emoji_u[codepoint].svg</code>. This field must NEVER be left empty.
+          For example, to switch to Noto Emoji via jsdelivr, you would enter <code>https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@v2.040/svg/emoji_u[codepoint].svg</code>.
 
-          Your CDN must support Emoji/Unicode {emojibase} or later.
+          Your CDN must support Emoji/Unicode {emojibase} or later. Use [twemoji] to substitute in the Twemoji version.
         label: URL
         default-url: "Default: {url}"
       reactions:

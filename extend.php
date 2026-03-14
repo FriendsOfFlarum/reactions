@@ -77,7 +77,6 @@ return [
     (new Extend\Settings())
         ->default('fof-reactions.react_own_post', false)
         ->default('fof-reactions.anonymousReactions', false)
-        ->default('fof-reactions.cdnUrl', 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/16.0.1/72x72/[codepoint].png')
         ->serializeToForum('fofReactionsAllowAnonymous', 'fof-reactions.anonymousReactions', 'boolVal')
         ->serializeToForum('fofReactionsCdnUrl', 'fof-reactions.cdnUrl', 'strval'),
 
