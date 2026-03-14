@@ -31,6 +31,8 @@ fof-reactions:
           as required. <code>[codepoint]</code> will be substituted with the codepoint of the emoji.
 
           For example, to switch to Noto Emoji via jsdelivr, you would enter <code>https://cdn.jsdelivr.net/gh/googlefonts/noto-emoji@v2.040/svg/emoji_u[codepoint].svg</code>. This field must NEVER be left empty.
+
+          Your CDN must support Emoji/Unicode {emojibase} or later.
         label: URL
         default-url: "Default: {url}"
       reactions:

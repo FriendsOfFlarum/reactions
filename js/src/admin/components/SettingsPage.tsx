@@ -1,6 +1,6 @@
 import app from 'flarum/admin/app';
 import Button from 'flarum/common/components/Button';
-import emoji from '../../common/util/emoji';
+import emoji, { DEFAULT_CDN_URL } from '../../common/util/emoji';
 import ExtensionPage from 'flarum/admin/components/ExtensionPage';
 import Select from 'flarum/common/components/Select';
 import saveSettings from 'flarum/admin/utils/saveSettings';
@@ -9,6 +9,7 @@ import Stream from 'flarum/common/utils/Stream';
 import extractText from 'flarum/common/utils/extractText';
 import Tooltip from 'flarum/common/components/Tooltip';
 import type Mithril from 'mithril';
+import emojibaseDataPkg from 'emojibase-data/package.json';
 import type Reaction from '../../common/models/Reaction';
 
 export default class SettingsPage extends ExtensionPage {
@@ -273,11 +274,15 @@ export default class SettingsPage extends ExtensionPage {
             )}
             <fieldset>
               <legend>{app.translator.trans('fof-reactions.admin.page.cdn.title')}</legend>
-              <p className="helpText">{app.translator.trans('fof-reactions.admin.page.cdn.help')}</p>
+              <p className="helpText">
+                {app.translator.trans('fof-reactions.admin.page.cdn.help', {
+                  emojibase: emojibaseDataPkg.version.split('.').slice(0, 2).join('.'),
+                })}
+              </p>
               <label>{app.translator.trans('fof-reactions.admin.page.cdn.label')}</label>
               <p className="helpText">
                 {app.translator.trans('fof-reactions.admin.page.cdn.default-url', {
-                  url: <code>https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/[codepoint].png</code>,
+                  url: <code>{DEFAULT_CDN_URL}</code>,
                 })}
               </p>
               <input
@@ -287,7 +292,7 @@ export default class SettingsPage extends ExtensionPage {
                   const target = e.target as HTMLInputElement;
                   this.values.cdnUrl(target.value);
                 }}
-                placeholder="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/[codepoint].png"
+                placeholder={DEFAULT_CDN_URL}
               />
             </fieldset>
             {this.submitButton()}

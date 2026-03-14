@@ -11,6 +11,8 @@ const toUnicodeEmoji = (codePoint) => String.fromCodePoint(...codePoint.split('-
 const emojiCache = new Map();
 const fuzzySet = new FuzzySet(shortnames);
 
+export const DEFAULT_CDN_URL = "'https://cdnjs.cloudflare.com/ajax/libs/twemoji/16.0.1/72x72/[codepoint].png'";
+
 const search = (query) => {
   const results = fuzzySet.get(query);
 
@@ -43,7 +45,7 @@ export default function emoji(reactionOrIdentifier) {
   const emoji = getEmoji(identifier);
   const codePoint = emoji?.[0];
 
-  const cdnUrl = app.forum.attribute('fofReactionsCdnUrl') || 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/[codepoint].png';
+  const cdnUrl = app.forum.attribute('fofReactionsCdnUrl') || DEFAULT_CDN_URL;
 
   const output = codePoint
     ? {
