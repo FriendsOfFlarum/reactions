@@ -150,7 +150,7 @@ class PostResourceFields
                     /** @phpstan-ignore-next-line */
                     $post->likes()->attach($actor->id);
 
-                    $post->raise(new PostWasLiked($post, $actor));
+                    $this->events->dispatch(new PostWasLiked($post, $actor));
                 }
             } else {
                 $guestId = $context->request->getAttribute('session')?->getId();
@@ -174,7 +174,7 @@ class PostResourceFields
                         $postReaction->save();
                     }
 
-                    $post->raise(new PostWasUnreacted($post, $postReaction, $actor));
+                    $this->events->dispatch(new PostWasUnreacted($post, $postReaction, $actor));
                 } else {
                     $this->validateReaction($reactionId);
 
@@ -203,7 +203,7 @@ class PostResourceFields
                         $this->push('newReaction', $postReaction, $reaction, $actor, $post);
                     }
 
-                    $post->raise(new PostWasReacted($post, $postReaction, $actor, $reaction));
+                    $this->events->dispatch(new PostWasReacted($post, $postReaction, $actor, $reaction));
                 }
             }
         }
