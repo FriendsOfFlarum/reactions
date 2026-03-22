@@ -6,7 +6,6 @@ node_modules
 bower_components
 .idea
 .floo*
-js/dist
 composer.lock
 .phpunit.result.cache
 .aider*

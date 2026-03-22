@@ -10,10 +10,13 @@ fof-reactions:
         title: Reactions
         anonymous_count: "{count, plural, one {# anonymous user} other {# anonymous users}}"
         no_reactions: No reactions yet
+        load_more: Load more
+        others_count: "+ {count, plural, one {# other} other {# others}}"
         remove_all_reaction_type: Remove all {reaction} reactions
         remove_user_reaction: Remove reaction
     mod_item: View Reactions
     react_button_label: React
+    unreact_button_label: Remove reaction
     reaction_button_label: "React with {reaction}"
     reacted_with_label: "{count, plural, one {{reaction} (# reaction)} other {{reaction} (# reactions)}}"
 

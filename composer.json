@@ -5,7 +5,6 @@
         "misc",
         "settings",
         "flarum",
-        "reflar",
         "reactions"
     ],
     "type": "flarum-extension",
@@ -23,7 +22,7 @@
         }
     ],
     "require": {
-        "flarum/core": "^2.0.0@beta"
+        "flarum/core": "^2.0.0"
     },
     "authors": [
         {
@@ -48,6 +47,9 @@
         "flarum-extension": {
             "title": "FoF Reactions",
             "category": "feature",
+            "optional-dependencies": [
+                "flarum/realtime"
+            ],
             "icon": {
                 "name": "far fa-smile",
                 "backgroundColor": "#e74c3c",
@@ -85,8 +87,12 @@
         "analyse:phpstan": "Run static analysis"
     },
     "require-dev": {
-        "flarum/testing": "^2.0.0@beta",
-        "flarum/likes": "^2.0.0@beta",
-        "flarum/phpstan": "^2.0.0@beta"
-    }
+        "flarum/core": "2.x-dev",
+        "flarum/realtime": "2.x-dev",
+        "flarum/testing": "^2.0.0",
+        "flarum/likes": "2.x-dev",
+        "flarum/phpstan": "^2.0.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

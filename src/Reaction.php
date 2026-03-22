@@ -37,7 +37,7 @@ class Reaction extends AbstractModel
      *
      * @return static
      */
-    public static function build($identifier, $type, $enabled = true)
+    public static function build(string $identifier, string $type, bool $enabled = true): static
     {
         $reaction = new static();
         $reaction->identifier = $identifier;

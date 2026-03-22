@@ -211,6 +211,37 @@ class ReactTest extends TestCase
         return $this->send($request);
     }
 
+    protected function sendUnreactRequest(int $postId, ?int $authenticatedAs = null): ResponseInterface
+    {
+        if (!isset($authenticatedAs)) {
+            $initial = $this->send(
+                $this->request('GET', '/')
+            );
+
+            $token = $initial->getHeaderLine('X-CSRF-Token');
+        }
+
+        $request = $this->request('PATCH', "/api/posts/$postId", [
+            'authenticatedAs' => $authenticatedAs,
+            'cookiesFrom'     => $initial ?? null,
+            'json'            => [
+                'data' => [
+                    'id'         => (string) $postId,
+                    'type'       => 'posts',
+                    'attributes' => [
+                        'reaction' => null,
+                    ],
+                ],
+            ],
+        ]);
+
+        if (!isset($authenticatedAs)) {
+            $request = $request->withHeader('X-CSRF-Token', $token);
+        }
+
+        return $this->send($request);
+    }
+
     protected function disableReactionId(int $reactionId): void
     {
         $this->database()->table('reactions')->where('id', $reactionId)->update(['enabled' => false]);
@@ -366,5 +397,93 @@ class ReactTest extends TestCase
         $likes = Post::query()->where('id', 1)->first()->likes()->get();
 
         $this->assertCount(0, $likes);
+    }
+
+    #[Test]
+    public function user_can_unreact_by_sending_null_reaction()
+    {
+        $this->rewriteDefaultPermissionsAfterBoot();
+
+        // First react
+        $response = $this->sendReactRequest(3, 1, 3);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $postReaction = PostReaction::query()->where('post_id', 3)->where('user_id', 3)->first();
+        $this->assertNotNull($postReaction);
+        $this->assertEquals(1, $postReaction->reaction_id);
+
+        // Then unreact via null
+        $response = $this->sendUnreactRequest(3, 3);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+        $this->assertEquals(0, $body['data']['attributes']['reactionCounts'][1]);
+        $this->assertNull($body['data']['attributes']['userReaction']);
+
+        $postReaction->refresh();
+        $this->assertNull($postReaction->reaction_id, 'Reaction id should be nulled out after unreact');
+    }
+
+    #[Test]
+    public function user_can_unreact_by_sending_same_reaction_again()
+    {
+        $this->rewriteDefaultPermissionsAfterBoot();
+
+        // React
+        $response = $this->sendReactRequest(3, 1, 3);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        // Send same reaction again — should toggle off
+        $response = $this->sendReactRequest(3, 1, 3);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+        $this->assertEquals(0, $body['data']['attributes']['reactionCounts'][1]);
+        $this->assertNull($body['data']['attributes']['userReaction']);
+    }
+
+    #[Test]
+    public function guest_can_unreact_by_sending_null_reaction_when_anonymous_reactions_enabled()
+    {
+        $this->setting('fof-reactions.anonymousReactions', true);
+
+        // First react as guest
+        $initial = $this->send($this->request('GET', '/'));
+        $token   = $initial->getHeaderLine('X-CSRF-Token');
+
+        $reactRequest = $this->request('PATCH', '/api/posts/3', [
+            'cookiesFrom' => $initial,
+            'json'        => [
+                'data' => [
+                    'id'         => '3',
+                    'type'       => 'posts',
+                    'attributes' => ['reaction' => '1'],
+                ],
+            ],
+        ])->withHeader('X-CSRF-Token', $token);
+
+        $response = $this->send($reactRequest);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+        $this->assertEquals(1, $body['data']['attributes']['reactionCounts'][1]);
+
+        // Now unreact via null, reusing same session
+        $unreactRequest = $this->request('PATCH', '/api/posts/3', [
+            'cookiesFrom' => $initial,
+            'json'        => [
+                'data' => [
+                    'id'         => '3',
+                    'type'       => 'posts',
+                    'attributes' => ['reaction' => null],
+                ],
+            ],
+        ])->withHeader('X-CSRF-Token', $token);
+
+        $response = $this->send($unreactRequest);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $body = json_decode((string) $response->getBody(), true);
+        $this->assertEquals(0, $body['data']['attributes']['reactionCounts'][1]);
     }
 }
