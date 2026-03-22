@@ -16,11 +16,11 @@ export default class SettingsPage extends ExtensionPage {
     successAlert: any;
     oninit(vnode: Mithril.Vnode): void;
     content(): JSX.Element;
-    changed(): boolean;
+    isChanged(): number;
     addReaction(): void;
     update(reaction: Reaction, key: string, value: string | boolean): void;
     deleteReaction(reactionToDelete: Reaction): void;
-    onsubmit(e: SubmitEvent): void;
+    saveSettings(e: SubmitEvent): Promise<void>;
     isExtEnabled(name: string): boolean;
     addPrefix(key: string): string;
     prepareSubmissionData(): Record<string, string | boolean>;
