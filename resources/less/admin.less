@@ -6,9 +6,7 @@
   }
 
   legend {
-    font-size: 16px;
     font-weight: 600;
-    margin-bottom: 15px;
     margin-top: 30px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--control-bg);
@@ -26,7 +24,6 @@
     > .helpText {
       margin-bottom: 15px;
       color: var(--muted-color);
-      font-size: 14px;
     }
   }
 
@@ -45,23 +42,38 @@
 
   // Reactions List
   .Reactions--Container {
-    background: var(--control-bg);
     border: 1px solid var(--control-bg);
     border-radius: 6px;
-    padding: 15px;
-    margin: 15px 0;
+    padding: 0 15px 15px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr auto auto auto 120px;
+    gap: 20px 15px;
+    align-items: center;
+    justify-items: center;
+
+    &--header {
+      display: contents;
+
+      label {
+        font-weight: bold;
+        justify-self: start;
+      }
+    }
 
     .helpText {
       margin-bottom: 0;
     }
+
+    .full-row {
+      grid-column: ~"1 / -1";
+      justify-self: start;
+      height: 0;
+    }
   }
 
   .Reactions--item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px;
-    margin-bottom: 8px;
+    display: contents;
     background: var(--body-bg);
     border: 1px solid var(--control-bg);
     border-radius: 4px;
@@ -157,7 +169,6 @@
   .Reaction-settings {
     > div {
       padding: 15px;
-      background: var(--control-bg);
       border: 1px solid var(--control-bg);
       border-radius: 6px;
       margin-bottom: 15px;
@@ -170,18 +181,15 @@
       .helpText {
         margin-top: 8px;
         margin-bottom: 0;
-        font-size: 13px;
       }
 
       legend {
-        font-size: 15px;
-        margin-top: 20px;
         margin-bottom: 10px;
         padding-bottom: 5px;
       }
 
       label {
-        margin-top: 12px;
+        margin-top: 0;
         margin-bottom: 6px;
       }
     }
@@ -205,8 +213,6 @@
   // Submit button
   .Button--primary[type="submit"] {
     margin-top: 20px;
-    padding: 10px 24px;
-    font-weight: 600;
   }
 
   // Responsive
@@ -215,24 +221,62 @@
       max-width: 100%;
     }
 
-    .Reactions--item {
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .Reactions-input {
-      &:first-child {
-        flex: 1 1 100%;
+    .Reactions--Container {
+      &--header {
+            display: none;
       }
 
-      &:nth-child(2) {
-        flex: 1 1 calc(100% - 120px);
-      }
-    }
+      padding-top: 15px;
 
-    .Reactions-demo {
-      flex: 1 1 100%;
-      order: -1;
+      grid-auto-flow: dense;
+      grid-template-columns: repeat(4, 1fr);
+      row-gap: 10px;
+
+      justify-items: end;
+
+      /*
+         In mobile, align items so we have each Reaction row as:
+            [display input]     [type select]
+            [identifier input]  [enabled switch]
+            [demo icon]         [delete button]
+            -- 30px margin bottom on button --
+       */
+      .Reactions--item {
+        input {
+          grid-column: span 3;
+      }
+
+        .Reactions-demo {
+          grid-column: ~"1 / -2";
+          align-self: start;
+        }
+
+        .Button {
+          grid-column: 4;
+        }
+
+        .Select {
+          grid-column: span 1;
+          margin-bottom: 0 !important;
+        }
+
+        .Select, .Button {
+          justify-self: end;
+          margin-bottom: 30px;
+        }
+      }
+
+      .Reactions--item--new {
+        label {
+          grid-column: span 4;
+          justify-self: start;
+          margin: 0;
+        }
+
+        .Button {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 }
