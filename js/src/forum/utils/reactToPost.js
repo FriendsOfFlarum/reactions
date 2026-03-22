@@ -1,4 +1,5 @@
 import app from 'flarum/forum/app';
+import haptic from 'flarum/common/utils/haptic';
 
 /**
  * React to a post with the given reaction, or unreact if already reacted with it.
@@ -18,6 +19,8 @@ export default function reactToPost(post, reaction, loading) {
   if (!post.canReact()) {
     return app.alerts.show({ type: 'error' }, app.translator.trans('core.lib.error.permission_denied_message'));
   }
+
+  if (reaction) haptic('success');
 
   const id = !reaction ? null : reaction.id();
   const originalPostReactions = post.reactionCounts();
