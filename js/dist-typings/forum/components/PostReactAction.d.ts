@@ -5,9 +5,10 @@ export default class PostReactAction extends Component<any, undefined> {
     loading: {} | undefined;
     oncreate(vnode: any): void;
     getReactions(): ItemList<any>;
-    view(): JSX.Element;
+    view(): JSX.Element | null;
     reactButton(): JSX.Element;
-    react(reaction: any, e: any): any;
+    unreactButton(): JSX.Element;
+    react(reaction: any, e: any): number | Promise<void> | undefined;
     updateChosenReaction(): any;
     reaction: any;
 }
