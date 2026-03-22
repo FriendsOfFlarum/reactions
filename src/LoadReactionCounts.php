@@ -83,12 +83,12 @@ class LoadReactionCounts
         /** @var Post $post */
         foreach ($posts as $post) {
             $postRegistered = $registeredCounts->get($post->id, collect())->keyBy('reaction_id');
-            $postAnonymous  = $anonymousCounts->get($post->id, collect())->keyBy('reaction_id');
+            $postAnonymous = $anonymousCounts->get($post->id, collect())->keyBy('reaction_id');
 
             $counts = [];
             foreach ($allReactions as $reaction) {
                 $registered = $postRegistered->get($reaction->id);
-                $anonymous  = $postAnonymous->get($reaction->id);
+                $anonymous = $postAnonymous->get($reaction->id);
 
                 $counts[$reaction->id] = ($registered ? $registered->count : 0) + ($anonymous ? $anonymous->count : 0);
             }

@@ -449,7 +449,7 @@ class ReactTest extends TestCase
 
         // First react as guest
         $initial = $this->send($this->request('GET', '/'));
-        $token   = $initial->getHeaderLine('X-CSRF-Token');
+        $token = $initial->getHeaderLine('X-CSRF-Token');
 
         $reactRequest = $this->request('PATCH', '/api/posts/3', [
             'cookiesFrom' => $initial,
