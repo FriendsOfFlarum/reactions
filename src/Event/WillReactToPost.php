@@ -20,7 +20,7 @@ class WillReactToPost
     public function __construct(
         public Post $post,
         public User $actor,
-        public Reaction $reaction,
+        public ?Reaction $reaction,
         public bool $changed = false
     ) {
     }

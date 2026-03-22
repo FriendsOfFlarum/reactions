@@ -37,12 +37,12 @@ class PostAnonymousReaction extends AbstractModel
 
     protected $fillable = ['post_id', 'guest_id', 'reaction_id'];
 
-    public function reaction()
+    public function reaction(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Reaction::class);
     }
 
-    public function post()
+    public function post(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Post::class);
     }

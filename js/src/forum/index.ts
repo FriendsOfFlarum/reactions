@@ -3,12 +3,20 @@ import app from 'flarum/forum/app';
 
 import addPusher from './addPusher';
 import addReactionAction from './addReactionAction';
+import extendRealtime from './extendRealtime';
 
 export { default as extend } from './extend';
 
 app.initializers.add('fof/reactions', () => {
   addReactionAction();
-  addPusher();
+
+  if ('flarum-pusher' in flarum.extensions) {
+    addPusher();
+  }
+
+  if ('flarum-realtime' in flarum.extensions) {
+    extendRealtime();
+  }
 
   extend('flarum/forum/components/NotificationGrid', 'notificationTypes', (items) => {
     items.add('postReacted', {

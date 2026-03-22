@@ -15,10 +15,12 @@ use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource;
 use Flarum\Api\Schema;
+use Flarum\Database\Eloquent\Collection;
 use Flarum\Discussion\Discussion;
 use Flarum\Extend;
 use Flarum\Post\Event\Deleted;
 use Flarum\Post\Post;
+use Flarum\Realtime\Extend\Realtime as RealtimeExtend;
 use Flarum\Search\Database\DatabaseSearchDriver;
 use FoF\Reactions\Notification\PostReactedBlueprint;
 use FoF\Reactions\Search\Filter\PostFilter;
@@ -31,7 +33,8 @@ return [
 
     (new Extend\Frontend('forum'))
         ->css(__DIR__.'/resources/less/forum.less')
-        ->js(__DIR__.'/js/dist/forum.js'),
+        ->js(__DIR__.'/js/dist/forum.js')
+        ->jsDirectory(__DIR__.'/js/dist/forum'),
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
@@ -62,6 +65,28 @@ return [
         ->endpoints(PostResourceEndpoints::class)
         ->endpoint(Endpoint\Update::class, function (Endpoint\Update $endpoint) {
             return $endpoint->authenticated(false);
+        })
+        ->endpoint(Endpoint\Index::class, function (Endpoint\Index $endpoint) {
+            return $endpoint->beforeSerialization(function (Context $context, array $results) {
+                $loader = resolve(LoadReactionCounts::class);
+                /** @var array<Post> $models */
+                $models = $results['models'];
+                $loader->forPosts(
+                    Collection::make($models),
+                    $context->getActor(),
+                    $context->request
+                );
+            });
+        })
+        ->endpoint(Endpoint\Show::class, function (Endpoint\Show $endpoint) {
+            return $endpoint->beforeSerialization(function (Context $context, object $model) {
+                $loader = resolve(LoadReactionCounts::class);
+                $loader->forPosts(
+                    Collection::make([$model]),
+                    $context->getActor(),
+                    $context->request
+                );
+            });
         }),
 
     (new Extend\ApiResource(Resource\DiscussionResource::class))
@@ -79,6 +104,17 @@ return [
         ->default('fof-reactions.anonymousReactions', false)
         ->serializeToForum('fofReactionsAllowAnonymous', 'fof-reactions.anonymousReactions', 'boolVal')
         ->serializeToForum('fofReactionsCdnUrl', 'fof-reactions.cdnUrl', 'strval'),
+
+    (new Extend\Conditional())
+        ->whenExtensionEnabled('flarum-realtime', fn () => [
+            (new RealtimeExtend())
+                ->broadcastModelEvent(
+                    [Event\PostWasReacted::class, Event\PostWasUnreacted::class],
+                    fn ($event) => $event->post,
+                    fn ($event) => $event->user,
+                    'reactionMutation'
+                ),
+        ]),
 
     (new Extend\Policy())
         ->modelPolicy(Post::class, Access\ReactPostPolicy::class)

@@ -146,4 +146,52 @@ class PostAttributesTest extends TestCase
         $this->assertEquals($this->arrayOfReactionCounts(4), $body['data']['attributes']['reactionCounts']);
         $this->assertEquals(null, $body['data']['attributes']['userReaction'], 'User has reacted with reaction id 1');
     }
+
+    #[Test]
+    public function post_list_returns_correct_reaction_counts_via_batch_loader()
+    {
+        // The Index endpoint uses the batch LoadReactionCounts loader.
+        // Verify counts are correct for all posts in a discussion listing.
+        $response = $this->send(
+            $this->request('GET', '/api/posts', [
+                'authenticatedAs' => 2,
+            ])->withQueryParams(['filter' => ['discussionId' => 1]])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $body = json_decode($response->getBody(), true);
+
+        // Find post id=1 in the result set
+        $post1 = collect($body['data'])->firstWhere('id', '1');
+        $this->assertNotNull($post1, 'Post 1 should be in the listing');
+        $this->assertEquals($this->arrayOfReactionCounts(), $post1['attributes']['reactionCounts']);
+        $this->assertEquals(1, $post1['attributes']['userReaction'], 'User 2 has reacted with reaction id 1');
+
+        // Post 3 has no reactions
+        $post3 = collect($body['data'])->firstWhere('id', '3');
+        $this->assertNotNull($post3, 'Post 3 should be in the listing');
+        $this->assertEquals(0, array_sum($post3['attributes']['reactionCounts']), 'Post 3 should have no reactions');
+        $this->assertNull($post3['attributes']['userReaction']);
+    }
+
+    #[Test]
+    public function post_list_returns_correct_reaction_counts_with_anonymous_reactions_via_batch_loader()
+    {
+        $this->setting('fof-reactions.anonymousReactions', true);
+
+        $response = $this->send(
+            $this->request('GET', '/api/posts', [
+                'authenticatedAs' => 2,
+            ])->withQueryParams(['filter' => ['discussionId' => 1]])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $body = json_decode($response->getBody(), true);
+
+        $post1 = collect($body['data'])->firstWhere('id', '1');
+        $this->assertNotNull($post1);
+        $this->assertEquals($this->arrayOfReactionCounts(4), $post1['attributes']['reactionCounts']);
+    }
 }

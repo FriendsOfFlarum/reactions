@@ -45,40 +45,44 @@ class PostResourceFields
             Schema\Boolean::make('canDeletePostReactions')
                 ->get(fn (Post $post, Context $context) => $context->getActor()->can('deleteReactions', $post)),
             Schema\Arr::make('reactionCounts')
-                ->get(fn (Post $post) => $this->getReactionCountsForPost($post)),
+                ->get(fn (Post $post) => $post->getAttribute('_reactionCounts') ?? $this->getReactionCountsForPost($post)),
             Schema\Number::make('userReaction')
-                ->get(fn (Post $post, Context $context) => $this->getActorReactionForPost($context->getActor(), $post, $context->request)),
+                ->get(fn (Post $post, Context $context) => $post->hasAttribute('_userReaction')
+                    ? $post->getAttribute('_userReaction')
+                    : $this->getActorReactionForPost($context->getActor(), $post, $context->request)),
 
             Schema\Str::make('reaction')
                 ->hidden()
+                ->nullable()
                 ->writableOnUpdate()
                 ->save($this->setReaction(...)),
         ];
     }
 
+    /**
+     * Fallback per-post query used when batch-loading was not performed (e.g. single-post Show endpoint
+     * before the beforeSerialization hook has run, or in tests).
+     */
     protected function getReactionCountsForPost(Post $post): array
     {
-        // Initialize counts array
         $counts = [];
 
-        // Query for reactions from registered users
         $registeredReactions = PostReaction::where('post_id', $post->id)
+            ->whereNotNull('reaction_id')
             ->groupBy('reaction_id')
             ->selectRaw('reaction_id, COUNT(*) as count')
             ->pluck('count', 'reaction_id');
 
-        // Query for anonymous reactions if allowed
         $anonymousReactions = collect([]);
         if ($this->settings->get('fof-reactions.anonymousReactions')) {
             $anonymousReactions = PostAnonymousReaction::where('post_id', $post->id)
+                ->whereNotNull('reaction_id')
                 ->groupBy('reaction_id')
                 ->selectRaw('reaction_id, COUNT(*) as count')
                 ->pluck('count', 'reaction_id');
         }
 
-        // Merge the registered and anonymous reactions
-        $reactions = Reaction::all();
-        foreach ($reactions as $reaction) {
+        foreach (Reaction::all() as $reaction) {
             $counts[$reaction->id] = $registeredReactions->get($reaction->id, 0) + $anonymousReactions->get($reaction->id, 0);
         }
 
@@ -96,11 +100,13 @@ class PostResourceFields
 
             return PostAnonymousReaction::where('post_id', $post->id)
                 ->where('guest_id', $session->getId())
+                ->whereNotNull('reaction_id')
                 ->value('reaction_id');
         }
 
         return PostReaction::where('post_id', $post->id)
             ->where('user_id', $actor->id)
+            ->whereNotNull('reaction_id')
             ->value('reaction_id');
     }
 
@@ -113,7 +119,9 @@ class PostResourceFields
 
             $reaction = !is_null($reactionId) ? Reaction::where('id', $reactionId)->first() : null;
 
-            $this->events->dispatch(new WillReactToPost($post, $actor, $reaction));
+            if ($reaction) {
+                $this->events->dispatch(new WillReactToPost($post, $actor, $reaction));
+            }
 
             $gamification = $this->extensions->isEnabled('fof-gamification');
             $likes = $this->extensions->isEnabled('flarum-likes');
@@ -176,7 +184,7 @@ class PostResourceFields
 
                     $this->events->dispatch(new PostWasUnreacted($post, $postReaction, $actor));
                 } else {
-                    $this->validateReaction($reactionId);
+                    $this->validateReaction($reaction, $reactionId);
 
                     if ($postReaction) {
                         $postReaction->reaction_id = $reaction->id;
@@ -209,14 +217,7 @@ class PostResourceFields
         }
     }
 
-    /**
-     * @param              $event
-     * @param PostReaction $postReaction
-     * @param Reaction     $reaction
-     * @param User         $actor
-     * @param Post         $post
-     */
-    public function push($event, PostReaction $postReaction, Reaction $reaction, User $actor, Post $post)
+    public function push(string $event, PostReaction $postReaction, Reaction $reaction, User $actor, Post $post): void
     {
         if ($pusher = $this->getPusher()) {
             $pusher->trigger('public', $event, [
@@ -240,13 +241,11 @@ class PostResourceFields
         return false;
     }
 
-    protected function validateReaction($reactionId)
+    protected function validateReaction(?Reaction $reaction, ?string $reactionId): void
     {
         if (is_null($reactionId)) {
             return;
         }
-
-        $reaction = Reaction::find($reactionId);
 
         if (!$reaction || !$reaction->enabled) {
             throw new ValidationException([
