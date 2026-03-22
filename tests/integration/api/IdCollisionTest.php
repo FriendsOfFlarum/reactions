@@ -18,7 +18,7 @@ use Flarum\Testing\integration\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
- * Regression tests for https://github.com/FriendsOfFlarum/reactions/issues/82
+ * Regression tests for https://github.com/FriendsOfFlarum/reactions/issues/82.
  *
  * The bug: when post_reactions and post_anonymous_reactions share the same auto-increment
  * ID (e.g. both have id=1), the API response mixed them together as the same type
