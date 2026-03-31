@@ -93,7 +93,31 @@ return [
         ->fields(fn (): array => [
             Schema\Boolean::make('canSeeReactions')
                 ->get(fn (Discussion $discussion, Context $context) => $context->getActor()->can('canSeeReactions', $discussion)),
-        ]),
+        ])
+        ->endpoint(Endpoint\Index::class, function (Endpoint\Index $endpoint) {
+            return $endpoint->beforeSerialization(function (Context $context, array $results) {
+                $loader = resolve(LoadReactionCounts::class);
+                /** @var array<int, Discussion> $models */
+                $models = $results['models'];
+                $posts = Collection::make($models)
+                    ->map(fn (Discussion $d) => $d->firstPost)
+                    ->filter()
+                    ->values();
+                if ($posts->isNotEmpty()) {
+                    $loader->forPosts($posts, $context->getActor(), $context->request);
+                }
+            });
+        })
+        ->endpoint(Endpoint\Show::class, function (Endpoint\Show $endpoint) {
+            return $endpoint->beforeSerialization(function (Context $context, object $discussion) {
+                $loader = resolve(LoadReactionCounts::class);
+                /** @var Discussion $discussion */
+                $posts = Collection::make(array_values(array_filter([$discussion->firstPost, $discussion->lastPost])));
+                if ($posts->isNotEmpty()) {
+                    $loader->forPosts($posts, $context->getActor(), $context->request);
+                }
+            });
+        }),
 
     (new Extend\SearchDriver(DatabaseSearchDriver::class))
         ->addSearcher(PostReaction::class, PostReactionSearcher::class)
