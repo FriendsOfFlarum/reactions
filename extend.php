@@ -97,9 +97,9 @@ return [
         ->endpoint(Endpoint\Index::class, function (Endpoint\Index $endpoint) {
             return $endpoint->beforeSerialization(function (Context $context, array $results) {
                 $loader = resolve(LoadReactionCounts::class);
-                /** @var Collection<int, Discussion> $discussions */
-                $discussions = Collection::make($results['models']);
-                $posts = $discussions
+                /** @var array<int, Discussion> $models */
+                $models = $results['models'];
+                $posts = Collection::make($models)
                     ->map(fn (Discussion $d) => $d->firstPost)
                     ->filter()
                     ->values();
