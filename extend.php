@@ -97,7 +97,9 @@ return [
         ->endpoint(Endpoint\Index::class, function (Endpoint\Index $endpoint) {
             return $endpoint->beforeSerialization(function (Context $context, array $results) {
                 $loader = resolve(LoadReactionCounts::class);
-                $posts = Collection::make($results['models'])
+                /** @var Collection<int, Discussion> $discussions */
+                $discussions = Collection::make($results['models']);
+                $posts = $discussions
                     ->map(fn (Discussion $d) => $d->firstPost)
                     ->filter()
                     ->values();
@@ -109,7 +111,8 @@ return [
         ->endpoint(Endpoint\Show::class, function (Endpoint\Show $endpoint) {
             return $endpoint->beforeSerialization(function (Context $context, object $discussion) {
                 $loader = resolve(LoadReactionCounts::class);
-                $posts = Collection::make(array_filter([$discussion->firstPost, $discussion->lastPost]));
+                /** @var Discussion $discussion */
+                $posts = Collection::make(array_values(array_filter([$discussion->firstPost, $discussion->lastPost])));
                 if ($posts->isNotEmpty()) {
                     $loader->forPosts($posts, $context->getActor(), $context->request);
                 }
