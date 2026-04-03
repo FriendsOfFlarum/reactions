@@ -14,7 +14,7 @@ namespace FoF\Reactions;
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Psr\Http\Message\ServerRequestInterface;
 
 class LoadReactionCounts
