@@ -229,6 +229,14 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs, Reactions
       reactionCounts[reactionId] = Math.max(0, (reactionCounts[reactionId] ?? 1) - 1);
     } else {
       reactionCounts[reactionId] = 0;
+
+      const modelsToRemove = app.store
+        .all<PostReaction>('post_reactions')
+        .filter((pr: PostReaction) => pr && pr.postId() === Number(this.attrs.post.id()) && pr.reactionId() === Number(reactionId));
+
+      for (const model of modelsToRemove) {
+        app.store.remove(model);
+      }
     }
 
     delete loadingArr[id];
