@@ -14,6 +14,8 @@ fof-reactions:
         others_count: "+ {count, plural, one {# other} other {# others}}"
         remove_all_reaction_type: Remove all {reaction} reactions
         remove_user_reaction: Remove reaction
+        confirm_remove_all_reaction_type: Are you sure you want to remove all {reaction} reactions from this post? This action cannot be undone.
+        confirm_remove_user_reaction: Are you sure you want to remove {username}'s {reaction} reaction from this post? This action cannot be undone.
     mod_item: View Reactions
     react_button_label: React
     unreact_button_label: Remove reaction

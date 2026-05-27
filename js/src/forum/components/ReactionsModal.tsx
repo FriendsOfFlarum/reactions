@@ -15,6 +15,8 @@ import Button from 'flarum/common/components/Button';
 import Icon from 'flarum/common/components/Icon';
 import Form from 'flarum/common/components/Form';
 import ReactionsModalState from '../states/ReactionsModalState';
+import Tooltip from 'flarum/common/components/Tooltip';
+import extractText from 'flarum/common/utils/extractText';
 
 interface ReactionsModalAttrs extends IInternalModalAttrs {
   post: Post;
@@ -137,16 +139,18 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs, Reactions
           <span className="ReactionsModal-reactionName">{displayName}</span>
           <span className="ReactionsModal-reactionCount">{totalCount}</span>
           {post.canDeletePostReactions() && (
-            <Button
-              className="Button Button--icon Button--link ReactionsModal-deleteAll"
-              loading={this.deletingType[reaction.id()!]}
-              onclick={this.deletePostReaction.bind(this, false, reaction.id()!)}
-              aria-label={app.translator.trans('fof-reactions.forum.modal.remove_all_reaction_type', {
+            <Tooltip
+              text={app.translator.trans('fof-reactions.forum.modal.remove_all_reaction_type', {
                 reaction: displayName,
               })}
             >
-              <Icon name="fas fa-trash-alt" />
-            </Button>
+              <Button
+                className="Button Button--icon Button--link ReactionsModal-deleteAll"
+                loading={this.deletingType[reaction.id()!]}
+                onclick={this.deletePostReaction.bind(this, false, reaction, undefined)}
+                icon="fas fa-trash-alt"
+              />
+            </Tooltip>
           )}
         </div>
 
@@ -158,14 +162,15 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs, Reactions
                 <span className="ReactionsModal-username">{username(user)}</span>
               </Link>
               {canDeleteReaction(user) && (
-                <Button
-                  className="Button Button--icon Button--link ReactionsModal-deleteOne"
-                  loading={this.deletingSpecific[postReactionId]}
-                  onclick={this.deletePostReaction.bind(this, postReactionId, reaction.id()!)}
-                  aria-label={app.translator.trans('fof-reactions.forum.modal.remove_user_reaction')}
-                >
-                  <Icon name="fas fa-times" />
-                </Button>
+                <Tooltip text={app.translator.trans('fof-reactions.forum.modal.remove_user_reaction')}>
+                  <Button
+                    className="Button Button--icon Button--link ReactionsModal-deleteOne"
+                    loading={this.deletingSpecific[postReactionId]}
+                    onclick={this.deletePostReaction.bind(this, postReactionId, reaction, user)}
+                    aria-label={app.translator.trans('fof-reactions.forum.modal.remove_user_reaction')}
+                    icon="fas fa-times"
+                  />
+                </Tooltip>
               )}
             </li>
           ))}
@@ -183,10 +188,26 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs, Reactions
     );
   }
 
-  async deletePostReaction(postReactionId: string | false, reactionId: string): Promise<void> {
+  async deletePostReaction(postReactionId: string | false, reaction: Reaction, user?: User): Promise<void> {
+    const reactionId = reaction.id()!;
     const isSpecific = postReactionId !== false;
     const loadingArr = isSpecific ? this.deletingSpecific : this.deletingType;
     const id = isSpecific ? (postReactionId as string) : reactionId;
+
+    const confirmationKey = isSpecific ? 'confirm_remove_user_reaction' : 'confirm_remove_all_reaction_type';
+
+    if (
+      !confirm(
+        extractText(
+          app.translator.trans(`fof-reactions.forum.modal.${confirmationKey}`, {
+            reaction: reaction.display() || reaction.identifier(),
+            user: user ?? null,
+          })
+        )
+      )
+    ) {
+      return;
+    }
 
     loadingArr[id] = true;
 
