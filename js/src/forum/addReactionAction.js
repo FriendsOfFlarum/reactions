@@ -28,6 +28,11 @@ export default () => {
     items.add('react', PostReactAction.component({ post }), 5);
   });
 
+  // Redraw a post if reaction counts have changed (needed for footer numbers to update).
+  extend(CommentPost.prototype, 'oninit', function () {
+    this.subtree.check(() => this.post?.reactionCounts?.());
+  });
+
   extend(PostControls, 'moderationControls', function (items, post) {
     const reactionCounts = post.reactionCounts();
     const hasReactions = reactionCounts && Object.keys(reactionCounts).length > 0;
