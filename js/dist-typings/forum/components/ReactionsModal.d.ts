@@ -25,6 +25,6 @@ export default class ReactionsModal extends Modal<ReactionsModalAttrs, Reactions
     getGroups(): ReactionGroup[];
     content(): Mithril.Children;
     buildReactionSection(reaction: Reaction, users: Record<string, User>, anonymousCount: number): Mithril.Children;
-    deletePostReaction(postReactionId: string | false, reactionId: string): Promise<void>;
+    deletePostReaction(postReactionId: string | false, reaction: Reaction, user?: User): Promise<void>;
 }
 export {};
