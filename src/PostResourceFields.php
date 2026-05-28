@@ -164,8 +164,10 @@ class PostResourceFields
                 $guestId = $context->request->getAttribute('session')?->getId();
 
                 if ($actor->isGuest()) {
+                    /** @var PostAnonymousReaction|null $postReaction */
                     $postReaction = PostAnonymousReaction::where([['guest_id', $guestId], ['post_id', $post->id]])->first();
                 } else {
+                    /** @var PostReaction|null $postReaction */
                     $postReaction = PostReaction::where([['user_id', $actor->id], ['post_id', $post->id]])->first();
                 }
 
@@ -180,16 +182,15 @@ class PostResourceFields
 
                         $postReaction->reaction_id = null;
                         $postReaction->save();
-                    }
 
-                    $this->events->dispatch(new PostWasUnreacted($post, $postReaction, $actor));
+                        // Only dispatch event if a post reaction actually existed (anonymous or not).
+                        // We can treat this as a no-op since the end result is the same as if a reaction existed and had been removed.
+                        $this->events->dispatch(new PostWasUnreacted($post, $postReaction, $actor));
+                    }
                 } else {
                     $this->validateReaction($reaction, $reactionId);
 
-                    if ($postReaction) {
-                        $postReaction->reaction_id = $reaction->id;
-                        $postReaction->save();
-                    } else {
+                    if (!$postReaction) {
                         $isGuest = $actor->isGuest();
                         $postReaction = $isGuest ? new PostAnonymousReaction() : new PostReaction();
 
@@ -200,11 +201,10 @@ class PostResourceFields
                         } else {
                             $postReaction->user_id = $actor->id;
                         }
-
-                        $postReaction->reaction_id = $reaction->id;
-
-                        $postReaction->save();
                     }
+
+                    $postReaction->reaction_id = $reaction->id;
+                    $postReaction->save();
 
                     // We'll maintain current behaviour and only push to Pusher if the reaction is not anonymous
                     if ($postReaction instanceof PostReaction) {
