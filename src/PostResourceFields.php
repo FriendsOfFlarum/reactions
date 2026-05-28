@@ -163,12 +163,11 @@ class PostResourceFields
             } else {
                 $guestId = $context->request->getAttribute('session')?->getId();
 
-                /**
-                 * @var PostReaction|PostAnonymousReaction|null $postReaction
-                 */
                 if ($actor->isGuest()) {
+                    /** @var PostAnonymousReaction|null $postReaction */
                     $postReaction = PostAnonymousReaction::where([['guest_id', $guestId], ['post_id', $post->id]])->first();
                 } else {
+                    /** @var PostReaction|Null $postReaction */
                     $postReaction = PostReaction::where([['user_id', $actor->id], ['post_id', $post->id]])->first();
                 }
 
