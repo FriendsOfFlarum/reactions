@@ -8,4 +8,5 @@ bower_components
 .floo*
 composer.lock
 .phpunit.result.cache
+.phpunit.cache
 .aider*
