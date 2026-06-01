@@ -33,7 +33,7 @@ return [
         $schema->table('post_reactions', function (Blueprint $table) use ($schema) {
             // Recreate single-column foreign-key index (post_id foreign index) that was automatically dropped by DB when
             // the multi-column indexes were created. Otherwise, we hit a FK constraint error.
-            if (! $schema->hasIndex('post_reactions', $foreignIndex = 'post_reactions_post_id_foreign')) {
+            if (!$schema->hasIndex('post_reactions', $foreignIndex = 'post_reactions_post_id_foreign')) {
                 $table->index(['post_id'], $foreignIndex);
             }
 
@@ -43,7 +43,7 @@ return [
 
         $schema->table('post_anonymous_reactions', function (Blueprint $table) use ($schema) {
             // Same as above, but for anonymous reactions.
-            if (! $schema->hasIndex('post_anonymous_reactions', $foreignIndex = 'post_anonymous_reactions_post_id_foreign')) {
+            if (!$schema->hasIndex('post_anonymous_reactions', $foreignIndex = 'post_anonymous_reactions_post_id_foreign')) {
                 $table->index(['post_id'], $foreignIndex);
             }
 
