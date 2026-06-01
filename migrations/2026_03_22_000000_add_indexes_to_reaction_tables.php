@@ -30,25 +30,36 @@ return [
     },
 
     'down' => static function (Builder $schema) {
-        $schema->table('post_reactions', function (Blueprint $table) use ($schema) {
+        $dropIndexIfExists = static function (Blueprint $table, array $indices, string $indexName) {
+            if (in_array($indexName, $indices, true)) {
+                $table->dropIndex($indexName);
+            }
+        };
+
+        $schema->table('post_reactions', function (Blueprint $table) use ($dropIndexIfExists, $schema) {
+            $indices = $schema->getIndexListing('post_reactions');
+
             // Recreate single-column foreign-key index (post_id foreign index) that was automatically dropped by DB when
             // the multi-column indexes were created. Otherwise, we hit a FK constraint error.
-            if (!$schema->hasIndex('post_reactions', $foreignIndex = 'post_reactions_post_id_foreign')) {
-                $table->index(['post_id'], $foreignIndex);
+            if (!in_array($foreignIndex = 'post_reactions_post_id_foreign', $indices)) {
+                $table->index(['post_id'], 'post_reactions_post_id_foreign');
             }
 
-            $table->dropIndex('post_reactions_post_id_user_id_index');
-            $table->dropIndex('post_reactions_post_id_reaction_id_index');
+            // In case errors occurred, only drop indices if they exist to avoid "index not found" errors.
+            $dropIndexIfExists($table, $indices, 'post_reactions_post_id_user_id_index');
+            $dropIndexIfExists($table, $indices, 'post_reactions_post_id_reaction_id_index');
         });
 
-        $schema->table('post_anonymous_reactions', function (Blueprint $table) use ($schema) {
+        $schema->table('post_anonymous_reactions', function (Blueprint $table) use ($dropIndexIfExists, $schema) {
+            $indices = $schema->getIndexListing('post_anonymous_reactions');
+
             // Same as above, but for anonymous reactions.
-            if (!$schema->hasIndex('post_anonymous_reactions', $foreignIndex = 'post_anonymous_reactions_post_id_foreign')) {
+            if (!in_array($foreignIndex = 'post_anonymous_reactions_post_id_foreign', $indices, true)) {
                 $table->index(['post_id'], $foreignIndex);
             }
 
-            $table->dropIndex('post_anonymous_reactions_post_id_guest_id_index');
-            $table->dropIndex('post_anonymous_reactions_post_id_reaction_id_index');
+            $dropIndexIfExists($table, $indices, 'post_anonymous_reactions_post_id_guest_id_index');
+            $dropIndexIfExists($table, $indices, 'post_anonymous_reactions_post_id_reaction_id_index');
         });
     },
 ];
