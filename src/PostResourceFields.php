@@ -33,7 +33,8 @@ class PostResourceFields
         protected SettingsRepositoryInterface $settings,
         protected Dispatcher $events,
         protected ExtensionManager $extensions,
-        protected TranslatorInterface $translator
+        protected TranslatorInterface $translator,
+        protected ReactionCountResolver $resolver
     ) {
     }
 
@@ -45,11 +46,9 @@ class PostResourceFields
             Schema\Boolean::make('canDeletePostReactions')
                 ->get(fn (Post $post, Context $context) => $context->getActor()->can('deleteReactions', $post)),
             Schema\Arr::make('reactionCounts')
-                ->get(fn (Post $post) => $post->getAttribute('_reactionCounts') ?? $this->getReactionCountsForPost($post)),
+                ->get(fn (Post $post) => $this->resolver->countsFor($post->id)),
             Schema\Number::make('userReaction')
-                ->get(fn (Post $post, Context $context) => $post->hasAttribute('_userReaction')
-                    ? $post->getAttribute('_userReaction')
-                    : $this->getActorReactionForPost($context->getActor(), $post, $context->request)),
+                ->get(fn (Post $post, Context $context) => $this->resolver->userReactionFor($post->id, $context->getActor(), $context->request)),
 
             Schema\Str::make('reaction')
                 ->hidden()
@@ -57,57 +56,6 @@ class PostResourceFields
                 ->writableOnUpdate()
                 ->save($this->setReaction(...)),
         ];
-    }
-
-    /**
-     * Fallback per-post query used when batch-loading was not performed (e.g. single-post Show endpoint
-     * before the beforeSerialization hook has run, or in tests).
-     */
-    protected function getReactionCountsForPost(Post $post): array
-    {
-        $counts = [];
-
-        $registeredReactions = PostReaction::where('post_id', $post->id)
-            ->whereNotNull('reaction_id')
-            ->groupBy('reaction_id')
-            ->selectRaw('reaction_id, COUNT(*) as count')
-            ->pluck('count', 'reaction_id');
-
-        $anonymousReactions = collect([]);
-        if ($this->settings->get('fof-reactions.anonymousReactions')) {
-            $anonymousReactions = PostAnonymousReaction::where('post_id', $post->id)
-                ->whereNotNull('reaction_id')
-                ->groupBy('reaction_id')
-                ->selectRaw('reaction_id, COUNT(*) as count')
-                ->pluck('count', 'reaction_id');
-        }
-
-        foreach (Reaction::all() as $reaction) {
-            $counts[$reaction->id] = $registeredReactions->get($reaction->id, 0) + $anonymousReactions->get($reaction->id, 0);
-        }
-
-        return $counts;
-    }
-
-    protected function getActorReactionForPost(User $actor, Post $post, ServerRequestInterface $request): ?int
-    {
-        if ($actor->isGuest()) {
-            $session = $request->getAttribute('session');
-
-            if ($session === null) {
-                return null;
-            }
-
-            return PostAnonymousReaction::where('post_id', $post->id)
-                ->where('guest_id', $session->getId())
-                ->whereNotNull('reaction_id')
-                ->value('reaction_id');
-        }
-
-        return PostReaction::where('post_id', $post->id)
-            ->where('user_id', $actor->id)
-            ->whereNotNull('reaction_id')
-            ->value('reaction_id');
     }
 
     protected function setReaction(Post $post, ?string $reactionId, Context $context): void
@@ -214,6 +162,10 @@ class PostResourceFields
                     $this->events->dispatch(new PostWasReacted($post, $postReaction, $actor, $reaction));
                 }
             }
+
+            // Reactions for this post changed in this request; drop any memoized
+            // counts/userReaction so the response reflects the new state.
+            $this->resolver->forget($post->id);
         }
     }
 
