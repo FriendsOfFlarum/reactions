@@ -25,7 +25,6 @@ use FoF\Reactions\Event\PostWasReacted;
 use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\Event\WillReactToPost;
 use Illuminate\Contracts\Events\Dispatcher;
-use Psr\Http\Message\ServerRequestInterface;
 
 class PostResourceFields
 {

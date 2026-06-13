@@ -59,7 +59,7 @@ class ReactionCountResolver
      */
     public function countsFor(int $postId): array
     {
-        if (! array_key_exists($postId, $this->counts)) {
+        if (!array_key_exists($postId, $this->counts)) {
             $this->load([$postId], null, null);
         }
 
@@ -72,7 +72,7 @@ class ReactionCountResolver
      */
     public function userReactionFor(int $postId, User $actor, ?ServerRequestInterface $request): ?int
     {
-        if (! array_key_exists($postId, $this->userReaction)) {
+        if (!array_key_exists($postId, $this->userReaction)) {
             $this->load([$postId], $actor, $request);
         }
 
@@ -88,16 +88,16 @@ class ReactionCountResolver
      */
     public function load(array $postIds, ?User $actor, ?ServerRequestInterface $request): void
     {
-        $missingCounts = array_values(array_filter($postIds, fn ($id) => ! array_key_exists($id, $this->counts)));
+        $missingCounts = array_values(array_filter($postIds, fn ($id) => !array_key_exists($id, $this->counts)));
 
-        if (! empty($missingCounts)) {
+        if (!empty($missingCounts)) {
             $this->loadCounts($missingCounts);
         }
 
         if ($actor !== null) {
-            $missingUser = array_values(array_filter($postIds, fn ($id) => ! array_key_exists($id, $this->userReaction)));
+            $missingUser = array_values(array_filter($postIds, fn ($id) => !array_key_exists($id, $this->userReaction)));
 
-            if (! empty($missingUser)) {
+            if (!empty($missingUser)) {
                 $this->loadUserReactions($missingUser, $actor, $request);
             }
         }
@@ -149,7 +149,7 @@ class ReactionCountResolver
     {
         $reactions = collect();
 
-        if (! $actor->isGuest()) {
+        if (!$actor->isGuest()) {
             $reactions = PostReaction::whereIn('post_id', $postIds)
                 ->where('user_id', $actor->id)
                 ->whereNotNull('reaction_id')
