@@ -15,7 +15,6 @@ use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource;
 use Flarum\Api\Schema;
-use Flarum\Database\Eloquent\Collection;
 use Flarum\Discussion\Discussion;
 use Flarum\Extend;
 use Flarum\Post\Event\Deleted;
@@ -75,7 +74,10 @@ return [
         // against the instance churn of JSON:API include resolution.
         ->endpoint(Endpoint\Index::class, function (Endpoint\Index $endpoint) {
             return $endpoint->beforeSerialization(function (Context $context, array $results) {
-                $ids = Collection::make($results['models'])->pluck('id')->all();
+                $ids = [];
+                foreach ($results['models'] as $post) {
+                    $ids[] = $post->id;
+                }
                 resolve(ReactionCountResolver::class)->load($ids, $context->getActor(), $context->request);
             });
         }),
@@ -90,12 +92,16 @@ return [
         // discussion rows — no post relation load, no instance dependency.
         ->endpoint([Endpoint\Index::class, Endpoint\Show::class], function ($endpoint) {
             return $endpoint->beforeSerialization(function (Context $context, $results) {
-                $models = is_array($results) ? $results['models'] : [$results];
-                $ids = Collection::make($models)
-                    ->flatMap(fn (Discussion $d) => [$d->first_post_id, $d->last_post_id])
-                    ->filter()
-                    ->unique()
-                    ->all();
+                /** @var Discussion[] $discussions */
+                $discussions = is_array($results) ? $results['models'] : [$results];
+
+                $ids = [];
+                foreach ($discussions as $discussion) {
+                    $ids[] = $discussion->first_post_id;
+                    $ids[] = $discussion->last_post_id;
+                }
+
+                $ids = array_values(array_unique(array_filter($ids)));
                 resolve(ReactionCountResolver::class)->load($ids, $context->getActor(), $context->request);
             });
         }),
