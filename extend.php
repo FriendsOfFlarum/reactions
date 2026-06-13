@@ -15,7 +15,6 @@ use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource;
 use Flarum\Api\Schema;
-use Flarum\Database\Eloquent\Collection;
 use Flarum\Discussion\Discussion;
 use Flarum\Extend;
 use Flarum\Post\Event\Deleted;
@@ -27,6 +26,9 @@ use FoF\Reactions\Search\Filter\PostFilter;
 use FoF\Reactions\Search\PostReactionSearcher;
 
 return [
+    (new Extend\ServiceProvider())
+        ->register(Provider\ResolverProvider::class),
+
     (new Extend\Frontend('admin'))
         ->css(__DIR__.'/resources/less/admin.less')
         ->js(__DIR__.'/js/dist/admin.js'),
@@ -66,26 +68,17 @@ return [
         ->endpoint(Endpoint\Update::class, function (Endpoint\Update $endpoint) {
             return $endpoint->authenticated(false);
         })
+        // Prewarm the reaction-count cache for the whole page of posts in one
+        // batch, so the per-post field getters hit the memo instead of querying
+        // individually. Keyed by post id (not model instance) so it is robust
+        // against the instance churn of JSON:API include resolution.
         ->endpoint(Endpoint\Index::class, function (Endpoint\Index $endpoint) {
             return $endpoint->beforeSerialization(function (Context $context, array $results) {
-                $loader = resolve(LoadReactionCounts::class);
-                /** @var array<Post> $models */
-                $models = $results['models'];
-                $loader->forPosts(
-                    Collection::make($models),
-                    $context->getActor(),
-                    $context->request
-                );
-            });
-        })
-        ->endpoint(Endpoint\Show::class, function (Endpoint\Show $endpoint) {
-            return $endpoint->beforeSerialization(function (Context $context, object $model) {
-                $loader = resolve(LoadReactionCounts::class);
-                $loader->forPosts(
-                    Collection::make([$model]),
-                    $context->getActor(),
-                    $context->request
-                );
+                $ids = [];
+                foreach ($results['models'] as $post) {
+                    $ids[] = $post->id;
+                }
+                resolve(ReactionCountResolver::class)->load($ids, $context->getActor(), $context->request);
             });
         }),
 
@@ -94,28 +87,22 @@ return [
             Schema\Boolean::make('canSeeReactions')
                 ->get(fn (Discussion $discussion, Context $context) => $context->getActor()->can('canSeeReactions', $discussion)),
         ])
-        ->endpoint(Endpoint\Index::class, function (Endpoint\Index $endpoint) {
-            return $endpoint->beforeSerialization(function (Context $context, array $results) {
-                $loader = resolve(LoadReactionCounts::class);
-                /** @var array<int, Discussion> $models */
-                $models = $results['models'];
-                $posts = Collection::make($models)
-                    ->map(fn (Discussion $d) => $d->firstPost)
-                    ->filter()
-                    ->values();
-                if ($posts->isNotEmpty()) {
-                    $loader->forPosts($posts, $context->getActor(), $context->request);
+        // The list serializes reactions for each discussion's firstPost and
+        // lastPost. Prewarm both in one batch using the id columns on the
+        // discussion rows — no post relation load, no instance dependency.
+        ->endpoint([Endpoint\Index::class, Endpoint\Show::class], function ($endpoint) {
+            return $endpoint->beforeSerialization(function (Context $context, $results) {
+                /** @var Discussion[] $discussions */
+                $discussions = is_array($results) ? $results['models'] : [$results];
+
+                $ids = [];
+                foreach ($discussions as $discussion) {
+                    $ids[] = $discussion->first_post_id;
+                    $ids[] = $discussion->last_post_id;
                 }
-            });
-        })
-        ->endpoint(Endpoint\Show::class, function (Endpoint\Show $endpoint) {
-            return $endpoint->beforeSerialization(function (Context $context, object $discussion) {
-                $loader = resolve(LoadReactionCounts::class);
-                /** @var Discussion $discussion */
-                $posts = Collection::make(array_values(array_filter([$discussion->firstPost, $discussion->lastPost])));
-                if ($posts->isNotEmpty()) {
-                    $loader->forPosts($posts, $context->getActor(), $context->request);
-                }
+
+                $ids = array_values(array_unique(array_filter($ids)));
+                resolve(ReactionCountResolver::class)->load($ids, $context->getActor(), $context->request);
             });
         }),
 
