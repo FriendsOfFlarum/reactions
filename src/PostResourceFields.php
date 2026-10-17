@@ -108,20 +108,22 @@ class PostResourceFields
                     $this->events->dispatch(new PostWasLiked($post, $actor));
                 }
             } else {
-                $guestId = $context->request->getAttribute('session')?->getId();
+                // The actor's one row for this post, backed by a unique index on these columns.
+                $key = $actor->isGuest()
+                    ? ['post_id' => $post->id, 'guest_id' => $context->request->getAttribute('session')?->getId()]
+                    : ['post_id' => $post->id, 'user_id' => $actor->id];
 
-                if ($actor->isGuest()) {
-                    /** @var PostAnonymousReaction|null $postReaction */
-                    $postReaction = PostAnonymousReaction::where([['guest_id', $guestId], ['post_id', $post->id]])->first();
-                } else {
-                    /** @var PostReaction|null $postReaction */
-                    $postReaction = PostReaction::where([['user_id', $actor->id], ['post_id', $post->id]])->first();
-                }
+                $query = $actor->isGuest() ? PostAnonymousReaction::query() : PostReaction::query();
+
+                /** @var PostReaction|PostAnonymousReaction|null $postReaction */
+                $postReaction = (clone $query)->where($key)->first();
 
                 $removeReaction = is_null($reactionId) || ($postReaction && $postReaction->reaction_id == $reactionId);
 
                 if ($removeReaction) {
-                    if ($postReaction) {
+                    // An unreact keeps the row with a null reaction_id, so a repeated unreact finds it again.
+                    // Only a reaction that was actually there is removed, pushed and dispatched.
+                    if ($postReaction && $postReaction->reaction_id !== null) {
                         // We'll maintain current behaviour and only push to Pusher if the reaction is not anonymous
                         if ($postReaction instanceof PostReaction) {
                             $this->push('removedReaction', $postReaction, $reaction ?: $postReaction->reaction, $actor, $post);
@@ -130,35 +132,30 @@ class PostResourceFields
                         $postReaction->reaction_id = null;
                         $postReaction->save();
 
-                        // Only dispatch event if a post reaction actually existed (anonymous or not).
-                        // We can treat this as a no-op since the end result is the same as if a reaction existed and had been removed.
                         $this->events->dispatch(new PostWasUnreacted($post, $postReaction, $actor));
                     }
                 } else {
                     $this->validateReaction($reaction, $reactionId);
 
-                    if (!$postReaction) {
-                        $isGuest = $actor->isGuest();
-                        $postReaction = $isGuest ? new PostAnonymousReaction() : new PostReaction();
-
-                        $postReaction->post_id = $post->id;
-
-                        if ($isGuest) {
-                            $postReaction->guest_id = $guestId;
-                        } else {
-                            $postReaction->user_id = $actor->id;
-                        }
-                    }
+                    // A concurrent request (double click, retry) can insert the row between the lookup above and
+                    // this insert. createOrFirst() then catches the unique violation and returns that row instead.
+                    /** @var PostReaction|PostAnonymousReaction $postReaction */
+                    $postReaction ??= $query->createOrFirst($key, ['reaction_id' => $reaction->id]);
 
                     $postReaction->reaction_id = $reaction->id;
+                    $changed = $postReaction->wasRecentlyCreated || $postReaction->isDirty('reaction_id');
                     $postReaction->save();
 
-                    // We'll maintain current behaviour and only push to Pusher if the reaction is not anonymous
-                    if ($postReaction instanceof PostReaction) {
-                        $this->push('newReaction', $postReaction, $reaction, $actor, $post);
-                    }
+                    // A lost race that found this same reaction already saved changes nothing, so it isn't
+                    // pushed or dispatched a second time.
+                    if ($changed) {
+                        // We'll maintain current behaviour and only push to Pusher if the reaction is not anonymous
+                        if ($postReaction instanceof PostReaction) {
+                            $this->push('newReaction', $postReaction, $reaction, $actor, $post);
+                        }
 
-                    $this->events->dispatch(new PostWasReacted($post, $postReaction, $actor, $reaction));
+                        $this->events->dispatch(new PostWasReacted($post, $postReaction, $actor, $reaction));
+                    }
                 }
             }
 

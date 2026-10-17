@@ -19,7 +19,7 @@ use Flarum\User\User;
 /**
  * @property int            $id
  * @property int            $post_id
- * @property int            $reaction_id
+ * @property ?int           $reaction_id
  * @property string         $user_id
  * @property string         $ip_address
  * @property \Carbon\Carbon $created_at
@@ -37,6 +37,8 @@ class PostReaction extends AbstractModel
     public $timestamps = true;
 
     protected $casts = ['created_at' => 'datetime', 'updated_at' => 'datetime'];
+
+    protected $fillable = ['post_id', 'user_id', 'reaction_id'];
 
     public function reaction(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
