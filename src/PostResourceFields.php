@@ -45,9 +45,9 @@ class PostResourceFields
             Schema\Boolean::make('canDeletePostReactions')
                 ->get(fn (Post $post, Context $context) => $context->getActor()->can('deleteReactions', $post)),
             Schema\Arr::make('reactionCounts')
-                ->get(fn (Post $post, Context $context) => $this->resolver->countsFor($post->id, $context->request)),
+                ->get(fn (Post $post, Context $context) => $this->resolver->deferCounts($post->id, $context->request)),
             Schema\Number::make('userReaction')
-                ->get(fn (Post $post, Context $context) => $this->resolver->userReactionFor($post->id, $context->getActor(), $context->request)),
+                ->get(fn (Post $post, Context $context) => $this->resolver->deferUserReaction($post->id, $context->getActor(), $context->request)),
 
             Schema\Str::make('reaction')
                 ->hidden()

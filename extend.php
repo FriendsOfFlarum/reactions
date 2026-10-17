@@ -67,44 +67,13 @@ return [
         ->endpoints(PostResourceEndpoints::class)
         ->endpoint(Endpoint\Update::class, function (Endpoint\Update $endpoint) {
             return $endpoint->authenticated(false);
-        })
-        // Prewarm the reaction-count cache for the whole page of posts in one
-        // batch, so the per-post field getters hit the memo instead of querying
-        // individually. Keyed by post id (not model instance) so it is robust
-        // against the instance churn of JSON:API include resolution.
-        ->endpoint(Endpoint\Index::class, function (Endpoint\Index $endpoint) {
-            return $endpoint->beforeSerialization(function (Context $context, array $results) {
-                $ids = [];
-                foreach ($results['models'] as $post) {
-                    $ids[] = $post->id;
-                }
-                resolve(ReactionCountResolver::class)->load($ids, $context->getActor(), $context->request);
-            });
         }),
 
     (new Extend\ApiResource(Resource\DiscussionResource::class))
         ->fields(fn (): array => [
             Schema\Boolean::make('canSeeReactions')
                 ->get(fn (Discussion $discussion, Context $context) => $context->getActor()->can('canSeeReactions', $discussion)),
-        ])
-        // The list serializes reactions for each discussion's firstPost and
-        // lastPost. Prewarm both in one batch using the id columns on the
-        // discussion rows — no post relation load, no instance dependency.
-        ->endpoint([Endpoint\Index::class, Endpoint\Show::class], function ($endpoint) {
-            return $endpoint->beforeSerialization(function (Context $context, $results) {
-                /** @var Discussion[] $discussions */
-                $discussions = is_array($results) ? $results['models'] : [$results];
-
-                $ids = [];
-                foreach ($discussions as $discussion) {
-                    $ids[] = $discussion->first_post_id;
-                    $ids[] = $discussion->last_post_id;
-                }
-
-                $ids = array_values(array_unique(array_filter($ids)));
-                resolve(ReactionCountResolver::class)->load($ids, $context->getActor(), $context->request);
-            });
-        }),
+        ]),
 
     (new Extend\SearchDriver(DatabaseSearchDriver::class))
         ->addSearcher(PostReaction::class, PostReactionSearcher::class)

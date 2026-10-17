@@ -11,6 +11,7 @@
 
 namespace FoF\Reactions;
 
+use Closure;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,9 +31,14 @@ use WeakMap;
  * and every post fell back to per-post queries.
  *
  * This resolver instead keys everything by post id (always available on whatever
- * instance is serialized) and memoizes per API request: the first lookup for a
- * batch of posts issues a few grouped queries, and subsequent lookups for those
- * posts in the same request are free.
+ * instance is serialized) and memoizes per API request.
+ *
+ * The post fields don't look their value up straight away: each registers its
+ * post and returns a closure, which the serializer resolves once the current
+ * level of the response is complete. The first of those closures then loads
+ * every registered post in one batch. That covers listed and included posts
+ * alike (first/last posts, mentions, ...) on every endpoint, and posts that
+ * aren't serialized are never loaded.
  *
  * The memo is kept per request object rather than for the container's lifetime,
  * because one container can serve many API requests: queue workers, and
@@ -52,6 +58,28 @@ class ReactionCountResolver
         protected SettingsRepositoryInterface $settings
     ) {
         $this->states = new WeakMap();
+    }
+
+    /**
+     * Field value for a post's counts: registers the post for the next batch and
+     * returns a closure for the serializer to resolve.
+     */
+    public function deferCounts(int $postId, ServerRequestInterface $request): Closure
+    {
+        $this->state($request)->pendingCounts[$postId] = true;
+
+        return fn () => $this->countsFor($postId, $request);
+    }
+
+    /**
+     * Field value for the actor's own reaction to a post: registers the post for
+     * the next batch and returns a closure for the serializer to resolve.
+     */
+    public function deferUserReaction(int $postId, User $actor, ServerRequestInterface $request): Closure
+    {
+        $this->state($request)->pendingUserReactions[$postId] = true;
+
+        return fn () => $this->userReactionFor($postId, $actor, $request);
     }
 
     /**
@@ -84,8 +112,8 @@ class ReactionCountResolver
 
     /**
      * Batch-load counts (and, when an actor is given, that actor's reactions) for
-     * any of the given post ids not already cached for this request. Safe to call
-     * repeatedly; only the missing ids are queried.
+     * the given post ids and every post a deferred field value is waiting for,
+     * skipping any already cached for this request. Safe to call repeatedly.
      *
      * @param int[] $postIds
      */
@@ -93,14 +121,16 @@ class ReactionCountResolver
     {
         $state = $this->state($request);
 
-        $missingCounts = array_values(array_filter($postIds, fn ($id) => !array_key_exists($id, $state->counts)));
+        $missingCounts = $this->missing([...$postIds, ...array_keys($state->pendingCounts)], $state->counts);
+        $state->pendingCounts = [];
 
         if (!empty($missingCounts)) {
             $this->loadCounts($state, $missingCounts);
         }
 
         if ($actor !== null) {
-            $missingUser = array_values(array_filter($postIds, fn ($id) => !array_key_exists($id, $state->userReaction)));
+            $missingUser = $this->missing([...$postIds, ...array_keys($state->pendingUserReactions)], $state->userReaction);
+            $state->pendingUserReactions = [];
 
             if (!empty($missingUser)) {
                 $this->loadUserReactions($state, $missingUser, $actor, $request);
@@ -118,6 +148,17 @@ class ReactionCountResolver
         $state = $this->state($request);
 
         unset($state->counts[$postId], $state->userReaction[$postId]);
+    }
+
+    /**
+     * @param int[]             $postIds
+     * @param array<int, mixed> $cached
+     *
+     * @return int[]
+     */
+    protected function missing(array $postIds, array $cached): array
+    {
+        return array_values(array_unique(array_filter($postIds, fn ($id) => !array_key_exists($id, $cached))));
     }
 
     protected function state(ServerRequestInterface $request): ReactionCountState
