@@ -18,10 +18,11 @@ class ResolverProvider extends AbstractServiceProvider
 {
     public function register(): void
     {
-        // Singleton so the per-post reaction-count memo is shared for the
-        // lifetime of a request (Flarum rebuilds the container per request),
-        // turning the per-post reaction lookups during serialization into a few
-        // batched queries cached by post id.
+        // Singleton so every field getter and prewarm hook in a request shares
+        // one memo, turning the per-post reaction lookups during serialization
+        // into a few batched queries cached by post id. The memo itself is kept
+        // per API request inside the resolver, since a long-running process
+        // serves many requests from this one instance.
         $this->container->singleton(ReactionCountResolver::class);
     }
 }
