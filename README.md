@@ -7,6 +7,7 @@ A [Flarum](http://flarum.org) extension. A Flarum extension that adds reactions 
 - Just click the react button when hovering over a post, and choose the reaction!
 - Custom reactions can be easily added via the admin page
 - Integration with `flarum/likes` and `fof/gamification`
+- Optional `flarum/audit` integration: logs changes to the reaction types and moderators removing reactions from posts
 
 ### CDN
 

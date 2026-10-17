@@ -125,6 +125,10 @@ return [
                     fn ($event) => $event->user,
                     'reactionMutation'
                 ),
+        ])
+        ->whenExtensionEnabled('flarum-audit', fn () => [
+            (new \Flarum\Audit\Extend\Audit())
+                ->using(new AuditIntegration()),
         ]),
 
     (new Extend\Policy())

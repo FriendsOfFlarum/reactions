@@ -14,10 +14,18 @@ namespace FoF\Reactions;
 use Flarum\Api\Context;
 use Flarum\Api\Endpoint\Endpoint;
 use Flarum\Post\Post;
+use FoF\Reactions\Event\PostReactionDeleted;
+use FoF\Reactions\Event\PostReactionsCleared;
+use Illuminate\Contracts\Events\Dispatcher;
 use Laminas\Diactoros\Response\EmptyResponse;
 
 class PostResourceEndpoints
 {
+    public function __construct(
+        protected Dispatcher $events
+    ) {
+    }
+
     public function __invoke(): array
     {
         return [
@@ -51,23 +59,30 @@ class PostResourceEndpoints
             // Delete all post_reactions of a specific type (i.e. `reaction_id`)
             $actor->assertCan('deleteReactions', $post);
 
-            PostReaction::query()->where('post_id', $post->id)->where('reaction_id', $reactionId)->delete();
-            PostAnonymousReaction::query()->where('post_id', $post->id)->where('reaction_id', $reactionId)->delete();
+            $count = PostReaction::query()->where('post_id', $post->id)->where('reaction_id', $reactionId)->delete()
+                + PostAnonymousReaction::query()->where('post_id', $post->id)->where('reaction_id', $reactionId)->delete();
+
+            // Deleted rows referenced the reaction type, so it exists whenever something was deleted.
+            if ($count > 0 && $reaction = Reaction::find($reactionId)) {
+                $this->events->dispatch(new PostReactionsCleared($post, $reaction, $count, $actor));
+            }
         } elseif ($postReactionId) {
             // Delete a specific post_reaction for the post
             /**
-             * @var PostReaction $reaction
+             * @var PostReaction $postReaction
              */
-            $reaction = PostReaction::query()->where('post_id', $post->id)->where('id', $postReactionId)->firstOrFail();
+            $postReaction = PostReaction::query()->where('post_id', $post->id)->where('id', $postReactionId)->firstOrFail();
 
             // If the post is not the actor's, they must have permission to delete reactions
-            if ($reaction->user_id != $actor->id) {
+            if ($postReaction->user_id != $actor->id) {
                 $actor->assertCan('deleteReactions', $post);
             } else {
                 $actor->assertCan('react', $post);
             }
 
-            $reaction->delete();
+            $postReaction->delete();
+
+            $this->events->dispatch(new PostReactionDeleted($post, $postReaction, $actor));
         }
 
         // TODO should this send pusher updates? would need new type for non-specific, otherwise could spam pusher events

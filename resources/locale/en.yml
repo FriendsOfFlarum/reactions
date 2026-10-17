@@ -85,3 +85,18 @@ fof-reactions:
             legend: Likes
             Label: Convert reactions to likes
             Helptext: Enter the identifier of the reaction you would like to automatically convert into a like
+
+# Labels for the audit log entries this extension produces, rendered by the (optional)
+# flarum/audit browser. Defined under the flarum-audit namespace so the audit frontend
+# resolves them, but shipped here so they travel with the extension that owns the actions.
+flarum-audit:
+  lib:
+    browser:
+      fof-reactions:
+        reaction_created: Created reaction {name}
+        reaction_updated: Changed the {key} of reaction {name} from {old_value} to {new_value}
+        reaction_enabled: Enabled reaction {name}
+        reaction_disabled: Disabled reaction {name}
+        reaction_deleted: Deleted reaction {name}
+        post_reaction_removed: Removed {username}'s {name} reaction from {postuser}'s {post} in {discussion}
+        post_reactions_removed: "Removed {deleted_count, plural, one {# {name} reaction} other {# {name} reactions}} from {postuser}'s {post} in {discussion}"
