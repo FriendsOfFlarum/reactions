@@ -45,7 +45,7 @@ class PostResourceFields
             Schema\Boolean::make('canDeletePostReactions')
                 ->get(fn (Post $post, Context $context) => $context->getActor()->can('deleteReactions', $post)),
             Schema\Arr::make('reactionCounts')
-                ->get(fn (Post $post) => $this->resolver->countsFor($post->id)),
+                ->get(fn (Post $post, Context $context) => $this->resolver->countsFor($post->id, $context->request)),
             Schema\Number::make('userReaction')
                 ->get(fn (Post $post, Context $context) => $this->resolver->userReactionFor($post->id, $context->getActor(), $context->request)),
 
@@ -161,7 +161,7 @@ class PostResourceFields
 
             // Reactions for this post changed in this request; drop any memoized
             // counts/userReaction so the response reflects the new state.
-            $this->resolver->forget($post->id);
+            $this->resolver->forget($post->id, $context->request);
         }
     }
 

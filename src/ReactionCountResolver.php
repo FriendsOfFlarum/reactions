@@ -13,8 +13,8 @@ namespace FoF\Reactions;
 
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
-use Illuminate\Support\Collection;
 use Psr\Http\Message\ServerRequestInterface;
+use WeakMap;
 
 /**
  * Resolves per-post reaction counts and the actor's own reaction without an N+1.
@@ -30,25 +30,28 @@ use Psr\Http\Message\ServerRequestInterface;
  * and every post fell back to per-post queries.
  *
  * This resolver instead keys everything by post id (always available on whatever
- * instance is serialized) and memoizes per request. It is bound as a singleton,
- * so in Flarum's per-request container the cache is request-scoped: the first
- * lookup for a batch of posts issues a few grouped queries, and subsequent
- * lookups for those posts are free.
+ * instance is serialized) and memoizes per API request: the first lookup for a
+ * batch of posts issues a few grouped queries, and subsequent lookups for those
+ * posts in the same request are free.
+ *
+ * The memo is kept per request object rather than for the container's lifetime,
+ * because one container can serve many API requests: queue workers, and
+ * flarum/realtime's payload generator, which serializes a post through the API
+ * client once per recipient. Each of those requests gets its own state, so no
+ * recipient sees another's reaction or counts cached before a change. The state
+ * is released with its request.
  */
 class ReactionCountResolver
 {
-    /** @var array<int, array<int, int>> postId => [reactionId => count] */
-    protected array $counts = [];
-
-    /** @var array<int, int|null> postId => actor's reaction id (or null) */
-    protected array $userReaction = [];
-
-    /** Reaction types, loaded once per request. */
-    protected ?Collection $reactionTypes = null;
+    /**
+     * @var WeakMap<ServerRequestInterface, ReactionCountState>
+     */
+    protected WeakMap $states;
 
     public function __construct(
         protected SettingsRepositoryInterface $settings
     ) {
+        $this->states = new WeakMap();
     }
 
     /**
@@ -57,56 +60,75 @@ class ReactionCountResolver
      *
      * @return array<int, int>
      */
-    public function countsFor(int $postId): array
+    public function countsFor(int $postId, ServerRequestInterface $request): array
     {
-        if (!array_key_exists($postId, $this->counts)) {
-            $this->load([$postId], null, null);
+        if (!array_key_exists($postId, $this->state($request)->counts)) {
+            $this->load([$postId], null, $request);
         }
 
-        return $this->counts[$postId];
+        return $this->state($request)->counts[$postId];
     }
 
     /**
-     * The actor's own reaction id for a post, or null. Keyed per request by post
-     * id; the actor is fixed for the lifetime of the request.
+     * The actor's own reaction id for a post, or null. The actor is fixed for the
+     * lifetime of a request, so this is keyed by post id within it.
      */
-    public function userReactionFor(int $postId, User $actor, ?ServerRequestInterface $request): ?int
+    public function userReactionFor(int $postId, User $actor, ServerRequestInterface $request): ?int
     {
-        if (!array_key_exists($postId, $this->userReaction)) {
+        if (!array_key_exists($postId, $this->state($request)->userReaction)) {
             $this->load([$postId], $actor, $request);
         }
 
-        return $this->userReaction[$postId];
+        return $this->state($request)->userReaction[$postId];
     }
 
     /**
      * Batch-load counts (and, when an actor is given, that actor's reactions) for
-     * any of the given post ids not already cached. Safe to call repeatedly; only
-     * the missing ids are queried.
+     * any of the given post ids not already cached for this request. Safe to call
+     * repeatedly; only the missing ids are queried.
      *
      * @param int[] $postIds
      */
-    public function load(array $postIds, ?User $actor, ?ServerRequestInterface $request): void
+    public function load(array $postIds, ?User $actor, ServerRequestInterface $request): void
     {
-        $missingCounts = array_values(array_filter($postIds, fn ($id) => !array_key_exists($id, $this->counts)));
+        $state = $this->state($request);
+
+        $missingCounts = array_values(array_filter($postIds, fn ($id) => !array_key_exists($id, $state->counts)));
 
         if (!empty($missingCounts)) {
-            $this->loadCounts($missingCounts);
+            $this->loadCounts($state, $missingCounts);
         }
 
         if ($actor !== null) {
-            $missingUser = array_values(array_filter($postIds, fn ($id) => !array_key_exists($id, $this->userReaction)));
+            $missingUser = array_values(array_filter($postIds, fn ($id) => !array_key_exists($id, $state->userReaction)));
 
             if (!empty($missingUser)) {
-                $this->loadUserReactions($missingUser, $actor, $request);
+                $this->loadUserReactions($state, $missingUser, $actor, $request);
             }
         }
     }
 
     /**
+     * Drop any cached data for a post. Call after mutating its reactions within a
+     * request so a subsequent read in the same request (e.g. the response to a
+     * react/unreact) reflects the new state rather than the memoized old one.
+     */
+    public function forget(int $postId, ServerRequestInterface $request): void
+    {
+        $state = $this->state($request);
+
+        unset($state->counts[$postId], $state->userReaction[$postId]);
+    }
+
+    protected function state(ServerRequestInterface $request): ReactionCountState
+    {
+        return $this->states[$request] ??= new ReactionCountState();
+    }
+
+    /**
      * @param int[] $postIds
      */
-    protected function loadCounts(array $postIds): void
+    protected function loadCounts(ReactionCountState $state, array $postIds): void
     {
         $registered = PostReaction::whereIn('post_id', $postIds)
             ->whereNotNull('reaction_id')
@@ -125,7 +147,7 @@ class ReactionCountResolver
                 ->groupBy('post_id');
         }
 
-        $types = $this->reactionTypes();
+        $types = $state->reactionTypes ??= Reaction::all();
 
         foreach ($postIds as $postId) {
             $postRegistered = $registered->get($postId, collect())->keyBy('reaction_id');
@@ -138,14 +160,14 @@ class ReactionCountResolver
                 $counts[$reaction->id] = ($r ? $r->count : 0) + ($a ? $a->count : 0);
             }
 
-            $this->counts[$postId] = $counts;
+            $state->counts[$postId] = $counts;
         }
     }
 
     /**
      * @param int[] $postIds
      */
-    protected function loadUserReactions(array $postIds, User $actor, ?ServerRequestInterface $request): void
+    protected function loadUserReactions(ReactionCountState $state, array $postIds, User $actor, ServerRequestInterface $request): void
     {
         $reactions = collect();
 
@@ -156,7 +178,7 @@ class ReactionCountResolver
                 ->get(['post_id', 'reaction_id'])
                 ->mapWithKeys(fn ($row) => [$row->post_id => $row->reaction_id]);
         } else {
-            $guestId = $request?->getAttribute('session')?->getId();
+            $guestId = $request->getAttribute('session')?->getId();
 
             if ($guestId) {
                 $reactions = PostAnonymousReaction::whereIn('post_id', $postIds)
@@ -168,22 +190,7 @@ class ReactionCountResolver
         }
 
         foreach ($postIds as $postId) {
-            $this->userReaction[$postId] = $reactions->get($postId);
+            $state->userReaction[$postId] = $reactions->get($postId);
         }
-    }
-
-    /**
-     * Drop any cached data for a post. Call after mutating its reactions within a
-     * request so a subsequent read in the same request (e.g. the response to a
-     * react/unreact) reflects the new state rather than the memoized old one.
-     */
-    public function forget(int $postId): void
-    {
-        unset($this->counts[$postId], $this->userReaction[$postId]);
-    }
-
-    protected function reactionTypes(): Collection
-    {
-        return $this->reactionTypes ??= Reaction::all();
     }
 }
