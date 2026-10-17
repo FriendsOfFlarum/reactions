@@ -12,12 +12,16 @@
 namespace FoF\Reactions\tests\integration\api;
 
 use Carbon\Carbon;
+use Flarum\Extend;
 use Flarum\Group\Group;
 use Flarum\Post\Post;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use FoF\Reactions\Event\PostWasReacted;
+use FoF\Reactions\Event\PostWasUnreacted;
 use FoF\Reactions\PostAnonymousReaction;
 use FoF\Reactions\PostReaction;
+use Illuminate\Database\Eloquent\Builder;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Psr\Http\Message\ResponseInterface;
@@ -440,6 +444,84 @@ class ReactTest extends TestCase
         $body = json_decode((string) $response->getBody(), true);
         $this->assertEquals(0, $body['data']['attributes']['reactionCounts'][1]);
         $this->assertNull($body['data']['attributes']['userReaction']);
+    }
+
+    #[Test]
+    public function unreacting_an_already_removed_reaction_does_not_dispatch_unreacted_again()
+    {
+        $unreacted = 0;
+
+        $this->extend(
+            (new Extend\Event())->listen(PostWasUnreacted::class, function () use (&$unreacted) {
+                $unreacted++;
+            })
+        );
+
+        $this->rewriteDefaultPermissionsAfterBoot();
+
+        $this->assertEquals(200, $this->sendReactRequest(3, 1, 3)->getStatusCode());
+        $this->assertEquals(200, $this->sendUnreactRequest(3, 3)->getStatusCode());
+        $this->assertEquals(200, $this->sendUnreactRequest(3, 3)->getStatusCode());
+
+        $this->assertSame(1, $unreacted);
+    }
+
+    #[Test]
+    #[DataProvider('lostInsertRaceData')]
+    public function a_reaction_that_loses_the_insert_race_reuses_the_existing_row(int $racingReactionId, int $expectedDispatches)
+    {
+        $reacted = 0;
+
+        $this->extend(
+            (new Extend\Event())->listen(PostWasReacted::class, function () use (&$reacted) {
+                $reacted++;
+            })
+        );
+
+        $this->rewriteDefaultPermissionsAfterBoot();
+
+        // Stands in for a concurrent request: the first post_reactions lookup misses, and the actor's row
+        // is inserted straight after it. That is before the insert's savepoint opens, so the row survives
+        // the failed insert, as a row committed by another request would.
+        $raced = false;
+        PostReaction::addGlobalScope('race', function (Builder $query) use (&$raced, $racingReactionId) {
+            if ($raced) {
+                return;
+            }
+
+            $raced = true;
+
+            $query->getConnection()->table('post_reactions')->insert([
+                'post_id'     => 3,
+                'user_id'     => 3,
+                'reaction_id' => $racingReactionId,
+                'created_at'  => Carbon::now(),
+                'updated_at'  => Carbon::now(),
+            ]);
+
+            $query->whereRaw('1 = 0');
+        });
+
+        $response = $this->sendReactRequest(3, 1, 3);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $postReactions = PostReaction::query()->where('post_id', 3)->where('user_id', 3)->get();
+        $this->assertCount(1, $postReactions, 'The losing insert must not leave a duplicate row');
+        $this->assertEquals(1, $postReactions->first()->reaction_id);
+
+        $body = json_decode((string) $response->getBody(), true);
+        $this->assertEquals(1, $body['data']['attributes']['reactionCounts'][1]);
+        $this->assertSame($expectedDispatches, $reacted);
+    }
+
+    public static function lostInsertRaceData(): array
+    {
+        return [
+            // [$racingReactionId, $expectedDispatches]
+            'racing request saved the same reaction' => [1, 0],
+            'racing request saved another reaction'  => [2, 1],
+        ];
     }
 
     #[Test]
