@@ -48,6 +48,7 @@
             "title": "FoF Reactions",
             "category": "feature",
             "optional-dependencies": [
+                "flarum/audit",
                 "flarum/realtime"
             ],
             "icon": {
@@ -88,6 +89,7 @@
     },
     "require-dev": {
         "flarum/core": "2.x-dev",
+        "flarum/audit": "^2.0.0",
         "flarum/realtime": "2.x-dev",
         "flarum/testing": "^2.0.0",
         "flarum/likes": "2.x-dev",
