@@ -28,4 +28,10 @@ final class ReactionCountState
 
     /** @var Collection<int, Reaction>|null Reaction types, loaded once per request. */
     public ?Collection $reactionTypes = null;
+
+    /** @var array<int, true> Posts whose counts a deferred field value is waiting for. */
+    public array $pendingCounts = [];
+
+    /** @var array<int, true> Posts whose user reaction a deferred field value is waiting for. */
+    public array $pendingUserReactions = [];
 }
