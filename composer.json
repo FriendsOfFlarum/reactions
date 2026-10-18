@@ -89,7 +89,7 @@
     },
     "require-dev": {
         "flarum/core": "2.x-dev",
-        "flarum/audit": "^2.0.0",
+        "flarum/audit": "^2.0.2",
         "flarum/realtime": "2.x-dev",
         "flarum/testing": "^2.0.0",
         "flarum/likes": "2.x-dev",

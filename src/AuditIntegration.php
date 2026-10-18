@@ -24,8 +24,8 @@ use Illuminate\Contracts\Events\Dispatcher;
  * Wired in through the Flarum\Audit\Extend\Audit extender's `using()`, behind an Extend\Conditional,
  * so it's only active when flarum-audit is enabled.
  *
- * The reaction identifier is logged as `name` and the removed count as `deleted_count`, because the
- * audit browser only fills placeholders it knows by name.
+ * The labels use the payload's own `reaction` and `count` keys, which the audit browser fills from
+ * flarum/audit 2.0.2 on. Older versions show those placeholders unfilled.
  */
 class AuditIntegration
 {
@@ -59,7 +59,7 @@ class AuditIntegration
     {
         AuditLogger::log('fof-reactions.reaction_created', [
             'reaction_id' => $reaction->id,
-            'name'        => $reaction->identifier,
+            'reaction'    => $reaction->identifier,
         ]);
     }
 
@@ -71,12 +71,12 @@ class AuditIntegration
             if ($key === 'enabled') {
                 AuditLogger::log('fof-reactions.reaction_'.($reaction->enabled ? 'enabled' : 'disabled'), [
                     'reaction_id' => $reaction->id,
-                    'name'        => $reaction->identifier,
+                    'reaction'    => $reaction->identifier,
                 ]);
             } elseif (in_array($key, ['identifier', 'display', 'type'], true)) {
                 AuditLogger::log('fof-reactions.reaction_updated', [
                     'reaction_id' => $reaction->id,
-                    'name'        => $reaction->identifier,
+                    'reaction'    => $reaction->identifier,
                     'key'         => $key,
                     'old_value'   => $reaction->getOriginal($key),
                     'new_value'   => $reaction->getAttribute($key),
@@ -89,7 +89,7 @@ class AuditIntegration
     {
         AuditLogger::log('fof-reactions.reaction_deleted', [
             'reaction_id' => $reaction->id,
-            'name'        => $reaction->identifier,
+            'reaction'    => $reaction->identifier,
         ]);
     }
 
@@ -105,7 +105,7 @@ class AuditIntegration
             'discussion_id' => (int) $event->post->discussion_id,
             'post_id'       => (int) $event->post->id,
             'user_id'       => (int) $event->postReaction->user_id,
-            'name'          => $event->postReaction->reaction?->identifier,
+            'reaction'      => $event->postReaction->reaction?->identifier,
         ]);
     }
 
@@ -115,8 +115,8 @@ class AuditIntegration
             'discussion_id' => (int) $event->post->discussion_id,
             'post_id'       => (int) $event->post->id,
             'reaction_id'   => $event->reaction->id,
-            'name'          => $event->reaction->identifier,
-            'deleted_count' => $event->count,
+            'reaction'      => $event->reaction->identifier,
+            'count'         => $event->count,
         ]);
     }
 }
