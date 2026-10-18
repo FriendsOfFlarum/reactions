@@ -96,13 +96,13 @@ class AuditTest extends TestCase
     {
         $id = $this->reactionRequest('POST', '/api/reactions', 1, ['identifier' => 'audited', 'type' => 'emoji', 'enabled' => true]);
 
-        $this->assertEquals([['actor' => 1, 'payload' => ['reaction_id' => $id, 'name' => 'audited']]], $this->logged('reaction_created'));
+        $this->assertEquals([['actor' => 1, 'payload' => ['reaction_id' => $id, 'reaction' => 'audited']]], $this->logged('reaction_created'));
 
         $this->reactionRequest('PATCH', "/api/reactions/$id", 1, ['display' => 'Audited']);
 
         $this->assertEquals([['actor' => 1, 'payload' => [
             'reaction_id' => $id,
-            'name'        => 'audited',
+            'reaction'    => 'audited',
             'key'         => 'display',
             'old_value'   => null,
             'new_value'   => 'Audited',
@@ -111,13 +111,13 @@ class AuditTest extends TestCase
         $this->reactionRequest('PATCH', "/api/reactions/$id", 1, ['enabled' => false]);
         $this->reactionRequest('PATCH', "/api/reactions/$id", 1, ['enabled' => true]);
 
-        $this->assertEquals([['actor' => 1, 'payload' => ['reaction_id' => $id, 'name' => 'audited']]], $this->logged('reaction_disabled'));
-        $this->assertEquals([['actor' => 1, 'payload' => ['reaction_id' => $id, 'name' => 'audited']]], $this->logged('reaction_enabled'));
+        $this->assertEquals([['actor' => 1, 'payload' => ['reaction_id' => $id, 'reaction' => 'audited']]], $this->logged('reaction_disabled'));
+        $this->assertEquals([['actor' => 1, 'payload' => ['reaction_id' => $id, 'reaction' => 'audited']]], $this->logged('reaction_enabled'));
         $this->assertCount(1, $this->logged('reaction_updated'), 'Toggling enabled is logged as enabled/disabled, not as an update');
 
         $this->reactionRequest('DELETE', "/api/reactions/$id", 1);
 
-        $this->assertEquals([['actor' => 1, 'payload' => ['reaction_id' => $id, 'name' => 'audited']]], $this->logged('reaction_deleted'));
+        $this->assertEquals([['actor' => 1, 'payload' => ['reaction_id' => $id, 'reaction' => 'audited']]], $this->logged('reaction_deleted'));
     }
 
     #[Test]
@@ -131,7 +131,7 @@ class AuditTest extends TestCase
             'discussion_id' => 1,
             'post_id'       => 1,
             'user_id'       => 3,
-            'name'          => 'thumbsup',
+            'reaction'      => 'thumbsup',
         ]]], $this->logged('post_reaction_removed'));
     }
 
@@ -158,8 +158,8 @@ class AuditTest extends TestCase
             'discussion_id' => 1,
             'post_id'       => 1,
             'reaction_id'   => 1,
-            'name'          => 'thumbsup',
-            'deleted_count' => 3,
+            'reaction'      => 'thumbsup',
+            'count'         => 3,
         ]]], $this->logged('post_reactions_removed'));
     }
 

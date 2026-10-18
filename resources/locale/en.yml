@@ -93,10 +93,10 @@ flarum-audit:
   lib:
     browser:
       fof-reactions:
-        reaction_created: Created reaction {name}
-        reaction_updated: Changed the {key} of reaction {name} from {old_value} to {new_value}
-        reaction_enabled: Enabled reaction {name}
-        reaction_disabled: Disabled reaction {name}
-        reaction_deleted: Deleted reaction {name}
-        post_reaction_removed: Removed {username}'s {name} reaction from {postuser}'s {post} in {discussion}
-        post_reactions_removed: "Removed {deleted_count, plural, one {# {name} reaction} other {# {name} reactions}} from {postuser}'s {post} in {discussion}"
+        reaction_created: Created reaction {reaction}
+        reaction_updated: Changed the {key} of reaction {reaction} from {old_value} to {new_value}
+        reaction_enabled: Enabled reaction {reaction}
+        reaction_disabled: Disabled reaction {reaction}
+        reaction_deleted: Deleted reaction {reaction}
+        post_reaction_removed: Removed {username}'s {reaction} reaction from {postuser}'s {post} in {discussion}
+        post_reactions_removed: "Removed {count, plural, one {# {reaction} reaction} other {# {reaction} reactions}} from {postuser}'s {post} in {discussion}"
