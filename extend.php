@@ -93,6 +93,13 @@ return [
                     fn ($event) => $event->post,
                     fn ($event) => $event->user,
                     'reactionMutation'
+                )
+                // Reactions removed through the reactions modal, by a moderator or their owner.
+                ->broadcastModelEvent(
+                    [Event\PostReactionDeleted::class, Event\PostReactionsCleared::class],
+                    fn ($event) => $event->post,
+                    fn ($event) => $event->actor,
+                    'reactionMutation'
                 ),
         ])
         ->whenExtensionEnabled('flarum-audit', fn () => [

@@ -19,7 +19,6 @@ use Flarum\Likes\Event\PostWasLiked;
 use Flarum\Locale\TranslatorInterface;
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Flarum\User\User;
 use FoF\Gamification\Listeners\SaveVotesToDatabase;
 use FoF\Reactions\Event\PostWasReacted;
 use FoF\Reactions\Event\PostWasUnreacted;
@@ -122,13 +121,8 @@ class PostResourceFields
 
                 if ($removeReaction) {
                     // An unreact keeps the row with a null reaction_id, so a repeated unreact finds it again.
-                    // Only a reaction that was actually there is removed, pushed and dispatched.
+                    // Only a reaction that was actually there is removed and dispatched.
                     if ($postReaction && $postReaction->reaction_id !== null) {
-                        // We'll maintain current behaviour and only push to Pusher if the reaction is not anonymous
-                        if ($postReaction instanceof PostReaction) {
-                            $this->push('removedReaction', $postReaction, $reaction ?: $postReaction->reaction, $actor, $post);
-                        }
-
                         $postReaction->reaction_id = null;
                         $postReaction->save();
 
@@ -147,13 +141,8 @@ class PostResourceFields
                     $postReaction->save();
 
                     // A lost race that found this same reaction already saved changes nothing, so it isn't
-                    // pushed or dispatched a second time.
+                    // dispatched a second time.
                     if ($changed) {
-                        // We'll maintain current behaviour and only push to Pusher if the reaction is not anonymous
-                        if ($postReaction instanceof PostReaction) {
-                            $this->push('newReaction', $postReaction, $reaction, $actor, $post);
-                        }
-
                         $this->events->dispatch(new PostWasReacted($post, $postReaction, $actor, $reaction));
                     }
                 }
@@ -163,30 +152,6 @@ class PostResourceFields
             // counts/userReaction so the response reflects the new state.
             $this->resolver->forget($post->id, $context->request);
         }
-    }
-
-    public function push(string $event, PostReaction $postReaction, Reaction $reaction, User $actor, Post $post): void
-    {
-        if ($pusher = $this->getPusher()) {
-            $pusher->trigger('public', $event, [
-                'id'         => (string) $postReaction->id,
-                'reactionId' => $reaction->id,
-                'postId'     => $post->id,
-                'userId'     => $actor->id,
-            ]);
-        }
-    }
-
-    /**
-     * @return bool|\Illuminate\Foundation\Application|mixed|Pusher
-     */
-    private function getPusher()
-    {
-        if (class_exists(Pusher::class) && resolve('container')->bound(Pusher::class)) {
-            return resolve(Pusher::class);
-        }
-
-        return false;
     }
 
     protected function validateReaction(?Reaction $reaction, ?string $reactionId): void

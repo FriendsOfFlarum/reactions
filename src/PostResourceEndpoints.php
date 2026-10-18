@@ -85,8 +85,6 @@ class PostResourceEndpoints
             $this->events->dispatch(new PostReactionDeleted($post, $postReaction, $actor));
         }
 
-        // TODO should this send pusher updates? would need new type for non-specific, otherwise could spam pusher events
-
         return null;
     }
 }
