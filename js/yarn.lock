@@ -1614,7 +1614,7 @@ env-paths@^2.2.1:
   resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-2.2.1.tgz#420399d416ce1fbe9bc0a07c62fa68d67fd0f8f2"
   integrity sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==
 
-envinfo@^7.14.0:
+envinfo@^7.21.0:
   version "7.21.0"
   resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-7.21.0.tgz#04a251be79f92548541f37d13c8b6f22940c3bae"
   integrity sha512-Lw7I8Zp5YKHFCXL7+Dz95g4CcbMEpgvqZNNq3AmlT5XAV6CgAAk6gyAMqn2zjw08K9BHfcNuKrMiCPLByGafow==
@@ -1772,10 +1772,10 @@ flarum-tsconfig@^2.0.0:
     "@types/throttle-debounce" "^2.1.0"
     dayjs "^1.10.4"
 
-flarum-webpack-config@^3.0.7:
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/flarum-webpack-config/-/flarum-webpack-config-3.0.7.tgz#bb48e0c9baf7cb7e146e5e6cd95b10f2629d59c5"
-  integrity sha512-MfDVCMZGl1BPOm8lwpf07FVgVA+/bO0mMdB2PJNIUowWg1h16UUaJbq354XOB3m8CQGOyG8NTHJyy9l2SfAXYw==
+flarum-webpack-config@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/flarum-webpack-config/-/flarum-webpack-config-3.1.0.tgz#8d5d2f2a7f36447428f6d1469cefb025321084ff"
+  integrity sha512-pFM2YC30Pj0yt+AU4bU7qFMagX5J3453xVpbCXmgmf7yAYXt8E/eK2bl7P4HM54T+224wUF+38M2mywO+sJt1Q==
   dependencies:
     "@babel/core" "^7.29.6"
     "@babel/plugin-transform-object-assign" "^7.27.1"
@@ -1788,8 +1788,7 @@ flarum-webpack-config@^3.0.7:
     babel-loader "^9.1.0"
     loader-utils "^1.4.0"
     schema-utils "^3.0.0"
-    typescript "^4.9.3"
-    webpack "^5.104.1"
+    typescript "^5.9.3"
     webpack-bundle-analyzer "^4.7.0"
 
 flat@^5.0.2:
@@ -1945,7 +1944,7 @@ import-fresh@^3.3.0:
     parent-module "^1.0.0"
     resolve-from "^4.0.0"
 
-import-local@^3.0.2:
+import-local@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/import-local/-/import-local-3.2.0.tgz#c3d5c745798c02a6f8b897726aba5100186ee260"
   integrity sha512-2SPlun1JUPWoM6t3F0dw0FkCF/jWY8kttcY4f599GLTSjh2OCuuhdTkJQsEcZzBqbXZGKMK2OqW1oZsjtf/gQA==
@@ -2808,10 +2807,10 @@ typescript-coverage-report@^0.6.1:
     semantic-ui-react "^0.88.2"
     type-coverage-core "^2.17.2"
 
-typescript@^4.9.3:
-  version "4.9.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
-  integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+typescript@^5.9.3:
+  version "5.9.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.9.3.tgz#5b4f59e15310ab17a216f5d6cf53ee476ede670f"
+  integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
 
 "undici-types@>=7.24.0 <7.24.7":
   version "7.24.6"
@@ -2894,16 +2893,16 @@ webpack-bundle-analyzer@^4.7.0:
     sirv "^2.0.3"
     ws "^7.3.1"
 
-webpack-cli@^7.0.2:
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-7.0.3.tgz#62d3374b424bb4fabb27d088d8b2a9685b325b02"
-  integrity sha512-2E2C6A1e2El7791zQgTH7LPIuwLjRliow9OHS/qlJc9pwhZlCoL/uiwqd/1WSlXT83wJfmfDbkcqHXuXoPJZ3g==
+webpack-cli@^7.2.3:
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-7.2.3.tgz#becafbd777df5ff3e1a35ec398ad2ad54ec4d456"
+  integrity sha512-vDFU7jrfCctnN7jJQWPl+V26B51GLp11prVZXg50oeonsgeBzSTJEWmXkjHsOjTgMjlPOQM8GWLh33X9RN/0ow==
   dependencies:
     "@discoveryjs/json-ext" "^1.1.0"
     commander "^14.0.3"
     cross-spawn "^7.0.6"
-    envinfo "^7.14.0"
-    import-local "^3.0.2"
+    envinfo "^7.21.0"
+    import-local "^3.2.0"
     interpret "^3.1.1"
     rechoir "^0.8.0"
     webpack-merge "^6.0.1"
@@ -2922,7 +2921,7 @@ webpack-sources@^3.5.0:
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.5.0.tgz#87bf7f5801a4e985b1f1c92b64b9620a02f76d08"
   integrity sha512-HPuy+uuoTCaaoEoI1LQ3JN9+vrPBvEesnnX1jADHy728cHSMlq4wUc4afYqahq2B1mhQVZxCXOkNTnXltr+2vQ==
 
-webpack@^5.104.1, webpack@^5.107.2:
+webpack@^5.107.2:
   version "5.107.2"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.107.2.tgz#dea14dcb177b46b29de15f952f7303691ee2b596"
   integrity sha512-v7RhXaJbpMlV0D7hC7lb2EbnxkoeUqf9qhKr6lozx3Q48pmFrqqNRmZFUEGmi7pSwm6fCQ2H1IjvCkHqdpVdjQ==
