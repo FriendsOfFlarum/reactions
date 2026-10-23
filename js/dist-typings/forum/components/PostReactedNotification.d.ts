@@ -2,4 +2,4 @@ export default class PostReactedNotification extends Notification<import("flarum
     constructor();
     content(): any[];
 }
-import Notification from "flarum/forum/components/Notification";
+import Notification from 'flarum/forum/components/Notification';

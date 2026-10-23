@@ -4,4 +4,4 @@ export default class PostReactionCounts extends Component<any, undefined> {
     loading: {} | undefined;
     view(): JSX.Element | null;
 }
-import Component from "flarum/common/Component";
+import Component from 'flarum/common/Component';

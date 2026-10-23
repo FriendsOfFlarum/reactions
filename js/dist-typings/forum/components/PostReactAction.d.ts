@@ -12,5 +12,5 @@ export default class PostReactAction extends Component<any, undefined> {
     updateChosenReaction(): any;
     reaction: any;
 }
-import Component from "flarum/common/Component";
-import ItemList from "flarum/common/utils/ItemList";
+import Component from 'flarum/common/Component';
+import ItemList from 'flarum/common/utils/ItemList';
