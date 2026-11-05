@@ -85,4 +85,7 @@ return [
 
     (new Extend\Middleware('api'))
         ->add(Middleware\BindRequestToContainer::class),
+
+    (new Extend\ServiceProvider())
+        ->register(Provider\ReactionsServiceProvider::class),
 ];
