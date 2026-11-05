@@ -26,7 +26,7 @@ use Flarum\User\User;
  * @property Post           $post
  * @property Reaction       $reaction
  * @property User           $user
- * @property bool|int|null  $anonymous Set only by the reaction list, which merges anonymous rows in
+ * @property bool|int|null  $anonymous   Set only by the reaction list, which merges anonymous rows in
  */
 class PostReaction extends AbstractModel
 {
