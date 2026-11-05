@@ -28,7 +28,7 @@ class PostReactionSerializer extends AbstractSerializer
      */
     protected function getDefaultAttributes($postReaction)
     {
-        if (Str::length($postReaction->user_id) === 40) {
+        if ($postReaction->anonymous || Str::length($postReaction->user_id) === 40) {
             $userId = null;
         } else {
             $userId = $postReaction->user_id;

@@ -85,4 +85,11 @@ return [
 
     (new Extend\Middleware('api'))
         ->add(Middleware\BindRequestToContainer::class),
+
+    (new Extend\ServiceProvider())
+        ->register(Provider\ReactionsServiceProvider::class),
+
+    // Runs for every API controller, so posts in any response are primed in one batch.
+    (new Extend\ApiController(ApiController\AbstractSerializeController::class))
+        ->prepareDataForSerialization(Api\PrimePostReactions::class),
 ];
