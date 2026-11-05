@@ -45,7 +45,7 @@ class PostAttributesQueryCountTest extends TestCase
             'discussions' => [
                 ['id' => 1, 'title' => __CLASS__, 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'comment_count' => self::POSTS, 'last_post_number' => self::POSTS],
             ],
-            'posts' => $posts,
+            'posts'          => $posts,
             'post_reactions' => [
                 ['id' => 1, 'post_id' => 1, 'reaction_id' => 1, 'user_id' => 2],
                 ['id' => 2, 'post_id' => 1, 'reaction_id' => 1, 'user_id' => 3],
