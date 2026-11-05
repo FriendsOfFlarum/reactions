@@ -14,13 +14,14 @@ namespace FoF\Reactions;
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
-use Illuminate\Database\Query\Builder;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Loads reaction counts and the actor's own reactions for a whole discussion at
- * once, so serializing a page of posts costs a fixed number of queries instead
- * of several per post.
+ * Reaction counts and the actor's own reaction for the posts being serialized.
+ *
+ * Api\PrimePostReactions primes every post in a response with a fixed number of
+ * queries; a post that was not primed (loaded later, or serialized outside a
+ * request) is loaded on its own.
  *
  * Results are kept only for the request being serialized: a different (or no)
  * request starts from scratch, so long-running processes never see stale counts.
@@ -36,21 +37,42 @@ class PostReactionsLoader
     /** @var int[]|null */
     protected $reactionIds;
 
-    /** @var array<int, true> discussion id => primed */
-    protected $countsPrimed = [];
-
     /** @var array<int, array<int, int>> post id => [reaction id => count] */
     protected $counts = [];
 
-    /** @var array<string, true> "discussion:actor" => primed */
-    protected $actorPrimed = [];
-
-    /** @var array<string, int|null> "post:actor" => reaction id */
+    /** @var array<string, int|null> "actor|post" => reaction id */
     protected $actorReactions = [];
 
     public function __construct(SettingsRepositoryInterface $settings)
     {
         $this->settings = $settings;
+    }
+
+    /**
+     * @param Post[] $posts
+     */
+    public function prime(array $posts, User $actor, ?ServerRequestInterface $request): void
+    {
+        $this->useRequest($request);
+
+        $postIds = [];
+        foreach ($posts as $post) {
+            if ($post->id !== null) {
+                $postIds[(int) $post->id] = (int) $post->id;
+            }
+        }
+
+        $this->loadCounts(array_values(array_diff_key($postIds, $this->counts)));
+
+        $actorKey = $this->actorKey($actor, $request);
+
+        if ($actorKey !== null) {
+            $missing = array_filter($postIds, function ($postId) use ($actorKey) {
+                return !array_key_exists($actorKey.'|'.$postId, $this->actorReactions);
+            });
+
+            $this->loadActorReactions($actor, $actorKey, array_values($missing));
+        }
     }
 
     /**
@@ -60,18 +82,16 @@ class PostReactionsLoader
     {
         $this->useRequest($request);
 
-        $discussionId = (int) $post->discussion_id;
+        $postId = (int) $post->id;
 
-        if (!isset($this->countsPrimed[$discussionId])) {
-            $this->countsPrimed[$discussionId] = true;
-            $this->loadCounts($this->scope($post, $request));
+        if (!isset($this->counts[$postId])) {
+            $this->loadCounts([$postId]);
         }
 
-        $postCounts = $this->counts[(int) $post->id] ?? [];
         $counts = [];
 
         foreach ($this->reactionIds() as $reactionId) {
-            $counts[$reactionId] = $postCounts[$reactionId] ?? 0;
+            $counts[$reactionId] = $this->counts[$postId][$reactionId] ?? 0;
         }
 
         return $counts;
@@ -81,51 +101,41 @@ class PostReactionsLoader
     {
         $this->useRequest($request);
 
-        if ($actor->isGuest()) {
-            $session = $request ? $request->getAttribute('session') : null;
+        $actorKey = $this->actorKey($actor, $request);
 
-            if ($session === null) {
-                return null;
-            }
-
-            $actorKey = 'guest:'.$session->getId();
-            $query = PostAnonymousReaction::query()->where('guest_id', $session->getId());
-        } else {
-            $actorKey = 'user:'.$actor->id;
-            $query = PostReaction::query()->where('user_id', $actor->id);
+        if ($actorKey === null) {
+            return null;
         }
 
-        $discussionId = (int) $post->discussion_id;
-        $primeKey = $discussionId.':'.$actorKey;
+        $key = $actorKey.'|'.$post->id;
 
-        if (!isset($this->actorPrimed[$primeKey])) {
-            $this->actorPrimed[$primeKey] = true;
-
-            $rows = $query
-                ->whereIn('post_id', $this->scope($post, $request))
-                ->toBase()
-                ->get(['post_id', 'reaction_id']);
-
-            foreach ($rows as $row) {
-                $this->actorReactions[$row->post_id.':'.$actorKey] = $row->reaction_id === null ? null : (int) $row->reaction_id;
-            }
+        if (!array_key_exists($key, $this->actorReactions)) {
+            $this->loadActorReactions($actor, $actorKey, [(int) $post->id]);
         }
 
-        return $this->actorReactions[$post->id.':'.$actorKey] ?? null;
+        return $this->actorReactions[$key];
     }
 
     /**
-     * @param \Closure|int[] $postIds
+     * @param int[] $postIds
      */
-    protected function loadCounts($postIds): void
+    protected function loadCounts(array $postIds): void
     {
-        $tables = [PostReaction::query()];
-
-        if ($this->settings->get('fof-reactions.anonymousReactions')) {
-            $tables[] = PostAnonymousReaction::query();
+        if (empty($postIds)) {
+            return;
         }
 
-        foreach ($tables as $query) {
+        foreach ($postIds as $postId) {
+            $this->counts[$postId] = [];
+        }
+
+        $queries = [PostReaction::query()];
+
+        if ($this->settings->get('fof-reactions.anonymousReactions')) {
+            $queries[] = PostAnonymousReaction::query();
+        }
+
+        foreach ($queries as $query) {
             $rows = $query
                 ->whereIn('post_id', $postIds)
                 ->whereNotNull('reaction_id')
@@ -143,22 +153,41 @@ class PostReactionsLoader
     }
 
     /**
-     * Within a request, load the whole discussion so the other posts on the page
-     * are already covered. Without one (e.g. a notification), load just this post.
-     *
-     * @return \Closure|int[]
+     * @param int[] $postIds
      */
-    protected function scope(Post $post, ?ServerRequestInterface $request)
+    protected function loadActorReactions(User $actor, string $actorKey, array $postIds): void
     {
-        if ($request === null) {
-            return [(int) $post->id];
+        if (empty($postIds)) {
+            return;
         }
 
-        $discussionId = (int) $post->discussion_id;
+        foreach ($postIds as $postId) {
+            $this->actorReactions[$actorKey.'|'.$postId] = null;
+        }
 
-        return function (Builder $query) use ($discussionId) {
-            $query->select('id')->from('posts')->where('discussion_id', $discussionId);
-        };
+        $query = $actor->isGuest()
+            ? PostAnonymousReaction::query()->where('guest_id', substr($actorKey, strlen('guest:')))
+            : PostReaction::query()->where('user_id', $actor->id);
+
+        $rows = $query->whereIn('post_id', $postIds)->toBase()->get(['post_id', 'reaction_id']);
+
+        foreach ($rows as $row) {
+            $this->actorReactions[$actorKey.'|'.$row->post_id] = $row->reaction_id === null ? null : (int) $row->reaction_id;
+        }
+    }
+
+    /**
+     * Who the "own reaction" belongs to: a user, a guest's session, or nobody.
+     */
+    protected function actorKey(User $actor, ?ServerRequestInterface $request): ?string
+    {
+        if (!$actor->isGuest()) {
+            return 'user:'.$actor->id;
+        }
+
+        $session = $request ? $request->getAttribute('session') : null;
+
+        return $session ? 'guest:'.$session->getId() : null;
     }
 
     /**
@@ -180,7 +209,7 @@ class PostReactionsLoader
         if ($request === null || $request !== $this->request) {
             $this->request = $request;
             $this->reactionIds = null;
-            $this->countsPrimed = $this->counts = $this->actorPrimed = $this->actorReactions = [];
+            $this->counts = $this->actorReactions = [];
         }
     }
 }

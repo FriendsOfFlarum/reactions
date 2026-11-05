@@ -32,7 +32,7 @@ class PostAttributes
         $attributes['canReact'] = (bool) $actor->can('react', $post);
         $attributes['canDeletePostReactions'] = (bool) $actor->can('deleteReactions', $post);
 
-        // Counts and the actor's reaction are loaded per discussion, not per post.
+        // Loaded in one batch per response by Api\PrimePostReactions.
         $attributes['reactionCounts'] = $this->reactions->countsFor($post, $request);
         $attributes['userReactionIdentifier'] = $this->reactions->actorReactionFor($actor, $post, $request);
 

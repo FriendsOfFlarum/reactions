@@ -26,6 +26,8 @@ class PostAttributesQueryCountTest extends TestCase
 
     private const POSTS = 12;
 
+    private const DISCUSSIONS = 6;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -37,14 +39,21 @@ class PostAttributesQueryCountTest extends TestCase
             $posts[] = ['id' => $n, 'number' => $n, 'discussion_id' => 1, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>post '.$n.'</p></t>'];
         }
 
+        // More discussions with one post each, all by user 1, as on a profile's posts tab.
+        $discussions = [
+            ['id' => 1, 'title' => __CLASS__, 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'comment_count' => self::POSTS, 'last_post_number' => self::POSTS],
+        ];
+        for ($d = 2; $d <= self::DISCUSSIONS + 1; $d++) {
+            $discussions[] = ['id' => $d, 'title' => "Discussion $d", 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 100 + $d, 'comment_count' => 1, 'last_post_number' => 1];
+            $posts[] = ['id' => 100 + $d, 'number' => 1, 'discussion_id' => $d, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>first post '.$d.'</p></t>'];
+        }
+
         $this->prepareDatabase([
             'users' => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'Acme', 'email' => 'acme@machine.local', 'is_email_confirmed' => 1],
             ],
-            'discussions' => [
-                ['id' => 1, 'title' => __CLASS__, 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'comment_count' => self::POSTS, 'last_post_number' => self::POSTS],
-            ],
+            'discussions'    => $discussions,
             'posts'          => $posts,
             'post_reactions' => [
                 ['id' => 1, 'post_id' => 1, 'reaction_id' => 1, 'user_id' => 2],
@@ -52,6 +61,8 @@ class PostAttributesQueryCountTest extends TestCase
                 ['id' => 3, 'post_id' => 2, 'reaction_id' => 2, 'user_id' => 2],
                 ['id' => 4, 'post_id' => 3, 'reaction_id' => 3, 'user_id' => 3],
                 ['id' => 5, 'post_id' => 3, 'reaction_id' => null, 'user_id' => 2],
+                ['id' => 6, 'post_id' => 102, 'reaction_id' => 5, 'user_id' => 2],
+                ['id' => 7, 'post_id' => 103, 'reaction_id' => 6, 'user_id' => 3],
             ],
             'post_anonymous_reactions' => [
                 ['id' => 1, 'post_id' => 2, 'reaction_id' => 2, 'guest_id' => 'abc'],
@@ -144,5 +155,41 @@ class PostAttributesQueryCountTest extends TestCase
 
         $this->assertEquals(1, $posts[2]['reactionCounts'][2]);
         $this->assertEquals(0, Arr::get($posts[4]['reactionCounts'], 4));
+    }
+
+    /**
+     * @test
+     */
+    public function posts_from_many_discussions_load_reactions_in_one_batch()
+    {
+        $this->setting('fof-reactions.anonymousReactions', true);
+
+        $reactionQueries = 0;
+        $this->app()->getContainer()->make(ConnectionInterface::class)->listen(function ($query) use (&$reactionQueries) {
+            if (preg_match('/\b(post_reactions|post_anonymous_reactions|reactions)\b/', $query->sql)) {
+                $reactionQueries++;
+            }
+        });
+
+        $response = $this->send(
+            $this->request('GET', '/api/posts', ['authenticatedAs' => 2])
+                ->withQueryParams(['filter' => ['author' => 'admin'], 'page' => ['limit' => 50]])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode(), (string) $response->getBody());
+
+        $firstPosts = [];
+        foreach (json_decode((string) $response->getBody(), true)['data'] as $resource) {
+            $firstPosts[(int) $resource['id']] = $resource['attributes'];
+        }
+
+        $this->assertCount(self::POSTS + self::DISCUSSIONS, $firstPosts);
+        $this->assertLessThanOrEqual(4, $reactionQueries, "$reactionQueries reaction queries for posts in ".(self::DISCUSSIONS + 1).' discussions');
+
+        $this->assertEquals(1, $firstPosts[102]['reactionCounts'][5]);
+        $this->assertEquals(5, $firstPosts[102]['userReactionIdentifier']);
+        $this->assertEquals(1, $firstPosts[103]['reactionCounts'][6]);
+        $this->assertNull($firstPosts[103]['userReactionIdentifier']);
+        $this->assertEquals(2, $firstPosts[1]['reactionCounts'][1]);
     }
 }
