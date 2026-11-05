@@ -61,17 +61,42 @@ class ListPostReactionsController extends AbstractListController
 
         $actor->assertCan('canSeeReactions', $post->discussion);
 
+        // Name the columns: a UNION matches them by position, and anonymous rows
+        // need to be told apart from registered ones.
         $query = PostReaction::query()
+            ->select(['id', 'post_id', 'user_id', 'reaction_id'])
+            ->selectRaw('0 as anonymous')
             ->where('post_id', $post->id)
             ->whereNotNull('reaction_id');
 
         if ($this->settings->get('fof-reactions.anonymousReactions')) {
             $query->unionAll(
-                PostAnonymousReaction::query()->where('post_id', $post->id)
-                    ->whereNotNull('reaction_id')->toBase()
+                PostAnonymousReaction::query()
+                    ->select(['id', 'post_id', 'guest_id as user_id', 'reaction_id'])
+                    ->selectRaw('1 as anonymous')
+                    ->where('post_id', $post->id)
+                    ->whereNotNull('reaction_id')
+                    ->toBase()
             );
         }
 
-        return $query->get();
+        $reactions = $query->get();
+
+        $reactions->load('reaction');
+
+        // Only registered rows have a user. Loading one for a guest id would also
+        // match a real user, as MySQL compares '2f9c…' with an integer id as 2.
+        $registered = $reactions->filter(function (PostReaction $reaction) {
+            return !$reaction->anonymous;
+        });
+        $registered->load('user');
+
+        foreach ($reactions as $reaction) {
+            if ($reaction->anonymous) {
+                $reaction->setRelation('user', null);
+            }
+        }
+
+        return $reactions;
     }
 }
