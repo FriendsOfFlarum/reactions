@@ -15,7 +15,10 @@ export default class PostReactedNotification extends Notification {
 
   content() {
     const notification = this.attrs.notification;
-    const { identifier, type } = JSON.parse(notification.content());
+    // Newer notifications store { identifier, type }. Earlier versions stored the reaction model as a JSON
+    // string, which the API sends wrapped in a one-element array.
+    const content = notification.content();
+    const { identifier, type } = Array.isArray(content) ? JSON.parse(content[0]) : content;
     const user = notification.fromUser();
 
     const reaction = type === 'emoji' ? <img src={emoji(identifier).url} loading="lazy" height="14px" /> : <Icon name={identifier} />;

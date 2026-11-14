@@ -16,13 +16,14 @@ use Flarum\Notification\AlertableInterface;
 use Flarum\Notification\Blueprint\BlueprintInterface;
 use Flarum\Post\Post;
 use Flarum\User\User;
+use FoF\Reactions\Reaction;
 
 class PostReactedBlueprint implements BlueprintInterface, AlertableInterface
 {
     public function __construct(
         public Post $post,
         public User $user,
-        public string $reaction
+        public Reaction $reaction
     ) {
     }
 
@@ -46,8 +47,17 @@ class PostReactedBlueprint implements BlueprintInterface, AlertableInterface
         return $this->user;
     }
 
-    public function getData(): mixed
+    /**
+     * Only what the notification shows, so the stored data doesn't change when the reaction's other
+     * attributes (display name, enabled) do.
+     *
+     * @return array{identifier: string, type: string}
+     */
+    public function getData(): array
     {
-        return $this->reaction;
+        return [
+            'identifier' => $this->reaction->identifier,
+            'type'       => $this->reaction->type,
+        ];
     }
 }

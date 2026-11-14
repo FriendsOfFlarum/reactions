@@ -14,12 +14,14 @@ namespace FoF\Reactions\Listener;
 use Flarum\Notification\NotificationSyncer;
 use FoF\Reactions\Event\PostWasReacted;
 use FoF\Reactions\Notification\PostReactedBlueprint;
+use FoF\Reactions\Notification\PostReactedNotifications;
 use FoF\Reactions\PostAnonymousReaction;
 
 class SendNotificationWhenPostIsReacted
 {
     public function __construct(
-        protected NotificationSyncer $notifications
+        protected NotificationSyncer $notifications,
+        protected PostReactedNotifications $postReactedNotifications
     ) {
     }
 
@@ -35,6 +37,9 @@ class SendNotificationWhenPostIsReacted
 
         // Don't notify the user if they reacted to their own post
         if ($post->user && $post->user->id != $user->id) {
+            // A switch from another reaction replaces its notification.
+            $this->postReactedNotifications->withdraw($post, $user->id);
+
             $this->notifications->sync(
                 new PostReactedBlueprint($post, $user, $event->reaction),
                 [$post->user]

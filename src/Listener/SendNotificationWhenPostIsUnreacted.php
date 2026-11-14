@@ -11,15 +11,14 @@
 
 namespace FoF\Reactions\Listener;
 
-use Flarum\Notification\NotificationSyncer;
 use FoF\Reactions\Event\PostWasUnreacted;
-use FoF\Reactions\Notification\PostReactedBlueprint;
+use FoF\Reactions\Notification\PostReactedNotifications;
 use FoF\Reactions\PostAnonymousReaction;
 
 class SendNotificationWhenPostIsUnreacted
 {
     public function __construct(
-        protected NotificationSyncer $notifications
+        protected PostReactedNotifications $postReactedNotifications
     ) {
     }
 
@@ -30,15 +29,6 @@ class SendNotificationWhenPostIsUnreacted
             return;
         }
 
-        $post = $event->post;
-        $user = $event->user;
-
-        // Remove the notification when unreacted
-        if ($post->user && $post->user->id != $user->id) {
-            $this->notifications->sync(
-                new PostReactedBlueprint($post, $user, ''),
-                []
-            );
-        }
+        $this->postReactedNotifications->withdraw($event->post, $event->user->id);
     }
 }
