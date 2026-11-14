@@ -46,6 +46,7 @@ return [
     (new Extend\Event())
         ->listen(Event\PostWasReacted::class, Listener\SendNotificationWhenPostIsReacted::class)
         ->listen(Event\PostWasUnreacted::class, Listener\SendNotificationWhenPostIsUnreacted::class)
+        ->subscribe(Listener\WithdrawNotificationsWhenReactionsAreRemoved::class)
         ->listen(Deleted::class, function (Deleted $event) {
             PostReaction::where('post_id', $event->post->id)->delete();
             PostAnonymousReaction::where('post_id', $event->post->id)->delete();

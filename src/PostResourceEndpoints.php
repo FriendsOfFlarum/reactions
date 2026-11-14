@@ -59,12 +59,29 @@ class PostResourceEndpoints
             // Delete all post_reactions of a specific type (i.e. `reaction_id`)
             $actor->assertCan('deleteReactions', $post);
 
-            $count = PostReaction::query()->where('post_id', $post->id)->where('reaction_id', $reactionId)->delete()
+            // The owners are read before the delete, since afterwards nothing says whose reactions they were.
+            // Locking the rows and deleting exactly those keeps the owners in step with what was deleted,
+            // even if someone switches or adds a reaction meanwhile.
+            $registered = PostReaction::query()->getConnection()->transaction(function () use ($post, $reactionId) {
+                $rows = PostReaction::query()
+                    ->where('post_id', $post->id)
+                    ->where('reaction_id', $reactionId)
+                    ->lockForUpdate()
+                    ->get(['id', 'user_id']);
+
+                PostReaction::query()->whereIn('id', $rows->pluck('id'))->delete();
+
+                return $rows;
+            });
+
+            $userIds = $registered->pluck('user_id')->map(fn ($id) => (int) $id)->all();
+
+            $count = $registered->count()
                 + PostAnonymousReaction::query()->where('post_id', $post->id)->where('reaction_id', $reactionId)->delete();
 
             // Deleted rows referenced the reaction type, so it exists whenever something was deleted.
             if ($count > 0 && $reaction = Reaction::find($reactionId)) {
-                $this->events->dispatch(new PostReactionsCleared($post, $reaction, $count, $actor));
+                $this->events->dispatch(new PostReactionsCleared($post, $reaction, $count, $actor, $userIds));
             }
         } elseif ($postReactionId) {
             // Delete a specific post_reaction for the post

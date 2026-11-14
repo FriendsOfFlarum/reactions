@@ -25,7 +25,9 @@ class PostReactionsCleared
         public Post $post,
         public Reaction $reaction,
         public int $count,
-        public User $actor
+        public User $actor,
+        /** @var int[] The users whose reactions were removed. */
+        public array $userIds = []
     ) {
     }
 }
