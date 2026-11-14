@@ -16,6 +16,7 @@ use Flarum\Api\Schema;
 use Flarum\Extension\ExtensionManager;
 use Flarum\Foundation\ValidationException;
 use Flarum\Likes\Event\PostWasLiked;
+use Flarum\Likes\Event\PostWasUnliked;
 use Flarum\Locale\TranslatorInterface;
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -91,15 +92,20 @@ class PostResourceFields
                     $actor,
                     $post->user
                 );
-            } elseif ($likes && $reaction && $reaction->identifier == $this->settings->get('fof-reactions.convertToLike')) {
+            } elseif ($likes && $reaction && $reaction->identifier == $this->settings->get('fof-reactions.convertToLike') && !$actor->isGuest() && $actor->can('like', $post)) {
+                // Only a registered user who may like the post gets a like; anyone else gets the plain
+                // reaction below. Guests are checked separately because they can be granted the like
+                // permission, but a like needs a user id. Choosing the mapped reaction again unlikes, as it would unreact.
                 /** @phpstan-ignore-next-line */
                 $liked = $post->likes()->where('user_id', $actor->id)->exists();
 
                 if ($liked) {
-                    return;
+                    /** @phpstan-ignore-next-line */
+                    $post->likes()->detach($actor->id);
+
+                    $this->events->dispatch(new PostWasUnliked($post, $actor));
                 } else {
-                    // TODO: we should probably start checking permission to like here
-                    //$actor->assertCan('like', $post);
+                    $this->validateReaction($reaction, $reactionId);
 
                     /** @phpstan-ignore-next-line */
                     $post->likes()->attach($actor->id);
