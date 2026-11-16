@@ -47,13 +47,13 @@ class TagScopedReactionVisibilityTest extends TestCase
                 ['id' => 3, 'name' => 'Restricted with reactions', 'slug' => 'restricted-with-reactions', 'position' => 2, 'is_restricted' => true],
             ],
             // 1: untagged, 2: open tag, 3: restricted tag that may be viewed, 4: restricted tag that grants reactions.
-            'discussions' => [$discussion(1), $discussion(2), $discussion(3), $discussion(4)],
+            'discussions'    => [$discussion(1), $discussion(2), $discussion(3), $discussion(4)],
             'discussion_tag' => [
                 ['discussion_id' => 2, 'tag_id' => 1],
                 ['discussion_id' => 3, 'tag_id' => 2],
                 ['discussion_id' => 4, 'tag_id' => 3],
             ],
-            'posts' => [$post(1), $post(2), $post(3), $post(4)],
+            'posts'          => [$post(1), $post(2), $post(3), $post(4)],
             'post_reactions' => [
                 ['id' => 1, 'post_id' => 1, 'reaction_id' => 1, 'user_id' => 3],
                 ['id' => 2, 'post_id' => 2, 'reaction_id' => 1, 'user_id' => 3],
