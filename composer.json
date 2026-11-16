@@ -93,7 +93,8 @@
         "flarum/realtime": "2.x-dev",
         "flarum/testing": "^2.0.0",
         "flarum/likes": "2.x-dev",
-        "flarum/phpstan": "^2.0.0"
+        "flarum/phpstan": "^2.0.0",
+        "flarum/tags": "2.x-dev"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
