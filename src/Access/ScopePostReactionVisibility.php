@@ -11,26 +11,35 @@
 
 namespace FoF\Reactions\Access;
 
+use Flarum\Discussion\Discussion;
 use Flarum\User\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class ScopePostReactionVisibility
 {
     public function __invoke(User $actor, Builder $query): void
     {
-        // Filter to only reactions on posts that are visible
         $query->whereHas('post', function (Builder $query) use ($actor) {
-            $query->whereVisibleTo($actor)
-                // Also check that the actor can see reactions on the discussion
-                ->whereHas('discussion', function (Builder $query) use ($actor) {
-                    $query->whereVisibleTo($actor);
+            $query->whereVisibleTo($actor);
 
-                    // Check if user has the canSeeReactions permission
-                    if (!$actor->hasPermission('discussion.canSeeReactions')) {
-                        // If they don't have the global permission, hide all reactions
-                        $query->whereRaw('0 = 1');
-                    }
+            // Without the global permission, extensions such as Tags may grant it per discussion. Holders of the
+            // global permission skip this, as in core and Approval: on Flarum 2.0, Tags' ability scoping drops
+            // untagged and unrestricted discussions for them. Known gap until Tags is fixed: they also see
+            // reactions in restricted tags that do not grant the permission (filter[post] still refuses those).
+            if (!$actor->hasPermission('discussion.canSeeReactions')) {
+                $query->whereIn('posts.discussion_id', function (QueryBuilder $query) use ($actor) {
+                    $query->select('discussions.id')
+                        ->from('discussions')
+                        // The 1=0 seed keeps this empty when nothing grants the ability per discussion.
+                        ->where(function (QueryBuilder $query) use ($actor) {
+                            $query->whereRaw('1=0')
+                                ->orWhere(function (QueryBuilder $query) use ($actor) {
+                                    Discussion::query()->setQuery($query)->whereVisibleTo($actor, 'canSeeReactions');
+                                });
+                        });
                 });
+            }
         });
     }
 }
